@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.aptana.radrails.rcp; singleton:=true
+Bundle-Version: 3.0.0.qualifier
+Bundle-Activator: com.aptana.radrails.rcp.IdePlugin
+Bundle-Localization: plugin
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.intro,
+ org.eclipse.update.configurator,
+ org.eclipse.ui.editors,
+ org.eclipse.core.resources,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.cheatsheets,
+ org.eclipse.update.core,
+ com.ibm.icu,
+ org.eclipse.core.net,
+ com.aptana.radrails.rcp.main
+Bundle-Vendor: %providerName

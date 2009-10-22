@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Aptana RadRails" id="com.aptana.radrails.rcp.product" application="com.aptana.radrails.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/com.aptana.radrails.rcp/content/about.gif"/>
+      <text>
+         %aboutText
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>--launcher.XXMaxPermSize
+256m</programArgs>
+      <vmArgs>-Xms40m
+-Xmx384m</vmArgs>
+      <vmArgsLin>-Djava.awt.headless=true</vmArgsLin>
+      <vmArgsMac>-Xdock:icon=../Resources/radrails.icns
+-XstartOnFirstThread
+-Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsSol>-Djava.awt.headless=true</vmArgsSol>
+      <vmArgsWin>-Djava.awt.headless=true</vmArgsWin>
+   </launcherArgs>
+
+   <windowImages i16="/com.aptana.radrails.rcp/content/window1616.png" i32="/com.aptana.radrails.rcp/content/window3232.png" i48="/com.aptana.radrails.rcp/content/window4848.png" i64="/com.aptana.radrails.rcp/content/window6464.png" i128="/com.aptana.radrails.rcp/content/window128128.png"/>
+
+   <splash
+      location="com.aptana.radrails.rcp"
+      startupProgressRect="0,230,590,5"
+      startupMessageRect="7,202,445,20"
+      startupForegroundColor="FFFFFF" />
+   <launcher name="AptanaRadRails">
+      <linux icon="/com.aptana.radrails.rcp/content/radrails.xpm"/>
+      <macosx icon="/com.aptana.radrails.rcp/content/radrails.icns"/>
+      <solaris/>
+      <win useIco="true">
+         <ico path="/com.aptana.radrails.rcp/content/radrails.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.aptana.radrails.feature.rcp"/>
+      <feature id="com.aptana.radrails.feature.rcp.wrapper"/>
+   </features>
+
+
+</product>

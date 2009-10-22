@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+
+    <page id="root" content="content/root.xhtml"/>
+    <page id="documentation" content="http://www.aptana.com/content_ide/documentation.xhtml"/>
+    <page id="news" content="http://www.aptana.com/feeds/rsst2.aspx?xsl=rss_collapsed.xsl&amp;category=News&amp;feed=http://www.aptana.com/blog/?feed=rss2"/>
+    <page id="plugins" content="http://www.aptana.com/content_ide/plugins.xhtml"/>
+    
+</introContent>

@@ -1,0 +1,123 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>root.xhtml</title>
+	<link rel="stylesheet" href="root.css" type="text/css" />
+	<style>
+		#iFrame2 {
+		   visibility: hidden;
+		   height: 1px;
+		}
+	</style>
+  	<script>
+			function ToggleDiv(elementName)
+			{
+				var div = document.getElementById(elementName);
+				if(div.style.display == 'none')
+					div.style.display = 'block';
+				else
+					div.style.display = 'none';
+			}
+				
+			function expandTA(ta) {
+				ta.rows = ta.value.split('\n').length + 1;
+			}
+				
+			function submitForm(buttonObj)
+			{
+				var reporter = document.getElementById('reporter');
+				if(reporter.value == null)
+					reporter.value = "anonymous@anonymous.com";
+
+				buttonObj.form.submit();
+			}
+
+			function onIFrameLoad() {
+			   var serverResponse = extractIFrameBody($("iFrame")).innerHTML;
+			   $("plugins").innerHTML = serverResponse;
+			}
+			
+			function $() {
+
+				var elements = new Array();
+
+				for (var i = 0; i < arguments.length; i++) {
+
+				  var element = arguments[i];
+
+				  if (typeof element == 'string') {
+					if (document.getElementById) {
+					  element = document.getElementById(element);
+					} else if (document.all) {
+					  element = document.all[element];
+					}
+				  }
+
+				  elements.push(element);
+
+				}
+
+				if (arguments.length == 1 && elements.length > 0) {
+				  return elements[0];
+				} else {
+				  return elements;
+				}
+			}
+
+			function extractIFrameBody(iFrameEl) {
+
+			  var doc = null;
+			  if (iFrameEl.contentDocument) { // For NS6
+				doc = iFrameEl.contentDocument; 
+			  } else if (iFrameEl.contentWindow) { // For IE5.5 and IE6
+				doc = iFrameEl.contentWindow.document;
+			  } else if (iFrameEl.document) { // For IE5
+				doc = iFrameEl.document;
+			  } else {
+				alert("Error: could not find sumiFrame document");
+				return null;
+			  }
+			  return doc.body;
+
+			}
+	</script>
+</head>
+	<body> 
+		<table width="100%" height="100%" cellspacing="10" cellpadding="0">
+			<tr>
+			<td class="intro-header" colspan="3" align="left" height="86" valign="center" style="margin-bottom:20px">
+				<div class="action-links">
+				<a href="http://org.eclipse.ui.intro/runAction?pluginId=com.aptana.radrails.rcp.main&amp;class=com.aptana.radrails.rcp.main.startpage.CloseStartPageAction" label="" id="workbench">
+					<img id="workbench_img" class="content-img" src="graphics/icons/etool/wb48.gif" alt="Go to the workbench"></img>
+				</a>
+				</div>
+			</td>
+			</tr>
+			<tr>
+			<td colspan="3" align="left" height="8" valign="bottom">
+			</td>
+			</tr>
+			<tr>
+			   <td width="33%" height="500" bgcolor="#FFFFFF" class="content" valign="top" style="width:33%">
+			   		<div class="header-image"><img id="samples_img" src="graphics/rootpage/news.gif" alt="News"/></div>
+					<iframe frameborder="0" width="100%" border="0" height="92%" src="http://www.aptana.com/feeds/rsst2.aspx?xsl=rss_collapsed.xsl&amp;category=News&amp;feed=http://www.aptana.com/blog/?feed=rss2" type="text/html"></iframe>
+			   </td>
+			   <td width="33%" height="500" bgcolor="#FFFFFF" class="content" valign="top" style="width:33%">
+			   		<div class="header-image"><img id="samples_img" src="graphics/rootpage/plugins.gif" alt="Plugins"/></div>
+				   	<iframe frameborder="0" width="100%" height="92%" scrolling="auto" name="iframe_plugins" id="iFrame" src="http://www.aptana.com/content_ide/plugins.html">		
+				   	</iframe>
+			   </td>
+			   <td width="33%" height="500" bgcolor="#FFFFFF" class="content" valign="top" style="width:33%">
+			   		<div class="header-image"><img id="samples_img" src="graphics/rootpage/documentation.gif" alt="Plugins"/></div>
+					<iframe frameborder="0" width="100%" height="92%" src="http://www.aptana.com/content_ide/documentation.html" type="text/html"></iframe>
+			   </td>
+		   </tr>
+		    <tr>
+				<td colspan="3" align="right"  height="20" style="padding-top:5px">
+					<div id="toggleStartup" style="font-size:10px">
+					</div>
+				</td>
+			<tr>
+		</table>
+	</body>
+</html>

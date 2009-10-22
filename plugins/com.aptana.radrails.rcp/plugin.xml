@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            icon="radrails32.png">
+         <run
+               class="com.aptana.radrails.rcp.IDEApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.aptana.radrails.rcp.application"
+            name="Aptana RadRails">
+         <property
+               name="aboutText"
+               value="%aboutText"/>
+         <property
+               name="aboutImage"
+               value="content/about.gif"/>
+         <property
+               name="preferenceCustomization"
+               value="preference_customization.ini"/>
+         <property
+               name="windowImages"
+               value="content/window1616.png,content/window3232.png,content/window4848.png,content/window6464.png,content/window128128.png"/>
+         <property
+               name="startupProgressRect"
+               value="0,230,590,5"/>
+         <property
+               name="appName"
+               value="Aptana RadRails">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,202,445,20">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="FFFFFF">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.configExtension">
+         
+      <standbyContentPart
+            class="com.aptana.radrails.rcp.CheatSheetStandbyContent"
+            id="com.aptana.radrails.rcp.cheatsheet"
+            pluginId="com.aptana.radrails.rcp"/>
+   </extension> 
+
+   <extension point="org.eclipse.help.contexts">
+   		<contexts file="contexts.xml" />
+   </extension>
+   
+     <extension
+         point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="OutlineViewActions"
+            targetID="org.eclipse.ui.views.ContentOutline">
+         <action
+               class="com.aptana.ide.core.ui.actions.HelpAction"
+               icon="icons/help.png"
+               id="com.aptana.radrail.rcp.content_outline_context"
+               label="%action.label.OutlineHelp"
+               style="push"
+               toolbarPath="additions"
+               tooltip="%action.tooltip.OutlineHelp"/>     
+   		</viewContribution>
+   </extension>
+          
+   <!-- Web Browsers -->
+   <extension point="org.eclipse.ui.browser.browsers">
+      <!-- Linux -->
+      <!-- Add Firefox as an additional browser -->
+      <browser
+         id="com.aptana.ide.browser.firefox"
+         name="Firefox"
+         os="linux"
+         executable="firefox"
+         factoryclass="org.eclipse.ui.internal.browser.browsers.MozillaFactory">
+         <location>usr/bin/firefox</location>
+      </browser>
+   </extension>
+</plugin>

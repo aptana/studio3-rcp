@@ -1,0 +1,7 @@
+#!/bin/bash
+
+myLoc=$(readlink $0)
+
+scriptLoc=`dirname "$myLoc"`/Studio.scpt
+
+osascript "$scriptLoc" "$1"

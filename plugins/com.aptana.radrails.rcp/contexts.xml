@@ -1,0 +1,27 @@
+<contexts>
+	<context id="content_outline_context">
+		<description>The Outline View displays a hierarchical grouping of the elements of your code, such as variables and functions. Use this view to get a high-level overview of your code. You can single-click an element in the Outline View to jump to that spot in your code.</description>
+		<topic
+			href="/com.aptana.ide.documentation/html/gettingstarted/Displaying_the_Outline_View.html"
+			label="Displaying the Outline View" />
+		<topic
+			href="http://aptana.tv/movies/aptana_outliner/Outliner.html"
+			label="Outline View Screencast" />
+	</context>
+	
+	<context id="bookmarks_view_context">
+		<description>The Bookmarks View lists all of your bookmarks in all of your open projects. Add bookmarks to places in your code that you think you will want to access quickly or often. (See Adding a bookmark for help.)</description>	
+		<topic
+			href="/com.aptana.ide.documentation/html/gettingstarted/Displaying_the_Bookmarks_View.html"
+			label="Displaying the Bookmarks View" />
+		<topic
+			href="/com.aptana.ide.documentation/html/gettingstarted/Adding_a_bookmark.html"
+			label="Adding a Bookmark" />
+	</context>
+	<context id="search_view_context">
+		<description>The Search View displays all of your retained results from your most recent search.</description>
+		<topic
+			href="/com.aptana.ide.documentation/html/gettingstarted/Displaying_the_Search_View.html"
+			label="Displaying the Search View" />
+	</context>
+</contexts>

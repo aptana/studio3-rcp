@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.aptana.radrails.rcp.main; singleton:=true
+Bundle-Version: 3.0.0.qualifier
+Bundle-Activator: com.aptana.radrails.rcp.main.MainPlugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.update.core,
+ org.eclipse.debug.ui,
+ org.eclipse.ui.intro,
+ org.eclipse.help.base,
+ org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.ui.browser
+Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Export-Package: com.aptana.radrails.rcp.main,
+ com.aptana.radrails.rcp.main.preferences

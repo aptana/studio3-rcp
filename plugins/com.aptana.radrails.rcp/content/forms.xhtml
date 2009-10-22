@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>root.xhtml</title>
+  <script>
+  	function expandTA(ta) {
+    	ta.rows = ta.value.split('\n').length + 1;
+	}
+	
+	 function createXMLHttpRequest() {
+   		try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
+   		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
+   		try { return new XMLHttpRequest(); } catch(e) {}
+   		alert("XMLHttpRequest not supported");
+   	 return null;
+   }
+	
+   function submitForm(buttonObj)
+   {
+   		var xhReq = createXMLHttpRequest();
+   		alert(xhReq);
+   }
+  </script>
+</head>
+<body> 
+	<form method="post" action="http://www.aptana.com/trac/newticket">
+		<table width="100%" cellpadding="4">
+			<tr>
+				<td colspan="2">
+					Please use this form to request a new feature or report an issue.
+				</td>
+			</tr>
+			<tr>
+				<td width="50%">
+					<b>Email:</b>
+				    <input type="text" id="reporter" name="reporter" style="width:100%" value="" />				 
+				</td>
+				<td width="50%">
+				    <b>Type:</b><br/>
+				    <select size="1" id="type" name="type" style="width:100%" >
+      					<option selected="selected">feature</option>
+   						<option>defect</option>
+ 					</select>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" colspan="2">
+ 					<b>Description:</b> (will resize automatically)<br/>
+					<textarea id="description" name="description" onkeyup="expandTA(this);" style="width:100%"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" colspan="2">
+					<input type="image" src="content/graphics/rootpage/submit.gif" onclick="submitForm(this)" />				
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="action" value="create" />
+        <input type="hidden" name="status" value="new" />	
+		<input type="hidden" id="summary" name="summary" value="Added from IDE"/>			
+	</form>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>root.xhtml</title>
+	<link rel="stylesheet" href="root.css" type="text/css" />
+  	<script>
+			function ToggleDiv(elementName)
+			{
+				var div = document.getElementById(elementName);
+				if(div.style.display == 'none')
+					div.style.display = 'block';
+				else
+					div.style.display = 'none';
+			}
+				
+			function expandTA(ta) {
+				ta.rows = ta.value.split('\n').length + 1;
+			}
+				
+			function submitForm(buttonObj)
+			{
+				var reporter = document.getElementById('reporter');
+				if(reporter.value == null)
+					reporter.value = "anonymous@anonymous.com";
+
+				buttonObj.form.submit();
+			}
+				
+	</script>
+</head>
+	<body> 
+		<table width="100%" cellspacing="10" cellpadding="0">
+			<tr>
+			<td class="intro-header" colspan="3" align="right" height="105" valign="bottom">
+				<div class="action-links">
+				<a href="http://org.eclipse.ui.intro/runAction?pluginId=com.aptana.ide.core.ui&amp;class=com.aptana.ide.core.ui.ResetAction" label="" id="workbench">
+					<img id="workbench_img" class="content-img" src="graphics/icons/etool/wb48.gif" alt="Go to the workbench"></img>
+				</a><br/>
+				Get Started
+				</div>
+				<div class="action-links">
+				<a href="http://www.aptana.com" label="" id="aptana_home">
+					<img id="aptana_home_img" class="content-img" src="graphics/rootpage/home.gif" alt="Go to the Aptana product homepage"></img>
+				</a><br/>
+				Product Home
+				</div>
+			</td>
+			</tr>
+			<tr>
+			   <td width="40%" bgcolor="#FFFFFF" class="content content-rounded" valign="top" style="width:40%">
+			   		<div class="header-image"><img id="samples_img" src="graphics/rootpage/news.gif" alt="News"/></div>
+				   	<div class="content-padded" id="news">		
+			   			<include path="news/rss" />
+			   		</div>
+			   </td>
+			   <td width="30%" bgcolor="#FFFFFF" height="100" class="content content-rounded" valign="top" style="width:30%">
+			   		<div class="header-image"><img id="samples_img" src="graphics/rootpage/plugins.gif" alt="Plugins"/></div>
+				   	<br />
+				   	<div class="content-padded content-rounded" id="plugins">
+						<include path="plugins/content" />
+				   	</div>
+			   </td>
+			   <td width="30%" bgcolor="#FFFFFF" height="100" class="content content-rounded" valign="top" style="width:30%">
+			   		<div class="header-image"><img id="samples_img" src="graphics/rootpage/documentation.gif" alt="Plugins"/></div>
+				   	<br />
+				   	<div class="content-padded content-rounded" id="plugins">
+						<include path="documentation/docs" />
+				   	</div>
+			   </td>
+		   </tr>
+		</table>
+	</body>
+</html>
