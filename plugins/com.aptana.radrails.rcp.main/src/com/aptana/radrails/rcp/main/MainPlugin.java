@@ -9,8 +9,8 @@
  */
 package com.aptana.radrails.rcp.main;
 
-import org.eclipse.ui.plugin.*;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -18,7 +18,8 @@ import org.osgi.framework.BundleContext;
  */
 public class MainPlugin extends AbstractUIPlugin
 {
-
+	public final static String PLUGIN_ID = "com.aptana.radrails.rcp.main"; //$NON-NLS-1$
+	
 	// The shared instance.
 	private static MainPlugin plugin;
 
@@ -72,6 +73,6 @@ public class MainPlugin extends AbstractUIPlugin
 	 */
 	public static ImageDescriptor getImageDescriptor(String path)
 	{
-		return AbstractUIPlugin.imageDescriptorFromPlugin("com.aptana.radrails.rcp.main", path); //$NON-NLS-1$
+		return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 }

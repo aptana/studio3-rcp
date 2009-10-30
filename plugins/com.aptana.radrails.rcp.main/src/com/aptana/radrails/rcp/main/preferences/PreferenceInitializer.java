@@ -15,10 +15,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.help.internal.base.HelpBasePlugin;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.internal.browser.BrowserManager;
 import org.eclipse.ui.internal.browser.IBrowserDescriptor;
 import org.osgi.framework.Version;
@@ -36,10 +38,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
 	 */
 	public void initializeDefaultPreferences()
 	{
-		Preferences store = HelpBasePlugin.getDefault().getPluginPreferences();
-		store.setDefault(getOpenInEditorKey(), true);
+		IEclipsePreferences prefs = new DefaultScope().getNode(HelpBasePlugin.PLUGIN_ID);
+		prefs.putBoolean(getOpenInEditorKey(), true);
 
-		store = MainPlugin.getDefault().getPluginPreferences();
+		IPreferenceStore store = MainPlugin.getDefault().getPreferenceStore();
 		store.setDefault(IPreferenceConstants.REOPEN_EDITORS_ON_STARTUP, true);
 
 		if (store.getBoolean(IPreferenceConstants.WORKSPACE_ENCODING_SET) == false)
@@ -59,7 +61,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
 								e));
 			}
 			store.setValue(IPreferenceConstants.WORKSPACE_ENCODING_SET, true);
-			MainPlugin.getDefault().savePluginPreferences();
 		}
 		
 		// Attempt to set the default browser to Firefox so that external links

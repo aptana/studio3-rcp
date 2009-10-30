@@ -33,14 +33,15 @@ public class RailsPerspectiveFactory implements IPerspectiveFactory
 		String editorArea = layout.getEditorArea();
 
 		// Top left: Ruby Explorer
-		IPlaceholderFolderLayout topLeft = layout.createPlaceholderFolder("topLeft", IPageLayout.LEFT, 0.2f, editorArea);
+		IPlaceholderFolderLayout topLeft = layout.createPlaceholderFolder("topLeft", IPageLayout.LEFT, 0.2f, editorArea); //$NON-NLS-1$
+		topLeft.addPlaceholder(IPageLayout.ID_PROJECT_EXPLORER);
 		
 		IPlaceholderFolderLayout left = layout.createPlaceholderFolder (
-                "left", IPageLayout.BOTTOM, 0.5f, "leftTop"); //$NON-NLS-1$ //$NON-NLS-2$
+                "left", IPageLayout.BOTTOM, 0.5f, "topLeft"); //$NON-NLS-1$ //$NON-NLS-2$
         left.addPlaceholder(IPageLayout.ID_OUTLINE);
 
 		// Bottom right: Console, Servers, RubyGems, Rake, Problems, Tasks, Generators, Rails Plugins view
-		IPlaceholderFolderLayout consoleArea = layout.createPlaceholderFolder("consoleArea", IPageLayout.BOTTOM, 0.75f,
+		IPlaceholderFolderLayout consoleArea = layout.createPlaceholderFolder("consoleArea", IPageLayout.BOTTOM, 0.75f, //$NON-NLS-1$
 				editorArea);
 		consoleArea.addPlaceholder(IConsoleConstants.ID_CONSOLE_VIEW);
 		consoleArea.addPlaceholder(IPageLayout.ID_PROBLEM_VIEW);

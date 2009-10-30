@@ -51,18 +51,14 @@
       <import plugin="org.eclipse.update.configurator"/>
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="com.aptana.ide.core"/>
-      <import plugin="com.aptana.ide.core.ui"/>
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="org.eclipse.update.core"/>
       <import plugin="com.ibm.icu"/>
       <import plugin="org.eclipse.core.net"/>
-      <import plugin="com.aptana.ide.update"/>
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.eclipse.osgi"/>
-      <import plugin="com.aptana.ide.desktop.integration.server"/>
       <import plugin="org.eclipse.ui.browser"/>
       <import plugin="org.apache.lucene" version="1.9.1" match="compatible"/>
       <import plugin="org.apache.lucene.analysis" version="1.9.1" match="compatible"/>
