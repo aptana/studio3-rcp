@@ -20,7 +20,6 @@
 
    <url>
       <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/radrails-rcp/"/>
-      <discovery label="Aptana: Support for Adobe AIR" url="http://download.aptana.org/tools/radrails/plugin/install/air/"/>
    </url>
 
    <includes
