@@ -20,7 +20,6 @@
 
    <url>
       <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/rails/"/>
-      <discovery label="Git plugin (Eclipse 3.4+)" url="http://www.jgit.org/updates/"/>
    </url>
 
    <requires>
