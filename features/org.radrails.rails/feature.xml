@@ -20,7 +20,6 @@
 
    <url>
       <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/rails/"/>
-      <discovery label="Git plugin (Eclipse 3.4+)" url="http://www.jgit.org/updates/"/>
    </url>
 
    <requires>
@@ -34,42 +33,16 @@
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.help"/>
-      <import plugin="org.jruby"/>
-      <import plugin="org.rubypeople.rdt.core"/>
-      <import plugin="com.aptana.rdt.rake"/>
-      <import plugin="com.aptana.ide.intro"/>
-      <import plugin="com.aptana.ide.libraries"/>
       <import plugin="org.eclipse.ui.browser"/>
-      <import plugin="org.rubypeople.rdt.ui"/>
-      <import plugin="com.aptana.ide.server"/>
-      <import plugin="com.aptana.ide.server.core"/>
-      <import plugin="com.aptana.ide.server.ui"/>
-      <import plugin="org.rubypeople.rdt.debug.ui"/>
       <import plugin="org.eclipse.ui.navigator"/>
-      <import plugin="com.aptana.ide.epl"/>
-      <import plugin="com.aptana.ide.editors"/>
-      <import plugin="com.aptana.ide.parsing"/>
-      <import plugin="com.aptana.ide.editors.codeassist"/>
-      <import plugin="com.aptana.ide.editor.html"/>
-      <import plugin="com.aptana.ide.editor.js"/>
-      <import plugin="com.aptana.ide.editor.css"/>
-      <import plugin="org.rubypeople.rdt.debug.core"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.ui.intro"/>
-      <import plugin="org.rubypeople.rdt.testunit"/>
       <import plugin="org.eclipse.ui.cheatsheets"/>
-      <import plugin="com.aptana.rdt.ui"/>
       <import plugin="org.eclipse.core.resources" version="3.2.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.core" version="3.2.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.text" version="3.2.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.console" version="3.1.100" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.ui" version="3.2.2" match="greaterOrEqual"/>
-      <import plugin="org.rubypeople.rdt.launching" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="com.aptana.rdt" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="com.aptana.ide.core" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="com.aptana.ide.core.ui" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="org.radrails.rails.core" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.radrails.rails.ui" version="1.2.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin

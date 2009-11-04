@@ -2,6 +2,6 @@
 
 myLoc=$(readlink $0)
 
-scriptLoc=`dirname "$myLoc"`/Studio.scpt
+scriptLoc=`dirname "$myLoc"`/radrails.scpt
 
 osascript "$scriptLoc" "$1"
