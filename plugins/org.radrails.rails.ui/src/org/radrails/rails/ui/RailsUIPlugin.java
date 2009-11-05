@@ -14,7 +14,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Plugin class for the rails.ui plugin.
@@ -23,21 +22,11 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class RailsUIPlugin extends AbstractUIPlugin
 {
-
-	/**
-	 * Whether or not to show jobs in progress view/bar. If false, jobs will be set to "System" so they won't get shown.
-	 */
-	private static final boolean DISPLAY_JOBS = true;
-
 	private static RailsUIPlugin instance;
 
 	private static final String PLUGIN_ID = "org.radrails.rails.ui";
 
 	private static Hashtable<String, Image> images = new Hashtable<String, Image>();
-
-	// TODO When/if the RailsDBConnector is working properly then uncomment this.
-	// private RailsDBConnector connector;
-	private ServiceTracker gemManagerTracker;
 
 	/**
 	 * Default constructor.
