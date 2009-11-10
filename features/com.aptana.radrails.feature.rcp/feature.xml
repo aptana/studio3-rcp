@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/radrails-rcp/"/>
+      <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/red-rcp/"/>
    </url>
 
    <includes

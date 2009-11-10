@@ -6,16 +6,14 @@
       <initializer class="com.aptana.radrails.rcp.main.preferences.PreferenceInitializer"/>
    </extension>
 
+   <!-- TODO Adjust the category -->
    <extension
          point="org.eclipse.ui.preferencePages">
-
     <page
-          category="com.aptana.ide.core.ui.preferences.GeneralPreferencePage"
+          category="org.eclipse.ui.preferencePages.Workbench"
           class="com.aptana.radrails.rcp.main.preferences.StartupShutdownPreferencePage"
           id="com.aptana.radrails.rcp.main.preferences.StartupShutdownPreferencePage"
           name="%startupShutdownPreferencePage"/>
-          
-    
    </extension>
    <extension
         point="org.eclipse.ui.ide.resourceFilters">

@@ -46,35 +46,7 @@
          </property>
       </product>
    </extension>
-   <extension
-         point="org.eclipse.ui.intro.configExtension">
-         
-      <standbyContentPart
-            class="com.aptana.radrails.rcp.CheatSheetStandbyContent"
-            id="com.aptana.radrails.rcp.cheatsheet"
-            pluginId="com.aptana.radrails.rcp"/>
-   </extension> 
-
-   <extension point="org.eclipse.help.contexts">
-   		<contexts file="contexts.xml" />
-   </extension>
    
-     <extension
-         point="org.eclipse.ui.viewActions">
-      <viewContribution
-            id="OutlineViewActions"
-            targetID="org.eclipse.ui.views.ContentOutline">
-         <action
-               class="com.aptana.ide.core.ui.actions.HelpAction"
-               icon="icons/help.png"
-               id="com.aptana.radrail.rcp.content_outline_context"
-               label="%action.label.OutlineHelp"
-               style="push"
-               toolbarPath="additions"
-               tooltip="%action.tooltip.OutlineHelp"/>     
-   		</viewContribution>
-   </extension>
-          
    <!-- Web Browsers -->
    <extension point="org.eclipse.ui.browser.browsers">
       <!-- Linux -->
