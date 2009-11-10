@@ -22,6 +22,10 @@
       <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/red/"/>
    </url>
 
+   <includes
+         id="com.aptana.red.core"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.jface"/>
