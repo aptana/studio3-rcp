@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Nov 19, 2008 4:29:19 PM                                                        
+
+     Aptana RadRails Standalone Build    
+     Builds win32, Mac OSX and Linux GTK x86 P2-enabled RCP Aptana RadRails standalone apps.
+                   
+     cwilliams                                                                
+     ====================================================================== -->
+<project name="RadRailsStandalone" default="main">
+	<description>
+            Builds win32, Mac OSX and Linux GTK x86 P2-enabled RCP Aptana RadRails standalone apps.
+    </description>
+
+	<property environment="env"/>
+	<property file="build_local.properties" />
+	
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="ant-contrib/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
+	<taskdef name="purge" classname="com.dallaway.ant.Purge">
+		<classpath>
+			<pathelement location="ant-contrib/purge.jar" />
+		</classpath>
+	</taskdef>
+
+	<!-- ================================= 
+          target: main              
+         ================================= -->
+	<target name="main" depends="clean, build" description="Cleans and then builds. For build machine." />
+
+	<!-- ================================= 
+          target: build              
+         ================================= -->
+	<target name="build" description="Builds win32, Mac OSX and Linux GTK x86 P2-enabled RCP Aptana IDE standalone apps." depends="generate.build.properties,generate.base">
+		<antcall target="mac.standalone" />
+		<antcall target="regenerate.base" />
+		<antcall target="mac.cocoa.standalone" />
+		<antcall target="regenerate.base" />
+		<antcall target="win.standalone" />
+		<antcall target="regenerate.base" />
+		<antcall target="win_64.standalone" />
+		<antcall target="regenerate.base" />
+		<antcall target="linux.standalone" />
+		<antcall target="regenerate.base" />
+		<antcall target="linux_64.standalone" />
+		<antcall target="deploy" />
+	</target>
+
+	<!-- ================================= 
+          target: clean                      
+         ================================= -->
+	<target name="clean" depends="generate.build.properties">
+		<delete dir="${output.dir}" failonerror="false" />
+		<delete dir="${baseLocation}" />
+		<!-- Do an git checkout of the build directory -->
+		<exec executable="/bin/bash" dir="${buildDirectory}">
+			<arg value="-c" />
+			<arg value="${git.executable} checkout -f" />
+		</exec>
+
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+		  target: generate.base                      
+		 - - - - - - - - - - - - - - - - - -->
+	<target name="generate.base">
+		<!-- Copy over the original base eclipse to a new location so we have a clean copy to work from.
+				Have to use exec cp to retain permissions. FIXME Won't work on Windows! -->
+		<exec executable="cp">
+			<arg line="-R ${vanilla.eclipse} ${baseLocation}" />
+		</exec>
+	</target>
+
+	<!-- ================================= 
+          target: generate.build.properties              
+         ================================= -->
+	<target name="generate.build.properties" description="Takes in properties from build_local.properties and the command line overrides and generates a combined build.properties to use for the build">
+		<tstamp>
+			<format property="timestamp" pattern="dd MMMM yyyy, HH:mm:ss" locale="en" />
+		</tstamp>
+		<echoproperties destfile="build.properties">
+			<propertyset negate="true">
+				<propertyref prefix="java." />
+				<propertyref prefix="ant." />
+				<propertyref prefix="awt." />
+				<propertyref prefix="user." />
+				<propertyref prefix="sun." />
+			</propertyset>
+		</echoproperties>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: regenerate.base                      
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="regenerate.base" />
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: mac.standalone                      
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="mac.standalone">
+		<!-- Mac OSX Carbon RCP P2 Build -->
+		<mkdir dir="${tmp.dir}" />
+		<antcall target="generate.product">
+			<param name="product.os" value="macosx" />
+			<param name="product.ws" value="carbon" />
+			<param name="product.arch" value="ppc" />
+		</antcall>
+		<!-- Update mac zip file -->
+		<echo message="**  Updating Mac zip  **" level="info" />
+		<delete dir="${tmp.dir}/${collectingFolder}/Eclipse.app" includeemptydirs="true" defaultexcludes="no" verbose="true" />
+		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="yes" eol="mac">
+			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
+		</concat>
+		<delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" />
+		<antcall target="clean.old.profiles" />
+		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
+		<zip destfile="${output.dir}/${archivePrefix}.macosx.carbon.zip" filesonly="false">
+			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
+				<exclude name="${product.name}" />
+				<exclude name="${product.name}.app/Contents/MacOS/${product.name}" />
+			</zipfileset>
+			<zipfileset dir="${tmp.dir}/${collectingFolder}" filemode="755" defaultexcludes="true" prefix="${zipFolder}">
+				<include name="${product.name}" />
+				<include name="${product.name}.app/Contents/MacOS/${product.name}" />
+			</zipfileset>
+		</zip>
+		<delete dir="${tmp.dir}" />
+	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: clean.old.profiles                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="clean.old.profiles">
+    	<!-- Clean up old p2 profiles that eat up some space -->
+   		<purge keep="1">
+   			<fileset dir="${tmp.dir}/${collectingFolder}/p2/org.eclipse.equinox.p2.engine/profileRegistry/AptanaProfile.profile">
+   	    		<include name="*.profile"/>
+   			</fileset>
+   		</purge>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: mac.cocoa.standalone                      
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="mac.cocoa.standalone">
+		<!-- Mac OSX Cocoa RCP P2 Build -->
+		<mkdir dir="${tmp.dir}" />
+		<antcall target="generate.product">
+			<param name="product.os" value="macosx" />
+			<param name="product.ws" value="cocoa" />
+			<param name="product.arch" value="x86" />
+		</antcall>
+		<!-- Update mac zip file -->
+		<echo message="**  Updating Mac zip  **" level="info" />
+		<delete dir="${tmp.dir}/${collectingFolder}/Eclipse.app" includeemptydirs="true" defaultexcludes="no" verbose="true" />
+		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="yes" eol="mac">
+			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
+		</concat>
+		<delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" />
+		<antcall target="clean.old.profiles" />
+		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
+		<zip destfile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" filesonly="false">
+			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
+				<exclude name="${product.name}" />
+				<exclude name="${product.name}.app/Contents/MacOS/${product.name}" />
+			</zipfileset>
+			<zipfileset dir="${tmp.dir}/${collectingFolder}" filemode="755" defaultexcludes="true" prefix="${zipFolder}">
+				<include name="${product.name}" />
+				<include name="${product.name}.app/Contents/MacOS/${product.name}" />
+			</zipfileset>
+		</zip>
+		<delete dir="${tmp.dir}" />
+	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+		      target: win.standalone                      
+		     - - - - - - - - - - - - - - - - - -->
+	<target name="win.standalone">
+		<!-- Win32 RCP P2 Build -->
+		<mkdir dir="${tmp.dir}" />
+		<antcall target="generate.product">
+			<param name="product.os" value="win32" />
+			<param name="product.ws" value="win32" />
+			<param name="product.arch" value="x86" />
+		</antcall>
+		<!-- save off the original config.ini somewhere -->
+		<copy file="${tmp.dir}/${collectingFolder}/configuration/config.ini" todir="${tmp.dir}" />
+		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="no" eol="dos">
+			<filelist dir="${tmp.dir}/" files="config.ini" />
+			<filelist dir="${builder}/custom/win32/" files="config_xp.ini" />
+		</concat>
+		<antcall target="clean.old.profiles" />
+		<zip destfile="${output.dir}/${archivePrefix}.win32.x86.zip">
+			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}" />
+		</zip>
+		<delete dir="${tmp.dir}" />
+	</target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+	      target: win_64.standalone                      
+	     - - - - - - - - - - - - - - - - - -->
+	<target name="win_64.standalone" unless="dont.build.win_64.standalone">
+		<!-- Win 64-bit RCP P2 Build -->
+		<mkdir dir="${tmp.dir}" />
+		<antcall target="generate.product">
+			<param name="product.os" value="win32" />
+			<param name="product.ws" value="win32" />
+			<param name="product.arch" value="x86_64" />
+		</antcall>
+		<!-- save off the original config.ini somewhere -->
+		<copy file="${tmp.dir}/${collectingFolder}/configuration/config.ini" todir="${tmp.dir}" />
+		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="no" eol="dos">
+			<filelist dir="${tmp.dir}/" files="config.ini" />
+			<filelist dir="${builder}/custom/win32/" files="config_xp.ini" />
+		</concat>
+		<antcall target="clean.old.profiles" />
+		<zip destfile="${output.dir}/${archivePrefix}.win32.x86_64.zip">
+			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}" />
+		</zip>
+		<delete dir="${tmp.dir}" />
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+		  target: linux.standalone                      
+ 	    - - - - - - - - - - - - - - - - - -->
+	<target name="linux.standalone">
+		<!-- Linux GTK RCP P2 Build -->
+		<mkdir dir="${tmp.dir}" />
+		<antcall target="generate.product">
+			<param name="product.os" value="linux" />
+			<param name="product.ws" value="gtk" />
+			<param name="product.arch" value="x86" />
+		</antcall>
+		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="yes" eol="unix">
+			<filelist dir="${builder}/custom/linux/" files="config.ini" />
+		</concat>
+		<antcall target="clean.old.profiles" />
+		<!-- Update linux zip file -->
+		<zip destfile="${output.dir}/${archivePrefix}.linux.gtk.x86.zip" filesonly="false">
+			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}">
+				<exclude name="${product.name}" />
+			</zipfileset>
+			<zipfileset dir="${tmp.dir}/${collectingFolder}" filemode="755" defaultexcludes="true" prefix="${zipFolder}">
+				<include name="${product.name}" />
+			</zipfileset>
+		</zip>
+		<delete dir="${tmp.dir}" />
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+			  target: linux_64.standalone                      
+			 - - - - - - - - - - - - - - - - - -->
+	<target name="linux_64.standalone">
+		<!-- Linux GTK x86_64 RCP P2 Build -->
+		<mkdir dir="${tmp.dir}" />
+		<antcall target="generate.product">
+			<param name="product.os" value="linux" />
+			<param name="product.ws" value="gtk" />
+			<param name="product.arch" value="x86_64" />
+		</antcall>
+		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="yes" eol="unix">
+			<filelist dir="${builder}/custom/linux/" files="config.ini" />
+		</concat>
+		<antcall target="clean.old.profiles" />
+		<!-- Update linux zip file -->
+		<zip destfile="${output.dir}/${archivePrefix}.linux.gtk.x86_64.zip" filesonly="false">
+			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}">
+				<exclude name="${product.name}" />
+			</zipfileset>
+			<zipfileset dir="${tmp.dir}/${collectingFolder}" filemode="755" defaultexcludes="true" prefix="${zipFolder}">
+				<include name="${product.name}" />
+			</zipfileset>
+		</zip>
+		<delete dir="${tmp.dir}" />
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: generate.product                      
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="generate.product">
+		<antcall target="run.director">
+			<param name="p2.director.install.path" value="${tmp.dir}/${collectingFolder}" />
+			<param name="p2.os" value="${product.os}" />
+			<param name="p2.ws" value="${product.ws}" />
+			<param name="p2.arch" value="${product.arch}" />
+		</antcall>
+		<echo message="feature.repos is ${feature.repos}" />
+		<echo message="feature.IUs is ${feature.IUs}" />
+		<script description="Install specified additional features" language="javascript">
+			<![CDATA[
+					var featureRepos =  project.getProperty("feature.repos");
+					var featureIUs = project.getProperty("feature.IUs");
+					if ( featureRepos.length() > 0 && featureIUs.length() > 0) {
+			            // "AptanaStandalone" is the project name defined in "project"'s attribute "name"
+			            var antcall = project.createTask("antcall");  
+						var tmpDir = project.getProperty("tmp.dir");
+						var collectingFolder = project.getProperty("collectingFolder");
+			            var repos = project.getProperty("feature.repos").split(","); // defined in property file
+						var ius = project.getProperty("feature.IUs").split(","); // defined in property file
+			            for(var i = 0; i < repos.length; i ++) {  
+			                antcall.setTarget("install.feature.external");
+							// Configure the parameters for the "antcall" task
+							var repoParam = antcall.createParam();
+							repoParam.setName("p2.repo");
+							repoParam.setValue(repos[i]);
+							var iuParam = antcall.createParam();
+							iuParam.setName("p2.IU");
+							iuParam.setValue(ius[i]);						
+							var pathParam = antcall.createParam();
+							pathParam.setName("p2.director.install.path");
+							pathParam.setValue(tmpDir + "/" + collectingFolder);
+			                antcall.execute();     
+			            }
+					}
+		            ]]>
+		</script>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: run.director                      
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="run.director" description="Runs the p2 director product installs to generate full fledged standalone">
+		<exec executable="${baseLocation}/eclipse" failonerror="true" dir="${baseLocation}" timeout="900000">
+			<arg line="-application org.eclipse.equinox.p2.director" />
+			<arg line="-nosplash" />
+			<arg line="--launcher.suppressErrors" />
+			<arg line="-consoleLog" />
+			<arg line="-flavor ${p2.flavor}" />
+			<arg line="-installIU ${rcp.IU}" />
+			<arg line="-p2.os ${p2.os}" />
+			<arg line="-p2.ws ${p2.ws}" />
+			<arg line="-p2.arch ${p2.arch}" />
+			<arg line="-roaming" />
+			<arg line="-profile ${p2.profile}" />
+			<arg line="-profileProperties org.eclipse.update.install.features=true" />
+			<arg line="-metadataRepository ${rcp.p2.repo}" />
+			<arg line="-artifactRepository ${rcp.p2.repo}" />
+			<arg line="-destination ${p2.director.install.path}" />
+			<arg line="-bundlepool ${p2.director.install.path}" />
+			<arg line="-vmargs" />
+			<arg line="-Declipse.p2.data.area=${p2.director.install.path}/p2" />
+		</exec>
+		<!-- delete the metadata cache as well as the artifacts for unzipped bundles
+		<delete failonerror="false" includeEmptyDirs="true" dir="${p2.director.install.path}/p2/org.eclipse.equinox.p2.core/cache" /> 
+		-->
+		<!-- Forcibly change the dropins plugin to start, in case we failed due to: https://bugs.eclipse.org/bugs/show_bug.cgi?id=252284! -->
+		<replaceregexp file="${p2.director.install.path}/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info" match="${dropins.plugin}.jar,4,false" replace="${dropins.plugin}.jar,4,true" />
+		<!-- Make sure there's a dropins folder in case it failed due to same bug above -->
+		<mkdir dir="${p2.director.install.path}/dropins" />
+		<!-- Now use the value of org.eclipse.ui/defaultPerspectiveId -->
+		<if>
+			<isset property="org.eclipse.ui/defaultPerspectiveId" />
+		<then>
+			<echo message="Setting default perspective to ${org.eclipse.ui/defaultPerspectiveId}" />
+			<pathconvert property="com.aptana.ide.rcp.jar.name">
+				<fileset dir="${p2.director.install.path}/plugins" includes="${rcp.plugin.name}_*.jar" />
+				<flattenmapper/>
+			</pathconvert>
+			<mkdir dir="${tmp.dir}/${rcp.plugin.name}"/>
+			<unzip src="${p2.director.install.path}/plugins/${com.aptana.ide.rcp.jar.name}" dest="${tmp.dir}/${rcp.plugin.name}" />
+			<replaceregexp file="${tmp.dir}/${rcp.plugin.name}/preference_customization.ini"
+		                     match="(org.eclipse.ui/defaultPerspectiveId=).*"
+		                     replace="\1${org.eclipse.ui/defaultPerspectiveId}"
+		                     byline="true" />
+			<!--
+			<loadfile property="preference_customization.ini"
+			      srcFile="${tmp.dir}/${rcp.plugin.name}/preference_customization.ini"/>
+			<echo message="preference_customization.ini contents" />
+			<echo message="${preference_customization.ini}" />
+			<echo message="=====================================" />
+			-->
+			<zip basedir="${tmp.dir}/${rcp.plugin.name}" destfile="${p2.director.install.path}/plugins/${com.aptana.ide.rcp.jar.name}" />
+	  		<delete dir="${tmp.dir}/${rcp.plugin.name}" />
+		</then>
+		</if>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+			  target: install.feature.external                      
+			 - - - - - - - - - - - - - - - - - -->
+	<target name="install.feature.external" description="Runs the p2 director install for a single feature on an external eclipse install">
+		<exec executable="${baseLocation}/eclipse" failonerror="true" dir="${baseLocation}" timeout="900000">
+			<arg line="-application org.eclipse.equinox.p2.director" />
+			<arg line="-nosplash" />
+			<arg line="-consoleLog" />
+			<arg line="-metadataRepository ${p2.repo}" />
+			<arg line="-artifactRepository ${p2.repo}" />
+			<arg line="-installIU ${p2.IU}" />
+			<arg line="-destination ${p2.director.install.path}" />
+			<arg line="-profile ${p2.profile}" />
+			<arg line="-vmArgs" />
+			<arg line="-Declipse.p2.data.area=${p2.director.install.path}/p2" />
+		</exec>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	      target: deploy                      
+	     - - - - - - - - - - - - - - - - - -->
+	<target name="deploy">
+		<delete dir="${deploy.dir}" />
+		<mkdir dir="${deploy.dir}" />
+		<move todir="${deploy.dir}">
+			<fileset dir="${output.dir}">
+				<include name="*.zip" />
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="create-artifact-symlink">
+		<exec executable="unlink">
+			<arg value="${env.WORKSPACE}/build-artifacts" />
+		</exec>
+		<symlink link="${env.WORKSPACE}/build-artifacts" resource="${deploy.dir}" failonerror="false"/>
+	</target>
+</project>

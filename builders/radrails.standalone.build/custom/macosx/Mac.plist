@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>as</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>AS</string>
+			<key>CFBundleTypeName</key>
+			<string>ActionScript source</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>asp</string>
+				<string>asa</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>ASP</string>
+			<key>CFBundleTypeName</key>
+			<string>ASP document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>aspx</string>
+				<string>ascx</string>
+				<string>asmx</string>
+				<string>ashx</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>ASPNET</string>
+			<key>CFBundleTypeName</key>
+			<string>ASP.NET document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>css</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>CSS</string>
+			<key>CFBundleTypeName</key>
+			<string>Cascading style sheet</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>htm</string>
+				<string>html</string>
+				<string>phtml</string>
+				<string>shtml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>HTML</string>
+			<key>CFBundleTypeName</key>
+			<string>HTML document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>js</string>
+				<string>htc</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>JS</string>
+			<key>CFBundleTypeName</key>
+			<string>JavaScript source</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>log</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>LOG</string>
+			<key>CFBundleTypeName</key>
+			<string>Log file</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>php</string>
+				<string>php3</string>
+				<string>php4</string>
+				<string>php5</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>PHP</string>
+			<key>CFBundleTypeName</key>
+			<string>PHP source</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rhtml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>RHTML</string>
+			<key>CFBundleTypeName</key>
+			<string>HTML with embedded Ruby</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>erbsql</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>SQL</string>
+			<key>CFBundleTypeName</key>
+			<string>SQL with embedded Ruby</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rb</string>
+				<string>rbx</string>
+				<string>rjs</string>
+				<string>rxml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>RUBY</string>
+			<key>CFBundleTypeName</key>
+			<string>Ruby source</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sql</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>SQL</string>
+			<key>CFBundleTypeName</key>
+			<string>SQL source</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>svg</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>SVG</string>
+			<key>CFBundleTypeName</key>
+			<string>Scalable vector graphics</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>text</string>
+				<string>txt</string>
+				<string>utf8</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>TEXT</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/plain</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Plain text document</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>TEXT</string>
+				<string>sEXT</string>
+				<string>ttro</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>xhtml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>XHTML</string>
+			<key>CFBundleTypeName</key>
+			<string>XHTML document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>xml</string>
+				<string>rss</string>
+				<string>tld</string>
+				<string>pt</string>
+				<string>cpt</string>
+				<string>dtml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>XML</string>
+			<key>CFBundleTypeName</key>
+			<string>XML document</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>xsl</string>
+				<string>xslt</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>XSL</string>
+			<key>CFBundleTypeName</key>
+			<string>XSL stylesheet</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>yaml</string>
+				<string>yml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>YAML</string>
+			<key>CFBundleTypeName</key>
+			<string>YAML document</string>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>AptanaRadRails</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Aptana for Mac OS X, Copyright Aptana, Inc. 2008. All rights reserved.</string>
+	<key>CFBundleIconFile</key>
+	<string>aptana.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.aptana.ide</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>AptanaRadRails</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.8</string>
+	<key>CFBundleSignature</key>
+	<string>APTS</string>
+	<key>CFBundleVersion</key>
+	<string>1.8</string>
+	<key>Eclipse</key>
+	<array>
+		<string>-keyring</string>
+		<string>~/.eclipse_keyring</string>
+		<string>-consoleLog</string>
+		<string>-showlocation</string>
+	</array>
+	<key>LSBackgroundOnly</key>
+	<string>1</string>
+</dict>
+</plist>
