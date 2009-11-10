@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site pack200="true"> 
+    <description url="http://download.aptana.com/tools/radrails/plugin/rails/">RadRails is a Ruby on Rails IDE</description> 
+	<feature url="features/org.radrails.rails_feature_{version.full}.jar" id="org.radrails.rails_feature" version="{version.full}">
+		<category name="Aptana RadRails"/>
+	</feature>				
+    <category-def name="Aptana RadRails" label="Rails">
+        <description>Adds support for Ruby on Rails 1.5 to the Aptana Studio</description>
+    </category-def>
+    <!-- Update Test A-->
+</site>
