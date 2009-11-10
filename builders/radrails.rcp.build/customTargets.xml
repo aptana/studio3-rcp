@@ -274,7 +274,7 @@
 		<!-- Unzip the launcher to a temp dir... -->
 		<pathconvert property="linux.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.gtk.linux.x86_2*" />
+				<include name="${topLevelElementId}.launcher.gtk.linux.x86_3*" />
 			</fileset>
 			<mapper>
 				<flattenmapper />
