@@ -38,7 +38,7 @@
          search-location="both"/>
 
    <includes
-         id="org.radrails.rails"
+         id="org.radrails.rails.feature"
          version="0.0.0"
          search-location="both"/>
 
