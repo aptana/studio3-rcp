@@ -122,6 +122,7 @@
 		<for param="file">
 			<path>
 				<fileset dir="${baseLocation}/dropins/eclipse/plugins" defaultexcludes="true">
+					<include name="com.aptana.terminal_*.jar" />
 				</fileset>
 			</path>
 			<sequential>
