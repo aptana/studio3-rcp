@@ -9,6 +9,7 @@
 package org.radrails.rails.internal.ui;
 
 import org.eclipse.debug.ui.IDebugUIConstants;
+import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IPlaceholderFolderLayout;
@@ -41,7 +42,7 @@ public class RailsPerspectiveFactory implements IPerspectiveFactory
         left.addPlaceholder(IPageLayout.ID_OUTLINE);
 
 		// Bottom right: Console, Servers, RubyGems, Rake, Problems, Tasks, Generators, Rails Plugins view
-		IPlaceholderFolderLayout consoleArea = layout.createPlaceholderFolder("consoleArea", IPageLayout.BOTTOM, 0.75f, //$NON-NLS-1$
+        IFolderLayout consoleArea = layout.createFolder("consoleArea", IPageLayout.BOTTOM, 0.75f, //$NON-NLS-1$
 				editorArea);
 		consoleArea.addPlaceholder(IConsoleConstants.ID_CONSOLE_VIEW);
 		consoleArea.addPlaceholder(IPageLayout.ID_PROBLEM_VIEW);
