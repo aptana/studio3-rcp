@@ -117,6 +117,14 @@
 		<delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" />
 		<antcall target="clean.old.profiles" />
 		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
+		<!-- Use system zip to retain the executable permissions -->
+		<exec executable="zip" dir="${tmp.dir}/${collectingFolder}">
+		    <arg value="-r"/>
+		    <arg value="${archivePrefix}.macosx.carbon.zip"/>
+		    <arg value="."/>
+		</exec>
+		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.macosx.carbon.zip" tofile="${output.dir}/${archivePrefix}.macosx.carbon.zip" />
+		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.macosx.carbon.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
 				<exclude name="${product.name}" />
@@ -127,6 +135,7 @@
 				<include name="${product.name}.app/Contents/MacOS/${product.name}" />
 			</zipfileset>
 		</zip>
+		-->
 		<delete dir="${tmp.dir}" />
 	</target>
 	
@@ -162,6 +171,14 @@
 		<delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" />
 		<antcall target="clean.old.profiles" />
 		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
+		<!-- Use system zip to retain the executable permissions -->
+		<exec executable="zip" dir="${tmp.dir}/${collectingFolder}">
+		    <arg value="-r"/>
+		    <arg value="${archivePrefix}.macosx.cocoa.x86.zip"/>
+		    <arg value="."/>
+		</exec>
+		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.macosx.cocoa.x86.zip" tofile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" />
+		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
 				<exclude name="${product.name}" />
@@ -172,6 +189,7 @@
 				<include name="${product.name}.app/Contents/MacOS/${product.name}" />
 			</zipfileset>
 		</zip>
+		-->
 		<delete dir="${tmp.dir}" />
 	</target>
 	
@@ -239,6 +257,14 @@
 		</concat>
 		<antcall target="clean.old.profiles" />
 		<!-- Update linux zip file -->
+		<!-- Use system zip to retain the executable permissions -->
+		<exec executable="zip" dir="${tmp.dir}/${collectingFolder}">
+		    <arg value="-r"/>
+		    <arg value="${archivePrefix}.linux.gtk.x86.zip"/>
+		    <arg value="."/>
+		</exec>
+		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.linux.gtk.x86.zip" tofile="${output.dir}/${archivePrefix}.linux.gtk.x86.zip" />
+		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.linux.gtk.x86.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}">
 				<exclude name="${product.name}" />
@@ -247,6 +273,7 @@
 				<include name="${product.name}" />
 			</zipfileset>
 		</zip>
+		-->
 		<delete dir="${tmp.dir}" />
 	</target>
 
@@ -266,6 +293,14 @@
 		</concat>
 		<antcall target="clean.old.profiles" />
 		<!-- Update linux zip file -->
+		<!-- Use system zip to retain the executable permissions -->
+		<exec executable="zip" dir="${tmp.dir}/${collectingFolder}">
+		    <arg value="-r"/>
+		    <arg value="${archivePrefix}.linux.gtk.x86_64.zip"/>
+		    <arg value="."/>
+		</exec>
+		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.linux.gtk.x86_64.zip" tofile="${output.dir}/${archivePrefix}.linux.gtk.x86_64.zip" />
+		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.linux.gtk.x86_64.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}">
 				<exclude name="${product.name}" />
@@ -274,6 +309,7 @@
 				<include name="${product.name}" />
 			</zipfileset>
 		</zip>
+		-->
 		<delete dir="${tmp.dir}" />
 	</target>
 
