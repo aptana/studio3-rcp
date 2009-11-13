@@ -118,10 +118,11 @@
 		<antcall target="clean.old.profiles" />
 		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
 		<!-- Use system zip to retain the executable permissions -->
-		<exec executable="zip" dir="${tmp.dir}/${collectingFolder}">
+		<move file="${tmp.dir}/${collectingFolder}" tofile="${tmp.dir}/${zipFolder}" />
+		<exec executable="zip" dir="${tmp.dir}">
 		    <arg value="-r"/>
 		    <arg value="${archivePrefix}.macosx.carbon.zip"/>
-		    <arg value="."/>
+		    <arg value="${zipFolder}"/>
 		</exec>
 		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.macosx.carbon.zip" tofile="${output.dir}/${archivePrefix}.macosx.carbon.zip" />
 		<!--
@@ -172,10 +173,11 @@
 		<antcall target="clean.old.profiles" />
 		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
 		<!-- Use system zip to retain the executable permissions -->
-		<exec executable="zip" dir="${tmp.dir}/${collectingFolder}">
+		<move file="${tmp.dir}/${collectingFolder}" tofile="${tmp.dir}/${zipFolder}" />
+		<exec executable="zip" dir="${tmp.dir}">
 		    <arg value="-r"/>
 		    <arg value="${archivePrefix}.macosx.cocoa.x86.zip"/>
-		    <arg value="."/>
+		    <arg value="${zipFolder}"/>
 		</exec>
 		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.macosx.cocoa.x86.zip" tofile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" />
 		<!--
@@ -258,10 +260,11 @@
 		<antcall target="clean.old.profiles" />
 		<!-- Update linux zip file -->
 		<!-- Use system zip to retain the executable permissions -->
-		<exec executable="zip" dir="${tmp.dir}/${collectingFolder}">
+		<move file="${tmp.dir}/${collectingFolder}" tofile="${tmp.dir}/${zipFolder}" />
+		<exec executable="zip" dir="${tmp.dir}">
 		    <arg value="-r"/>
 		    <arg value="${archivePrefix}.linux.gtk.x86.zip"/>
-		    <arg value="."/>
+		    <arg value="${zipFolder}"/>
 		</exec>
 		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.linux.gtk.x86.zip" tofile="${output.dir}/${archivePrefix}.linux.gtk.x86.zip" />
 		<!--
@@ -294,10 +297,11 @@
 		<antcall target="clean.old.profiles" />
 		<!-- Update linux zip file -->
 		<!-- Use system zip to retain the executable permissions -->
-		<exec executable="zip" dir="${tmp.dir}/${collectingFolder}">
+		<move file="${tmp.dir}/${collectingFolder}" tofile="${tmp.dir}/${zipFolder}" />
+		<exec executable="zip" dir="${tmp.dir}">
 		    <arg value="-r"/>
 		    <arg value="${archivePrefix}.linux.gtk.x86_64.zip"/>
-		    <arg value="."/>
+		    <arg value="${zipFolder}"/>
 		</exec>
 		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.linux.gtk.x86_64.zip" tofile="${output.dir}/${archivePrefix}.linux.gtk.x86_64.zip" />
 		<!--
