@@ -124,7 +124,7 @@
 		    <arg value="${archivePrefix}.macosx.carbon.zip"/>
 		    <arg value="${zipFolder}"/>
 		</exec>
-		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.macosx.carbon.zip" tofile="${output.dir}/${archivePrefix}.macosx.carbon.zip" />
+		<move file="${tmp.dir}/${archivePrefix}.macosx.carbon.zip" tofile="${output.dir}/${archivePrefix}.macosx.carbon.zip" />
 		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.macosx.carbon.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
@@ -179,7 +179,7 @@
 		    <arg value="${archivePrefix}.macosx.cocoa.x86.zip"/>
 		    <arg value="${zipFolder}"/>
 		</exec>
-		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.macosx.cocoa.x86.zip" tofile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" />
+		<move file="${tmp.dir}/${archivePrefix}.macosx.cocoa.x86.zip" tofile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" />
 		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
@@ -266,7 +266,7 @@
 		    <arg value="${archivePrefix}.linux.gtk.x86.zip"/>
 		    <arg value="${zipFolder}"/>
 		</exec>
-		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.linux.gtk.x86.zip" tofile="${output.dir}/${archivePrefix}.linux.gtk.x86.zip" />
+		<move file="${tmp.dir}/${archivePrefix}.linux.gtk.x86.zip" tofile="${output.dir}/${archivePrefix}.linux.gtk.x86.zip" />
 		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.linux.gtk.x86.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}">
@@ -303,7 +303,7 @@
 		    <arg value="${archivePrefix}.linux.gtk.x86_64.zip"/>
 		    <arg value="${zipFolder}"/>
 		</exec>
-		<move file="${tmp.dir}/${collectingFolder}/${archivePrefix}.linux.gtk.x86_64.zip" tofile="${output.dir}/${archivePrefix}.linux.gtk.x86_64.zip" />
+		<move file="${tmp.dir}/${archivePrefix}.linux.gtk.x86_64.zip" tofile="${output.dir}/${archivePrefix}.linux.gtk.x86_64.zip" />
 		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.linux.gtk.x86_64.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}">
