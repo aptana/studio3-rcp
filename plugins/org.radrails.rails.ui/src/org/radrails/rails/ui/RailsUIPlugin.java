@@ -24,7 +24,7 @@ public class RailsUIPlugin extends AbstractUIPlugin
 {
 	private static RailsUIPlugin instance;
 
-	private static final String PLUGIN_ID = "org.radrails.rails.ui";
+	private static final String PLUGIN_ID = "org.radrails.rails.ui"; //$NON-NLS-1$
 
 	private static Hashtable<String, Image> images = new Hashtable<String, Image>();
 
@@ -56,10 +56,7 @@ public class RailsUIPlugin extends AbstractUIPlugin
 			images.put(path, i);
 			return i;
 		}
-		else
-		{
-			return (Image) images.get(path);
-		}
+		return images.get(path);
 	}
 
 	/**

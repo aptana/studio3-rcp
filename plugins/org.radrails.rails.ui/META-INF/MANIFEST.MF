@@ -7,7 +7,10 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.ui.console,
- org.eclipse.debug.ui
+ org.eclipse.debug.ui,
+ org.eclipse.ui.ide,
+ com.aptana.util;bundle-version="1.0.0",
+ org.radrails.rails.core;bundle-version="1.0.0"
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Activator: org.radrails.rails.ui.RailsUIPlugin
 Eclipse-LazyStart: true
