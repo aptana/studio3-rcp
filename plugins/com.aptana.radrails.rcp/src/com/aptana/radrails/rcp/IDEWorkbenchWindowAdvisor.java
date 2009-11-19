@@ -513,7 +513,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         }
     }
 
-    /*
+    /**
      * Open the welcome editor for the primary feature and for any newly
      * installed features.
      */
