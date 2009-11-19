@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -240,6 +241,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 	 * 
 	 * @see org.eclipse.ui.application.WorkbenchAdvisor#postStartup()
 	 */
+	@SuppressWarnings("unchecked")
 	public void postStartup() {
 		try
 		{
@@ -247,7 +249,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 			if(prefStore != null && prefStore.getBoolean(com.aptana.radrails.rcp.main.preferences.IPreferenceConstants.REOPEN_EDITORS_ON_STARTUP))
 			{
 				IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-				ArrayList openFiles = getOpenEditors(windows);
+				List openFiles = getOpenEditors(windows);
 	
 				IPreferenceStore store = IdePlugin.getDefault().getPreferenceStore();
 				String fileString = store.getString(PREFERENCE_OPEN_FILES);
@@ -371,12 +373,13 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 	 * 
 	 * @see org.eclipse.ui.application.WorkbenchAdvisor#preShutdown()
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean preShutdown() {
 		try
 		{
 			IPreferenceStore store = IdePlugin.getDefault().getPreferenceStore();
 			IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-			ArrayList openFiles = getOpenEditors(windows);
+			List openFiles = getOpenEditors(windows);
 			String fileList = join(PREFERENCE_FILE_DELIMETER, (String[]) openFiles.toArray(new String[0]));
 			store.setValue(PREFERENCE_OPEN_FILES, fileList);
 		}
