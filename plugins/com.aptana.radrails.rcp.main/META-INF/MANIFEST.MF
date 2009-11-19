@@ -7,9 +7,7 @@ Bundle-Activator: com.aptana.radrails.rcp.main.MainPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.update.core,
  org.eclipse.debug.ui,
- org.eclipse.ui.intro,
  org.eclipse.help.base,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.ui.browser

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2008 Aptana, Inc.
+ * Copyright (c) 2005-2009 Aptana, Inc.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -14,23 +14,21 @@ import org.eclipse.osgi.util.NLS;
 /**
  * @author Ingo Muschenetz
  */
-public final class Messages extends NLS
-{
-	private static final String BUNDLE_NAME = "com.aptana.radrails.rcp.main.preferences.messages"; //$NON-NLS-1$
+public final class Messages extends NLS {
 
-	private Messages()
-	{
-	}
+    private static final String BUNDLE_NAME = "com.aptana.radrails.rcp.main.preferences.messages"; //$NON-NLS-1$
 
-	static
-	{
-		// initialize resource bundle
-		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
-	}
+    private Messages() {
+    }
 
-	public static String PreferenceInitializer_Cannot_Set_Default_Encoding;
-	/**
-	 * StartupShutdownPreferencePage_ReopenExternalFilesOnStartup
-	 */
-	public static String StartupShutdownPreferencePage_ReopenExternalFilesOnStartup;
+    static {
+        // initialize resource bundle
+        NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+    }
+
+    public static String PreferenceInitializer_Cannot_Set_Default_Encoding;
+    /**
+     * StartupShutdownPreferencePage_ReopenExternalFilesOnStartup
+     */
+    public static String StartupShutdownPreferencePage_ReopenExternalFilesOnStartup;
 }

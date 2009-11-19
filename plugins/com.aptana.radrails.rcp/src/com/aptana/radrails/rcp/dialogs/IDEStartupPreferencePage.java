@@ -33,22 +33,18 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
  *   however the superclass, StartupPreferencePage, is internal
  * @since 3.0
  */
+@SuppressWarnings("restriction")
 public class IDEStartupPreferencePage extends StartupPreferencePage implements
         IWorkbenchPreferencePage {
 
     private Button refreshButton;
-
     private Button launchPromptButton;
-
     private Button exitPromptButton;
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.jface.preference.PreferencePage
      */
     protected Control createContents(Composite parent) {
-
     	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,
 				IWorkbenchHelpContextIds.STARTUP_PREFERENCE_PAGE);
 
@@ -105,8 +101,6 @@ public class IDEStartupPreferencePage extends StartupPreferencePage implements
         // store the exit prompt on last window close setting
         store.setValue(IDEInternalPreferences.EXIT_PROMPT_ON_CLOSE_LAST_WINDOW,
                 exitPromptButton.getSelection());
-
-        IDEWorkbenchPlugin.getDefault().savePluginPreferences();
 
         return super.performOk();
     }

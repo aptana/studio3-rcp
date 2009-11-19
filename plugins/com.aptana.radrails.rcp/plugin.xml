@@ -16,7 +16,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="com.aptana.radrails.rcp.application"
-            name="Aptana RadRails">
+            name="%product.radrails.name">
          <property
                name="aboutText"
                value="%aboutText"/>
@@ -53,7 +53,7 @@
       <!-- Add Firefox as an additional browser -->
       <browser
          id="com.aptana.ide.browser.firefox"
-         name="Firefox"
+         name="%browser.firefox.name"
          os="linux"
          executable="firefox"
          factoryclass="org.eclipse.ui.internal.browser.browsers.MozillaFactory">
