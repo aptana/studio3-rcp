@@ -76,9 +76,6 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		mainPage.setTitle(ResourceMessages.NewProject_title);
 		mainPage.setDescription(ResourceMessages.NewProject_description);
 		this.addPage(mainPage);
-		//
-		//		mainPage.setImageDescriptor( //$NON-NLS-1$
-		//				RailsUIPlugin.imageDescriptorFromPlugin(RailsUIPlugin.getPluginIdentifier(), "icons/newproj_wiz.gif")); //$NON-NLS-1$
 	}
 
 	/*
