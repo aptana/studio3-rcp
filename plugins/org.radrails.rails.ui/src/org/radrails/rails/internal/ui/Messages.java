@@ -18,17 +18,16 @@ public class Messages extends NLS
 
 	public static String WizardNewProjectCreationPage_BrowseLabel;
 
+	public static String WizardNewProjectCreationPage_CloneGitRepoLabel;
 	public static String WizardNewProjectCreationPage_GenerateAppGroupLabel;
-
 	public static String WizardNewProjectCreationPage_nameLabel;
-
 	public static String WizardNewProjectCreationPage_NoGeneratorText;
 	public static String WizardNewProjectCreationPage_projectNameEmpty;
 	public static String WizardNewProjectCreationPage_projectExistsMessage;
-
 	public static String WizardNewProjectCreationPage_StandardGeneratorText;
-
 	public static String ProjectLocationSelectionDialog_locationLabel;
+	public static String WizardNewProjectCreationPage_projectLocationEmpty;
+	public static String WizardNewProjectCreationPage_gitLocationEmpty;
 	
 	static
 	{

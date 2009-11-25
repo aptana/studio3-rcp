@@ -16,6 +16,7 @@ package org.radrails.rails.internal.ui;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.MessageFormat;
 
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.resources.IProject;
@@ -78,15 +79,15 @@ public class WizardNewProjectCreationPage extends WizardPage
 	private Button runGenerator;
 	private Button gitCloneGenerate;
 	private StyledText gitLocation;
+	private String lastGitDefault;
+	private Button gitBrowseButton;
 
 	private Listener nameModifyListener = new Listener()
 	{
 		public void handleEvent(Event e)
 		{
-			setLocationForSelection();
-			boolean valid = validatePage();
-			setPageComplete(valid);
-
+			updateProjectName(getProjectNameFieldValue());
+			setPageComplete(validatePage());
 		}
 	};
 
@@ -255,9 +256,52 @@ public class WizardNewProjectCreationPage extends WizardPage
 
 	}
 
+	/**
+	 * Open an appropriate directory browser
+	 */
+	protected void handleGitLocationBrowseButtonPressed()
+	{
+		String dirName = gitLocation.getText().trim();
+
+		if (!dirName.equals(EMPTY_STRING))
+		{
+			IFileInfo info = IDEResourceInfoUtils.getFileInfo(dirName);
+
+			if (info == null || !(info.exists()))
+				dirName = EMPTY_STRING;
+		}
+
+		DirectoryDialog dialog = new DirectoryDialog(gitLocation.getShell(), SWT.SHEET);
+		dialog.setMessage(EMPTY_STRING);
+		dialog.setFilterPath(dirName);
+		String selectedDirectory = dialog.open();
+		if (selectedDirectory != null)
+		{
+			gitLocation.setText(selectedDirectory);
+		}
+	}
+
 	protected String checkValidLocation()
 	{
-		// TODO Auto-generated method stub
+		String locationFieldContents = locationPathField.getText();
+		if (locationFieldContents.length() == 0)
+		{
+			return Messages.WizardNewProjectCreationPage_projectLocationEmpty;
+		}
+
+		return null;
+	}
+
+	protected String checkValidGitLocation()
+	{
+		if (!cloneFromGit())
+			return null;
+		String locationFieldContents = gitLocation.getText();
+		if (locationFieldContents.length() == 0)
+		{
+			return Messages.WizardNewProjectCreationPage_gitLocationEmpty;
+		}
+
 		return null;
 	}
 
@@ -329,13 +373,37 @@ public class WizardNewProjectCreationPage extends WizardPage
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group.setText(Messages.WizardNewProjectCreationPage_GenerateAppGroupLabel);
 
+		SelectionAdapter radioListener = new SelectionAdapter()
+		{
+			@Override
+			public void widgetSelected(SelectionEvent e)
+			{
+				boolean enable = false;
+				if (e.getSource().equals(gitCloneGenerate))
+					enable = true;
+				gitLocation.setEnabled(enable);
+				gitBrowseButton.setEnabled(enable);
+			}
+		};
+
 		runGenerator = new Button(group, SWT.RADIO);
 		runGenerator.setText(Messages.WizardNewProjectCreationPage_StandardGeneratorText);
 		runGenerator.setSelection(true);
+		runGenerator.addSelectionListener(radioListener);
 
 		gitCloneGenerate = new Button(group, SWT.RADIO);
-		gitCloneGenerate.setText("Clone an existing git project:");
+		gitCloneGenerate.setText(Messages.WizardNewProjectCreationPage_CloneGitRepoLabel);
+		gitCloneGenerate.addSelectionListener(radioListener);
 
+		createGitLocationComposite(group);
+
+		Button noGenerator = new Button(group, SWT.RADIO);
+		noGenerator.setText(Messages.WizardNewProjectCreationPage_NoGeneratorText);
+		noGenerator.addSelectionListener(radioListener);
+	}
+
+	private void createGitLocationComposite(Group group)
+	{
 		// project specification group
 		Composite projectGroup = new Composite(group, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -353,13 +421,28 @@ public class WizardNewProjectCreationPage extends WizardPage
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		data.horizontalSpan = 2;
 		gitLocation.setLayoutData(data);
+		gitLocation.addModifyListener(new ModifyListener()
+		{
+
+			public void modifyText(ModifyEvent e)
+			{
+				setPageComplete(validatePage());
+			}
+		});
+		gitLocation.setEnabled(false);
 
 		// browse button
-		Button gitBrowseButton = new Button(projectGroup, SWT.PUSH);
+		gitBrowseButton = new Button(projectGroup, SWT.PUSH);
 		gitBrowseButton.setText(Messages.WizardNewProjectCreationPage_BrowseLabel);
-
-		Button noGenerator = new Button(group, SWT.RADIO);
-		noGenerator.setText(Messages.WizardNewProjectCreationPage_NoGeneratorText);
+		gitBrowseButton.addSelectionListener(new SelectionAdapter()
+		{
+			@Override
+			public void widgetSelected(SelectionEvent e)
+			{
+				handleGitLocationBrowseButtonPressed();
+			}
+		});
+		gitBrowseButton.setEnabled(false);
 	}
 
 	/**
@@ -455,6 +538,7 @@ public class WizardNewProjectCreationPage extends WizardPage
 
 	private void updateProjectName(String trim)
 	{
+		// Update the location field
 		String workspace = Platform.getLocation().toOSString();
 		// Only update if the location field is empty, or is the "default" value
 		if (locationPathField.getText().trim().length() == 0
@@ -466,14 +550,17 @@ public class WizardNewProjectCreationPage extends WizardPage
 					SWT.COLOR_DARK_GRAY), null, SWT.ITALIC));
 		}
 		locationPathField.setStyleRange(new StyleRange());
-	}
 
-	/**
-	 * Set the location to the default location
-	 */
-	void setLocationForSelection()
-	{
-		updateProjectName(getProjectNameFieldValue());
+		// Update the git location field
+		String username = System.getProperty("user.name"); //$NON-NLS-1$
+		if (username == null || username.length() == 0)
+			username = "user"; //$NON-NLS-1$
+		if (gitLocation.getText().trim().length() == 0
+				|| (lastGitDefault != null && gitLocation.getText().trim().equals(lastGitDefault)))
+		{
+			lastGitDefault = MessageFormat.format("git://github.com/{0}/{1}.git", username, trim); //$NON-NLS-1$
+			gitLocation.setText(lastGitDefault);
+		}
 	}
 
 	/**
@@ -510,6 +597,13 @@ public class WizardNewProjectCreationPage extends WizardPage
 		String validLocationMessage = checkValidLocation();
 		if (validLocationMessage != null)
 		{ // there is no destination location given
+			setErrorMessage(validLocationMessage);
+			return false;
+		}
+
+		validLocationMessage = checkValidGitLocation();
+		if (validLocationMessage != null)
+		{
 			setErrorMessage(validLocationMessage);
 			return false;
 		}
