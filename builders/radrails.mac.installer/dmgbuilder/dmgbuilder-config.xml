@@ -1,0 +1,57 @@
+<dmgbuilder version="0.1">
+    <!--
+    The image element sets the basic parameters for the dmg: size, name, etc.
+    Image attributes:
+        name: The name of the dmg (what is displayed when they mount the dmg)
+        file: The destination path for the dmg file
+        template_size: How big to make the dmg, too small and not all the files will be included,
+                        too big and its wasted space.
+    -->
+    <image name="{dmg.name}" file="{staging.dir}/{dmg.filename}" open_folder="." template_size="{dmg.size}">
+
+        <!--
+        The link element creates a symbolic link in the dmg. Used to create the shortcut to the
+        Applications directory.
+        Link attributes:
+            name: Name for the symbolic link icon
+            target: What the link points to
+            x & y: Location to put the link icon in the dmg's background
+        -->
+        <link name="Applications" target="/Applications" x="465" y="431" />
+
+        <!--
+        The file element specifies the contents for the dmg. If a directory is specified then its 
+        contents will be recursively included. This is used to put the actual contents in the dmg.
+        File attributes:
+            name: Name for the file icon
+            source: Location of the file/directory to copy over
+            x & y: Location to put the file icon in the dmg's background
+        -->
+        <file name="{dmg.name}" source="{staging.dir}/{source.dir.name}" x="150" y="201" />
+
+        <!--
+        The folder element creates a folder in the dmg, the contents are specified as 'file' child 
+        elements. This is used to create the directory that stores the background image. 
+        Folder attributes:
+            name: Name of the folder
+        -->
+        <folder name=".background">
+            <file name="background.png" source="dmgbuilder/background.png" />
+        </folder>
+
+        <!--
+        The view element handles aspects related to the display of the dmg and its contents.
+        View attributes:
+            type: This should be 'icon' or else...
+            x & y: Where the dmg window should open on the screen. 
+            width & height: The dimensions for the dmg window.
+            icon_size: The dimensions for the dmg icon. Assumes a square.
+            grid: Not sure...
+            show_toolbar: Whether or not you want to toolbar that is normally on the left side of 
+                          windows. Usually dmgs look better without it.
+            background: Location of the background image.
+        -->
+        <view type="icon" x="10" y="60" width="600" height="600" icon_size="128"
+              grid="false" show_toolbar="false" background=".background/background.png" />
+    </image>
+</dmgbuilder>
