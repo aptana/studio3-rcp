@@ -25,14 +25,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkingSet;
-import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-import org.eclipse.ui.dialogs.WizardNewProjectReferencePage;
 import org.eclipse.ui.ide.undo.CreateProjectOperation;
 import org.eclipse.ui.ide.undo.WorkspaceUndoUtil;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.StatusUtil;
-import org.eclipse.ui.internal.wizards.newresource.ResourceMessages;
+import org.eclipse.ui.statushandlers.IStatusAdapterConstants;
 import org.eclipse.ui.statushandlers.StatusAdapter;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
@@ -46,7 +43,6 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 {
 
 	private WizardNewProjectCreationPage mainPage;
-	private WizardNewProjectReferencePage referencePage;
 
 	// cache of newly-created project
 	private IProject newProject;
@@ -73,8 +69,8 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		super.addPages();
 
 		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage");
-		mainPage.setTitle(ResourceMessages.NewProject_title);
-		mainPage.setDescription(ResourceMessages.NewProject_description);
+		mainPage.setTitle(Messages.NewProject_title);
+		mainPage.setDescription(Messages.NewProject_description);
 		this.addPage(mainPage);
 	}
 
@@ -95,7 +91,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	{
 		super.init(workbench, currentSelection);
 		setNeedsProgressMonitor(true);
-		setWindowTitle(ResourceMessages.NewProject_windowTitle);
+		setWindowTitle(Messages.NewProject_windowTitle);
 	}
 
 	@Override
@@ -108,12 +104,17 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 			return false;
 		}
 
-		IWorkingSet[] workingSets = mainPage.getSelectedWorkingSets();
-		getWorkbench().getWorkingSetManager().addToWorkingSets(newProject, workingSets);
-
 		updatePerspective();
 		selectAndReveal(newProject);
 
+		if (mainPage.runGenerator())
+			runGenerator();
+
+		return true;
+	}
+
+	private void runGenerator()
+	{
 		final IProject project = newProject;
 		Job job = new Job(Messages.NewProjectWizard_JobTitle)
 		{
@@ -145,7 +146,6 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		job.setUser(true);
 		job.setPriority(Job.SHORT);
 		job.schedule();
-		return true;
 	}
 
 	/**
@@ -181,11 +181,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		final IProject newProjectHandle = mainPage.getProjectHandle();
 
 		// get a project descriptor
-		URI location = null;
-		if (!mainPage.useDefaults())
-		{
-			location = mainPage.getLocationURI();
-		}
+		URI location = mainPage.getLocationURI();
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProjectDescription description = workspace.newProjectDescription(newProjectHandle.getName());
@@ -196,8 +192,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		{
 			public void run(IProgressMonitor monitor) throws InvocationTargetException
 			{
-				CreateProjectOperation op = new CreateProjectOperation(description,
-						ResourceMessages.NewProject_windowTitle);
+				CreateProjectOperation op = new CreateProjectOperation(description, Messages.NewProject_windowTitle);
 				try
 				{
 					// see bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=219901
@@ -232,21 +227,21 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 				if (cause.getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS)
 				{
 					status = new StatusAdapter(StatusUtil.newStatus(IStatus.WARNING, NLS.bind(
-							ResourceMessages.NewProject_caseVariantExistsError, newProjectHandle.getName()), cause));
+							Messages.NewProject_caseVariantExistsError, newProjectHandle.getName()), cause));
 				}
 				else
 				{
 					status = new StatusAdapter(StatusUtil.newStatus(cause.getStatus().getSeverity(),
-							ResourceMessages.NewProject_errorMessage, cause));
+							Messages.NewProject_errorMessage, cause));
 				}
-				status.setProperty(StatusAdapter.TITLE_PROPERTY, ResourceMessages.NewProject_errorMessage);
+				status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY, Messages.NewProject_errorMessage);
 				StatusManager.getManager().handle(status, StatusManager.BLOCK);
 			}
 			else
 			{
-				StatusAdapter status = new StatusAdapter(new Status(IStatus.WARNING, IDEWorkbenchPlugin.IDE_WORKBENCH,
-						0, NLS.bind(ResourceMessages.NewProject_internalError, t.getMessage()), t));
-				status.setProperty(StatusAdapter.TITLE_PROPERTY, ResourceMessages.NewProject_errorMessage);
+				StatusAdapter status = new StatusAdapter(new Status(IStatus.WARNING, RailsUIPlugin
+						.getPluginIdentifier(), 0, NLS.bind(Messages.NewProject_internalError, t.getMessage()), t));
+				status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY, Messages.NewProject_errorMessage);
 				StatusManager.getManager().handle(status, StatusManager.LOG | StatusManager.BLOCK);
 			}
 			return null;
