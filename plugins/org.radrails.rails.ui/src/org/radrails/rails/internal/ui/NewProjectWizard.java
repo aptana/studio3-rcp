@@ -37,6 +37,7 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
+import com.aptana.git.ui.CloneJob;
 import com.aptana.util.ProcessUtil;
 
 public class NewProjectWizard extends BasicNewResourceWizard implements IExecutableExtension
@@ -68,7 +69,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	{
 		super.addPages();
 
-		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage");
+		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage"); //$NON-NLS-1$
 		mainPage.setTitle(Messages.NewProject_title);
 		mainPage.setDescription(Messages.NewProject_description);
 		this.addPage(mainPage);
@@ -97,6 +98,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	@Override
 	public boolean performFinish()
 	{
+
 		createNewProject();
 
 		if (newProject == null)
@@ -130,10 +132,9 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 				if (result.keySet().iterator().next() != 0)
 					return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(),
 							Messages.NewProjectWizard_RailsCommandFailedMessage);
-				subMonitor.worked(80);
+				subMonitor.worked(85);
 				try
 				{
-					RailsProjectNature.add(project, subMonitor.newChild(5));
 					project.refreshLocal(IResource.DEPTH_ONE, subMonitor.newChild(15));
 				}
 				catch (CoreException e)
@@ -181,12 +182,53 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		final IProject newProjectHandle = mainPage.getProjectHandle();
 
 		// get a project descriptor
-		URI location = mainPage.getLocationURI();
+		URI location = null;
+		if (!mainPage.locationIsDefault())
+		{
+			location = mainPage.getLocationURI();
+		}
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProjectDescription description = workspace.newProjectDescription(newProjectHandle.getName());
 		description.setLocationURI(location);
+		description.setNatureIds(new String[] { RailsProjectNature.ID });
 
+		try
+		{
+			if (mainPage.cloneFromGit())
+			{
+				doGitClone(description);
+			}
+			else
+			{
+				doBasicCreateProject(newProjectHandle, description);
+			}
+		}
+		catch (CoreException e)
+		{
+			return null;
+		}
+		newProject = newProjectHandle;
+
+		return newProject;
+	}
+
+	private void doGitClone(final IProjectDescription description)
+	{
+		Job job = new CloneJob(mainPage.gitCloneURI(), mainPage.getLocationPath().toOSString(), true)
+		{
+			@Override
+			protected IProject doCreateProject(IProjectDescription desc, IProgressMonitor monitor) throws CoreException
+			{
+				return super.doCreateProject(description, monitor);
+			}
+		};
+		job.schedule();
+	}
+
+	private void doBasicCreateProject(final IProject newProjectHandle, final IProjectDescription description)
+			throws CoreException
+	{
 		// create the new project operation
 		IRunnableWithProgress op = new IRunnableWithProgress()
 		{
@@ -215,7 +257,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		}
 		catch (InterruptedException e)
 		{
-			return null;
+			throw new CoreException(new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(), e.getMessage(), e));
 		}
 		catch (InvocationTargetException e)
 		{
@@ -244,12 +286,8 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 				status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY, Messages.NewProject_errorMessage);
 				StatusManager.getManager().handle(status, StatusManager.LOG | StatusManager.BLOCK);
 			}
-			return null;
+			throw new CoreException(new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(), e.getMessage(), e));
 		}
-
-		newProject = newProjectHandle;
-
-		return newProject;
 	}
 
 	/**

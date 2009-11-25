@@ -76,9 +76,9 @@ public class WizardNewProjectCreationPage extends WizardPage
 	private StyledText locationPathField;
 	private Button browseButton;
 	private Button runGenerator;
-	// private Button gitCloneGenerate;
-	// private StyledText gitLocation;
-	
+	private Button gitCloneGenerate;
+	private StyledText gitLocation;
+
 	private Listener nameModifyListener = new Listener()
 	{
 		public void handleEvent(Event e)
@@ -333,30 +333,30 @@ public class WizardNewProjectCreationPage extends WizardPage
 		runGenerator.setText(Messages.WizardNewProjectCreationPage_StandardGeneratorText);
 		runGenerator.setSelection(true);
 
-//		gitCloneGenerate = new Button(group, SWT.RADIO);
-//		gitCloneGenerate.setText("Clone an existing git project:");
-//
-//		// project specification group
-//		Composite projectGroup = new Composite(group, SWT.NONE);
-//		GridLayout layout = new GridLayout();
-//		layout.numColumns = 4;
-//		projectGroup.setLayout(layout);
-//		projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-//
-//		// location label
-//		Label locationLabel = new Label(projectGroup, SWT.NONE);
-//		locationLabel.setText(Messages.ProjectLocationSelectionDialog_locationLabel);
-//
-//		// project location entry field
-//		gitLocation = new StyledText(projectGroup, SWT.BORDER);
-//		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-//		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
-//		data.horizontalSpan = 2;
-//		gitLocation.setLayoutData(data);
-//
-//		// browse button
-//		Button gitBrowseButton = new Button(projectGroup, SWT.PUSH);
-//		gitBrowseButton.setText(Messages.WizardNewProjectCreationPage_BrowseLabel);
+		gitCloneGenerate = new Button(group, SWT.RADIO);
+		gitCloneGenerate.setText("Clone an existing git project:");
+
+		// project specification group
+		Composite projectGroup = new Composite(group, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 4;
+		projectGroup.setLayout(layout);
+		projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		// location label
+		Label locationLabel = new Label(projectGroup, SWT.NONE);
+		locationLabel.setText(Messages.ProjectLocationSelectionDialog_locationLabel);
+
+		// project location entry field
+		gitLocation = new StyledText(projectGroup, SWT.BORDER);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
+		data.horizontalSpan = 2;
+		gitLocation.setLayoutData(data);
+
+		// browse button
+		Button gitBrowseButton = new Button(projectGroup, SWT.PUSH);
+		gitBrowseButton.setText(Messages.WizardNewProjectCreationPage_BrowseLabel);
 
 		Button noGenerator = new Button(group, SWT.RADIO);
 		noGenerator.setText(Messages.WizardNewProjectCreationPage_NoGeneratorText);
@@ -536,13 +536,19 @@ public class WizardNewProjectCreationPage extends WizardPage
 		return runGenerator.getSelection();
 	}
 
-//	public boolean cloneFromGit()
-//	{
-//		return gitCloneGenerate.getSelection();
-//	}
-//
-//	public String gitCloneURI()
-//	{
-//		return gitLocation.getText().trim();
-//	}
+	public boolean cloneFromGit()
+	{
+		return gitCloneGenerate.getSelection();
+	}
+
+	public String gitCloneURI()
+	{
+		return gitLocation.getText().trim();
+	}
+
+	public boolean locationIsDefault()
+	{
+		String defaultLocation = Platform.getLocation().append(getProjectNameFieldValue()).toOSString();
+		return getLocationPath().toOSString().equals(defaultLocation);
+	}
 }
