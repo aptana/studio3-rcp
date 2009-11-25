@@ -1,0 +1,51 @@
+<project name="AptanaMacInstaller" default="make-dmg">
+	<property file="build.properties" />
+
+	<target name="clean">
+    <!-- Clean up the previous staging directory -->
+		<delete dir="${staging.dir}" />
+	</target>
+
+	<target name="init" depends="clean">
+	<!-- Create the staging directory -->
+		<mkdir dir="${staging.dir}" />
+	</target>
+
+	<target name="get-latest" depends="init">
+    <!-- Copy over the latest zip of the mac Studio standalone to the staging directory -->
+		<copy file="${mac.source.dir}${mac.source.zip}" tofile="${staging.dir}/${mac.source.zip}" />
+	</target>
+
+	<target name="unpack-archive" depends="get-latest">
+    <!-- Unzip the mac Studio standalone zip -->
+		<exec executable="unzip" outputproperty="unzip.output" failifexecutionfails="true" failonerror="true">
+			<arg line="-o" />
+			<arg line="${staging.dir}/${mac.source.zip}" />
+			<arg line="-d ${staging.dir}" />
+		</exec>
+	</target>
+
+	<target name="set-icon" depends="unpack-archive">
+    <!-- Set the folder icon for Studio -->
+		<exec executable="${basedir}/seticon">
+			<arg value="-d" />
+			<arg value="${target.icon}" />
+			<arg value="${staging.dir}/${source.dir.name}" />
+		</exec>
+	</target>
+
+	<target name="make-dmg" depends="set-icon">
+		<delete file="${dmgbuilder.config}.tmp" failonerror="false" />
+		<copy file="${dmgbuilder.config}" tofile="${dmgbuilder.config}.tmp" />
+		<replace file="${dmgbuilder.config}.tmp" token="{dmg.name}" value="${dmg.name}" />
+		<replace file="${dmgbuilder.config}.tmp" token="{dmg.filename}" value="${dmg.filename}" />
+		<replace file="${dmgbuilder.config}.tmp" token="{dmg.size}" value="${dmg.size}" />
+		<replace file="${dmgbuilder.config}.tmp" token="{staging.dir}" value="${staging.dir}" />
+		<replace file="${dmgbuilder.config}.tmp" token="{source.dir.name}" value="${source.dir.name}" />
+    <!-- Run dmgbuilder to create the dmg, its parameters are specified in 
+            dmgbuilder/dmgbuilder-config.xml -->
+		<exec executable="${dmgbuilder.cmd}">
+			<arg value="${dmgbuilder.config}.tmp" />
+		</exec>
+	</target>
+</project>
