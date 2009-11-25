@@ -9,20 +9,16 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class RailsProjectNature implements IProjectNature
 {
 
-	public static final String ID = RailsCorePlugin.PLUGIN_ID + ".railsNature"; //$NON-NLS-1$
-	
+	public static final String ID = RailsCorePlugin.PLUGIN_ID + ".railsnature"; //$NON-NLS-1$
+
 	private IProject project;
 
 	public void configure() throws CoreException
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public void deconfigure() throws CoreException
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public IProject getProject()
