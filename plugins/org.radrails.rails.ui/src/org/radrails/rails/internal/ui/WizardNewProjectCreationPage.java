@@ -32,8 +32,12 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -91,6 +95,8 @@ public class WizardNewProjectCreationPage extends WizardPage
 		}
 	};
 
+	private String lastLocationDefault;
+
 	// constants
 	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
 	private static final String SAVED_LOCATION_ATTR = "OUTSIDE_LOCATION"; //$NON-NLS-1$
@@ -125,7 +131,7 @@ public class WizardNewProjectCreationPage extends WizardPage
 		createProjectNameGroup(composite);
 
 		// create Location section
-		createUserEntryArea(composite);
+		createDestinationLocationArea(composite);
 
 		// Add the generate app section
 		createGenerateGroup(composite);
@@ -142,12 +148,12 @@ public class WizardNewProjectCreationPage extends WizardPage
 	}
 
 	/**
-	 * Create the area for user entry.
+	 * Create the area for destination location of project.
 	 * 
 	 * @param composite
 	 * @param defaultEnabled
 	 */
-	private void createUserEntryArea(Composite composite)
+	private void createDestinationLocationArea(Composite composite)
 	{
 		// project specification group
 		Composite projectGroup = new Composite(composite, SWT.NONE);
@@ -161,7 +167,19 @@ public class WizardNewProjectCreationPage extends WizardPage
 		locationLabel.setText(Messages.ProjectLocationSelectionDialog_locationLabel);
 
 		// project location entry field
-		locationPathField = new StyledText(projectGroup, SWT.BORDER);
+		locationPathField = new SpecialText(projectGroup, SWT.BORDER | SWT.SINGLE)
+		{
+			@Override
+			protected boolean matchesLastDefault()
+			{
+				return locationMatchesLastDefault();
+			}
+
+			protected boolean isDefault()
+			{
+				return locationIsDefault();
+			};
+		};
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		data.horizontalSpan = 2;
@@ -416,7 +434,20 @@ public class WizardNewProjectCreationPage extends WizardPage
 		locationLabel.setText(Messages.ProjectLocationSelectionDialog_locationLabel);
 
 		// project location entry field
-		gitLocation = new StyledText(projectGroup, SWT.BORDER);
+		gitLocation = new SpecialText(projectGroup, SWT.BORDER | SWT.SINGLE)
+		{
+			@Override
+			protected boolean isDefault()
+			{
+				return matchesLastDefault();
+			}
+
+			@Override
+			protected boolean matchesLastDefault()
+			{
+				return gitLocationIsDefault();
+			}
+		};
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		data.horizontalSpan = 2;
@@ -539,28 +570,32 @@ public class WizardNewProjectCreationPage extends WizardPage
 	private void updateProjectName(String trim)
 	{
 		// Update the location field
-		String workspace = Platform.getLocation().toOSString();
 		// Only update if the location field is empty, or is the "default" value
-		if (locationPathField.getText().trim().length() == 0
-				|| locationPathField.getText().trim().startsWith(workspace))
+		if (locationPathField.getText().trim().length() == 0 || locationMatchesLastDefault())
 		{
-			String string = Platform.getLocation().append(trim).toOSString();
-			locationPathField.setText(string);
-			locationPathField.setStyleRange(new StyleRange(0, string.length(), getShell().getDisplay().getSystemColor(
-					SWT.COLOR_DARK_GRAY), null, SWT.ITALIC));
+			lastLocationDefault = Platform.getLocation().append(trim).toOSString();
+			locationPathField.setText(lastLocationDefault);
 		}
-		locationPathField.setStyleRange(new StyleRange());
 
 		// Update the git location field
 		String username = System.getProperty("user.name"); //$NON-NLS-1$
 		if (username == null || username.length() == 0)
 			username = "user"; //$NON-NLS-1$
-		if (gitLocation.getText().trim().length() == 0
-				|| (lastGitDefault != null && gitLocation.getText().trim().equals(lastGitDefault)))
+		if (gitLocation.getText().trim().length() == 0 || gitLocationIsDefault())
 		{
 			lastGitDefault = MessageFormat.format("git://github.com/{0}/{1}.git", username, trim); //$NON-NLS-1$
 			gitLocation.setText(lastGitDefault);
 		}
+	}
+
+	private boolean locationMatchesLastDefault()
+	{
+		return lastLocationDefault != null && locationPathField.getText().trim().equals(lastLocationDefault);
+	}
+
+	private boolean gitLocationIsDefault()
+	{
+		return lastGitDefault != null && gitLocation.getText().trim().equals(lastGitDefault);
 	}
 
 	/**
@@ -644,5 +679,71 @@ public class WizardNewProjectCreationPage extends WizardPage
 	{
 		String defaultLocation = Platform.getLocation().append(getProjectNameFieldValue()).toOSString();
 		return getLocationPath().toOSString().equals(defaultLocation);
+	}
+
+	private abstract class SpecialText extends StyledText
+	{
+
+		protected boolean justGainedFocus;
+
+		public SpecialText(Composite parent, int style)
+		{
+			super(parent, style);
+			addModifyListener(new ModifyListener()
+			{
+				/*
+				 * (non-Javadoc)
+				 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+				 */
+				public void modifyText(ModifyEvent e)
+				{
+					if (!matchesLastDefault())
+						setStyleRange(new StyleRange(0, getCharCount(), null, null));
+					else
+						setStyleRange(new StyleRange(0, getCharCount(), getShell().getDisplay().getSystemColor(
+								SWT.COLOR_DARK_GRAY), null, SWT.ITALIC));
+				}
+			});
+			addFocusListener(new FocusAdapter()
+			{
+				@Override
+				public void focusGained(FocusEvent e)
+				{
+					super.focusGained(e);
+					if (isDefault())
+					{
+						selectAll();
+						justGainedFocus = true;
+					}
+				}
+			});
+			addMouseListener(new MouseListener()
+			{
+
+				public void mouseUp(MouseEvent e)
+				{
+				}
+
+				public void mouseDown(MouseEvent e)
+				{
+					if (justGainedFocus)
+					{
+						justGainedFocus = false;
+						// FIXME Don't do this if everything was already selected! I don't know how to see that since at
+						// this point the selection has already changed!
+						selectAll();
+					}
+				}
+
+				public void mouseDoubleClick(MouseEvent e)
+				{
+				}
+			});
+		}
+
+		abstract protected boolean matchesLastDefault();
+
+		abstract protected boolean isDefault();
+
 	}
 }
