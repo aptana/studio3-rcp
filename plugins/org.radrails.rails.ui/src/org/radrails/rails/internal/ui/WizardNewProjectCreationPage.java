@@ -97,6 +97,8 @@ public class WizardNewProjectCreationPage extends WizardPage
 
 	private String lastLocationDefault;
 
+	private Button noGenerator;
+
 	// constants
 	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
 	private static final String SAVED_LOCATION_ATTR = "OUTSIDE_LOCATION"; //$NON-NLS-1$
@@ -296,6 +298,7 @@ public class WizardNewProjectCreationPage extends WizardPage
 		if (selectedDirectory != null)
 		{
 			gitLocation.setText(selectedDirectory);
+			selectGitCloneGeneration();
 		}
 	}
 
@@ -391,33 +394,17 @@ public class WizardNewProjectCreationPage extends WizardPage
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group.setText(Messages.WizardNewProjectCreationPage_GenerateAppGroupLabel);
 
-		SelectionAdapter radioListener = new SelectionAdapter()
-		{
-			@Override
-			public void widgetSelected(SelectionEvent e)
-			{
-				boolean enable = false;
-				if (e.getSource().equals(gitCloneGenerate))
-					enable = true;
-				gitLocation.setEnabled(enable);
-				gitBrowseButton.setEnabled(enable);
-			}
-		};
-
 		runGenerator = new Button(group, SWT.RADIO);
 		runGenerator.setText(Messages.WizardNewProjectCreationPage_StandardGeneratorText);
 		runGenerator.setSelection(true);
-		runGenerator.addSelectionListener(radioListener);
 
 		gitCloneGenerate = new Button(group, SWT.RADIO);
 		gitCloneGenerate.setText(Messages.WizardNewProjectCreationPage_CloneGitRepoLabel);
-		gitCloneGenerate.addSelectionListener(radioListener);
 
 		createGitLocationComposite(group);
 
-		Button noGenerator = new Button(group, SWT.RADIO);
+		noGenerator = new Button(group, SWT.RADIO);
 		noGenerator.setText(Messages.WizardNewProjectCreationPage_NoGeneratorText);
-		noGenerator.addSelectionListener(radioListener);
 	}
 
 	private void createGitLocationComposite(Group group)
@@ -460,7 +447,14 @@ public class WizardNewProjectCreationPage extends WizardPage
 				setPageComplete(validatePage());
 			}
 		});
-		gitLocation.setEnabled(false);
+		gitLocation.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusGained(FocusEvent e)
+			{
+				selectGitCloneGeneration();
+			}
+		});
 
 		// browse button
 		gitBrowseButton = new Button(projectGroup, SWT.PUSH);
@@ -473,7 +467,6 @@ public class WizardNewProjectCreationPage extends WizardPage
 				handleGitLocationBrowseButtonPressed();
 			}
 		});
-		gitBrowseButton.setEnabled(false);
 	}
 
 	/**
@@ -679,6 +672,13 @@ public class WizardNewProjectCreationPage extends WizardPage
 	{
 		String defaultLocation = Platform.getLocation().append(getProjectNameFieldValue()).toOSString();
 		return getLocationPath().toOSString().equals(defaultLocation);
+	}
+
+	protected void selectGitCloneGeneration()
+	{
+		runGenerator.setSelection(false);
+		noGenerator.setSelection(false);
+		gitCloneGenerate.setSelection(true);
 	}
 
 	private abstract class SpecialText extends StyledText
