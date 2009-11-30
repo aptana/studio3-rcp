@@ -27,8 +27,6 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.ide.undo.CreateProjectOperation;
 import org.eclipse.ui.ide.undo.WorkspaceUndoUtil;
-import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
-import org.eclipse.ui.internal.ide.StatusUtil;
 import org.eclipse.ui.statushandlers.IStatusAdapterConstants;
 import org.eclipse.ui.statushandlers.StatusAdapter;
 import org.eclipse.ui.statushandlers.StatusManager;
@@ -55,7 +53,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 
 	public NewProjectWizard()
 	{
-		IDialogSettings workbenchSettings = IDEWorkbenchPlugin.getDefault().getDialogSettings();
+		IDialogSettings workbenchSettings = RailsUIPlugin.getDefault().getDialogSettings();
 		IDialogSettings section = workbenchSettings.getSection("BasicNewProjectResourceWizard");//$NON-NLS-1$
 		if (section == null)
 		{
@@ -268,13 +266,13 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 				StatusAdapter status;
 				if (cause.getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS)
 				{
-					status = new StatusAdapter(StatusUtil.newStatus(IStatus.WARNING, NLS.bind(
-							Messages.NewProject_caseVariantExistsError, newProjectHandle.getName()), cause));
+					status = new StatusAdapter(new Status(IStatus.WARNING, RailsUIPlugin.getPluginIdentifier(), NLS
+							.bind(Messages.NewProject_caseVariantExistsError, newProjectHandle.getName()), cause));
 				}
 				else
 				{
-					status = new StatusAdapter(StatusUtil.newStatus(cause.getStatus().getSeverity(),
-							Messages.NewProject_errorMessage, cause));
+					status = new StatusAdapter(new Status(cause.getStatus().getSeverity(), RailsUIPlugin
+							.getPluginIdentifier(), Messages.NewProject_errorMessage, cause));
 				}
 				status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY, Messages.NewProject_errorMessage);
 				StatusManager.getManager().handle(status, StatusManager.BLOCK);
