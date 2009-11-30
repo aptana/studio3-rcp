@@ -64,7 +64,7 @@ public class RailsUIPlugin extends AbstractUIPlugin
 	 * 
 	 * @return - the plugin
 	 */
-	public static RailsUIPlugin getInstance()
+	public static RailsUIPlugin getDefault()
 	{
 		return instance;
 	}
