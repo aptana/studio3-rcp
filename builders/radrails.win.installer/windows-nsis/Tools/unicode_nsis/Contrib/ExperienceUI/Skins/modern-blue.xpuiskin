@@ -1,0 +1,17 @@
+!define XPUI_CUSTOMSKIN
+Icon "${NSISDIR}\Contrib\ExperienceUI\Skins\Modern-blue\Icon.ico"
+UninstallIcon "${NSISDIR}\Contrib\ExperienceUI\Skins\Modern-blue\UnIcon.ico"
+!insertmacro XPUI_DEFAULT XPUI_TEXT_COLOR 4000FF
+!insertmacro XPUI_DEFAULT XPUI_TEXT_BGCOLOR 9FC0E1
+!insertmacro XPUI_DEFAULT XPUI_TEXT_LIGHTCOLOR 000000
+!insertmacro XPUI_DEFAULT XPUI_LEFTLOGO "${NSISDIR}\Contrib\ExperienceUI\Skins\Modern-blue\LeftBranding.bmp"
+!insertmacro XPUI_DEFAULT XPUI_HEADERIMAGE "${NSISDIR}\Contrib\ExperienceUI\Skins\Modern-blue\Header.bmp"
+!insertmacro XPUI_DEFAULT XPUI_BOTTOMIMAGE ""
+!insertmacro XPUI_DEFAULT XPUI_BOTTOMIMAGE_BMP "${NSISDIR}\Contrib\ExperienceUI\Skins\Modern-blue\Bottom.bmp"
+!insertmacro XPUI_DEFAULT XPUI_UNBOTTOMIMAGE ""
+
+!macro XPUI_SET_BG
+!macroend
+
+!macro XPUI_BGFILES_DELETE
+!macroend

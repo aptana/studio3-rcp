@@ -1,0 +1,47 @@
+!define XPUI_CUSTOMSKIN
+!insertmacro XPUI_DEFAULT XPUI_TEXT_COLOR FFFFFF
+!insertmacro XPUI_DEFAULT XPUI_TEXT_BGCOLOR 4E6FD6
+!insertmacro XPUI_DEFAULT XPUI_TEXT_LIGHTCOLOR FFFF00
+!insertmacro XPUI_DEFAULT XPUI_HEADERIMAGE "${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\Header.bmp"
+!insertmacro XPUI_DEFAULT XPUI_BOTTOMIMAGE ""
+!insertmacro XPUI_DEFAULT XPUI_UNBOTTOMIMAGE ""
+!insertmacro XPUI_DEFAULT XPUI_BOTTOMIMAGE_BMP "${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\BtmImg.bmp"
+!insertmacro XPUI_DEFAULT XPUI_HEADERIMAGE_NORESIZETOFIT ""
+!insertmacro XPUI_DEFAULT XPUI_BOTTOMIMAGE_NORESIZETOFIT ""
+!insertmacro XPUI_DEFAULT XPUI_UNHEADERIMAGE_NORESIZETOFIT ""
+!insertmacro XPUI_DEFAULT XPUI_UNBOTTOMIMAGE_NORESIZETOFIT ""
+!insertmacro XPUI_DEFAULT XPUI_ICON "${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\Icon.ico"
+!insertmacro XPUI_DEFAULT XPUI_UNICON "${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\UnIcon.ico"
+!ifdef XPUI_PAGE_BGIMAGE
+  !insertmacro XPUI_DEFAULT XPUI_PAGE_BGIMAGE_BMP    `${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\Page.bmp`
+  !insertmacro XPUI_DEFAULT XPUI_LEFTLOGO `${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\lb_page.bmp`
+  !insertmacro XPUI_DEFAULT XPUI_UNLEFTLOGO `${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\lb_page.bmp`
+!else
+  !insertmacro XPUI_DEFAULT XPUI_LEFTLOGO `${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\LeftBranding.bmp`
+  !insertmacro XPUI_DEFAULT XPUI_UNLEFTLOGO `${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\LeftBranding.bmp`
+!endif
+!insertmacro XPUI_DEFAULT XPUI_BRANDINGTEXT_COLOR_FG "${XPUI_TEXT_BGCOLOR}"
+!insertmacro XPUI_DEFAULT XPUI_BRANDINGTEXT_COLOR_BG "000080"
+
+!macro XPUI_SET_BG
+!ifndef XPUI_SET_BG_INSERTED
+!define XPUI_SET_BG_INSERTED
+SetOutPath "$PLUGINSDIR"
+File "${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\Spotlight.bmp"
+File "${NSISDIR}\Contrib\ExperienceUI\Skins\Windows XP\Key.bmp"
+BgImage::SetBg /NOUNLOAD /GRADIENT 78 111 214 78 111 214
+BgImage::AddImage /NOUNLOAD "$PLUGINSDIR\Spotlight.bmp" 0 57
+BgImage::AddImage /NOUNLOAD "$PLUGINSDIR\Header.bmp" 0 0
+BgImage::AddImage /NOUNLOAD "$PLUGINSDIR\BtmImg.bmp" 0 -70
+BgImage::AddImage /NOUNLOAD "$PLUGINSDIR\Key.bmp" -248 -351
+CreateFont $1 "Verdana" 30 700
+BgImage::AddText /NOUNLOAD "$(^Name)" $1 8 51 155 15 70 -1 -1
+BgImage::AddText /NOUNLOAD "$(^Name)" $1 255 255 255 10 65 -1 -1
+BgImage::Redraw
+!endif
+!macroend
+
+!macro XPUI_BGFILES_DELETE
+Delete $PLUGINSDIR\Spotlight.bmp
+Delete $PLUGINSDIR\Key.bmp
+!macroend
