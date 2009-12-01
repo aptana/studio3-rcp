@@ -45,10 +45,10 @@
                id="org.radrails.rails.ui.projectWizard">
          </newWizardShortcut>
          <viewShortcut
-               id="com.aptana.radrails.explorer.view">
+               id="com.aptana.explorer.view">
          </viewShortcut>
          <view
-               id="com.aptana.radrails.explorer.view"
+               id="com.aptana.explorer.view"
                minimized="false"
                ratio="0.25"
                relationship="left"
