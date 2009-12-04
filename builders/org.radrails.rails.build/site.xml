@@ -5,7 +5,7 @@
 		<category name="Aptana RadRails"/>
 	</feature>				
     <category-def name="Aptana RadRails" label="Rails">
-        <description>Adds support for Ruby on Rails 1.5 to the Aptana Studio</description>
+        <description>Adds support for Ruby on Rails to the Aptana Studio</description>
     </category-def>
     <!-- Update Test A-->
 </site>
