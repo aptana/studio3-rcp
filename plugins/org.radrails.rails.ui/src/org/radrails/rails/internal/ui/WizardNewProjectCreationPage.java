@@ -70,6 +70,7 @@ import org.eclipse.ui.internal.ide.dialogs.IDEResourceInfoUtils;
  * 
  * </p>
  */
+@SuppressWarnings("restriction")
 public class WizardNewProjectCreationPage extends WizardPage
 {
 
