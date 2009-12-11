@@ -96,7 +96,9 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	@Override
 	public boolean performFinish()
 	{
-
+		// HACK I have to query for this here, because otherwise when we generate the project somehow the fields get
+		// focus and that auto changes the radio selection value for generation
+		boolean runGenerator = mainPage.runGenerator();
 		createNewProject();
 
 		if (newProject == null)
@@ -107,7 +109,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		updatePerspective();
 		selectAndReveal(newProject);
 
-		if (mainPage.runGenerator())
+		if (runGenerator)
 			runGenerator();
 
 		return true;
@@ -171,6 +173,9 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	 */
 	private IProject createNewProject()
 	{
+		// HACK I have to query for this here, because otherwise when we generate the project somehow the fields get
+		// focus and that auto changes the radio selection value for generation
+		boolean doGitClone = mainPage.cloneFromGit();
 		if (newProject != null)
 		{
 			return newProject;
@@ -193,7 +198,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 
 		try
 		{
-			if (mainPage.cloneFromGit())
+			if (doGitClone)
 			{
 				doGitClone(description);
 			}
