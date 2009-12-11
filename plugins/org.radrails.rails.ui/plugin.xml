@@ -85,7 +85,7 @@
             id="org.radrails.rails.ui.resourceContribution"
             objectClass="org.eclipse.core.resources.IResource">
          <action
-               class="org.radrails.rails.internal.ui.RunScriptServerAction"
+               class="org.radrails.rails.internal.ui.actions.RunScriptServerAction"
                definitionId="org.radrails.rails.ui.command.server"
                id="org.radrails.rails.ui.actions.RunScriptServerAction"
                label="Run script/server">

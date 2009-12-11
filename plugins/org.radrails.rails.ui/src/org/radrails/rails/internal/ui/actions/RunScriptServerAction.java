@@ -1,4 +1,4 @@
-package org.radrails.rails.internal.ui;
+package org.radrails.rails.internal.ui.actions;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
