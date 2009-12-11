@@ -57,4 +57,39 @@
          </view>
       </perspectiveExtension>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.radrails.rails.ui.category"
+            id="org.radrails.rails.ui.command.server"
+            name="script/server">
+      </command>
+      <category
+            id="org.radrails.rails.ui.category"
+            name="Rails">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.radrails.rails.ui.command.server"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+SHIFT+\">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.radrails.rails.ui.resourceContribution"
+            objectClass="org.eclipse.core.resources.IResource">
+         <action
+               class="org.radrails.rails.internal.ui.RunScriptServerAction"
+               definitionId="org.radrails.rails.ui.command.server"
+               id="org.radrails.rails.ui.actions.RunScriptServerAction"
+               label="Run script/server">
+         </action>
+      </objectContribution>
+   </extension>
 </plugin>
