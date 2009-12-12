@@ -31,7 +31,7 @@
       </wizard>
       <category
             id="org.radrails.rails.ui.category"
-            name="%category.name">
+            name="%RailsWizardsCategory.name">
       </category>
       <primaryWizard
             id="org.radrails.rails.ui.projectWizard">
@@ -62,11 +62,11 @@
       <command
             categoryId="org.radrails.rails.ui.category"
             id="org.radrails.rails.ui.command.server"
-            name="script/server">
+            name="%ScriptServerAction.label">
       </command>
       <category
             id="org.radrails.rails.ui.category"
-            name="Rails">
+            name="%RailsCommandsCategory.name">
       </category>
    </extension>
    <extension
@@ -88,7 +88,8 @@
                class="org.radrails.rails.internal.ui.actions.RunScriptServerAction"
                definitionId="org.radrails.rails.ui.command.server"
                id="org.radrails.rails.ui.actions.RunScriptServerAction"
-               label="Run script/server">
+               label="%ScriptServerAction.label"
+               tooltip="%ScriptServerAction.tooltip">
          </action>
       </objectContribution>
    </extension>
