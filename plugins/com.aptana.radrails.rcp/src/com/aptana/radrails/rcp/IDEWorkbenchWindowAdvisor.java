@@ -26,6 +26,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DropTargetEvent;
@@ -60,6 +62,7 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.internal.ide.AboutInfo;
 import org.eclipse.ui.internal.ide.EditorAreaDropAdapter;
 import org.eclipse.ui.internal.ide.IDEInternalPreferences;
@@ -77,7 +80,11 @@ import org.eclipse.ui.part.ResourceTransfer;
 @SuppressWarnings("restriction")
 public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
-    private static final Point INITIAL_WINDOW_SIZE = new Point(1200, 940);
+	private static final Point INITIAL_WINDOW_SIZE = new Point(1200, 940);
+
+	// Preferences to remember if the toolbar (coolbar and  perspective bar) should be shown
+	private static final String SHOW_COOLBAR = "SHOW_COOLBAR"; //$NON-NLS-1$
+	private static final String SHOW_PERSPECTIVEBAR = "SHOW_PERSPECTIVEBAR"; //$NON-NLS-1$
 
     private static final String WELCOME_EDITOR_ID = "org.eclipse.ui.internal.ide.dialogs.WelcomeEditor"; //$NON-NLS-1$
 
@@ -215,6 +222,51 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
                 configurer.getWindow()));
 
         hookTitleUpdateListeners(configurer);
+
+        final IPreferenceStore store = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
+
+        // Get the current setting
+        boolean showToolbar = store.getBoolean(SHOW_COOLBAR);
+        boolean showPerspectiveBar = store.getBoolean(SHOW_PERSPECTIVEBAR);
+
+        final WorkbenchWindow workbenchWindow = (WorkbenchWindow)configurer.getWindow();
+        if (!showToolbar)
+        {
+            // Hide coolbar
+            workbenchWindow.setCoolBarVisible(false);
+        }
+        if (!showPerspectiveBar)
+        {
+            // Hide perspective bar
+            workbenchWindow.setPerspectiveBarVisible(false);
+        }
+
+        // Add listener to monitor when the user shows/hides the toolbar
+        workbenchWindow.addPropertyChangeListener(new IPropertyChangeListener()
+        {
+            public void propertyChange(PropertyChangeEvent event)
+            {
+                Object newValue = event.getNewValue();
+                if (event.getProperty().equals(WorkbenchWindow.PROP_COOLBAR_VISIBLE))
+                {
+                    if (newValue instanceof Boolean)
+                    {
+                        // store coolbar show/hide state
+                        // this also affects new windows opened in this session
+                        store.setValue(SHOW_COOLBAR, ((Boolean)newValue).booleanValue());
+                    }
+                }
+                if (event.getProperty().equals(WorkbenchWindow.PROP_PERSPECTIVEBAR_VISIBLE))
+                {
+                    if (newValue instanceof Boolean)
+                    {
+                        // store perspective bar show/hide state
+                        // this also affects new windows opened in this session
+                        store.setValue(SHOW_PERSPECTIVEBAR, ((Boolean)newValue).booleanValue());
+                    }
+                }
+            }
+        });
     }
 
     /**
