@@ -196,7 +196,7 @@
 		<!-- cocoa -->
 		<pathconvert property="mac.cocoa.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.cocoa.macosx.x86_*" />
+				<include name="${topLevelElementId}.launcher.cocoa.macosx.x86_64_*" />
 			</fileset>
 			<mapper>
 				<flattenmapper />
