@@ -38,7 +38,6 @@
 		<antcall target="mac.standalone" />
 		<antcall target="regenerate.base" />
 		<antcall target="mac.cocoa.standalone" />
-		<antcall target="mac_64.cocoa.standalone" />
 		<antcall target="regenerate.base" />
 		<antcall target="win.standalone" />
 		<antcall target="regenerate.base" />
@@ -183,49 +182,6 @@
 		<move file="${tmp.dir}/${archivePrefix}.macosx.cocoa.x86.zip" tofile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" />
 		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.macosx.cocoa.x86.zip" filesonly="false">
-			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
-				<exclude name="${product.name}" />
-				<exclude name="${product.name}.app/Contents/MacOS/${product.name}" />
-			</zipfileset>
-			<zipfileset dir="${tmp.dir}/${collectingFolder}" filemode="755" defaultexcludes="true" prefix="${zipFolder}">
-				<include name="${product.name}" />
-				<include name="${product.name}.app/Contents/MacOS/${product.name}" />
-			</zipfileset>
-		</zip>
-		-->
-		<delete dir="${tmp.dir}" />
-	</target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-	          target: mac.cocoa.standalone                      
-	         - - - - - - - - - - - - - - - - - -->
-	<target name="mac_64.cocoa.standalone">
-		<!-- Mac OSX Cocoa RCP P2 Build -->
-		<mkdir dir="${tmp.dir}" />
-		<antcall target="generate.product">
-			<param name="product.os" value="macosx" />
-			<param name="product.ws" value="cocoa" />
-			<param name="product.arch" value="x86_64" />
-		</antcall>
-		<!-- Update mac zip file -->
-		<echo message="**  Updating Mac zip  **" level="info" />
-		<delete dir="${tmp.dir}/${collectingFolder}/Eclipse.app" includeemptydirs="true" defaultexcludes="no" verbose="true" />
-		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="yes" eol="mac">
-			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
-		</concat>
-		<delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" />
-		<antcall target="clean.old.profiles" />
-		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
-		<!-- Use system zip to retain the executable permissions -->
-		<move file="${tmp.dir}/${collectingFolder}" tofile="${tmp.dir}/${zipFolder}" />
-		<exec executable="zip" dir="${tmp.dir}">
-		    <arg value="-r"/>
-		    <arg value="${archivePrefix}.macosx.cocoa.x86_64.zip"/>
-		    <arg value="${zipFolder}"/>
-		</exec>
-		<move file="${tmp.dir}/${archivePrefix}.macosx.cocoa.x86_64.zip" tofile="${output.dir}/${archivePrefix}.macosx.cocoa.x86_64.zip" />
-		<!--
-		<zip destfile="${output.dir}/${archivePrefix}.macosx.cocoa.x86_64.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
 				<exclude name="${product.name}" />
 				<exclude name="${product.name}.app/Contents/MacOS/${product.name}" />
