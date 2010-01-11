@@ -167,36 +167,12 @@
 
 	<target name="modify.binaries">
 		<!-- TODO Fix config.ini on other platforms! -->
+		<!-- =========== Mac 64-bit Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
-		<!-- carbon -->
-		<pathconvert property="mac.launcher">
-			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.carbon.macosx.ppc_*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="mac.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.launcher}" />
-		<mkdir dir="${mac.launcher.dir}" />
-		<unzip src="${p2.repo.dir}/binary/${mac.launcher}" dest="${mac.launcher.dir}" />
-		<delete file="${p2.repo.dir}/binary/${mac.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<concat destfile="${mac.launcher.dir}/configuration/config.ini" append="yes" eol="mac">
-			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
-		</concat>
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
-		<copy file="${builder}/custom/macosx/${product.name}" tofile="${mac.launcher.dir}/${product.name}.app/Contents/MacOS/${product.name}" overwrite="true" />
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="${p2.repo.dir}/binary/${mac.launcher}">
-			<fileset dir="${mac.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${mac.launcher.dir}" />
-
 		<!-- cocoa -->
 		<pathconvert property="mac.cocoa.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.cocoa.macosx.x86_*" />
+				<include name="${topLevelElementId}.launcher.cocoa.macosx.x86_64_*" />
 			</fileset>
 			<mapper>
 				<flattenmapper />
