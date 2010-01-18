@@ -18,18 +18,14 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
-import com.aptana.terminal.TerminalBrowser;
 import com.aptana.terminal.server.HttpServer;
 import com.aptana.terminal.server.ProcessWrapper;
 import com.aptana.terminal.views.TerminalView;
@@ -217,22 +213,13 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		IProject railsProject = getSelectedRailsProject();
 		if (railsProject == null)
 			return;
-		try
-		{
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			TerminalBrowser.setStartingDirectory(railsProject.getLocation().toOSString());
-			IViewPart view = page.showView(TerminalView.ID, MessageFormat.format("{0} script/server", railsProject //$NON-NLS-1$
-					.getName()), org.eclipse.ui.IWorkbenchPage.VIEW_ACTIVATE);
-			TerminalView term = (TerminalView) view;
-			term.setPartName("script/server"); //$NON-NLS-1$
-			String id = term.getId();
-			ProcessWrapper wrapper = HttpServer.getInstance().getProcess(id);
-			wrapper.sendText("script/server\n"); //$NON-NLS-1$
-		}
-		catch (PartInitException e)
-		{
-			RailsUIPlugin.logError(e);
-		}
+		String viewId = MessageFormat.format("{0} script/server", railsProject //$NON-NLS-1$
+				.getName());
+		TerminalView term = TerminalView.open(viewId, "script/server", railsProject.getLocation().toOSString()); //$NON-NLS-1$
+		if (term == null)
+			return;
+		ProcessWrapper wrapper = HttpServer.getInstance().getProcess(term.getId());
+		wrapper.sendText("script/server\n"); //$NON-NLS-1$
 	}
 
 }
