@@ -1,13 +1,12 @@
 package org.radrails.rails.internal.ui;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.util.Map;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -20,6 +19,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -27,6 +27,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.ide.undo.CreateProjectOperation;
 import org.eclipse.ui.ide.undo.WorkspaceUndoUtil;
+import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.statushandlers.IStatusAdapterConstants;
 import org.eclipse.ui.statushandlers.StatusAdapter;
 import org.eclipse.ui.statushandlers.StatusManager;
@@ -36,7 +37,9 @@ import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
 import com.aptana.git.ui.CloneJob;
-import com.aptana.util.ProcessUtil;
+import com.aptana.terminal.server.HttpServer;
+import com.aptana.terminal.server.ProcessWrapper;
+import com.aptana.terminal.views.TerminalView;
 
 public class NewProjectWizard extends BasicNewResourceWizard implements IExecutableExtension
 {
@@ -117,30 +120,31 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 
 	private void runGenerator()
 	{
+		// Pop open a confirmation dialog if the project already has a config/environment.rb file!
+		File projectFile = newProject.getLocation().toFile();
+		File env = new File(projectFile, "config" + File.separator + "environment.rb"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (env.exists())
+		{
+			if (!MessageDialog.openConfirm(getShell(), Messages.NewProjectWizard_ContentsAlreadyExist_Title,
+					Messages.NewProjectWizard_ContentsAlreadyExist_Msg))
+				return;
+		}
 		final IProject project = newProject;
-		Job job = new Job(Messages.NewProjectWizard_JobTitle)
+		Job job = new UIJob(Messages.NewProjectWizard_JobTitle)
 		{
 			@Override
-			protected IStatus run(IProgressMonitor monitor)
+			public IStatus runInUIThread(IProgressMonitor monitor)
 			{
 				SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
 				String absolutePath = project.getLocation().toOSString();
 				if (subMonitor.isCanceled())
 					return Status.CANCEL_STATUS;
-				// Now launch the rails command!
-				Map<Integer, String> result = ProcessUtil.runInBackground("rails", absolutePath, new String[] { "." }); //$NON-NLS-1$ //$NON-NLS-2$
-				if (result.keySet().iterator().next() != 0)
-					return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(),
-							Messages.NewProjectWizard_RailsCommandFailedMessage);
-				subMonitor.worked(85);
-				try
-				{
-					project.refreshLocal(IResource.DEPTH_ONE, subMonitor.newChild(15));
-				}
-				catch (CoreException e)
-				{
-					return e.getStatus();
-				}
+
+				// Now launch the rails command in a terminal!
+				TerminalView terminal = TerminalView.open(project.getName(), "rails", absolutePath); //$NON-NLS-1$
+				ProcessWrapper wrapper = HttpServer.getInstance().getProcess(terminal.getId());
+				wrapper.sendText("rails .\n"); //$NON-NLS-1$
+
 				return Status.OK_STATUS;
 			}
 		};
