@@ -6,6 +6,10 @@ public class Messages extends NLS
 {
 	private static final String BUNDLE_NAME = "org.radrails.rails.internal.ui.messages"; //$NON-NLS-1$
 	
+	public static String NewProjectWizard_ContentsAlreadyExist_Msg;
+
+	public static String NewProjectWizard_ContentsAlreadyExist_Title;
+
 	public static String NewProjectWizard_JobTitle;
 	public static String NewProjectWizard_RailsCommandFailedMessage;
 
