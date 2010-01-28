@@ -66,7 +66,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
 		}
 
 		IPreferenceStore store = MainPlugin.getDefault().getPreferenceStore();
-		store.setDefault(IPreferenceConstants.REOPEN_EDITORS_ON_STARTUP, true);
 
 		if (store.getBoolean(IPreferenceConstants.WORKSPACE_ENCODING_SET) == false)
 		{

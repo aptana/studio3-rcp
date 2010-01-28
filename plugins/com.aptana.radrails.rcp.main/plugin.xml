@@ -8,14 +8,6 @@
 
    <!-- TODO Adjust the category -->
    <extension
-         point="org.eclipse.ui.preferencePages">
-    <page
-          category="org.eclipse.ui.preferencePages.Workbench"
-          class="com.aptana.radrails.rcp.main.preferences.StartupShutdownPreferencePage"
-          id="com.aptana.radrails.rcp.main.preferences.StartupShutdownPreferencePage"
-          name="%startupShutdownPreferencePage"/>
-   </extension>
-   <extension
         point="org.eclipse.ui.ide.resourceFilters">
         <filter pattern="CVS" selected="true" />
         <filter pattern="*.DS_Store" selected="true" />
@@ -38,9 +30,4 @@
              plugin="org.eclipse.ui.editors">
        </contexts> 
    </extension>
-   
-
-
-       
-
 </plugin>

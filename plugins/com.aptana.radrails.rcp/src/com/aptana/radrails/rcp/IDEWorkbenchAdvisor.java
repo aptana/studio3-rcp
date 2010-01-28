@@ -80,7 +80,6 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
 
-import com.aptana.radrails.rcp.main.MainPlugin;
 import com.ibm.icu.text.Collator;
 
 /**
@@ -106,8 +105,6 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
     private static IDEWorkbenchAdvisor workbenchAdvisor = null;
 
     private WorkbenchWindowAdvisor workbenchWindowAdvisor;
-    private static final String PREFERENCE_OPEN_FILES = "com.aptana.radrails.rcp.PREFERENCE_OPEN_FILES"; //$NON-NLS-1$
-    private static final String PREFERENCE_FILE_DELIMETER = ";;;"; //$NON-NLS-1$
 
     /**
      * Contains the workspace location if the -showlocation command line
@@ -236,49 +233,6 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
      */
     public void postStartup() {
         try {
-            IPreferenceStore prefStore = MainPlugin.getDefault()
-                    .getPreferenceStore();
-            if (prefStore != null
-                    && prefStore
-                            .getBoolean(com.aptana.radrails.rcp.main.preferences.IPreferenceConstants.REOPEN_EDITORS_ON_STARTUP)) {
-                IWorkbenchWindow[] windows = PlatformUI.getWorkbench()
-                        .getWorkbenchWindows();
-                List<String> openFiles = getOpenEditors(windows);
-
-                IPreferenceStore store = IdePlugin.getDefault()
-                        .getPreferenceStore();
-                String fileString = store.getString(PREFERENCE_OPEN_FILES);
-                if (fileString != null) {
-                    String[] files = fileString
-                            .split(PREFERENCE_FILE_DELIMETER);
-                    for (String file : files) {
-                        if (! /* StringUtils.EMPTY */"".equals(file)) { //$NON-NLS-1$
-                            File f = new File(file);
-                            if (f.exists() && !openFiles.contains(file)) {
-                                // TODO WorkbenchHelper
-                                // WorkbenchHelper.openFile(f,
-                                // PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            // TODO logging
-            IdePlugin
-                    .getDefault()
-                    .getLog()
-                    .log(
-                            new Status(
-                                    IStatus.ERROR,
-                                    IdePlugin.getDefault().getBundle()
-                                            .getSymbolicName(),
-                                    IStatus.OK,
-                                    Messages.ApplicationWorkbenchAdvisor_ErrorPostStartup,
-                                    ex));
-        }
-
-        try {
             refreshFromLocal();
             activateProxyService();
             ((Workbench) PlatformUI.getWorkbench()).registerService(
@@ -366,30 +320,6 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
      * @see org.eclipse.ui.application.WorkbenchAdvisor#preShutdown()
      */
     public boolean preShutdown() {
-        try {
-            IPreferenceStore store = IdePlugin.getDefault()
-                    .getPreferenceStore();
-            IWorkbenchWindow[] windows = PlatformUI.getWorkbench()
-                    .getWorkbenchWindows();
-            List<String> openFiles = getOpenEditors(windows);
-            String fileList = join(PREFERENCE_FILE_DELIMETER, openFiles
-                    .toArray(new String[0]));
-            store.setValue(PREFERENCE_OPEN_FILES, fileList);
-        } catch (Exception ex) {
-            // TODO logging
-            IdePlugin
-                    .getDefault()
-                    .getLog()
-                    .log(
-                            new Status(
-                                    IStatus.ERROR,
-                                    IdePlugin.getDefault().getBundle()
-                                            .getSymbolicName(),
-                                    IStatus.OK,
-                                    Messages.ApplicationWorkbenchAdvisor_ErrorPreShutdown,
-                                    ex));
-        }
-
         Display.getCurrent().removeListener(SWT.Settings,
                 settingsChangeListener);
         return super.preShutdown();
@@ -896,26 +826,4 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         return openFiles;
     }
 
-    // TODO StringUtils
-    private static String join(String delimiter, String[] items) {
-        if (items == null) {
-            return null;
-        }
-
-        int length = items.length;
-        String result = /* StringUtils.EMPTY */""; //$NON-NLS-1$
-
-        if (length > 0) {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < length - 1; i++) {
-                sb.append(items[i]).append(delimiter);
-            }
-            sb.append(items[length - 1]);
-
-            result = sb.toString();
-        }
-
-        return result;
-    }
 }

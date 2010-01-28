@@ -10,19 +10,11 @@
 package com.aptana.radrails.rcp.main.preferences;
 
 /**
- * Contains all preferences for the com.aptana.ide.editors plugin To add a
- * preference, create a static string with an all-uppercase preference key. Then
- * assign a identically-named string to it, prefixing it with the plugin name"
- * i.e. SHOW_WHITESPACE = "com.aptana.ide.server.ui.SHOW_WHITESPACE"
+ * Contains all preferences for the Aptana RCP.
  * 
  * @author Ingo Muschenetz
  */
 public interface IPreferenceConstants {
-
-    /**
-     * REOPEN_EDITORS_ON_STARTUP
-     */
-    String REOPEN_EDITORS_ON_STARTUP = "com.aptana.radrails.rcp.main.REOPEN_EDITORS_ON_STARTUP"; //$NON-NLS-1$
 
     /**
      * WORKSPACE_ENCODING_SET

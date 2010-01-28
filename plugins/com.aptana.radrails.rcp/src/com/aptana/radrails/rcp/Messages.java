@@ -29,16 +29,6 @@ public final class Messages extends NLS {
 	}
 
 	/**
-	 * ApplicationWorkbenchAdvisor_ErrorPostStartup
-	 */
-	public static String ApplicationWorkbenchAdvisor_ErrorPostStartup;
-
-	/**
-	 * ApplicationWorkbenchAdvisor_ErrorPreShutdown
-	 */
-	public static String ApplicationWorkbenchAdvisor_ErrorPreShutdown;
-
-	/**
 	 * ApplicationWorkbenchAdvisor_ErrorGettingCurrentEditorReferences
 	 */
 	public static String ApplicationWorkbenchAdvisor_ErrorGettingCurrentEditorReferences;
