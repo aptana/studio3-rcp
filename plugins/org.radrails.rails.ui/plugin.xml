@@ -53,7 +53,7 @@
                ratio="0.25"
                relationship="left"
                relative="org.eclipse.ui.editorss"
-               visible="false">
+               visible="true">
          </view>
       </perspectiveExtension>
    </extension>
