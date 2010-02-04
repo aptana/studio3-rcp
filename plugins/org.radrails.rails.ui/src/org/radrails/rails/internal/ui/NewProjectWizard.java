@@ -37,7 +37,7 @@ import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
 import com.aptana.git.ui.CloneJob;
-import com.aptana.terminal.server.HttpServer;
+import com.aptana.terminal.server.TerminalServer;
 import com.aptana.terminal.server.ProcessWrapper;
 import com.aptana.terminal.views.TerminalView;
 
@@ -142,7 +142,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 
 				// Now launch the rails command in a terminal!
 				TerminalView terminal = TerminalView.open(project.getName(), "rails", absolutePath); //$NON-NLS-1$
-				ProcessWrapper wrapper = HttpServer.getInstance().getProcess(terminal.getId());
+				ProcessWrapper wrapper = TerminalServer.getInstance().getProcess(terminal.getId());
 				wrapper.sendText("rails .\n"); //$NON-NLS-1$
 
 				return Status.OK_STATUS;

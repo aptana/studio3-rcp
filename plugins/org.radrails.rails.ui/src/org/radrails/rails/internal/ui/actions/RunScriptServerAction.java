@@ -26,7 +26,7 @@ import org.eclipse.ui.PlatformUI;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
-import com.aptana.terminal.server.HttpServer;
+import com.aptana.terminal.server.TerminalServer;
 import com.aptana.terminal.server.ProcessWrapper;
 import com.aptana.terminal.views.TerminalView;
 
@@ -218,7 +218,7 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		TerminalView term = TerminalView.open(viewId, "script/server", railsProject.getLocation().toOSString()); //$NON-NLS-1$
 		if (term == null)
 			return;
-		ProcessWrapper wrapper = HttpServer.getInstance().getProcess(term.getId());
+		ProcessWrapper wrapper = TerminalServer.getInstance().getProcess(term.getId());
 		wrapper.sendText("script/server\n"); //$NON-NLS-1$
 	}
 
