@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -26,8 +27,8 @@ import org.eclipse.ui.PlatformUI;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
-import com.aptana.terminal.server.TerminalServer;
 import com.aptana.terminal.server.ProcessWrapper;
+import com.aptana.terminal.server.TerminalServer;
 import com.aptana.terminal.views.TerminalView;
 
 public class RunScriptServerAction extends Action implements IObjectActionDelegate, IWorkbenchWindowActionDelegate
@@ -213,13 +214,31 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		IProject railsProject = getSelectedRailsProject();
 		if (railsProject == null)
 			return;
-		String viewId = MessageFormat.format("{0} script/server", railsProject //$NON-NLS-1$
+		// now determine which version so we can tell what to run...
+		String viewId = MessageFormat.format("{0} server", railsProject //$NON-NLS-1$
 				.getName());
-		TerminalView term = TerminalView.open(viewId, "script/server", railsProject.getLocation().toOSString()); //$NON-NLS-1$
+		String command = "rails server"; //$NON-NLS-1$
+		if (!isRails3(railsProject))
+		{
+			viewId = MessageFormat.format("{0} script/server", railsProject //$NON-NLS-1$
+					.getName());
+			command = "script/server"; //$NON-NLS-1$
+		}
+		// Now do the launch in terminal
+		TerminalView term = TerminalView.open(viewId, viewId, railsProject.getLocation().toOSString());
 		if (term == null)
 			return;
 		ProcessWrapper wrapper = TerminalServer.getInstance().getProcess(term.getId());
-		wrapper.sendText("script/server\n"); //$NON-NLS-1$
+		wrapper.sendText(command + "\n"); //$NON-NLS-1$
+	}
+
+	private boolean isRails3(IProject railsProject)
+	{
+		IFile gemfile = railsProject.getFile("Gemfile"); //$NON-NLS-1$
+		if (gemfile == null || !gemfile.exists())
+			return false;
+		// TODO Actually look in file and make sure it says gem "rails", "3.*"
+		return true;
 	}
 
 }
