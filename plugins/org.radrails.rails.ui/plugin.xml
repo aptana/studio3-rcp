@@ -55,6 +55,28 @@
                relative="org.eclipse.ui.editorss"
                visible="true">
          </view>
+         <view
+               id="com.aptana.terminal.views.TerminalView"
+               minimized="false"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"
+               visible="false">
+         </view>
+         <view
+               id="org.eclipse.pde.runtime.LogView"
+               minimized="false"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"
+               visible="false">
+         </view>
+         <view
+               id="org.eclipse.ui.console.ConsoleView"
+               minimized="false"
+               ratio="0.75"
+               relationship="bottom"
+               relative="org.eclipse.ui.editorss"
+               visible="false">
+         </view>
       </perspectiveExtension>
    </extension>
    <extension
