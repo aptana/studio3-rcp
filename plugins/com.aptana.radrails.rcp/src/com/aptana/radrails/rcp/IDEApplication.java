@@ -47,8 +47,6 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.StatusUtil;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
-// TODO Desktop Integration
-
 /**
  * The "main program" for the Eclipse IDE.
  * 
@@ -115,12 +113,15 @@ public class IDEApplication implements IApplication, IExecutableExtension {
                 return EXIT_OK;
             }
 
+            // Get the application args
+            Object args = appContext.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+
             // create the workbench with this advisor and run it until it exits
             // N.B. createWorkbench remembers the advisor, and also registers
             // the workbench globally so that all UI plug-ins can find it using
             // PlatformUI.getWorkbench() or AbstractUIPlugin.getWorkbench()
             int returnCode = PlatformUI.createAndRunWorkbench(display,
-                    new IDEWorkbenchAdvisor());
+                    new IDEWorkbenchAdvisor((args instanceof String[] ? ((String[]) args) : new String[0])));
 
             // the workbench doesn't support relaunch yet (bug 61809) so
             // for now restart is used, and exit data properties are checked

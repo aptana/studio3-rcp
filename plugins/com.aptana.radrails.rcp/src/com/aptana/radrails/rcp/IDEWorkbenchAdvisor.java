@@ -80,6 +80,9 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
 
+import com.aptana.commandline.launcher.CommandlineArgumentsHandler;
+import com.aptana.commandline.launcher.server.port.PortManager;
+import com.aptana.commandline.launcher.server.LauncherServer;
 import com.ibm.icu.text.Collator;
 
 /**
@@ -149,11 +152,17 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
      */
     private AbstractStatusHandler ideWorkbenchErrorHandler;
 
+	/**
+	 * The array of command line aruments.
+	 */
+	private final String[] args;
+
     /**
      * Creates a new workbench advisor instance.
      */
-    public IDEWorkbenchAdvisor() {
+    public IDEWorkbenchAdvisor(String[] args) {
         super();
+		this.args = args;
         if (workbenchAdvisor != null) {
             throw new IllegalStateException();
         }
@@ -245,6 +254,13 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         } finally {// Resume background jobs after we startup
             Job.getJobManager().resume();
         }
+
+		// Process command line args if any
+		if (args != null && args.length > 0)
+		{
+			CommandlineArgumentsHandler.processCommandLineArgs(args);
+		}
+        LauncherServer.startServer();
     }
 
     /**
@@ -299,6 +315,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
      * @see org.eclipse.ui.application.WorkbenchAdvisor#postShutdown
      */
     public void postShutdown() {
+        PortManager.doShutdownCleanup();
         if (activityHelper != null) {
             activityHelper.shutdown();
             activityHelper = null;

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Find our location
+SELF_LOCATION=$(cd "$(dirname "$0")" ; pwd)
+
+# Was this invoked as a link ?
+if [ -L "$0" ]
+then
+	LINKTO=$(/usr/bin/readlink "$0")
+
+	# Is the link a relative path
+	if [[ "${LINKTO}" = /* ]]
+	then
+	    # absolute path so just invoke it
+		exec "${LINKTO}" "$@"
+	else
+	    # invoke by prepending our folder
+		exec "${SELF_LOCATION}/${LINKTO}" "$@"
+	fi
+fi
+exec "${SELF_LOCATION}/AptanaRadRails" -application com.aptana.commandline.launcher.LauncherApplication "$@"
