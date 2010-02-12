@@ -17,4 +17,10 @@ then
 		exec "${SELF_LOCATION}/${LINKTO}" "$@"
 	fi
 fi
-exec "${SELF_LOCATION}/AptanaRadRails.app/Contents/MacOS/AptanaRadRails" -application com.aptana.commandline.launcher.LauncherApplication "$@"
+
+# Run IDE
+"${SELF_LOCATION}/AptanaRadRails.app/Contents/MacOS/AptanaRadRails" -application com.aptana.commandline.launcher.LauncherApplication "$@" > /dev/null 2>&1 &
+
+# Detach it
+disown -h %-
+disown %-
