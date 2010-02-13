@@ -37,6 +37,10 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.AutomaticUpdatePlugin;
+import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.PreferenceConstants;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -79,10 +83,11 @@ import org.eclipse.ui.statushandlers.AbstractStatusHandler;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
+import org.osgi.service.prefs.BackingStoreException;
 
 import com.aptana.commandline.launcher.CommandlineArgumentsHandler;
-import com.aptana.commandline.launcher.server.port.PortManager;
 import com.aptana.commandline.launcher.server.LauncherServer;
+import com.aptana.commandline.launcher.server.port.PortManager;
 import com.ibm.icu.text.Collator;
 
 /**
@@ -98,6 +103,8 @@ import com.ibm.icu.text.Collator;
 public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 
     private static final String WORKBENCH_PREFERENCE_CATEGORY_ID = "org.eclipse.ui.preferencePages.Workbench"; //$NON-NLS-1$
+
+    private static final String FORCED_AUTOMATIC_UPDATE = "FORCED_AUTOMATIC_UPDATE"; //$NON-NLS-1$
 
     /**
      * The dialog setting key to access the known installed features since the
@@ -254,6 +261,29 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         } finally {// Resume background jobs after we startup
             Job.getJobManager().resume();
         }
+
+        // Force Automatic Updates
+        IEclipsePreferences prefs = new InstanceScope().getNode(IdePlugin.PLUGIN_ID);
+		boolean alreadyForcedAutomaticUpdate = prefs.getBoolean(FORCED_AUTOMATIC_UPDATE, false);
+
+		if (!alreadyForcedAutomaticUpdate) {
+			IPreferenceStore automaticUpdatePluginPreferenceStore = AutomaticUpdatePlugin.getDefault().getPreferenceStore();
+			automaticUpdatePluginPreferenceStore.setValue(
+					PreferenceConstants.PREF_AUTO_UPDATE_ENABLED, true);
+			automaticUpdatePluginPreferenceStore.setValue(
+					PreferenceConstants.PREF_AUTO_UPDATE_SCHEDULE, PreferenceConstants.PREF_UPDATE_ON_STARTUP);
+			// Store a pref key to remember that we've already forced the
+			// Automatic Update
+			prefs.putBoolean(FORCED_AUTOMATIC_UPDATE, true);
+			try
+			{
+				prefs.flush();
+			}
+			catch (BackingStoreException e)
+			{
+				IdePlugin.logError(e);
+			}
+		}
 
 		// Process command line args if any
 		if (args != null && args.length > 0)

@@ -5,6 +5,8 @@
  */
 package com.aptana.radrails.rcp;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -54,4 +56,15 @@ public class IdePlugin extends AbstractUIPlugin {
     public static IdePlugin getDefault() {
         return plugin;
     }
+
+	/**
+	 * Log exception as error.
+	 *
+	 * @param e
+	 */
+	public static void logError(Exception e)
+	{
+		getDefault().getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e));
+	}
+
 }
