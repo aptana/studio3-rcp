@@ -36,7 +36,6 @@
          ================================= -->
 	<target name="build" description="Builds win32, Mac OSX and Linux GTK x86 P2-enabled RCP Aptana IDE standalone apps." depends="generate.build.properties,generate.base">
 		<antcall target="mac_64.cocoa.standalone" />
-		<!--
 		<antcall target="regenerate.base" />
 		<antcall target="win.standalone" />
 		<antcall target="regenerate.base" />
@@ -45,7 +44,6 @@
 		<antcall target="linux.standalone" />
 		<antcall target="regenerate.base" />
 		<antcall target="linux_64.standalone" />
-		-->
 		<antcall target="deploy" />
 	</target>
 
@@ -149,9 +147,7 @@
 			</zipfileset>
 		</zip>
 		-->
-		<!--
 		<delete dir="${tmp.dir}" />
-		-->
 	</target>
 	
 	<!-- - - - - - - - - - - - - - - - - - 
