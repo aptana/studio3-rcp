@@ -1,10 +1,5 @@
 instructions.install = \
-    addRepository(location:http${#58}//download.aptana.com/tools/radrails/plugin/update/radrails-rcp,type:0,enabled:true);\
-    addRepository(location:http${#58}//download.aptana.com/tools/radrails/plugin/update/radrails-rcp,type:1,enabled:true);\
-    addRepository(location:http${#58}//download.aptana.org/tools/studio/plugin/install/xul-eclipse,type:0,enabled:true);\
-    addRepository(location:http${#58}//download.aptana.org/tools/studio/plugin/install/xul-eclipse,type:1,enabled:true);\
-    addRepository(location:http${#58}//download.aptana.org/tools/studio/plugin/install/xul,type:0,enabled:true);\
-    addRepository(location:http${#58}//download.aptana.org/tools/studio/plugin/install/xul,type:1,enabled:true);\
+    addRepository(location:http${#58}//download.aptana.com/tools/radrails/plugin/update/red-rcp,type:0,enabled:true);\
+    addRepository(location:http${#58}//download.aptana.com/tools/radrails/plugin/update/red-rcp,type:1,enabled:true);\
     addRepository(location:http${#58}//download.eclipse.org/releases/galileo,type:0,enabled:true);\
     addRepository(location:http${#58}//download.eclipse.org/releases/galileo,type:1,enabled:true);
-    
