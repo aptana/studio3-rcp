@@ -29,10 +29,16 @@ function abspath() {
 	fi
 }
 
-# TODO Loop through and convert "$@" into array of absolute file paths
+# Loop through and convert "$@" into array of absolute file paths
+FILE_INDEX=0
+for FILE_PATH in "$@"
+do
+	ABSOLUTE_FILE_PATHS[${FILE_INDEX}]="$(abspath "${FILE_PATH}")"
+	((FILE_INDEX++))
+done
 
 # Run IDE
-"${SELF_LOCATION}/AptanaRadRails.app/Contents/MacOS/AptanaRadRails" -application com.aptana.commandline.launcher.LauncherApplication "$(abspath "$@")" > /dev/null 2>&1 &
+"${SELF_LOCATION}/AptanaRadRails.app/Contents/MacOS/AptanaRadRails" -application com.aptana.commandline.launcher.LauncherApplication "${ABSOLUTE_FILE_PATHS[@]}" > /dev/null 2>&1 &
 
 # Detach it
 disown -h %-
