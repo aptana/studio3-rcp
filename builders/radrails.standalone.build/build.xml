@@ -129,6 +129,11 @@
 		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
 		<!-- Use system zip to retain the executable permissions -->
 		<move file="${tmp.dir}/${collectingFolder}" tofile="${tmp.dir}/${zipFolder}" />
+		<!-- HACK Set the execute permissions on radrails shell script -->
+		<exec executable="chmod" dir="${tmp.dir}/${zipFolder}">
+		    <arg value="755"/>
+			<arg value="radrails"/>
+		</exec>
 		<exec executable="zip" dir="${tmp.dir}">
 		    <arg value="-r"/>
 		    <arg value="${archivePrefix}.macosx.cocoa.x86_64.zip"/>
