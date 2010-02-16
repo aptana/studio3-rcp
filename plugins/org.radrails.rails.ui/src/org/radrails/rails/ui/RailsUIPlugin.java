@@ -11,6 +11,8 @@ package org.radrails.rails.ui;
 import java.util.Hashtable;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -108,9 +110,16 @@ public class RailsUIPlugin extends AbstractUIPlugin
 		return PLUGIN_ID;
 	}
 
+	public static void logError(Exception e)
+	{
+		if (e instanceof CoreException)
+			logError((CoreException) e);
+		else
+			getDefault().getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e));
+	}
+
 	public static void logError(CoreException e)
 	{
 		getDefault().getLog().log(e.getStatus());
 	}
-
 }
