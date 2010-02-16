@@ -90,6 +90,20 @@
             id="org.radrails.rails.ui.category"
             name="%RailsCommandsCategory.name">
       </category>
+      <command
+            categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.SendFeedbackCommandHandler"
+            description="%SendFeedbackCommand.description"
+            id="org.radrails.rails.ui.command.sendfeedback"
+            name="%SendFeedbackCommand.label">
+      </command>
+      <command
+            categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.ReportBugCommandHandler"
+            description="%ReportBugCommand.description"
+            id="org.radrails.rails.ui.command.reportbug"
+            name="%ReportBugCommand.label">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -114,5 +128,19 @@
                tooltip="%ScriptServerAction.tooltip">
          </action>
       </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:help?after=additions">
+         <command
+               commandId="org.radrails.rails.ui.command.sendfeedback"
+               style="push">
+         </command>
+         <command
+               commandId="org.radrails.rails.ui.command.reportbug"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
 </plugin>
