@@ -1,5 +1,5 @@
 instructions.install = \
-    addRepository(location:http${#58}//download.aptana.com/tools/radrails/plugin/update/red-rcp,type:0,enabled:true);\
-    addRepository(location:http${#58}//download.aptana.com/tools/radrails/plugin/update/red-rcp,type:1,enabled:true);\
+    addRepository(location:http${#58}//download.aptana.com/tools/radrails/plugin/update/rr3-rcp,type:0,enabled:true);\
+    addRepository(location:http${#58}//download.aptana.com/tools/radrails/plugin/update/rr3-rcp,type:1,enabled:true);\
     addRepository(location:http${#58}//download.eclipse.org/releases/galileo,type:0,enabled:true);\
     addRepository(location:http${#58}//download.eclipse.org/releases/galileo,type:1,enabled:true);
