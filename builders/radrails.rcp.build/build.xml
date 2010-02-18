@@ -205,6 +205,11 @@
 				<replaceregexp file="@{file}/build.properties" match="qualifier\s*=\s*context" replace="qualifier = ${@{file}.committed.max}" byline="true" />
 			</sequential>
 		</for>
+
+		<tstamp>
+      		<format property="build.timestamp" pattern="yyMMddhhmm"/>
+		</tstamp>
+		<replaceregexp file="${topLevelElementType}s/${topLevelElementId}/build.properties" match="qualifier\s*=\s*context" replace="qualifier = v${build.timestamp}" byline="true" />
 	</target>
 
 	<target name="touch-info">
