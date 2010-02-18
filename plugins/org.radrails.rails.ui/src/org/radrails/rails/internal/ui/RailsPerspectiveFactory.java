@@ -14,6 +14,8 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IPlaceholderFolderLayout;
 import org.eclipse.ui.console.IConsoleConstants;
 
+import com.aptana.terminal.views.TerminalView;
+
 /**
  * Factory for the Rails perspective.
  * 
@@ -31,20 +33,17 @@ public class RailsPerspectiveFactory implements IPerspectiveFactory
 		// Get the editor area
 		String editorArea = layout.getEditorArea();
 
-		// Top left: Ruby Explorer
-		IPlaceholderFolderLayout topLeft = layout.createPlaceholderFolder("topLeft", IPageLayout.LEFT, 0.2f, editorArea); //$NON-NLS-1$
-		topLeft.addPlaceholder(IPageLayout.ID_PROJECT_EXPLORER);
-		
-		IPlaceholderFolderLayout left = layout.createPlaceholderFolder (
-                "left", IPageLayout.BOTTOM, 0.5f, "topLeft"); //$NON-NLS-1$ //$NON-NLS-2$
-        left.addPlaceholder(IPageLayout.ID_OUTLINE);
+		// Left
+		IPlaceholderFolderLayout left = layout.createPlaceholderFolder("left", IPageLayout.LEFT, 0.25f, editorArea); //$NON-NLS-1$
 
-		// Bottom right: Console, Servers, RubyGems, Rake, Problems, Tasks, Generators, Rails Plugins view
+		// Bottom right: Console. Had to leave this programmatic to get the Console appear in bottom right
         IPlaceholderFolderLayout consoleArea = layout.createPlaceholderFolder("consoleArea", IPageLayout.BOTTOM, 0.75f, //$NON-NLS-1$
 				editorArea);
 		consoleArea.addPlaceholder(IConsoleConstants.ID_CONSOLE_VIEW);
-		consoleArea.addPlaceholder(IPageLayout.ID_PROBLEM_VIEW);
-		consoleArea.addPlaceholder(IPageLayout.ID_TASK_LIST);
+
+		// We have to do this programmatically so that we can use place holder which allows wildcard in view id so
+		// that views with secondary ids can be placed correctly.
+		consoleArea.addPlaceholder(TerminalView.ID+":*"); //$NON-NLS-1$
 
 		layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
 		layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
