@@ -172,12 +172,11 @@
           target: get.revision                      
          - - - - - - - - - - - - - - - - - -->
 	<target name="get.revision">
-		<echo message="Retrieving Git timestamp for latest revision" level="info" />
-		<exec executable="/bin/bash" dir="${basedir}" outputproperty="git.revision.max">
-			<arg value="-c" />
-			<arg value="${git.executable} log --max-count=1 --pretty=format:'%ct'" />
-		</exec>
-		<property name="build.revision" value="${git.revision.max}" />
+		<!-- Force to use the timestamp, so we always get a new qualifier! -->
+		<tstamp>
+      		<format property="build.timestamp" pattern="yyMMddhhmm"/>
+		</tstamp>
+		<property name="build.revision" value="${build.timestamp}" />
 		<echo message="Revision timestamp: ${build.revision}" level="info" />
 	</target>
 
@@ -193,6 +192,7 @@
 				<dirset dir="${buildDirectory}" defaultexcludes="true">
 					<include name="plugins/*" />
 					<include name="features/*" />
+					<exclude name="features/com.aptana.radrails.feature.rcp" />
 					<exclude name="${topLevelElementType}s/${topLevelElementId}" />
 				</dirset>
 			</path>
@@ -205,11 +205,6 @@
 				<replaceregexp file="@{file}/build.properties" match="qualifier\s*=\s*context" replace="qualifier = ${@{file}.committed.max}" byline="true" />
 			</sequential>
 		</for>
-
-		<tstamp>
-      		<format property="build.timestamp" pattern="yyMMddhhmm"/>
-		</tstamp>
-		<replaceregexp file="${topLevelElementType}s/${topLevelElementId}/build.properties" match="qualifier\s*=\s*context" replace="qualifier = v${build.timestamp}" byline="true" />
 	</target>
 
 	<target name="touch-info">
