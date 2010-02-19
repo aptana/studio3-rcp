@@ -174,7 +174,7 @@
 	<target name="get.revision">
 		<!-- Force to use the timestamp, so we always get a new qualifier! -->
 		<tstamp>
-      		<format property="build.timestamp" pattern="yyyyMMddhhmm"/>
+      		<format property="build.timestamp" pattern="yyyyMMddkkmm"/>
 		</tstamp>
 		<property name="build.revision" value="${build.timestamp}" />
 		<echo message="Revision timestamp: ${build.revision}" level="info" />
