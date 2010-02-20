@@ -10,7 +10,7 @@
 	<target name="clean">
 		<echo message="Cleaning old installer artifacts" />
 		<delete file="windows-nsis/local_settings.nsh" />
-		<delete file="windows-nsis/Aptana_Studio_3.0_Setup.exe" />
+		<delete file="windows-nsis/Aptana_Studio_3_Setup.exe" />
 		<delete file="${staging.dir}/aptana.zip"/>
 		<delete dir="${staging.dir}" />
 	</target>
@@ -62,6 +62,6 @@
 	</target>
 	
 	<target name="move-exe" depends="sign">
-		<move file="${basedir}\windows-nsis\Aptana_Studio_3.0_Setup.exe" tofile="${staging.dir}\${target.exe.name}"/>
+		<move file="${basedir}\windows-nsis\Aptana_Studio_3_Setup.exe" tofile="${staging.dir}\${target.exe.name}"/>
 	</target>
 </project>
