@@ -75,7 +75,7 @@ Page custom SetAssociations
 !insertmacro XPUI_PAGE_ABORT
 
 # Installer attributes
-OutFile Aptana_Studio3_Setup.exe
+OutFile Aptana_Studio_3_Setup.exe
 CRCCheck on
 XPStyle off
 ShowInstDetails hide
