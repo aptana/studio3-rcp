@@ -219,7 +219,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>AptanaRadRails</string>
+	<string>AptanaStudio3</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Aptana for Mac OS X, Copyright Aptana, Inc. 2008. All rights reserved.</string>
 	<key>CFBundleIconFile</key>
@@ -229,7 +229,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>AptanaRadRails</string>
+	<string>AptanaStudio3</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Aptana RadRails" id="com.aptana.radrails.rcp.product" application="com.aptana.radrails.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Aptana Studi 3" id="com.aptana.radrails.rcp.product" application="com.aptana.radrails.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.aptana.radrails.rcp/content/about.gif"/>
@@ -33,7 +33,7 @@
       startupProgressRect="0,230,590,5"
       startupMessageRect="7,202,445,20"
       startupForegroundColor="FFFFFF" />
-   <launcher name="AptanaRadRails">
+   <launcher name="AptanaStudio3">
       <linux icon="/com.aptana.radrails.rcp/content/radrails.xpm"/>
       <macosx icon="/com.aptana.radrails.rcp/content/radrails.icns"/>
       <solaris/>

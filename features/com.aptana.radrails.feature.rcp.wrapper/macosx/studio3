@@ -38,7 +38,7 @@ do
 done
 
 # Run IDE
-"${SELF_LOCATION}/AptanaRadRails.app/Contents/MacOS/AptanaRadRails" -application com.aptana.commandline.launcher.LauncherApplication "${ABSOLUTE_FILE_PATHS[@]}" > /dev/null 2>&1 &
+"${SELF_LOCATION}/AptanaStudio3.app/Contents/MacOS/AptanaStudio3" -application com.aptana.commandline.launcher.LauncherApplication "${ABSOLUTE_FILE_PATHS[@]}" > /dev/null 2>&1 &
 
 # Detach it
 disown -h %-

@@ -19,7 +19,7 @@ then
 fi
 
 # Run IDE
-"${SELF_LOCATION}/AptanaRadRails" -application com.aptana.commandline.launcher.LauncherApplication "$@" > /dev/null 2>&1 &
+"${SELF_LOCATION}/AptanaStudio3" -application com.aptana.commandline.launcher.LauncherApplication "$@" > /dev/null 2>&1 &
 
 # Detach it
 disown -h %-
