@@ -132,7 +132,7 @@
 		<!-- HACK Set the execute permissions on radrails shell script -->
 		<exec executable="chmod" dir="${tmp.dir}/${zipFolder}">
 		    <arg value="755"/>
-			<arg value="radrails"/>
+			<arg value="studio3"/>
 		</exec>
 		<exec executable="zip" dir="${tmp.dir}">
 		    <arg value="-r"/>
