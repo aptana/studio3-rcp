@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Aptana Studi 3" id="com.aptana.radrails.rcp.product" application="com.aptana.radrails.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Aptana Studio 3" id="com.aptana.radrails.rcp.product" application="com.aptana.radrails.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.aptana.radrails.rcp/content/about.gif"/>
