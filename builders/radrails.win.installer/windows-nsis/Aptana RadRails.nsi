@@ -34,7 +34,6 @@ ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 ReserveFile "${NSISDIR}\Plugins\SimpleFC.dll" 
 ReserveFile "${NSISDIR}\Plugins\InstallOptions.dll" 
 ReserveFile "associations.ini" 
-#ReserveFile "FirewallDialog.ini" 
 
 # Variables
 Var StartMenuGroup
