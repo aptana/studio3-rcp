@@ -46,7 +46,6 @@ var MinorVersion
 var BuildNumber
 var PlatformID
 var CSDVersion
-var IconLocation
 
 # Installer languages
 !insertmacro XPUI_LANGUAGE "English"
@@ -123,11 +122,8 @@ Section -Main SEC0000
     SetOutPath "$INSTDIR\jre"
     File /r "${JRE_ROOT}\*"
     
-    SetOutPath "$INSTDIR\Icons\legacy"
-    File "Icons\legacy\*.ico"
-   
-    SetOutPath "$INSTDIR\Icons\standard"
-    File "Icons\standard\*.ico"
+    SetOutPath "$INSTDIR\Icons"
+    File "Icons\*.ico"
 
 SectionEnd
 
@@ -182,18 +178,7 @@ Section -post SEC0001
     WriteRegStr HKCR ".xml\OpenWithProgids"                         "AptanaStudio3.xml"      ""
     WriteRegStr HKCR ".xml\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
 
-    # Now see which icon set we use, legacy or standard
-    StrCmp $OnWindows2000 "1" ItIsWindows2000 ItIsNotWindows2000
-    
-    ItIsWindows2000:
-        StrCpy $IconLocation "legacy"
-        Goto DoneSetIconLocation
-            
-    ItIsNotWindows2000:
-        StrCpy $IconLocation "standard"
-        
-    DoneSetIconLocation:
-    
+   
     #  
     # Now set icons for each of the file types
     #
@@ -201,14 +186,14 @@ Section -post SEC0001
     # CSS
     !insertmacro INSTALLOPTIONS_READ $R0 "associations.ini" "Field 1" "State" 
     ${if} $R0 == "1"
-        WriteRegStr HKCR "CSSFile\DefaultIcon"          ""              "$INSTDIR\Icons\$IconLocation\aptana_file_css.ico"
+        WriteRegStr HKCR "CSSFile\DefaultIcon"          ""              "$INSTDIR\Icons\aptana_file_css.ico"
         WriteRegStr HKCR "CSSFile\shell\open\command"   ""              '"$INSTDIR\aptanastudio3.exe" "%1"'
     ${endif}
     
     # JS
     !insertmacro INSTALLOPTIONS_READ $R0 "associations.ini" "Field 2" "State" 
     ${if} $R0 == "1"
-        WriteRegStr HKCR "JSFile\DefaultIcon"           ""              "$INSTDIR\Icons\$IconLocation\aptana_file_js.ico"
+        WriteRegStr HKCR "JSFile\DefaultIcon"           ""              "$INSTDIR\Icons\aptana_file_js.ico"
         WriteRegStr HKCR "JSFile\shell\open\command"    ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
     ${endif}
   
@@ -218,14 +203,14 @@ Section -post SEC0001
         WriteRegStr HKCR ".sdoc"                        ""              "SDOCFile"
         WriteRegStr HKCR ".sdoc"                        "ContentType"   "text/plain"
         WriteRegStr HKCR ".sdoc"                        "PerceivedType" "text"
-        WriteRegStr HKCR "SDOCFile\DefaultIcon"         ""              "$INSTDIR\Icons\$IconLocation\aptana_file_sdoc.ico"
+        WriteRegStr HKCR "SDOCFile\DefaultIcon"         ""              "$INSTDIR\Icons\aptana_file_sdoc.ico"
         WriteRegStr HKCR "SDOCFile\shell\open\command"  ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
     ${endif}        
       
     # XML
     !insertmacro INSTALLOPTIONS_READ $R0 "associations.ini" "Field 4" "State" 
     ${if} $R0 == "1"
-        WriteRegStr HKCR "xmlfile\DefaultIcon"          ""              "$INSTDIR\Icons\$IconLocation\aptana_file_xml.ico"
+        WriteRegStr HKCR "xmlfile\DefaultIcon"          ""              "$INSTDIR\Icons\aptana_file_xml.ico"
         WriteRegStr HKCR "xmlfile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
     ${endif}
 
