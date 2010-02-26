@@ -34,7 +34,7 @@ public class RailsPerspectiveFactory implements IPerspectiveFactory
 		String editorArea = layout.getEditorArea();
 
 		// Left
-		IPlaceholderFolderLayout left = layout.createPlaceholderFolder("left", IPageLayout.LEFT, 0.25f, editorArea); //$NON-NLS-1$
+		layout.createPlaceholderFolder("left", IPageLayout.LEFT, 0.25f, editorArea); //$NON-NLS-1$
 
 		// Bottom right: Console. Had to leave this programmatic to get the Console appear in bottom right
         IPlaceholderFolderLayout consoleArea = layout.createPlaceholderFolder("consoleArea", IPageLayout.BOTTOM, 0.75f, //$NON-NLS-1$
