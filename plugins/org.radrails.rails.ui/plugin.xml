@@ -88,6 +88,9 @@
          <newWizardShortcut
                id="org.eclipse.ui.wizards.new.folder">
          </newWizardShortcut>
+         <actionSet
+               id="org.radrails.rails.ui.actionSet">
+         </actionSet>
       </perspectiveExtension>
    </extension>
    <extension
@@ -153,5 +156,21 @@
                style="push">
          </command>
       </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.radrails.rails.ui.actionSet"
+            label="%RailsRunActionSet.label"
+            visible="false">
+         <action
+               class="org.radrails.rails.internal.ui.actions.RunScriptServerAction"
+               definitionId="org.radrails.rails.ui.command.server"
+               id="org.radrails.rails.ui.action.server"
+               label="%ScriptServerAction.label"
+               menubarPath="org.eclipse.ui.run/runGroup"
+               style="push">
+         </action>
+      </actionSet>
    </extension>
 </plugin>
