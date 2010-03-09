@@ -14,7 +14,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.equinox.p2.ui.sdk.scheduler,
  com.ibm.icu,
  org.eclipse.core.net,
- com.aptana.radrails.rcp.main,
  com.aptana.commandline.launcher
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
