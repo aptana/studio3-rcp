@@ -33,7 +33,7 @@ public class RubyArgumentsTab extends AbstractLaunchConfigurationTab
 		Composite composite = createPageRoot(parent);
 
 		new Label(composite, SWT.NONE)
-				.setText(Messages.LaunchConfigurationTab_RubyArguments_interpreter_args_box_title);
+				.setText(Messages.RubyArgumentsTab_interpreter_args_box_title);
 		interpreterArgsText = new Text(composite, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 		interpreterArgsText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		interpreterArgsText.addModifyListener(new ModifyListener()
@@ -44,7 +44,7 @@ public class RubyArgumentsTab extends AbstractLaunchConfigurationTab
 			}
 		});
 
-		new Label(composite, SWT.NONE).setText(Messages.LaunchConfigurationTab_RubyArguments_program_args_box_title);
+		new Label(composite, SWT.NONE).setText(Messages.RubyArgumentsTab_program_args_box_title);
 		programArgsText = new Text(composite, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 		programArgsText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		programArgsText.addModifyListener(new ModifyListener()
@@ -58,10 +58,10 @@ public class RubyArgumentsTab extends AbstractLaunchConfigurationTab
 		new Label(composite, SWT.NONE);
 		// TODO Use WorkingDirectoryBlock when our minimum Eclipse version is 3.5+!
 
-		new Label(composite, SWT.NONE).setText(Messages.LaunchConfigurationTab_RubyArguments_working_dir);
+		new Label(composite, SWT.NONE).setText(Messages.RubyArgumentsTab_working_dir);
 		workingDirectorySelector = new DirectorySelector(composite);
 		workingDirectorySelector
-				.setBrowseDialogMessage(Messages.LaunchConfigurationTab_RubyArguments_working_dir_browser_message);
+				.setBrowseDialogMessage(Messages.RubyArgumentsTab_working_dir_browser_message);
 		workingDirectorySelector.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		workingDirectorySelector.addModifyListener(new ModifyListener()
 		{
@@ -125,7 +125,7 @@ public class RubyArgumentsTab extends AbstractLaunchConfigurationTab
 
 	public String getName()
 	{
-		return Messages.LaunchConfigurationTab_RubyArguments_name;
+		return Messages.RubyArgumentsTab_name;
 	}
 
 	public boolean isValid(ILaunchConfiguration launchConfig)
@@ -136,7 +136,7 @@ public class RubyArgumentsTab extends AbstractLaunchConfigurationTab
 					IRubyLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY, ""); //$NON-NLS-1$
 			if (workingDirectory.length() == 0)
 			{
-				setErrorMessage(Messages.LaunchConfigurationTab_RubyArguments_working_dir_error_message);
+				setErrorMessage(Messages.RubyArgumentsTab_working_dir_error_message);
 				return false;
 			}
 		}
