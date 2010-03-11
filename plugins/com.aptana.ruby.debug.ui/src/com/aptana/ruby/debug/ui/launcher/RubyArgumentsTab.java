@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
-import com.aptana.ruby.debug.ui.DebugUIPlugin;
+import com.aptana.ruby.debug.ui.RubyDebugUIPlugin;
 
 public class RubyArgumentsTab extends AbstractLaunchConfigurationTab
 {
@@ -151,12 +151,12 @@ public class RubyArgumentsTab extends AbstractLaunchConfigurationTab
 
 	protected void log(Throwable t)
 	{
-		DebugUIPlugin.logError(t.getMessage(), t);
+		RubyDebugUIPlugin.logError(t.getMessage(), t);
 	}
 
 	public Image getImage()
 	{
-		return DebugUIPlugin.getDefault().getImageRegistry().get(DebugUIPlugin.IMG_EVIEW_ARGUMENTS_TAB);
+		return RubyDebugUIPlugin.getDefault().getImageRegistry().get(RubyDebugUIPlugin.IMG_EVIEW_ARGUMENTS_TAB);
 	}
 
 }

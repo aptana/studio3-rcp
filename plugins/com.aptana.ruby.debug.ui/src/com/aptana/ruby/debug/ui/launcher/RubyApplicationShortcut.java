@@ -23,7 +23,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 
 import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
-import com.aptana.ruby.debug.ui.DebugUIPlugin;
+import com.aptana.ruby.debug.ui.RubyDebugUIPlugin;
 
 public class RubyApplicationShortcut implements ILaunchShortcut
 {
@@ -53,7 +53,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 			}
 			catch (CoreException e)
 			{
-				DebugUIPlugin.logError(e);
+				RubyDebugUIPlugin.logError(e);
 			}
 		}
 	}
@@ -72,7 +72,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 		IEditorInput input = editor.getEditorInput();
 		if (input == null)
 		{
-			DebugUIPlugin.logError("Could not retrieve input from editor: " + editor.getTitle(), null);
+			RubyDebugUIPlugin.logError("Could not retrieve input from editor: " + editor.getTitle(), null);
 			return;
 		}
 		if (input instanceof IFileEditorInput)
@@ -85,7 +85,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 			}
 			catch (CoreException e)
 			{
-				DebugUIPlugin.logError(e);
+				RubyDebugUIPlugin.logError(e);
 			}
 		}
 		// TODO Log error that we need an IFile...
@@ -114,7 +114,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 			case 1:
 				return candidateConfigs.get(0);
 			default:
-				Status status = new Status(Status.WARNING, DebugUIPlugin.getPluginId(), 0,
+				Status status = new Status(Status.WARNING, RubyDebugUIPlugin.getPluginId(), 0,
 						"Multiple configurations match", null);
 				throw new CoreException(status);
 		}
@@ -138,7 +138,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 		}
 		catch (CoreException ce)
 		{
-			DebugUIPlugin.logError(ce);
+			RubyDebugUIPlugin.logError(ce);
 		}
 		return config;
 	}

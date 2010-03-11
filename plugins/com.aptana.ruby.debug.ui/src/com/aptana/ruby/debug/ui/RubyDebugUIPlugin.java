@@ -7,7 +7,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-public class DebugUIPlugin extends AbstractUIPlugin
+public class RubyDebugUIPlugin extends AbstractUIPlugin
 {
 
 	// The plug-in ID
@@ -16,12 +16,12 @@ public class DebugUIPlugin extends AbstractUIPlugin
 	public static final String IMG_EVIEW_ARGUMENTS_TAB = "icons/full/eview16/arguments_tab.gif"; //$NON-NLS-1$
 
 	// The shared instance
-	private static DebugUIPlugin plugin;
+	private static RubyDebugUIPlugin plugin;
 
 	/**
 	 * The constructor
 	 */
-	public DebugUIPlugin()
+	public RubyDebugUIPlugin()
 	{
 	}
 
@@ -50,7 +50,7 @@ public class DebugUIPlugin extends AbstractUIPlugin
 	 * 
 	 * @return the shared instance
 	 */
-	public static DebugUIPlugin getDefault()
+	public static RubyDebugUIPlugin getDefault()
 	{
 		return plugin;
 	}
