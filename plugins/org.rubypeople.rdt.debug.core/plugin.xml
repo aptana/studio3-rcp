@@ -115,7 +115,7 @@
             delegate="org.rubypeople.rdt.internal.debug.core.launching.RubyDebuggerLaunchDelegate"
             id="org.rubypeople.rdt.debug.core.launchConfigurationType"
             modes="debug"
-            name="name"
+            name="%LaunchConfigurationTypeRubyApplication.name"
             public="true"
             sourceLocatorId="org.rubypeople.rdt.debug.core.sourceLocator"
             sourcePathComputerId="org.rubypeople.rdt.debug.core.sourcePathComputer">
@@ -126,7 +126,7 @@
       <sourceLocator
             class="org.rubypeople.rdt.internal.debug.core.launching.RubySourceLookupDirector"
             id="org.rubypeople.rdt.debug.core.sourceLocator"
-            name="name">
+            name="%sourceLocator.name.0">
       </sourceLocator>
    </extension>
    <extension
