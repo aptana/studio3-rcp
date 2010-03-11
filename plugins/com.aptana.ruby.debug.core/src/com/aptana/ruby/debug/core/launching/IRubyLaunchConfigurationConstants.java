@@ -52,4 +52,27 @@ public interface IRubyLaunchConfigurationConstants
 	 * Default value for ATTR_REMOTE_HOST: localhost.
 	 */
 	public static final String DEFAULT_REMOTE_HOST = "localhost";
+
+	/**
+	 * Port of the remote debugger we're trying to attach to.
+	 */
+	public static final String ATTR_REMOTE_PORT = ID_RUBY_DEBUG_MODEL + ".ATTR_REMOTE_PORT";
+
+	/**
+	 * Status code indicating a launch configuration does not specify a host name value
+	 */
+	public static final int ERR_UNSPECIFIED_HOSTNAME = 109;
+
+	/**
+	 * Status code indicating a launch configuration does not specify a port number value
+	 */
+	public static final int ERR_UNSPECIFIED_PORT = 111;
+
+	/**
+	 * Status code indicating an attempt to connect to a remote VM has failed or an attempt to listen for a remote VM
+	 * connecting has failed.
+	 */
+	public static final int ERR_REMOTE_VM_CONNECTION_FAILED = 113;
+
+	public static final String DEFAULT_REMOTE_PORT = "1234";
 }

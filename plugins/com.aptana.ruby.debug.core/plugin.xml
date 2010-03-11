@@ -119,6 +119,15 @@
             public="true"
             sourceLocatorId="com.aptana.ruby.debug.core.sourceLocator"
             sourcePathComputerId="com.aptana.ruby.debug.core.sourcePathComputer">
+      </launchConfigurationType>      
+      <launchConfigurationType
+            delegate="com.aptana.ruby.internal.debug.core.launching.RemoteRubyDebuggerLaunchDelegate"
+            id="com.aptana.ruby.debug.core.remoteDebuggerLaunchConfigurationType"
+            modes="debug"
+            name="%remoteRubyApplication"
+            public="true"
+            sourceLocatorId="com.aptana.ruby.debug.core.sourceLocator"
+            sourcePathComputerId="com.aptana.ruby.debug.core.sourcePathComputer">
       </launchConfigurationType>
    </extension>
    <extension

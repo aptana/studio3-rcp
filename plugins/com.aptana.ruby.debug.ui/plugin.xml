@@ -120,7 +120,13 @@
             description="Run or debug a Ruby program"
             class="com.aptana.ruby.debug.ui.launcher.RubyTabGroup"
             id="com.aptana.ruby.debug.ui.launchConfigurationTabGroup.ruby">
-      </launchConfigurationTabGroup>
+      </launchConfigurationTabGroup>      
+      <launchConfigurationTabGroup
+        class="com.aptana.ruby.debug.ui.launcher.RemoteRubyApplicationTabGroup"
+        description="%remoteRubyApplicationTabGroupDescription"
+        id="com.aptana.ruby.debug.ui.launchConfigurationTabGroup.remoteRubyApplication"
+        type="com.aptana.ruby.debug.core.remoteDebuggerLaunchConfigurationType">
+  	  </launchConfigurationTabGroup>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
