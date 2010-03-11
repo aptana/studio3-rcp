@@ -11,10 +11,9 @@
  *******************************************************************************/
 package com.aptana.radrails.debug.ui;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.debug.ui.actions.IToggleBreakpointsTarget;
-import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Creates a toggle breakpoint adapter
@@ -27,19 +26,11 @@ public class RubyBreakpointAdapterFactory implements IAdapterFactory
 	 */
 	public Object getAdapter(Object adaptableObject, Class adapterType)
 	{
-		if (adaptableObject instanceof ITextEditor)
+		RubyLineBreakpointAdapter adapter = new RubyLineBreakpointAdapter();
+		if (adaptableObject instanceof IWorkbenchPart)
 		{
-			ITextEditor editorPart = (ITextEditor) adaptableObject;
-			IResource resource = (IResource) editorPart.getEditorInput().getAdapter(IResource.class);
-			if (resource != null)
-			{
-				// FIXME This is ugly!
-				String extension = resource.getFileExtension();
-				if (extension != null && extension.equals("rb"))
-				{
-					return new RubyLineBreakpointAdapter();
-				}
-			}
+			if (adapter.getEditor((IWorkbenchPart) adaptableObject) != null)
+				return adapter;
 		}
 		return null;
 	}
