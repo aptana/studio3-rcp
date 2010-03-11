@@ -101,6 +101,7 @@ public class RubyMainTab extends AbstractLaunchConfigurationTab
 	 */
 	protected void browseRubyFiles()
 	{
+		// FIXME Use a file selector dialog!
 		ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(getShell(), ResourcesPlugin.getWorkspace()
 				.getRoot(), IResource.FILE);
 		dialog.setTitle("Ruby Program");
