@@ -52,8 +52,7 @@
 				<contextLabel label="%LaunchShortcut.Ruby.label" mode="debug">
 				</contextLabel>
 			</contextualLaunch>
-			<perspective id="org.radrails.rails.ui.PerspectiveRails">
-			</perspective>
+			<perspective id="org.radrails.rails.ui.PerspectiveRails" />
 		</shortcut>
 	</extension>
 	<extension point="org.eclipse.ui.commands">
