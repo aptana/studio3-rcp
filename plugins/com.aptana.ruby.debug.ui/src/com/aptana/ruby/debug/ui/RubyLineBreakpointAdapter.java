@@ -23,6 +23,8 @@ import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
  */
 public class RubyLineBreakpointAdapter implements IToggleBreakpointsTarget
 {
+	private static final String RUBY_CONTENT_TYPE_ID = "com.aptana.contenttype.ruby"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleLineBreakpoints(org.eclipse.ui.IWorkbenchPart,
@@ -85,7 +87,7 @@ public class RubyLineBreakpointAdapter implements IToggleBreakpointsTarget
 		if (resource == null || !(resource instanceof IFile))
 			return null;
 
-		IContentType rubyType = Platform.getContentTypeManager().getContentType("com.aptana.contenttype.ruby"); //$NON-NLS-1$
+		IContentType rubyType = Platform.getContentTypeManager().getContentType(RUBY_CONTENT_TYPE_ID);
 		IFile file = (IFile) resource;
 		IContentType type = IDE.getContentType(file);
 		if (type.isKindOf(rubyType))
