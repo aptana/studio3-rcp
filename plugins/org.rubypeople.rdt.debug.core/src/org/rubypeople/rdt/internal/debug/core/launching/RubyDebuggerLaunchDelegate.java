@@ -44,6 +44,7 @@ import com.aptana.util.ExecutableUtil;
 public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 {
 
+	private static final String DEBUGGER_PORT_SWITCH = "--port"; //$NON-NLS-1$
 	/**
 	 * Switch/arguments that tells ruby/debugger that we're done passing switches/arguments to it.
 	 */
@@ -62,7 +63,8 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	{
 		List<String> commandList = new ArrayList<String>();
 		// Ruby binary
-		commandList.add(rubyExecutable());
+		String exe = rubyExecutable();
+		commandList.add(exe);
 		// Arguments to ruby
 		commandList.addAll(interpreterArguments(configuration));
 
@@ -78,7 +80,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			{
 				abort("Unable to find free port", null);
 			}
-			commandList.addAll(debugArguments(host, port, configuration));
+			commandList.addAll(debugArguments(exe, host, port, configuration));
 		}
 		// File to run
 		commandList.add(fileToLaunch(configuration));
@@ -146,24 +148,35 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		return program;
 	}
 
-	private Collection<? extends String> debugArguments(String host, int port, ILaunchConfiguration configuration)
+	private Collection<? extends String> debugArguments(String exe, String host, int port,
+			ILaunchConfiguration configuration) throws CoreException
 	{
 		List<String> commandList = new ArrayList<String>();
-		// TODO Need to tell it not to add "exe" on windows via a flag!
-		String rdebug = ExecutableUtil.find("rdebug-ide", null, getRDebugIDELocations());
-		// TODO What if rdebug can't be found?
+		String rdebug = ExecutableUtil.find("rdebug-ide", false, null, getRDebugIDELocations(exe)); //$NON-NLS-1$
+		if (rdebug == null)
+		{
+			abort("Unable to find 'rdebug-ide' binary script. May need to install 'ruby-debug-ide' gem.", null);
+		}
 		commandList.add(rdebug);
-		commandList.add("--port"); //$NON-NLS-1$
+		commandList.add(DEBUGGER_PORT_SWITCH);
 		commandList.add(Integer.toString(port));
 		commandList.add(END_OF_ARGUMENTS_DELIMETER);
 		return commandList;
 	}
 
-	private List<String> getRDebugIDELocations()
+	@SuppressWarnings("nls")
+	private List<String> getRDebugIDELocations(String rubyExe)
 	{
 		List<String> locations = new ArrayList<String>();
 		// TODO What are the common places this could be?
-		locations.add(System.getProperty("user.home") + "/.gem/ruby/1.8/bin/rdebug-ide"); //$NON-NLS-1$ //$NON-NLS-2$
+		// check in bin dir alongside where our ruby exe is!
+		locations.add(new File(rubyExe).getParent() + File.separator + "rdebug-ide");
+		locations.add(System.getProperty("user.home") + "/.gem/ruby/1.8/bin/rdebug-ide");
+		locations.add(System.getProperty("user.home") + "/.gem/ruby/1.9/bin/rdebug-ide");
+		locations.add("/opt/local/bin/rdebug-ide");
+		locations.add("/usr/local/bin/rdebug-ide");
+		locations.add("/usr/bin/rdebug-ide");
+		locations.add("/bin/rdebug-ide");
 		return locations;
 	}
 
@@ -197,10 +210,10 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	{
 		// Ruby executable, look for rubyw, then ruby
 		// TODO check TM_RUBY env value?
-		String path = ExecutableUtil.find(RUBYW, null, getCommonRubyBinaryLocations(RUBYW));
+		String path = ExecutableUtil.find(RUBYW, true, null, getCommonRubyBinaryLocations(RUBYW));
 		if (path == null)
 		{
-			path = ExecutableUtil.find(RUBY, null, getCommonRubyBinaryLocations(RUBY));
+			path = ExecutableUtil.find(RUBY, true, null, getCommonRubyBinaryLocations(RUBY));
 		}
 		if (path == null)
 		{
