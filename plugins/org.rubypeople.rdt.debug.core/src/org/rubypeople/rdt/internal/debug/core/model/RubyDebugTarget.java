@@ -63,11 +63,6 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		this(launch, null, host, port);
 	}
 
-	public RubyDebugTarget(ILaunch launch, int port)
-	{
-		this(launch, "localhost", port);
-	}
-
 	public String getHost()
 	{
 		return host;
@@ -162,7 +157,8 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		RubyThread thread = this.getThreadById(suspensionPoint.getThreadId());
 		if (thread == null)
 		{
-			RubyDebugCorePlugin.log(IStatus.ERROR, "Thread with id " + suspensionPoint.getThreadId() + " was not found");
+			RubyDebugCorePlugin
+					.log(IStatus.ERROR, "Thread with id " + suspensionPoint.getThreadId() + " was not found");
 			return;
 		}
 		thread.doSuspend(suspensionPoint);
