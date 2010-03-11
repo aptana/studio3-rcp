@@ -77,16 +77,15 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			{
 				abort("Unable to find free port", null);
 			}
+			// RDebug-ide
+			// FIXME Grab location of bin script by searching or from pref value!
+			commandList.add("/Users/cwilliams/.gem/ruby/1.8/bin/rdebug-ide");
+			commandList.add("--port"); //$NON-NLS-1$
+			commandList.add(Integer.toString(port));
+			commandList.add("--"); //$NON-NLS-1$
 		}
 
-		// RDebug-ide
-		// FIXME Grab location of bin script by searching or from pref value!
-		commandList.add("/Users/cwilliams/.gem/ruby/1.8/bin/rdebug-ide");
-		commandList.add("--port"); //$NON-NLS-1$
-		commandList.add(Integer.toString(port));
-		commandList.add("--"); //$NON-NLS-1$
-
-		// file we're debugging
+		// file we're debugging/running
 		String program = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, (String) null);
 		if (program == null)
 		{
@@ -99,15 +98,16 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		}
 		commandList.add(program);
 
-		String[] commandLine = commandList.toArray(new String[commandList.size()]);
+		String host = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME,
+				IRubyLaunchConfigurationConstants.DEFAULT_REMOTE_HOST);
 
-		Process process = DebugPlugin.exec(commandLine, getWorkingDirectory(configuration));
+		// Now actually launch the process!
+		Process process = DebugPlugin.exec(commandList.toArray(new String[commandList.size()]),
+				getWorkingDirectory(configuration), getEnvironment(configuration));
 		IProcess p = DebugPlugin.newProcess(launch, process, path);
 		if (mode.equals(ILaunchManager.DEBUG_MODE))
 		{
-			RubyDebugTarget target = new RubyDebugTarget(launch, "localhost", port); // TODO Extract localhost out to
-																						// some interface as default
-																						// value
+			RubyDebugTarget target = new RubyDebugTarget(launch, host, port);
 			target.setProcess(p);
 			RubyDebuggerProxy proxy = new RubyDebuggerProxy(target, true);
 			try
@@ -126,6 +126,11 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 				target.terminate();
 			}
 		}
+	}
+
+	private String[] getEnvironment(ILaunchConfiguration configuration) throws CoreException
+	{
+		return DebugPlugin.getDefault().getLaunchManager().getEnvironment(configuration);
 	}
 
 	/**
