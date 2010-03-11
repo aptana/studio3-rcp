@@ -2,7 +2,7 @@ package org.rubypeople.rdt.internal.debug.core.parsing;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.internal.debug.core.model.RubyProcessingException;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -23,7 +23,7 @@ public class LoadResultReader extends XmlStreamReader {
 		try {			
 			this.read();
 		} catch (Exception ex) {
-			RdtDebugCorePlugin.log(ex);
+			RubyDebugCorePlugin.log(ex);
 		}
 		int code = IStatus.ERROR;
 		if (loadResult.isOk())
@@ -32,7 +32,7 @@ public class LoadResultReader extends XmlStreamReader {
 		if (loadResult.exceptionType != null)
 		builder.append(loadResult.exceptionType).append(": ");
 		builder.append(loadResult.exceptionMessage);
-		return new Status(code, RdtDebugCorePlugin.PLUGIN_ID, -1, builder.toString(), null);	
+		return new Status(code, RubyDebugCorePlugin.PLUGIN_ID, -1, builder.toString(), null);	
 	}
 
 	protected boolean processStartElement(XmlPullParser xpp) {

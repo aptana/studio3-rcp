@@ -23,8 +23,8 @@ import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
 import org.rubypeople.rdt.debug.core.IRubyLineBreakpoint;
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
-import org.rubypeople.rdt.debug.core.RdtDebugModel;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugModel;
 import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
 import org.rubypeople.rdt.internal.debug.core.SuspensionPoint;
 
@@ -75,7 +75,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 
 	public void updateThreads()
 	{
-		RdtDebugCorePlugin.debug("udpating threads");
+		RubyDebugCorePlugin.debug("udpating threads");
 		ThreadInfo[] threadInfos = this.getRubyDebuggerProxy().readThreads();
 		updateThreads(threadInfos);
 	}
@@ -162,7 +162,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		RubyThread thread = this.getThreadById(suspensionPoint.getThreadId());
 		if (thread == null)
 		{
-			RdtDebugCorePlugin.log(IStatus.ERROR, "Thread with id " + suspensionPoint.getThreadId() + " was not found");
+			RubyDebugCorePlugin.log(IStatus.ERROR, "Thread with id " + suspensionPoint.getThreadId() + " was not found");
 			return;
 		}
 		thread.doSuspend(suspensionPoint);
@@ -232,7 +232,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		}
 		catch (IOException e)
 		{
-			throw new DebugException(new Status(IStatus.ERROR, RdtDebugCorePlugin.PLUGIN_ID,
+			throw new DebugException(new Status(IStatus.ERROR, RubyDebugCorePlugin.PLUGIN_ID,
 					DebugException.INTERNAL_ERROR, "Failed to stop ruby debugger proxy", e));
 		}
 
@@ -245,7 +245,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 			boolean deleted = debugParameterFile.delete();
 			if (!deleted)
 			{
-				RdtDebugCorePlugin.debug("Could not delete debugParameteFile:" + debugParameterFile.toURI());
+				RubyDebugCorePlugin.debug("Could not delete debugParameteFile:" + debugParameterFile.toURI());
 			}
 		}
 	}
@@ -379,7 +379,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 			}
 			catch (IOException e)
 			{
-				RdtDebugCorePlugin.log("Could not create debugParameterFile", e);
+				RubyDebugCorePlugin.log("Could not create debugParameterFile", e);
 			}
 		}
 		return debugParameterFile;
@@ -422,10 +422,10 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 	{
 		IBreakpointManager manager = DebugPlugin.getDefault().getBreakpointManager();
 		manager.addBreakpointListener(this);
-		IBreakpoint[] bps = manager.getBreakpoints(RdtDebugModel.getModelIdentifier());
+		IBreakpoint[] bps = manager.getBreakpoints(RubyDebugModel.getModelIdentifier());
 		for (int i = 0; i < bps.length; i++)
 		{
-			if (bps[i].getModelIdentifier().equals(RdtDebugModel.getModelIdentifier()))
+			if (bps[i].getModelIdentifier().equals(RubyDebugModel.getModelIdentifier()))
 			{
 				breakpointAdded(bps[i]);
 			}
@@ -444,7 +444,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		}
 		catch (IOException ex)
 		{
-			RdtDebugCorePlugin.log(ex);
+			RubyDebugCorePlugin.log(ex);
 			return false;
 		}
 		finally

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.debug.core.model.IVariable;
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.debug.core.model.IRubyStackFrame;
 import org.rubypeople.rdt.debug.core.model.IRubyVariable;
 import org.rubypeople.rdt.internal.debug.core.model.RubyProcessingException;
@@ -42,7 +42,7 @@ public class VariableReader extends XmlStreamReader {
 		try {			
 			this.read();
 		} catch (Exception ex) {
-			RdtDebugCorePlugin.log(ex);
+			RubyDebugCorePlugin.log(ex);
 			return new RubyVariable[0];
 		}
 		if (exceptionMessage != null) {

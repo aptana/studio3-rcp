@@ -1,6 +1,6 @@
 package org.rubypeople.rdt.internal.debug.core.parsing;
 
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.xmlpull.v1.XmlPullParser;
 
 public class ErrorReader extends XmlStreamReader {
@@ -21,7 +21,7 @@ public class ErrorReader extends XmlStreamReader {
 
 	@Override
 	public void processContent(String text) {
-		RdtDebugCorePlugin.log(text,null) ;
+		RubyDebugCorePlugin.log(text,null) ;
 	}
 	@Override
 	protected boolean processEndElement(XmlPullParser xpp) {

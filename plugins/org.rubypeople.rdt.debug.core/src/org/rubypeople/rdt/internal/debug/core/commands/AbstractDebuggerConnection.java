@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.internal.debug.core.DebuggerNotFoundException;
 import org.rubypeople.rdt.internal.debug.core.parsing.AbstractReadStrategy;
 import org.rubypeople.rdt.internal.debug.core.parsing.MultiReaderStrategy;
@@ -55,7 +55,7 @@ public abstract class AbstractDebuggerConnection
 		{
 			throw new IllegalStateException(command + " could not be sent since command socket is not open");
 		}
-		RdtDebugCorePlugin.debug("Sending command: " + command.getCommand());
+		RubyDebugCorePlugin.debug("Sending command: " + command.getCommand());
 		getWriter().println(command.getCommand());
 		return getCommandReadStrategy();
 	}

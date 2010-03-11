@@ -3,7 +3,7 @@ package org.rubypeople.rdt.internal.debug.core.breakpoints;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.Breakpoint;
-import org.rubypeople.rdt.debug.core.RdtDebugModel;
+import org.rubypeople.rdt.debug.core.RubyDebugModel;
 
 public abstract class RubyBreakpoint extends Breakpoint
 {
@@ -61,7 +61,7 @@ public abstract class RubyBreakpoint extends Breakpoint
 
 	public String getModelIdentifier()
 	{
-		return RdtDebugModel.getModelIdentifier();
+		return RubyDebugModel.getModelIdentifier();
 	}
 
 	/**

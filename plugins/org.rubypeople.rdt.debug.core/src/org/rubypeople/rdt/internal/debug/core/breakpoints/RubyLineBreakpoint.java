@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.rubypeople.rdt.debug.core.IRubyLineBreakpoint;
-import org.rubypeople.rdt.debug.core.RdtDebugModel;
+import org.rubypeople.rdt.debug.core.RubyDebugModel;
 
 public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreakpoint
 {
@@ -136,7 +136,7 @@ public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreak
 
 	public String getModelIdentifier()
 	{
-		return RdtDebugModel.getModelIdentifier();
+		return RubyDebugModel.getModelIdentifier();
 	}
 
 	public int getIndex()

@@ -1,6 +1,6 @@
 package org.rubypeople.rdt.internal.debug.core.parsing;
 
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.xmlpull.v1.XmlPullParser;
 
 public class BreakpointModificationReader extends XmlStreamReader {
@@ -19,7 +19,7 @@ public class BreakpointModificationReader extends XmlStreamReader {
 		try {
 			this.read();
 		} catch (Exception ex) {
-			RdtDebugCorePlugin.log(ex);
+			RubyDebugCorePlugin.log(ex);
 			return -1;
 		}
 		return Integer.parseInt(no);

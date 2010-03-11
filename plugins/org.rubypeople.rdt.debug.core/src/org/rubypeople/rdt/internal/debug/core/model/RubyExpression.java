@@ -6,7 +6,7 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IExpression;
 import org.eclipse.debug.core.model.IValue;
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.debug.core.model.IRubyVariable;
 
 //see RubyDebugTarget for the reason why PlatformObject is being extended
@@ -31,7 +31,7 @@ public class RubyExpression extends PlatformObject implements IExpression {
 	}
 	catch (DebugException e)
 	{
-		RdtDebugCorePlugin.log(e);
+		RubyDebugCorePlugin.log(e);
 		return null;
 	}
   }

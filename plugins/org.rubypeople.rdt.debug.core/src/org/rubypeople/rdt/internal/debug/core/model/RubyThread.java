@@ -13,7 +13,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.debug.core.model.IRubyThread;
 import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
 import org.rubypeople.rdt.internal.debug.core.SuspensionPoint;
@@ -366,11 +366,11 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 				{
 					if (failed == null)
 					{
-						failed = new MultiStatus(RdtDebugCorePlugin.getPluginIdentifier(),
-								RdtDebugCorePlugin.INTERNAL_ERROR, "Exception processing async thread queue", null);
+						failed = new MultiStatus(RubyDebugCorePlugin.getPluginIdentifier(),
+								RubyDebugCorePlugin.INTERNAL_ERROR, "Exception processing async thread queue", null);
 					}
-					failed.add(new Status(IStatus.ERROR, RdtDebugCorePlugin.getPluginIdentifier(),
-							RdtDebugCorePlugin.INTERNAL_ERROR, "Exception processing async thread queue", e));
+					failed.add(new Status(IStatus.ERROR, RubyDebugCorePlugin.getPluginIdentifier(),
+							RubyDebugCorePlugin.INTERNAL_ERROR, "Exception processing async thread queue", e));
 				}
 				i++;
 				monitor.worked(1);

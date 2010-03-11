@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.rubypeople.rdt.debug.core.IRubyLineBreakpoint;
-import org.rubypeople.rdt.debug.core.RdtDebugModel;
+import org.rubypeople.rdt.debug.core.RubyDebugModel;
 import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
 
 /**
@@ -59,7 +59,7 @@ public class RubyLineBreakpointAdapter implements IToggleBreakpointsTarget
 				}
 			}
 			// create line breakpoint (doc line numbers start at 0)
-			IRubyLineBreakpoint lineBreakpoint = RdtDebugModel.createLineBreakpoint(resource, resource.getName(), "",
+			IRubyLineBreakpoint lineBreakpoint = RubyDebugModel.createLineBreakpoint(resource, resource.getName(), "",
 					++lineNumber, true, null);
 			// DebugPlugin.getDefault().getBreakpointManager().addBreakpoint(lineBreakpoint);
 		}

@@ -8,11 +8,10 @@ import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.osgi.framework.BundleContext;
 
-public class RdtDebugCorePlugin extends Plugin
+public class RubyDebugCorePlugin extends Plugin
 {
 
 	public static final String PLUGIN_ID = "org.rubypeople.rdt.debug.core"; //$NON-NLS-1$
-	public static final String MODEL_IDENTIFIER = "org.rubypeople.rdt.debug";
 
 	/**
 	 * Status code indicating an unexpected internal error.
@@ -21,9 +20,9 @@ public class RdtDebugCorePlugin extends Plugin
 
 	private static boolean isRubyDebuggerVerbose = false;
 
-	protected static RdtDebugCorePlugin plugin;
+	protected static RubyDebugCorePlugin plugin;
 
-	public RdtDebugCorePlugin()
+	public RubyDebugCorePlugin()
 	{
 		super();
 	}
@@ -46,7 +45,7 @@ public class RdtDebugCorePlugin extends Plugin
 	{
 		plugin = this;
 		super.start(context);
-		String rubyDebuggerVerboseOption = Platform.getDebugOption(RdtDebugCorePlugin.PLUGIN_ID
+		String rubyDebuggerVerboseOption = Platform.getDebugOption(RubyDebugCorePlugin.PLUGIN_ID
 				+ "/rubyDebuggerVerbose");
 		isRubyDebuggerVerbose = rubyDebuggerVerboseOption == null ? false : rubyDebuggerVerboseOption
 				.equalsIgnoreCase("true");
@@ -55,7 +54,7 @@ public class RdtDebugCorePlugin extends Plugin
 	public static void log(int severity, String message)
 	{
 		Status status = new Status(severity, PLUGIN_ID, IStatus.OK, message, null);
-		RdtDebugCorePlugin.log(status);
+		RubyDebugCorePlugin.log(status);
 	}
 
 	public static void log(String message, Throwable e)
@@ -65,7 +64,7 @@ public class RdtDebugCorePlugin extends Plugin
 
 	public static void log(IStatus status)
 	{
-		if (RdtDebugCorePlugin.getDefault() != null)
+		if (RubyDebugCorePlugin.getDefault() != null)
 		{
 			getDefault().getLog().log(status);
 		}
@@ -83,9 +82,9 @@ public class RdtDebugCorePlugin extends Plugin
 
 	public static void debug(Object message)
 	{
-		if (RdtDebugCorePlugin.getDefault() != null)
+		if (RubyDebugCorePlugin.getDefault() != null)
 		{
-			if (RdtDebugCorePlugin.getDefault().isDebugging())
+			if (RubyDebugCorePlugin.getDefault().isDebugging())
 			{
 				System.out.println(message.toString());
 			}
@@ -100,12 +99,12 @@ public class RdtDebugCorePlugin extends Plugin
 
 	public static void debug(String message, Throwable e)
 	{
-		if (RdtDebugCorePlugin.getDefault() != null)
+		if (RubyDebugCorePlugin.getDefault() != null)
 		{
-			if (RdtDebugCorePlugin.getDefault().isDebugging())
+			if (RubyDebugCorePlugin.getDefault().isDebugging())
 			{
 				System.out.println(message + ", Exception: " + e.getMessage());
-				RdtDebugCorePlugin.log(e);
+				RubyDebugCorePlugin.log(e);
 			}
 
 		}

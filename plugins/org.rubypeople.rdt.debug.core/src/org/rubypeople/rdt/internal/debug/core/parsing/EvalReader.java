@@ -1,6 +1,6 @@
 package org.rubypeople.rdt.internal.debug.core.parsing;
 
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.internal.debug.core.model.RubyProcessingException;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -39,7 +39,7 @@ public class EvalReader extends XmlStreamReader {
 		try {
 			this.read();
 		} catch (Exception ex) {
-			RdtDebugCorePlugin.log(ex);
+			RubyDebugCorePlugin.log(ex);
 			return null;
 		}
 		if (exceptionType != null) {

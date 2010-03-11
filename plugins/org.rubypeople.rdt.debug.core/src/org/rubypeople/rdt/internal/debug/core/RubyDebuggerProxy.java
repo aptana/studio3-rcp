@@ -11,7 +11,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.rubypeople.rdt.debug.core.IRubyLineBreakpoint;
 import org.rubypeople.rdt.debug.core.IRubyMethodBreakpoint;
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.debug.core.model.IEvaluationResult;
 import org.rubypeople.rdt.debug.core.model.IRubyExceptionBreakpoint;
 import org.rubypeople.rdt.debug.core.model.IRubyStackFrame;
@@ -125,11 +125,11 @@ public class RubyDebuggerProxy
 		}
 		catch (IOException e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 		}
 		catch (CoreException e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 		}
 	}
 
@@ -157,11 +157,11 @@ public class RubyDebuggerProxy
 		}
 		catch (IOException e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 		}
 		catch (CoreException e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 		}
 
 	}
@@ -183,7 +183,7 @@ public class RubyDebuggerProxy
 			{
 				try
 				{
-					RdtDebugCorePlugin.debug("Command Connection error handler started.");
+					RubyDebugCorePlugin.debug("Command Connection error handler started.");
 					while (debuggerConnection.getCommandReadStrategy().isConnected())
 					{
 						// The read strategy resumes read() after the connection to the debugger
@@ -193,11 +193,11 @@ public class RubyDebuggerProxy
 				}
 				catch (Exception e)
 				{
-					RdtDebugCorePlugin.log(e);
+					RubyDebugCorePlugin.log(e);
 				}
 				finally
 				{
-					RdtDebugCorePlugin.debug("Command Connection error handler finished.");
+					RubyDebugCorePlugin.debug("Command Connection error handler finished.");
 				}
 			};
 		};
@@ -211,7 +211,7 @@ public class RubyDebuggerProxy
 			{
 				try
 				{
-					RdtDebugCorePlugin.debug("Thread updater started.");
+					RubyDebugCorePlugin.debug("Thread updater started.");
 					Thread.sleep(2000);
 					GenericCommand cmd = null;
 					while (cmd == null || (cmd != null && cmd.getReadStrategy().isConnected()))
@@ -229,11 +229,11 @@ public class RubyDebuggerProxy
 				}
 				catch (Exception e)
 				{
-					RdtDebugCorePlugin.log(e);
+					RubyDebugCorePlugin.log(e);
 				}
 				finally
 				{
-					RdtDebugCorePlugin.debug("Thread updater finished.");
+					RubyDebugCorePlugin.debug("Thread updater finished.");
 				}
 			};
 		};
@@ -262,7 +262,7 @@ public class RubyDebuggerProxy
 		}
 		catch (IOException e)
 		{
-			RdtDebugCorePlugin.debug("Could not send to debugger. Exception occured.", e);
+			RubyDebugCorePlugin.debug("Could not send to debugger. Exception occured.", e);
 			throw e;
 		}
 	}
@@ -281,7 +281,7 @@ public class RubyDebuggerProxy
 		}
 		catch (Exception e)
 		{
-			throw new DebugException(new Status(IStatus.ERROR, RdtDebugCorePlugin.getPluginIdentifier(), -1, e
+			throw new DebugException(new Status(IStatus.ERROR, RubyDebugCorePlugin.getPluginIdentifier(), -1, e
 					.getMessage(), e));
 		}
 	}
@@ -339,13 +339,13 @@ public class RubyDebuggerProxy
 		}
 		catch (IOException ioex)
 		{
-			DebugException ex = new DebugException(new Status(IStatus.ERROR, RdtDebugCorePlugin.PLUGIN_ID,
+			DebugException ex = new DebugException(new Status(IStatus.ERROR, RubyDebugCorePlugin.PLUGIN_ID,
 					DebugException.INTERNAL_ERROR, ioex.getMessage(), ioex));
 			result.setException(ex);
 		}
 		catch (RubyProcessingException e)
 		{
-			DebugException ex = new DebugException(new Status(IStatus.ERROR, RdtDebugCorePlugin.PLUGIN_ID,
+			DebugException ex = new DebugException(new Status(IStatus.ERROR, RubyDebugCorePlugin.PLUGIN_ID,
 					DebugException.TARGET_REQUEST_FAILED, e.getMessage(), e));
 			result.setException(ex);
 		}
@@ -360,7 +360,7 @@ public class RubyDebuggerProxy
 		}
 		catch (Exception e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 
 		}
 	}
@@ -373,7 +373,7 @@ public class RubyDebuggerProxy
 		}
 		catch (Exception e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 		}
 	}
 
@@ -385,7 +385,7 @@ public class RubyDebuggerProxy
 		}
 		catch (Exception e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 		}
 	}
 
@@ -398,7 +398,7 @@ public class RubyDebuggerProxy
 		}
 		catch (Exception e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 		}
 	}
 
@@ -411,7 +411,7 @@ public class RubyDebuggerProxy
 		}
 		catch (IOException e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 			return null;
 		}
 
@@ -427,7 +427,7 @@ public class RubyDebuggerProxy
 		}
 		catch (Exception e)
 		{
-			RdtDebugCorePlugin.log(e);
+			RubyDebugCorePlugin.log(e);
 			return null;
 		}
 	}
@@ -441,7 +441,7 @@ public class RubyDebuggerProxy
 		}
 		catch (Exception e)
 		{
-			return new Status(IStatus.ERROR, RdtDebugCorePlugin.getPluginIdentifier(), -1, e.getMessage(), e);
+			return new Status(IStatus.ERROR, RubyDebugCorePlugin.getPluginIdentifier(), -1, e.getMessage(), e);
 		}
 	}
 
@@ -473,7 +473,7 @@ public class RubyDebuggerProxy
 			{
 				System.setProperty(DEBUGGER_ACTIVE_KEY, "true");
 
-				RdtDebugCorePlugin.debug("Waiting for breakpoints.");
+				RubyDebugCorePlugin.debug("Waiting for breakpoints.");
 				while (true)
 				{
 					final SuspensionPoint hit = new SuspensionReader(getMultiReaderStrategy()).readSuspension();
@@ -481,7 +481,7 @@ public class RubyDebuggerProxy
 					{
 						break;
 					}
-					RdtDebugCorePlugin.debug(hit);
+					RubyDebugCorePlugin.debug(hit);
 					// TODO: should this be using the JOB API?
 					new Thread()
 					{
@@ -499,7 +499,7 @@ public class RubyDebuggerProxy
 			}
 			catch (Exception ex)
 			{
-				RdtDebugCorePlugin.debug("Exception in socket reader loop.", ex);
+				RubyDebugCorePlugin.debug("Exception in socket reader loop.", ex);
 			}
 			finally
 			{
@@ -511,9 +511,9 @@ public class RubyDebuggerProxy
 				}
 				catch (Exception e)
 				{
-					RdtDebugCorePlugin.log(e);
+					RubyDebugCorePlugin.log(e);
 				}
-				RdtDebugCorePlugin.debug("Socket reader loop finished.");
+				RubyDebugCorePlugin.debug("Socket reader loop finished.");
 			}
 		}
 	}

@@ -5,7 +5,7 @@ import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.jruby.lexer.yacc.SyntaxException;
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.debug.core.model.IRubyStackFrame;
 import org.rubypeople.rdt.debug.core.model.IRubyValue;
 import org.rubypeople.rdt.debug.core.model.IRubyVariable;
@@ -106,7 +106,7 @@ public class RubyVariable extends RubyDebugElement implements IRubyVariable
 		}
 		catch (RubyProcessingException e)
 		{
-			throw new DebugException(new Status(Status.ERROR, RdtDebugCorePlugin.PLUGIN_ID, -1, e.getMessage(), e));
+			throw new DebugException(new Status(Status.ERROR, RubyDebugCorePlugin.PLUGIN_ID, -1, e.getMessage(), e));
 		}
 	}
 

@@ -9,12 +9,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointManager;
 import org.eclipse.debug.core.model.IBreakpoint;
+import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
 import org.rubypeople.rdt.debug.core.model.IRubyExceptionBreakpoint;
 import org.rubypeople.rdt.internal.debug.core.breakpoints.RubyExceptionBreakpoint;
 import org.rubypeople.rdt.internal.debug.core.breakpoints.RubyLineBreakpoint;
 import org.rubypeople.rdt.internal.debug.core.breakpoints.RubyMethodBreakpoint;
 
-public class RdtDebugModel
+public class RubyDebugModel
 {
 
 	/**
@@ -151,13 +152,13 @@ public class RdtDebugModel
 	}
 
 	/**
-	 * Returns the identifier for the JDI debug model plug-in
+	 * Returns the identifier for the Ruby debug model plug-in
 	 * 
 	 * @return plug-in identifier
 	 */
 	public static String getModelIdentifier()
 	{
-		return RdtDebugCorePlugin.MODEL_IDENTIFIER;
+		return IRubyLaunchConfigurationConstants.ID_RUBY_DEBUG_MODEL;
 	}
 
 	/**

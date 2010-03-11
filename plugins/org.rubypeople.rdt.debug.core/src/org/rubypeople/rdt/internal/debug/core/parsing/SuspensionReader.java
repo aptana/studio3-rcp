@@ -2,7 +2,7 @@ package org.rubypeople.rdt.internal.debug.core.parsing;
 
 import java.io.IOException;
 
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.internal.debug.core.BreakpointSuspensionPoint;
 import org.rubypeople.rdt.internal.debug.core.ExceptionSuspensionPoint;
 import org.rubypeople.rdt.internal.debug.core.StepSuspensionPoint;
@@ -47,7 +47,7 @@ public class SuspensionReader extends XmlStreamReader {
 			} catch (NumberFormatException nfe) {
 				String message = "Could not parse: " + frameNoAttribute + ", "
 						+ xpp.getText();
-				RdtDebugCorePlugin.debug(message);
+				RubyDebugCorePlugin.debug(message);
 				return false;
 			}
 		} else {

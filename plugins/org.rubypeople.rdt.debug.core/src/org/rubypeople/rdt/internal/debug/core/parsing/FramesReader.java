@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.internal.debug.core.model.RubyStackFrame;
 import org.rubypeople.rdt.internal.debug.core.model.RubyThread;
 import org.xmlpull.v1.XmlPullParser;
@@ -31,7 +31,7 @@ public class FramesReader extends XmlStreamReader {
 		try {
 			this.read();
 		} catch (Exception ex) {
-			RdtDebugCorePlugin.log(ex);	
+			RubyDebugCorePlugin.log(ex);	
 			return new RubyStackFrame[0];
 		}
 		Collections.sort(frames, new Comparator<RubyStackFrame>() {		

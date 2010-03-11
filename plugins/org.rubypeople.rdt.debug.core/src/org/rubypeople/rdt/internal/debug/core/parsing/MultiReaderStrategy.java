@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.rubypeople.rdt.debug.core.RdtDebugCorePlugin;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -27,9 +27,9 @@ public class MultiReaderStrategy extends AbstractReadStrategy {
 				try {
 					readLoop();
 				} catch (SocketException e) {
-					RdtDebugCorePlugin.debug("read loop stopped because socket has been closed.") ;
+					RubyDebugCorePlugin.debug("read loop stopped because socket has been closed.") ;
 				} catch (Exception e) {
-					RdtDebugCorePlugin.debug("read loop stopped due to error : ", e);
+					RubyDebugCorePlugin.debug("read loop stopped due to error : ", e);
 					// needs PDE Junit otherwise
 					// RdtDebugCorePlugin.log(e);
 					e.printStackTrace();
@@ -48,7 +48,7 @@ public class MultiReaderStrategy extends AbstractReadStrategy {
 	}
 
 	protected void readLoop() throws XmlPullParserException, IOException, XmlStreamReaderException {
-		RdtDebugCorePlugin.debug("Starting xml read loop.");
+		RubyDebugCorePlugin.debug("Starting xml read loop.");
 		int eventType = xpp.getEventType();
 		do {
 			if (eventType == XmlPullParser.START_TAG) {
@@ -65,11 +65,11 @@ public class MultiReaderStrategy extends AbstractReadStrategy {
 			}
 			eventType = xpp.next();
 		} while (eventType != XmlPullParser.END_DOCUMENT);
-		RdtDebugCorePlugin.debug("Read loop stopped because end of stream was reached.");
+		RubyDebugCorePlugin.debug("Read loop stopped because end of stream was reached.");
 	}
 
 	protected void dispatchStartTag() throws XmlPullParserException, IOException, XmlStreamReaderException {
-		RdtDebugCorePlugin.debug("Dispatching start tag " + xpp.getName());
+		RubyDebugCorePlugin.debug("Dispatching start tag " + xpp.getName());
 		if (currentReader != null) {
 			// processing sub-elements, eg. <variable> from <variables>
 			if (currentReader.processStartElement(xpp)) {
@@ -77,17 +77,17 @@ public class MultiReaderStrategy extends AbstractReadStrategy {
 			}
 			else {
 				// this is an error, the currentReader must be able to process sub-elements
-				RdtDebugCorePlugin.debug("Current Reader can not process tag " + xpp.getName());
+				RubyDebugCorePlugin.debug("Current Reader can not process tag " + xpp.getName());
 				currentReader = null ;
 			}
 		}
 		int missed = 0 ;
-		RdtDebugCorePlugin.debug("Searching reader for start tag " + xpp.getName());
+		RubyDebugCorePlugin.debug("Searching reader for start tag " + xpp.getName());
 		do {
 			findReaderForTag();
 			if (currentReader == null) {
 				missed += 1 ;
-				RdtDebugCorePlugin.debug("Missed Start Tag : " + xpp.getName());
+				RubyDebugCorePlugin.debug("Missed Start Tag : " + xpp.getName());
 				try {
 					Thread.sleep(200);
 				} catch (InterruptedException e) {
@@ -133,11 +133,11 @@ public class MultiReaderStrategy extends AbstractReadStrategy {
 		}
 		this.addReader(streamReader);
 		try {
-			RdtDebugCorePlugin.debug("Thread is waiting for input: " + Thread.currentThread());
+			RubyDebugCorePlugin.debug("Thread is waiting for input: " + Thread.currentThread());
 			Thread.sleep(maxWaitTime);
 			streamReader.setWaitTimeExpired(true) ;
 		} catch (InterruptedException e) {
-			RdtDebugCorePlugin.debug("Thread has finished processing : " + Thread.currentThread());
+			RubyDebugCorePlugin.debug("Thread has finished processing : " + Thread.currentThread());
 		}
 	}
 
