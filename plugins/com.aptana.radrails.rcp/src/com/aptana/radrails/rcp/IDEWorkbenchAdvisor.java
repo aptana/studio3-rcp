@@ -37,8 +37,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.AutomaticUpdatePlugin;
 import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.PreferenceConstants;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -263,7 +263,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         }
 
         // Force Automatic Updates
-        IEclipsePreferences prefs = new InstanceScope().getNode(IdePlugin.PLUGIN_ID);
+        IEclipsePreferences prefs = new ConfigurationScope().getNode(IdePlugin.PLUGIN_ID);
 		boolean alreadyForcedAutomaticUpdate = prefs.getBoolean(FORCED_AUTOMATIC_UPDATE, false);
 
 		if (!alreadyForcedAutomaticUpdate) {
