@@ -23,7 +23,7 @@ public interface IRubyLaunchConfigurationConstants
 	 */
 	public static final String ATTR_FILE_NAME = ID_RUBY_DEBUG_MODEL + ".ATTR_FILE_NAME";
 
-	public static final String ID_RUBY_APPLICATION = "org.rubypeople.rdt.debug.core.launchConfigurationType1";
+	public static final String ID_RUBY_APPLICATION = "org.rubypeople.rdt.debug.core.launchConfigurationType";
 
-	public static final String ID_RUBY_SOURCE_LOCATOR = "org.rubypeople.rdt.debug.core.sourceLocator1";
+	public static final String ID_RUBY_SOURCE_LOCATOR = "org.rubypeople.rdt.debug.core.sourceLocator";
 }
