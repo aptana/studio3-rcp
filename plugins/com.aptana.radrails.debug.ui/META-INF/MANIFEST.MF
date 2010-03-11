@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ui
-Bundle-SymbolicName: com.aptana.radrails.debug.ui;singleton:=true
+Bundle-SymbolicName: com.aptana.ruby.debug.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: APTANA
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

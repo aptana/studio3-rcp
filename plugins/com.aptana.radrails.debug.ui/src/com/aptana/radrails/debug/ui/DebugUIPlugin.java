@@ -11,7 +11,7 @@ public class DebugUIPlugin extends AbstractUIPlugin
 {
 
 	// The plug-in ID
-	private static final String PLUGIN_ID = "com.aptana.radrails.debug.ui"; //$NON-NLS-1$
+	private static final String PLUGIN_ID = "com.aptana.ruby.debug.ui"; //$NON-NLS-1$
 
 	public static final String IMG_EVIEW_ARGUMENTS_TAB = "icons/full/eview16/arguments_tab.gif"; //$NON-NLS-1$
 
