@@ -16,11 +16,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
@@ -34,11 +36,21 @@ import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
 import org.rubypeople.rdt.internal.debug.core.model.RubyDebugTarget;
 import org.rubypeople.rdt.internal.debug.core.model.RubyProcessingException;
 
+import com.aptana.util.ExecutableUtil;
+
 /**
  * Launches Ruby program on a Ruby interpreter
  */
 public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 {
+
+	/**
+	 * Switch/arguments that tells ruby/debugger that we're done passing switches/arguments to it.
+	 */
+	private static final String END_OF_ARGUMENTS_DELIMETER = "--"; //$NON-NLS-1$
+	private static final String RUBYW = "rubyw"; //$NON-NLS-1$
+	private static final String RUBY = "ruby"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * @see
@@ -49,62 +61,38 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			throws CoreException
 	{
 		List<String> commandList = new ArrayList<String>();
+		// Ruby binary
+		commandList.add(rubyExecutable());
+		// Arguments to ruby
+		commandList.addAll(interpreterArguments(configuration));
 
-		// Ruby executable
-		// FIXME This needs to search for ruby binary!
-		String path = "/usr/bin/ruby";
-		// if (path == null)
-		// {
-		// abort("Ruby executable location unspecified. Check value of ${rubyExecutable}.", null);
-		// }
-		File exe = new File(path);
-		if (!exe.exists())
-		{
-			abort(MessageFormat.format(
-					"Specified Ruby executable {0} does not exist. Check value of ${rubyExecutable}.", path), null);
-		}
-		commandList.add(path);
-
-		// TODO VM Args go here...
-
-		commandList.add("--"); //$NON-NLS-1$
-
+		// Set up debugger
+		String host = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_REMOTE_HOST,
+				IRubyLaunchConfigurationConstants.DEFAULT_REMOTE_HOST);
 		int port = -1;
 		if (mode.equals(ILaunchManager.DEBUG_MODE))
 		{
+			// TODO Grab port from configuration?
 			port = findFreePort();
 			if (port == -1)
 			{
 				abort("Unable to find free port", null);
 			}
-			// RDebug-ide
-			// FIXME Grab location of bin script by searching or from pref value!
-			commandList.add("/Users/cwilliams/.gem/ruby/1.8/bin/rdebug-ide");
-			commandList.add("--port"); //$NON-NLS-1$
-			commandList.add(Integer.toString(port));
-			commandList.add("--"); //$NON-NLS-1$
+			commandList.addAll(debugArguments(host, port, configuration));
 		}
-
-		// file we're debugging/running
-		String program = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, (String) null);
-		if (program == null)
-		{
-			abort("Ruby program unspecified.", null);
-		}
-		File file = new File(program);
-		if (!file.exists())
-		{
-			abort(MessageFormat.format("Ruby program {0} does not exist.", program), null);
-		}
-		commandList.add(program);
-
-		String host = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME,
-				IRubyLaunchConfigurationConstants.DEFAULT_REMOTE_HOST);
+		// File to run
+		commandList.add(fileToLaunch(configuration));
+		// Args to file
+		commandList.addAll(programArguments(configuration));
 
 		// Now actually launch the process!
 		Process process = DebugPlugin.exec(commandList.toArray(new String[commandList.size()]),
 				getWorkingDirectory(configuration), getEnvironment(configuration));
-		IProcess p = DebugPlugin.newProcess(launch, process, path);
+
+		// FIXME Build a label from args?
+		String label = commandList.get(0);
+
+		IProcess p = DebugPlugin.newProcess(launch, process, label);
 		if (mode.equals(ILaunchManager.DEBUG_MODE))
 		{
 			RubyDebugTarget target = new RubyDebugTarget(launch, host, port);
@@ -126,6 +114,130 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 				target.terminate();
 			}
 		}
+	}
+
+	private Collection<? extends String> programArguments(ILaunchConfiguration configuration) throws CoreException
+	{
+		List<String> commandList = new ArrayList<String>();
+		String programArgs = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
+				(String) null);
+		if (programArgs != null)
+		{
+			for (String arg : DebugPlugin.parseArguments(programArgs))
+			{
+				commandList.add(arg);
+			}
+		}
+		return commandList;
+	}
+
+	private String fileToLaunch(ILaunchConfiguration configuration) throws CoreException
+	{
+		String program = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, (String) null);
+		if (program == null)
+		{
+			abort("Ruby program unspecified.", null);
+		}
+		File file = new File(program);
+		if (!file.exists())
+		{
+			abort(MessageFormat.format("Ruby program {0} does not exist.", program), null);
+		}
+		return program;
+	}
+
+	private Collection<? extends String> debugArguments(String host, int port, ILaunchConfiguration configuration)
+	{
+		List<String> commandList = new ArrayList<String>();
+		// TODO Need to tell it not to add "exe" on windows via a flag!
+		String rdebug = ExecutableUtil.find("rdebug-ide", null, getRDebugIDELocations());
+		// TODO What if rdebug can't be found?
+		commandList.add(rdebug);
+		commandList.add("--port"); //$NON-NLS-1$
+		commandList.add(Integer.toString(port));
+		commandList.add(END_OF_ARGUMENTS_DELIMETER);
+		return commandList;
+	}
+
+	private List<String> getRDebugIDELocations()
+	{
+		List<String> locations = new ArrayList<String>();
+		// TODO What are the common places this could be?
+		locations.add(System.getProperty("user.home") + "/.gem/ruby/1.8/bin/rdebug-ide"); //$NON-NLS-1$ //$NON-NLS-2$
+		return locations;
+	}
+
+	private Collection<? extends String> interpreterArguments(ILaunchConfiguration configuration) throws CoreException
+	{
+		List<String> arguments = new ArrayList<String>();
+		String interpreterArgs = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
+				(String) null);
+		if (interpreterArgs != null)
+		{
+			String[] raw = DebugPlugin.parseArguments(interpreterArgs);
+			for (int i = 0; i < raw.length; i++)
+			{
+				String arg = raw[i];
+				if ((arg.equals("-e") || arg.equals("-X") || arg.equals("-F")) && (raw.length > (i + 1))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				{
+					arguments.add(arg + " " + raw[i + 1]); //$NON-NLS-1$
+					i++;
+				}
+				else
+				{
+					arguments.add(arg);
+				}
+			}
+		}
+		arguments.add(END_OF_ARGUMENTS_DELIMETER);
+		return arguments;
+	}
+
+	protected String rubyExecutable() throws CoreException
+	{
+		// Ruby executable, look for rubyw, then ruby
+		// TODO check TM_RUBY env value?
+		String path = ExecutableUtil.find(RUBYW, null, getCommonRubyBinaryLocations(RUBYW));
+		if (path == null)
+		{
+			path = ExecutableUtil.find(RUBY, null, getCommonRubyBinaryLocations(RUBY));
+		}
+		if (path == null)
+		{
+			abort("Unable to find a Ruby executable.", null);
+		}
+		File exe = new File(path);
+		if (!exe.exists())
+		{
+			abort(MessageFormat.format("Specified Ruby executable {0} does not exist.", path), null);
+		}
+		return path;
+	}
+
+	/**
+	 * Return an ordered list of common locations that you'd find a ruby binary.
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("nls")
+	protected List<String> getCommonRubyBinaryLocations(String binaryName)
+	{
+		List<String> locations = new ArrayList<String>();
+		if (Platform.getOS().equals(Platform.OS_WIN32))
+		{
+			locations.add("C:\\ruby\\bin\\" + binaryName + ".exe");
+		}
+		else
+		{
+			locations.add("/opt/local/bin/" + binaryName);
+			locations.add("/usr/local/bin/" + binaryName);
+			locations.add("/usr/bin/" + binaryName);
+		}
+		if (Platform.getOS().equals(Platform.OS_MACOSX))
+		{
+			locations.add("/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/" + binaryName);
+		}
+		return locations;
 	}
 
 	private String[] getEnvironment(ILaunchConfiguration configuration) throws CoreException

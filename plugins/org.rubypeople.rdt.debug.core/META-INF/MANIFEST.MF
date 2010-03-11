@@ -18,7 +18,8 @@ Export-Package: org.rubypeople.rdt.debug.core,
 Require-Bundle: org.eclipse.core.resources,
  org.eclipse.debug.core,
  org.jruby,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ com.aptana.util;bundle-version="1.0.0"
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
