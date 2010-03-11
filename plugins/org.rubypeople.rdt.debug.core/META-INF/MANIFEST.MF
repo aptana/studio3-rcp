@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Plugin.name
+Bundle-SymbolicName: org.rubypeople.rdt.debug.core; singleton:=true
+Bundle-Version: 1.3.2.qualifier
+Bundle-ClassPath: .,
+ lib/kxml2-2.3.0.jar
+Bundle-Activator: org.rubypeople.rdt.debug.core.RdtDebugCorePlugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.rubypeople.rdt.debug.core,
+ org.rubypeople.rdt.debug.core.launching,
+ org.rubypeople.rdt.debug.core.model,
+ org.rubypeople.rdt.internal.debug.core,
+ org.rubypeople.rdt.internal.debug.core.commands;x-friends:="org.rubypeople.rdt.debug.core.tests",
+ org.rubypeople.rdt.internal.debug.core.model,
+ org.rubypeople.rdt.internal.debug.core.parsing;x-friends:="org.rubypeople.rdt.debug.core.tests"
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.debug.core,
+ org.jruby,
+ org.eclipse.core.runtime
+Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy

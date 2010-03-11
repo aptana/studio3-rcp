@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<!-- Adapters for contextual launch -->
+	<extension point="org.eclipse.core.runtime.adapters">
+         <factory 
+            class="" 
+            adaptableType="org.eclipse.core.resources.IResource">
+            <adapter type="org.eclipse.debug.ui.actions.ILaunchable"/>
+         </factory>
+      <factory
+            class="com.aptana.radrails.debug.ui.RubyBreakpointAdapterFactory"
+            adaptableType="org.eclipse.ui.texteditor.ITextEditor">
+         <adapter
+               type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget">
+         </adapter>
+      </factory>
+   </extension>
+	<extension point="org.eclipse.debug.ui.launchShortcuts">
+		<shortcut label="%RubyApplicationShortcut.label"
+			icon="icons/full/ctool16/run_ruby.gif"
+			class="com.aptana.radrails.debug.ui.launcher.RubyApplicationShortcut"
+			modes="run, debug" id="com.aptana.radrails.debug.ui.RubyShortcut">
+			<contextualLaunch>
+				<enablement>
+					<with variable="selection">
+						<count value="1">
+						</count>
+						<iterate>
+							<or>
+								<test value="*.rb"
+									property="org.eclipse.debug.ui.matchesPattern">
+								</test>
+								<test value="*.rbx"
+									property="org.eclipse.debug.ui.matchesPattern">
+								</test>
+								<test value="*.rbw"
+									property="org.eclipse.debug.ui.matchesPattern">
+								</test>
+								<!--
+								<and>
+               	    				<test property="org.rubypeople.rdt.launching.isContainer"/>
+               	     				<test property="org.rubypeople.rdt.launching.hasProjectNature" args="org.rubypeople.rdt.core.rubynature"/>
+               	  				</and>
+               	  				-->
+							</or>
+						</iterate>
+					</with>
+				</enablement>
+				<contextLabel label="%LaunchShortcut.Ruby.label" mode="run">
+				</contextLabel>
+				<contextLabel label="%LaunchShortcut.Ruby.label" mode="debug">
+				</contextLabel>
+			</contextualLaunch>
+			<perspective id="org.radrails.rails.ui.PerspectiveRails">
+			</perspective>
+		</shortcut>
+	</extension>
+	<extension point="org.eclipse.ui.commands">
+		<command name="%ContextualRunRubyApplication.label"
+			description="%ContextualRunRubyApplication.label"
+			categoryId="org.eclipse.debug.ui.category.run"
+			id="com.aptana.radrails.debug.ui.RubyShortcut.run">
+		</command>
+		<command name="%ContextualDebugRubyApplication.label"
+			description="%ContextualDebugRubyApplication.label"
+			categoryId="org.eclipse.debug.ui.category.run"
+			id="com.aptana.radrails.debug.ui.RubyShortcut.debug">
+		</command>
+	</extension>
+	<extension point="org.eclipse.ui.bindings">
+		<key sequence="M3+M2+D R"
+			commandId="com.aptana.radrails.debug.ui.RubyShortcut.debug"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+		<key sequence="M3+M2+X R"
+			commandId="com.aptana.radrails.debug.ui.RubyShortcut.run"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+	</extension>
+	<extension point="org.eclipse.ui.popupMenus">
+		<viewerContribution
+           id="com.aptana.radrails.debug.ui.RulerPopupActions"
+           targetID="#AbstractTextEditorRulerContext"> <!-- FIXME This is 3.5+, and applies to all editors... -->
+         <action
+               label="%AddBreakpoint.label"
+               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               menubarPath="debug"
+               id="com.aptana.radrails.debug.ui.actions.ToggleBreakpointAction">
+         </action>
+      </viewerContribution>
+      <!--
+		<viewerContribution
+			targetID="org.rubypeople.rdt.ui.rubyeditor.contextMenu"
+			id="com.aptana.radrails.debug.ui.RubyEditorPopupActions">
+         <action
+               label="%EnableBreakpoint.label"
+               helpContextId="enable_disable_breakpoint_action_context"
+               class="org.eclipse.debug.ui.actions.RulerEnableDisableBreakpointActionDelegate"
+               menubarPath="debug"
+               id="org.rubypeople.rdt.debug.ui.actions.EnableDisableBreakpointRulerActionDelegate">
+         </action>
+         <action
+               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               helpContextId="manage_breakpoint_action_context"
+               icon="icons/full/obj16/brkp_obj.gif"
+               id="org.rubypeople.rdt.debug.ui.actions.BreakpointRulerActionDelegate"
+               label="%AddBreakpoint.label"
+               menubarPath="debug">
+         </action>
+		</viewerContribution>
+		-->
+	</extension>
+	  <extension
+         point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+            class="com.aptana.radrails.debug.ui.RubyModelPresentation"
+            id="org.rubypeople.rdt.debug">
+      </debugModelPresentation>
+   </extension>
+</plugin>
