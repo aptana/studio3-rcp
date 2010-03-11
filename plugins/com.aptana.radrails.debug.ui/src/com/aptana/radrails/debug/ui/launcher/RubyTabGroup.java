@@ -31,8 +31,7 @@ public class RubyTabGroup extends AbstractLaunchConfigurationTabGroup
 	 */
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode)
 	{
-		// TODO Add tab for arguments
-		setTabs(new ILaunchConfigurationTab[] { new RubyMainTab(), new SourceLookupTab(), new EnvironmentTab(),
-				new CommonTab() });
+		setTabs(new ILaunchConfigurationTab[] { new RubyMainTab(), new RubyArgumentsTab(), new SourceLookupTab(),
+				new EnvironmentTab(), new CommonTab() });
 	}
 }

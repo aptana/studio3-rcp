@@ -89,11 +89,6 @@ public class RubyMainTab extends AbstractLaunchConfigurationTab
 				browseRubyFiles();
 			}
 		});
-
-		// TODO Add field to edit the working directory
-		// TODO Add field to edit VM Args
-		// TODO Add field to edit the Program args
-
 	}
 
 	/**

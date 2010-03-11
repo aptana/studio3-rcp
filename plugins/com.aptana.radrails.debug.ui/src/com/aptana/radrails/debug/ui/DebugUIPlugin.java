@@ -3,6 +3,7 @@ package com.aptana.radrails.debug.ui;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -11,6 +12,8 @@ public class DebugUIPlugin extends AbstractUIPlugin
 
 	// The plug-in ID
 	private static final String PLUGIN_ID = "com.aptana.radrails.debug.ui"; //$NON-NLS-1$
+
+	public static final String IMG_EVIEW_ARGUMENTS_TAB = "icons/full/eview16/arguments_tab.gif"; //$NON-NLS-1$
 
 	// The shared instance
 	private static DebugUIPlugin plugin;
@@ -83,6 +86,13 @@ public class DebugUIPlugin extends AbstractUIPlugin
 	{
 		if (getDefault() != null && getDefault().isDebugging())
 			getDefault().getLog().log(new Status(IStatus.OK, getPluginId(), string));
+	}
+
+	@Override
+	protected void initializeImageRegistry(ImageRegistry reg)
+	{
+		super.initializeImageRegistry(reg);
+		reg.put(IMG_EVIEW_ARGUMENTS_TAB, imageDescriptorFromPlugin(PLUGIN_ID, IMG_EVIEW_ARGUMENTS_TAB));
 	}
 
 }
