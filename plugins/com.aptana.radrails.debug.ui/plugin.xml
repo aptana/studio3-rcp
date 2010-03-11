@@ -113,4 +113,46 @@
             id="org.rubypeople.rdt.debug">
       </debugModelPresentation>
    </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            type="org.rubypeople.rdt.debug.core.launchConfigurationType"
+            description="Run or debug a Ruby program"
+            class="com.aptana.radrails.debug.ui.launcher.RubyTabGroup"
+            id="com.aptana.radrails.debug.ui.launchConfigurationTabGroup.ruby">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.radrails.rails.ui.PerspectiveRails">
+         <perspectiveShortcut
+               id="org.eclipse.debug.ui.DebugPerspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            name="Debugging Ruby"
+            description="Debugging Ruby"
+            id="com.aptana.radrails.debug.ui.ruby.debugging"
+            parentId="org.eclipse.debug.ui.debugging">
+      </context>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.debugModelContextBindings">
+      <modelContextBinding
+            debugModelId="org.rubypeople.rdt.debug"
+            contextId="com.aptana.radrails.debug.ui.ruby.debugging">
+      </modelContextBinding>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            icon="icons/full/ctool16/run_ruby.gif"
+            configTypeID="org.rubypeople.rdt.debug.core.launchConfigurationType"
+            id="com.aptana.radrails.debug.ui.ruby.launchConfigurationTypeImage">
+      </launchConfigurationTypeImage>
+   </extension>
 </plugin>
