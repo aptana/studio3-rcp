@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.debug.core.model;
+package com.aptana.ruby.debug.core.model;
 
 import org.eclipse.debug.core.model.IThread;
 

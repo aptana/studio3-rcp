@@ -1,4 +1,4 @@
-package com.aptana.radrails.debug.ui.launcher;
+package com.aptana.ruby.debug.ui.launcher;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -13,9 +13,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
 
-import com.aptana.radrails.debug.ui.DebugUIPlugin;
+import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
+import com.aptana.ruby.debug.ui.DebugUIPlugin;
 
 public class RubyArgumentsTab extends AbstractLaunchConfigurationTab
 {

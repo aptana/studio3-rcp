@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core;
+package com.aptana.ruby.internal.debug.core;
 
 public class StepSuspensionPoint extends SuspensionPoint
 {

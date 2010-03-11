@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core.parsing;
+package com.aptana.ruby.internal.debug.core.parsing;
 
 import java.io.IOException;
 

@@ -1,9 +1,9 @@
-package org.rubypeople.rdt.internal.debug.core.commands;
+package com.aptana.ruby.internal.debug.core.commands;
 
 import java.io.IOException;
 
-import org.rubypeople.rdt.internal.debug.core.DebuggerNotFoundException;
-import org.rubypeople.rdt.internal.debug.core.parsing.SuspensionReader;
+import com.aptana.ruby.internal.debug.core.DebuggerNotFoundException;
+import com.aptana.ruby.internal.debug.core.parsing.SuspensionReader;
 
 public class ClassicDebuggerConnection extends AbstractDebuggerConnection
 {

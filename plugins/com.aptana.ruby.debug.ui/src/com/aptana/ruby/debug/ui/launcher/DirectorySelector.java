@@ -1,4 +1,4 @@
-package com.aptana.radrails.debug.ui.launcher;
+package com.aptana.ruby.debug.ui.launcher;
 
 import java.io.File;
 

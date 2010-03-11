@@ -1,13 +1,13 @@
-package org.rubypeople.rdt.internal.debug.core.commands;
+package com.aptana.ruby.internal.debug.core.commands;
 
 import java.io.IOException;
 
-import org.rubypeople.rdt.internal.debug.core.DebuggerNotFoundException;
-import org.rubypeople.rdt.internal.debug.core.SuspensionPoint;
-import org.rubypeople.rdt.internal.debug.core.parsing.AbstractReadStrategy;
-import org.rubypeople.rdt.internal.debug.core.parsing.SuspensionReader;
-import org.rubypeople.rdt.internal.debug.core.parsing.XmlStreamReader;
-import org.rubypeople.rdt.internal.debug.core.parsing.XmlStreamReaderException;
+import com.aptana.ruby.internal.debug.core.DebuggerNotFoundException;
+import com.aptana.ruby.internal.debug.core.SuspensionPoint;
+import com.aptana.ruby.internal.debug.core.parsing.AbstractReadStrategy;
+import com.aptana.ruby.internal.debug.core.parsing.SuspensionReader;
+import com.aptana.ruby.internal.debug.core.parsing.XmlStreamReader;
+import com.aptana.ruby.internal.debug.core.parsing.XmlStreamReaderException;
 import org.xmlpull.v1.XmlPullParserException;
 
 public class StepCommand extends AbstractCommand {

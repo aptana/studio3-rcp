@@ -1,6 +1,6 @@
-package org.rubypeople.rdt.internal.debug.core.parsing;
+package com.aptana.ruby.internal.debug.core.parsing;
 
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import org.xmlpull.v1.XmlPullParser;
 
 public class BreakpointModificationReader extends XmlStreamReader {

@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.debug.core;
+package com.aptana.ruby.debug.core;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;

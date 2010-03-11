@@ -1,6 +1,6 @@
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
-import org.rubypeople.rdt.internal.debug.core.breakpoints.RubyLineBreakpoint;
+import com.aptana.ruby.internal.debug.core.breakpoints.RubyLineBreakpoint;
 
 public class RubyWatchpoint extends RubyLineBreakpoint {
 

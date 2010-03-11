@@ -1,10 +1,10 @@
-package org.rubypeople.rdt.internal.debug.core.parsing;
+package com.aptana.ruby.internal.debug.core.parsing;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rubypeople.rdt.internal.debug.core.model.ThreadInfo;
+import com.aptana.ruby.internal.debug.core.model.ThreadInfo;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

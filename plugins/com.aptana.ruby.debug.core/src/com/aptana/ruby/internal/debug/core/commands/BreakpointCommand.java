@@ -1,11 +1,11 @@
-package org.rubypeople.rdt.internal.debug.core.commands;
+package com.aptana.ruby.internal.debug.core.commands;
 
 import java.io.IOException;
 
-import org.rubypeople.rdt.internal.debug.core.DebuggerNotFoundException;
-import org.rubypeople.rdt.internal.debug.core.parsing.AbstractReadStrategy;
-import org.rubypeople.rdt.internal.debug.core.parsing.BreakpointModificationReader;
-import org.rubypeople.rdt.internal.debug.core.parsing.XmlStreamReader;
+import com.aptana.ruby.internal.debug.core.DebuggerNotFoundException;
+import com.aptana.ruby.internal.debug.core.parsing.AbstractReadStrategy;
+import com.aptana.ruby.internal.debug.core.parsing.BreakpointModificationReader;
+import com.aptana.ruby.internal.debug.core.parsing.XmlStreamReader;
 
 public class BreakpointCommand  extends AbstractCommand {
 		

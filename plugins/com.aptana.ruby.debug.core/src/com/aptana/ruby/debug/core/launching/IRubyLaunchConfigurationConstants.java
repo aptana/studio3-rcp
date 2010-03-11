@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.debug.core.launching;
+package com.aptana.ruby.debug.core.launching;
 
 /**
  * Constants for the Ruby debugger.

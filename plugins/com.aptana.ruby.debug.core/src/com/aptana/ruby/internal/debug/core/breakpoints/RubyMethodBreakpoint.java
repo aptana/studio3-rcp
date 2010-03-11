@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core.breakpoints;
+package com.aptana.ruby.internal.debug.core.breakpoints;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -8,7 +8,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.rubypeople.rdt.debug.core.IRubyMethodBreakpoint;
+import com.aptana.ruby.debug.core.IRubyMethodBreakpoint;
 
 public class RubyMethodBreakpoint extends RubyLineBreakpoint implements IRubyMethodBreakpoint
 {

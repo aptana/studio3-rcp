@@ -9,7 +9,7 @@
  *     IBM Corporation - initial API and implementation
  *     Bjorn Freeman-Benson - initial API and implementation
  *******************************************************************************/
-package com.aptana.radrails.debug.ui.launcher;
+package com.aptana.ruby.debug.ui.launcher;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -34,7 +34,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
-import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
+
+import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
 
 /**
  * Tab to specify the Ruby program to run/debug.

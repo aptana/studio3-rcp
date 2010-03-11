@@ -1,8 +1,8 @@
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
-import org.rubypeople.rdt.debug.core.model.IRubyValue;
+import com.aptana.ruby.debug.core.model.IRubyValue;
 
 /**
  * @author Administrator

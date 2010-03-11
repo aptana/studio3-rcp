@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
 import org.eclipse.debug.core.model.DebugElement;
 import org.eclipse.debug.core.model.IDebugTarget;

@@ -1,9 +1,9 @@
-package org.rubypeople.rdt.internal.debug.core.parsing;
+package com.aptana.ruby.internal.debug.core.parsing;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.internal.debug.core.model.RubyProcessingException;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.internal.debug.core.model.RubyProcessingException;
 import org.xmlpull.v1.XmlPullParser;
 
 public class LoadResultReader extends XmlStreamReader {

@@ -1,7 +1,7 @@
-package org.rubypeople.rdt.debug.core.model;
+package com.aptana.ruby.debug.core.model;
 
 import org.eclipse.debug.core.model.IStackFrame;
-import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
+import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
 
 public interface IRubyStackFrame extends IStackFrame
 {

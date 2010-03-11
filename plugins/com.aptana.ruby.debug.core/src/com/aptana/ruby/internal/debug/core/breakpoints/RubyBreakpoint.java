@@ -1,9 +1,9 @@
-package org.rubypeople.rdt.internal.debug.core.breakpoints;
+package com.aptana.ruby.internal.debug.core.breakpoints;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.Breakpoint;
-import org.rubypeople.rdt.debug.core.RubyDebugModel;
+import com.aptana.ruby.debug.core.RubyDebugModel;
 
 public abstract class RubyBreakpoint extends Breakpoint
 {

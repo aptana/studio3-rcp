@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
 import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.debug.core.DebugException;
@@ -6,8 +6,8 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IExpression;
 import org.eclipse.debug.core.model.IValue;
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.debug.core.model.IRubyVariable;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.model.IRubyVariable;
 
 //see RubyDebugTarget for the reason why PlatformObject is being extended
 public class RubyExpression extends PlatformObject implements IExpression {

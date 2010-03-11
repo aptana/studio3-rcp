@@ -1,14 +1,14 @@
-package org.rubypeople.rdt.internal.debug.core.parsing;
+package com.aptana.ruby.internal.debug.core.parsing;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.debug.core.model.IVariable;
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.debug.core.model.IRubyStackFrame;
-import org.rubypeople.rdt.debug.core.model.IRubyVariable;
-import org.rubypeople.rdt.internal.debug.core.model.RubyProcessingException;
-import org.rubypeople.rdt.internal.debug.core.model.RubyVariable;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.model.IRubyStackFrame;
+import com.aptana.ruby.debug.core.model.IRubyVariable;
+import com.aptana.ruby.internal.debug.core.model.RubyProcessingException;
+import com.aptana.ruby.internal.debug.core.model.RubyVariable;
 import org.xmlpull.v1.XmlPullParser;
 
 public class VariableReader extends XmlStreamReader {

@@ -2,19 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Plugin.name
 Bundle-SymbolicName: com.aptana.ruby.debug.core;singleton:=true
-Bundle-Version: 1.3.2.qualifier
+Bundle-Version: 3.0.0.qualifier
 Bundle-ClassPath: .,
  lib/kxml2-2.3.0.jar
-Bundle-Activator: org.rubypeople.rdt.debug.core.RubyDebugCorePlugin
+Bundle-Activator: com.aptana.ruby.debug.core.RubyDebugCorePlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Export-Package: org.rubypeople.rdt.debug.core,
- org.rubypeople.rdt.debug.core.launching,
- org.rubypeople.rdt.debug.core.model,
- org.rubypeople.rdt.internal.debug.core,
- org.rubypeople.rdt.internal.debug.core.commands;x-friends:="org.rubypeople.rdt.debug.core.tests",
- org.rubypeople.rdt.internal.debug.core.model,
- org.rubypeople.rdt.internal.debug.core.parsing;x-friends:="org.rubypeople.rdt.debug.core.tests"
+Export-Package: com.aptana.ruby.debug.core,
+ com.aptana.ruby.debug.core.launching,
+ com.aptana.ruby.debug.core.model
 Require-Bundle: org.eclipse.core.resources,
  org.eclipse.debug.core,
  org.jruby,

@@ -8,7 +8,7 @@
  * compliance with the License. For further information see org.rubypeople.rdt/rdt.license.
  */
 
-package org.rubypeople.rdt.internal.debug.core.breakpoints;
+package com.aptana.ruby.internal.debug.core.breakpoints;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.model.IBreakpoint;
-import org.rubypeople.rdt.debug.core.model.IRubyExceptionBreakpoint;
+import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
 
 public class RubyExceptionBreakpoint extends RubyBreakpoint implements IRubyExceptionBreakpoint
 {

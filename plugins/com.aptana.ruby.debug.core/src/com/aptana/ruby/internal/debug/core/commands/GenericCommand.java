@@ -1,7 +1,7 @@
-package org.rubypeople.rdt.internal.debug.core.commands;
+package com.aptana.ruby.internal.debug.core.commands;
 
-import org.rubypeople.rdt.internal.debug.core.parsing.AbstractReadStrategy;
-import org.rubypeople.rdt.internal.debug.core.parsing.XmlStreamReader;
+import com.aptana.ruby.internal.debug.core.parsing.AbstractReadStrategy;
+import com.aptana.ruby.internal.debug.core.parsing.XmlStreamReader;
 
 public class GenericCommand extends AbstractCommand {
 	

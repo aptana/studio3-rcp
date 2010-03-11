@@ -1,11 +1,11 @@
-package org.rubypeople.rdt.internal.debug.core;
+package com.aptana.ruby.internal.debug.core;
 
 import org.eclipse.core.runtime.CoreException;
-import org.rubypeople.rdt.debug.core.model.IRubyExceptionBreakpoint;
-import org.rubypeople.rdt.debug.core.model.IRubyStackFrame;
-import org.rubypeople.rdt.internal.debug.core.model.RubyStackFrame;
-import org.rubypeople.rdt.internal.debug.core.model.RubyThread;
-import org.rubypeople.rdt.internal.debug.core.model.RubyVariable;
+import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
+import com.aptana.ruby.debug.core.model.IRubyStackFrame;
+import com.aptana.ruby.internal.debug.core.model.RubyStackFrame;
+import com.aptana.ruby.internal.debug.core.model.RubyThread;
+import com.aptana.ruby.internal.debug.core.model.RubyVariable;
 
 @SuppressWarnings("nls")
 public class RubyDebugCommandFactory implements ICommandFactory

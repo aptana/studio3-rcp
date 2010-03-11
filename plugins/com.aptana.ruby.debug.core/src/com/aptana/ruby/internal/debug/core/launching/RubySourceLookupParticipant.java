@@ -9,11 +9,11 @@
  *     IBM Corporation - initial API and implementation
  *     Bjorn Freeman-Benson - initial API and implementation
  *******************************************************************************/
-package org.rubypeople.rdt.internal.debug.core.launching;
+package com.aptana.ruby.internal.debug.core.launching;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.sourcelookup.AbstractSourceLookupParticipant;
-import org.rubypeople.rdt.internal.debug.core.model.RubyStackFrame;
+import com.aptana.ruby.internal.debug.core.model.RubyStackFrame;
 
 /**
  * The Ruby source lookup participant knows how to translate a Ruby stack frame into a source file name

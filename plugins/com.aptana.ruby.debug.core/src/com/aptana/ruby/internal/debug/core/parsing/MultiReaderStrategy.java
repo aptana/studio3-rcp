@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core.parsing;
+package com.aptana.ruby.internal.debug.core.parsing;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

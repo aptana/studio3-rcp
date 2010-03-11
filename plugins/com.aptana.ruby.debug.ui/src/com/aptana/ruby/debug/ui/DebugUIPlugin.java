@@ -1,4 +1,4 @@
-package com.aptana.radrails.debug.ui;
+package com.aptana.ruby.debug.ui;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;

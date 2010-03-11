@@ -1,13 +1,13 @@
-package org.rubypeople.rdt.internal.debug.core.parsing;
+package com.aptana.ruby.internal.debug.core.parsing;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.internal.debug.core.model.RubyStackFrame;
-import org.rubypeople.rdt.internal.debug.core.model.RubyThread;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.internal.debug.core.model.RubyStackFrame;
+import com.aptana.ruby.internal.debug.core.model.RubyThread;
 import org.xmlpull.v1.XmlPullParser;
 
 

@@ -1,4 +1,4 @@
-package com.aptana.radrails.debug.ui;
+package com.aptana.ruby.debug.ui;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -14,8 +14,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.rubypeople.rdt.debug.core.RubyDebugModel;
-import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
+
+import com.aptana.ruby.debug.core.RubyDebugModel;
+import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
 
 /**
  * Adapter to create breakpoints in Ruby files.

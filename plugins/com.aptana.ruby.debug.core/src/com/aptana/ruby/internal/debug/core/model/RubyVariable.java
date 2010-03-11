@@ -1,15 +1,15 @@
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.jruby.lexer.yacc.SyntaxException;
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.debug.core.model.IRubyStackFrame;
-import org.rubypeople.rdt.debug.core.model.IRubyValue;
-import org.rubypeople.rdt.debug.core.model.IRubyVariable;
-import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.model.IRubyStackFrame;
+import com.aptana.ruby.debug.core.model.IRubyValue;
+import com.aptana.ruby.debug.core.model.IRubyVariable;
+import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
 
 public class RubyVariable extends RubyDebugElement implements IRubyVariable
 {

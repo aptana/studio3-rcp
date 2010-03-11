@@ -9,7 +9,7 @@
  *     IBM Corporation - initial API and implementation
  *     Bjorn Freeman-Benson - initial API and implementation
  *******************************************************************************/
-package org.rubypeople.rdt.internal.debug.core.launching;
+package com.aptana.ruby.internal.debug.core.launching;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import org.eclipse.debug.core.sourcelookup.containers.DirectorySourceContainer;
 import org.eclipse.debug.core.sourcelookup.containers.FolderSourceContainer;
 import org.eclipse.debug.core.sourcelookup.containers.ProjectSourceContainer;
 import org.eclipse.debug.core.sourcelookup.containers.WorkspaceSourceContainer;
-import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
+import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
 
 /**
  * Computes the default source lookup path for a Ruby launch configuration. The default source lookup path is the folder

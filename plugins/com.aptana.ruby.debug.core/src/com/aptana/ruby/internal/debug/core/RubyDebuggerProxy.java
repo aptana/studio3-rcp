@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core;
+package com.aptana.ruby.internal.debug.core;
 
 import java.io.IOException;
 
@@ -9,32 +9,32 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
-import org.rubypeople.rdt.debug.core.IRubyLineBreakpoint;
-import org.rubypeople.rdt.debug.core.IRubyMethodBreakpoint;
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.debug.core.model.IEvaluationResult;
-import org.rubypeople.rdt.debug.core.model.IRubyExceptionBreakpoint;
-import org.rubypeople.rdt.debug.core.model.IRubyStackFrame;
-import org.rubypeople.rdt.internal.debug.core.commands.AbstractDebuggerConnection;
-import org.rubypeople.rdt.internal.debug.core.commands.BreakpointCommand;
-import org.rubypeople.rdt.internal.debug.core.commands.ClassicDebuggerConnection;
-import org.rubypeople.rdt.internal.debug.core.commands.GenericCommand;
-import org.rubypeople.rdt.internal.debug.core.commands.RubyDebugConnection;
-import org.rubypeople.rdt.internal.debug.core.model.IRubyDebugTarget;
-import org.rubypeople.rdt.internal.debug.core.model.RubyDebugTarget;
-import org.rubypeople.rdt.internal.debug.core.model.RubyEvaluationResult;
-import org.rubypeople.rdt.internal.debug.core.model.RubyProcessingException;
-import org.rubypeople.rdt.internal.debug.core.model.RubyStackFrame;
-import org.rubypeople.rdt.internal.debug.core.model.RubyThread;
-import org.rubypeople.rdt.internal.debug.core.model.RubyVariable;
-import org.rubypeople.rdt.internal.debug.core.model.ThreadInfo;
-import org.rubypeople.rdt.internal.debug.core.parsing.AbstractReadStrategy;
-import org.rubypeople.rdt.internal.debug.core.parsing.ErrorReader;
-import org.rubypeople.rdt.internal.debug.core.parsing.FramesReader;
-import org.rubypeople.rdt.internal.debug.core.parsing.LoadResultReader;
-import org.rubypeople.rdt.internal.debug.core.parsing.SuspensionReader;
-import org.rubypeople.rdt.internal.debug.core.parsing.ThreadInfoReader;
-import org.rubypeople.rdt.internal.debug.core.parsing.VariableReader;
+import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
+import com.aptana.ruby.debug.core.IRubyMethodBreakpoint;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.model.IEvaluationResult;
+import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
+import com.aptana.ruby.debug.core.model.IRubyStackFrame;
+import com.aptana.ruby.internal.debug.core.commands.AbstractDebuggerConnection;
+import com.aptana.ruby.internal.debug.core.commands.BreakpointCommand;
+import com.aptana.ruby.internal.debug.core.commands.ClassicDebuggerConnection;
+import com.aptana.ruby.internal.debug.core.commands.GenericCommand;
+import com.aptana.ruby.internal.debug.core.commands.RubyDebugConnection;
+import com.aptana.ruby.internal.debug.core.model.IRubyDebugTarget;
+import com.aptana.ruby.internal.debug.core.model.RubyDebugTarget;
+import com.aptana.ruby.internal.debug.core.model.RubyEvaluationResult;
+import com.aptana.ruby.internal.debug.core.model.RubyProcessingException;
+import com.aptana.ruby.internal.debug.core.model.RubyStackFrame;
+import com.aptana.ruby.internal.debug.core.model.RubyThread;
+import com.aptana.ruby.internal.debug.core.model.RubyVariable;
+import com.aptana.ruby.internal.debug.core.model.ThreadInfo;
+import com.aptana.ruby.internal.debug.core.parsing.AbstractReadStrategy;
+import com.aptana.ruby.internal.debug.core.parsing.ErrorReader;
+import com.aptana.ruby.internal.debug.core.parsing.FramesReader;
+import com.aptana.ruby.internal.debug.core.parsing.LoadResultReader;
+import com.aptana.ruby.internal.debug.core.parsing.SuspensionReader;
+import com.aptana.ruby.internal.debug.core.parsing.ThreadInfoReader;
+import com.aptana.ruby.internal.debug.core.parsing.VariableReader;
 
 public class RubyDebuggerProxy
 {

@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
 import java.util.Vector;
 
@@ -13,10 +13,10 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.debug.core.model.IRubyThread;
-import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
-import org.rubypeople.rdt.internal.debug.core.SuspensionPoint;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.model.IRubyThread;
+import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
+import com.aptana.ruby.internal.debug.core.SuspensionPoint;
 
 public class RubyThread extends RubyDebugElement implements IRubyThread
 {

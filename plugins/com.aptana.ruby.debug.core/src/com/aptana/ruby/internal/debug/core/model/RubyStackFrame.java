@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
@@ -6,9 +6,9 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IRegisterGroup;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IVariable;
-import org.rubypeople.rdt.debug.core.model.IEvaluationResult;
-import org.rubypeople.rdt.debug.core.model.IRubyStackFrame;
-import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
+import com.aptana.ruby.debug.core.model.IEvaluationResult;
+import com.aptana.ruby.debug.core.model.IRubyStackFrame;
+import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
 
 //see RubyDebugTarget for the reason why PlatformObject is being extended
 public class RubyStackFrame extends RubyDebugElement implements IRubyStackFrame

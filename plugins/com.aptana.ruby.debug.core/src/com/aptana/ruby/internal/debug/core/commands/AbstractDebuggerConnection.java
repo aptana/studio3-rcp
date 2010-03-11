@@ -1,14 +1,14 @@
-package org.rubypeople.rdt.internal.debug.core.commands;
+package com.aptana.ruby.internal.debug.core.commands;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.internal.debug.core.DebuggerNotFoundException;
-import org.rubypeople.rdt.internal.debug.core.parsing.AbstractReadStrategy;
-import org.rubypeople.rdt.internal.debug.core.parsing.MultiReaderStrategy;
-import org.rubypeople.rdt.internal.debug.core.parsing.SuspensionReader;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.internal.debug.core.DebuggerNotFoundException;
+import com.aptana.ruby.internal.debug.core.parsing.AbstractReadStrategy;
+import com.aptana.ruby.internal.debug.core.parsing.MultiReaderStrategy;
+import com.aptana.ruby.internal.debug.core.parsing.SuspensionReader;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;

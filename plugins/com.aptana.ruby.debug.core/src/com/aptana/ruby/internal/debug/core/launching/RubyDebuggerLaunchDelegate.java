@@ -9,7 +9,7 @@
  *     IBM Corporation - initial API and implementation
  *     Bjorn Freeman-Benson - initial API and implementation
  *******************************************************************************/
-package org.rubypeople.rdt.internal.debug.core.launching;
+package com.aptana.ruby.internal.debug.core.launching;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,11 +30,11 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
-import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
-import org.rubypeople.rdt.internal.debug.core.model.RubyDebugTarget;
-import org.rubypeople.rdt.internal.debug.core.model.RubyProcessingException;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
+import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
+import com.aptana.ruby.internal.debug.core.model.RubyDebugTarget;
+import com.aptana.ruby.internal.debug.core.model.RubyProcessingException;
 
 import com.aptana.util.ExecutableUtil;
 

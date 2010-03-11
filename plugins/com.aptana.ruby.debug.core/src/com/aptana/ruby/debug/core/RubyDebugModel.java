@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.debug.core;
+package com.aptana.ruby.debug.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,11 +9,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointManager;
 import org.eclipse.debug.core.model.IBreakpoint;
-import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
-import org.rubypeople.rdt.debug.core.model.IRubyExceptionBreakpoint;
-import org.rubypeople.rdt.internal.debug.core.breakpoints.RubyExceptionBreakpoint;
-import org.rubypeople.rdt.internal.debug.core.breakpoints.RubyLineBreakpoint;
-import org.rubypeople.rdt.internal.debug.core.breakpoints.RubyMethodBreakpoint;
+import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
+import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
+import com.aptana.ruby.internal.debug.core.breakpoints.RubyExceptionBreakpoint;
+import com.aptana.ruby.internal.debug.core.breakpoints.RubyLineBreakpoint;
+import com.aptana.ruby.internal.debug.core.breakpoints.RubyMethodBreakpoint;
 
 public class RubyDebugModel
 {

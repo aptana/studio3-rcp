@@ -1,4 +1,4 @@
-package com.aptana.radrails.debug.ui.launcher;
+package com.aptana.ruby.debug.ui.launcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
 
-import com.aptana.radrails.debug.ui.DebugUIPlugin;
+import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
+import com.aptana.ruby.debug.ui.DebugUIPlugin;
 
 public class RubyApplicationShortcut implements ILaunchShortcut
 {

@@ -1,12 +1,12 @@
-package org.rubypeople.rdt.internal.debug.core.parsing;
+package com.aptana.ruby.internal.debug.core.parsing;
 
 import java.io.IOException;
 
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.internal.debug.core.BreakpointSuspensionPoint;
-import org.rubypeople.rdt.internal.debug.core.ExceptionSuspensionPoint;
-import org.rubypeople.rdt.internal.debug.core.StepSuspensionPoint;
-import org.rubypeople.rdt.internal.debug.core.SuspensionPoint;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.internal.debug.core.BreakpointSuspensionPoint;
+import com.aptana.ruby.internal.debug.core.ExceptionSuspensionPoint;
+import com.aptana.ruby.internal.debug.core.StepSuspensionPoint;
+import com.aptana.ruby.internal.debug.core.SuspensionPoint;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

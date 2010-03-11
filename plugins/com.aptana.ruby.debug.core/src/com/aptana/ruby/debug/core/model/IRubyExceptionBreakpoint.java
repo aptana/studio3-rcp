@@ -1,6 +1,6 @@
-package org.rubypeople.rdt.debug.core.model;
+package com.aptana.ruby.debug.core.model;
 
-import org.rubypeople.rdt.debug.core.IRubyBreakpoint;
+import com.aptana.ruby.debug.core.IRubyBreakpoint;
 
 public interface IRubyExceptionBreakpoint extends IRubyBreakpoint
 {

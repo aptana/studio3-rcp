@@ -1,4 +1,4 @@
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,11 +22,11 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
-import org.rubypeople.rdt.debug.core.IRubyLineBreakpoint;
-import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
-import org.rubypeople.rdt.debug.core.RubyDebugModel;
-import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
-import org.rubypeople.rdt.internal.debug.core.SuspensionPoint;
+import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.RubyDebugModel;
+import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
+import com.aptana.ruby.internal.debug.core.SuspensionPoint;
 
 public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarget
 {

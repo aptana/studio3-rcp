@@ -1,5 +1,5 @@
 
-package org.rubypeople.rdt.internal.debug.core.model;
+package com.aptana.ruby.internal.debug.core.model;
 
 
 public class RubyProcessingException extends Exception {
