@@ -68,7 +68,7 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 	 */
 	public void computeDetail(IValue value, IValueDetailListener listener)
 	{
-		String detail = "";
+		String detail = ""; //$NON-NLS-1$
 		try
 		{
 			detail = value.getValueString();
