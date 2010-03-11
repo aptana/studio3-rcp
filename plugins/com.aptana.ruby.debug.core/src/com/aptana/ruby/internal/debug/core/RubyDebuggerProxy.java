@@ -9,9 +9,11 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
+
 import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
 import com.aptana.ruby.debug.core.IRubyMethodBreakpoint;
 import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.RubyDebugModel;
 import com.aptana.ruby.debug.core.model.IEvaluationResult;
 import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
 import com.aptana.ruby.debug.core.model.IRubyStackFrame;
@@ -39,7 +41,9 @@ import com.aptana.ruby.internal.debug.core.parsing.VariableReader;
 public class RubyDebuggerProxy
 {
 
-	public final static String DEBUGGER_ACTIVE_KEY = "org.rubypeople.rdt.debug.ui.debuggerActive";
+	// TODO What the heck is this "key" for?
+	public final static String DEBUGGER_ACTIVE_KEY = "com.aptana.ruby.debug.ui.debuggerActive"; //$NON-NLS-1$
+
 	private AbstractDebuggerConnection debuggerConnection;
 	private IRubyDebugTarget debugTarget;
 	private RubyLoop rubyLoop;
@@ -85,7 +89,7 @@ public class RubyDebuggerProxy
 	protected void setBreakPoints() throws IOException
 	{
 		IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(
-				IRubyDebugTarget.MODEL_IDENTIFIER);
+				RubyDebugModel.getModelIdentifier());
 		for (int i = 0; i < breakpoints.length; i++)
 		{
 			this.addBreakpoint(breakpoints[i]);

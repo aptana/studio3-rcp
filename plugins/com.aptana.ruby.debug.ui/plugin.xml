@@ -86,20 +86,20 @@
       </viewerContribution>
       <!--
 		<viewerContribution
-			targetID="org.rubypeople.rdt.ui.rubyeditor.contextMenu"
+			targetID="com.aptana.ruby.ui.rubyeditor.contextMenu"
 			id="com.aptana.ruby.debug.ui.RubyEditorPopupActions">
          <action
                label="%EnableBreakpoint.label"
                helpContextId="enable_disable_breakpoint_action_context"
                class="org.eclipse.debug.ui.actions.RulerEnableDisableBreakpointActionDelegate"
                menubarPath="debug"
-               id="org.rubypeople.rdt.debug.ui.actions.EnableDisableBreakpointRulerActionDelegate">
+               id="com.aptana.ruby.debug.ui.actions.EnableDisableBreakpointRulerActionDelegate">
          </action>
          <action
                class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
                helpContextId="manage_breakpoint_action_context"
                icon="icons/full/obj16/brkp_obj.gif"
-               id="org.rubypeople.rdt.debug.ui.actions.BreakpointRulerActionDelegate"
+               id="com.aptana.ruby.debug.ui.actions.BreakpointRulerActionDelegate"
                label="%AddBreakpoint.label"
                menubarPath="debug">
          </action>
@@ -110,13 +110,13 @@
          point="org.eclipse.debug.ui.debugModelPresentations">
       <debugModelPresentation
             class="com.aptana.ruby.debug.ui.RubyModelPresentation"
-            id="org.rubypeople.rdt.debug">
+            id="com.aptana.ruby.debug">
       </debugModelPresentation>
    </extension>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
       <launchConfigurationTabGroup
-            type="org.rubypeople.rdt.debug.core.launchConfigurationType"
+            type="com.aptana.ruby.debug.core.launchConfigurationType"
             description="Run or debug a Ruby program"
             class="com.aptana.ruby.debug.ui.launcher.RubyTabGroup"
             id="com.aptana.ruby.debug.ui.launchConfigurationTabGroup.ruby">
@@ -151,7 +151,7 @@
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
             icon="icons/full/ctool16/run_ruby.gif"
-            configTypeID="org.rubypeople.rdt.debug.core.launchConfigurationType"
+            configTypeID="com.aptana.ruby.debug.core.launchConfigurationType"
             id="com.aptana.ruby.debug.ui.ruby.launchConfigurationTypeImage">
       </launchConfigurationTypeImage>
    </extension>

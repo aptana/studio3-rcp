@@ -3,14 +3,19 @@ package com.aptana.ruby.internal.debug.core.model;
 import org.eclipse.debug.core.model.DebugElement;
 import org.eclipse.debug.core.model.IDebugTarget;
 
-public class RubyDebugElement extends DebugElement {
+import com.aptana.ruby.debug.core.RubyDebugModel;
 
-	public RubyDebugElement(IDebugTarget target) {
+public class RubyDebugElement extends DebugElement
+{
+
+	public RubyDebugElement(IDebugTarget target)
+	{
 		super(target);
 	}
 
-	public String getModelIdentifier() {
-		return IRubyDebugTarget.MODEL_IDENTIFIER;
+	public String getModelIdentifier()
+	{
+		return RubyDebugModel.getModelIdentifier();
 	}
 
 }

@@ -8,27 +8,27 @@ import com.aptana.ruby.debug.core.RubyDebugModel;
 public abstract class RubyBreakpoint extends Breakpoint
 {
 	/**
-	 * Breakpoint attribute storing the expired value (value <code>"org.rubypeople.rdt.debug.core.expired"</code>). This
+	 * Breakpoint attribute storing the expired value (value <code>"com.aptana.ruby.debug.core.expired"</code>). This
 	 * attribute is stored as a <code>boolean</code>. Once a hit count has been reached, a breakpoint is considered to
 	 * be "expired".
 	 */
-	protected static final String EXPIRED = "org.rubypeople.rdt.debug.core.expired"; //$NON-NLS-1$
+	protected static final String EXPIRED = "com.aptana.ruby.debug.core.expired"; //$NON-NLS-1$
 	/**
 	 * Breakpoint attribute storing a breakpoint's hit count value (value
-	 * <code>"org.rubypeople.rdt.debug.core.hitCount"</code>). This attribute is stored as an <code>int</code>.
+	 * <code>"com.aptana.ruby.debug.core.hitCount"</code>). This attribute is stored as an <code>int</code>.
 	 */
-	protected static final String HIT_COUNT = "org.rubypeople.rdt.debug.core.hitCount"; //$NON-NLS-1$
+	protected static final String HIT_COUNT = "com.aptana.ruby.debug.core.hitCount"; //$NON-NLS-1$
 	/**
 	 * Breakpoint attribute storing the fully qualified name of the type this breakpoint is located in. (value
-	 * <code>"org.rubypeople.rdt.debug.core.typeName"</code>). This attribute is a <code>String</code>.
+	 * <code>"com.aptana.ruby.debug.core.typeName"</code>). This attribute is a <code>String</code>.
 	 */
-	protected static final String TYPE_NAME = "org.rubypeople.rdt.debug.core.typeName"; //$NON-NLS-1$		
+	protected static final String TYPE_NAME = "com.aptana.ruby.debug.core.typeName"; //$NON-NLS-1$		
 
 	/**
 	 * Breakpoint attribute storing the number of debug targets a breakpoint is installed in (value
-	 * <code>"org.rubypeople.rdt.debug.core.installCount"</code>). This attribute is a <code>int</code>.
+	 * <code>"com.aptana.ruby.debug.core.installCount"</code>). This attribute is a <code>int</code>.
 	 */
-	protected static final String INSTALL_COUNT = "org.rubypeople.rdt.debug.core.installCount"; //$NON-NLS-1$	
+	protected static final String INSTALL_COUNT = "com.aptana.ruby.debug.core.installCount"; //$NON-NLS-1$	
 
 	/**
 	 * Stores the type name that this breakpoint was last installed in. When a breakpoint is created, the TYPE_NAME
@@ -82,7 +82,7 @@ public abstract class RubyBreakpoint extends Breakpoint
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.rubypeople.rdt.debug.core.IRubyBreakpoint#isInstalled()
+	 * @see com.aptana.ruby.debug.core.IRubyBreakpoint#isInstalled()
 	 */
 	public boolean isInstalled() throws CoreException
 	{

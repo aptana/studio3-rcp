@@ -22,7 +22,7 @@ import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
 public class RubyExceptionBreakpoint extends RubyBreakpoint implements IRubyExceptionBreakpoint
 {
 	// TODO Move this constant to some public interface...
-	private static final String RUBY_EXCEPTION_BREAKPOINT = "org.rubypeople.rdt.debug.core.rubyExceptionBreakpointMarker"; //$NON-NLS-1$
+	private static final String RUBY_EXCEPTION_BREAKPOINT = "com.aptana.ruby.debug.core.rubyExceptionBreakpointMarker"; //$NON-NLS-1$
 
 	public RubyExceptionBreakpoint(final IResource resource, final String exception, final boolean add,
 			final Map<String, Object> attributes) throws CoreException

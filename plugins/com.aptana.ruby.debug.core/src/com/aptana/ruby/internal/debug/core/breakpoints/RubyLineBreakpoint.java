@@ -16,7 +16,7 @@ import com.aptana.ruby.debug.core.RubyDebugModel;
 public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreakpoint
 {
 	// TODO Move this constant to some public interface...
-	public static final String RUBY_BREAKPOINT_MARKER = "org.rubypeople.rdt.debug.core.rubyLineBreakpointMarker"; //$NON-NLS-1$
+	public static final String RUBY_BREAKPOINT_MARKER = "com.aptana.ruby.debug.core.rubyLineBreakpointMarker"; //$NON-NLS-1$
 
 	private static final String EXTERNAL_FILENAME = "externalFileName";
 	private int index = -1; // index of breakpoint on ruby debugger side

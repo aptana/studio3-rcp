@@ -8,9 +8,9 @@ public interface IRubyLaunchConfigurationConstants
 {
 
 	/**
-	 * Unique identifier for the Ruby debug model (value <code>org.rubypeople.rdt.debug</code>).
+	 * Unique identifier for the Ruby debug model (value <code>com.aptana.ruby.debug</code>).
 	 */
-	public static final String ID_RUBY_DEBUG_MODEL = "org.rubypeople.rdt.debug";
+	public static final String ID_RUBY_DEBUG_MODEL = "com.aptana.ruby.debug";
 
 	/**
 	 * Name of the string substitution variable that resolves to the location of a local Ruby executable (value
@@ -18,9 +18,9 @@ public interface IRubyLaunchConfigurationConstants
 	 */
 	public static final String ID_RUBY_EXECUTABLE = "rubyExecutable";
 
-	public static final String ID_RUBY_APPLICATION = "org.rubypeople.rdt.debug.core.launchConfigurationType";
+	public static final String ID_RUBY_APPLICATION = "com.aptana.ruby.debug.core.launchConfigurationType";
 
-	public static final String ID_RUBY_SOURCE_LOCATOR = "org.rubypeople.rdt.debug.core.sourceLocator";
+	public static final String ID_RUBY_SOURCE_LOCATOR = "com.aptana.ruby.debug.core.sourceLocator";
 
 	/**
 	 * Launch configuration key. Value is a path to a ruby program. The path is a string representing a full path to a

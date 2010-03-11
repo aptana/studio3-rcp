@@ -13,25 +13,25 @@ import com.aptana.ruby.debug.core.IRubyMethodBreakpoint;
 public class RubyMethodBreakpoint extends RubyLineBreakpoint implements IRubyMethodBreakpoint
 {
 	// TODO Move this constant to some public interface...
-	private static final String RUBY_METHOD_BREAKPOINT = "org.rubypeople.rdt.debug.rubyMethodBreakpointMarker"; //$NON-NLS-1$
+	private static final String RUBY_METHOD_BREAKPOINT = "com.aptana.ruby.debug.rubyMethodBreakpointMarker"; //$NON-NLS-1$
 
 	/**
 	 * Breakpoint attribute storing the name of the method in which a breakpoint is contained. (value
-	 * <code>"org.eclipse.rdt.debug.core.methodName"</code>). This attribute is a <code>String</code>.
+	 * <code>"com.aptana.ruby.debug.core.methodName"</code>). This attribute is a <code>String</code>.
 	 */
-	private static final String METHOD_NAME = "org.eclipse.rdt.debug.core.methodName"; //$NON-NLS-1$	
+	private static final String METHOD_NAME = "com.aptana.ruby.debug.core.methodName"; //$NON-NLS-1$	
 
 	/**
 	 * Breakpoint attribute storing whether this breakpoint is an entry breakpoint. (value
-	 * <code>"org.eclipse.rdt.debug.core.entry"</code>). This attribute is a <code>boolean</code>.
+	 * <code>"com.aptana.ruby.debug.core.entry"</code>). This attribute is a <code>boolean</code>.
 	 */
-	private static final String ENTRY = "org.eclipse.rdt.debug.core.entry"; //$NON-NLS-1$	
+	private static final String ENTRY = "com.aptana.ruby.debug.core.entry"; //$NON-NLS-1$	
 
 	/**
 	 * Breakpoint attribute storing whether this breakpoint is an exit breakpoint. (value
-	 * <code>"org.eclipse.rdt.debug.core.exit"</code>). This attribute is a <code>boolean</code>.
+	 * <code>"com.aptana.ruby.debug.core.exit"</code>). This attribute is a <code>boolean</code>.
 	 */
-	private static final String EXIT = "org.eclipse.rdt.debug.core.exit"; //$NON-NLS-1$	
+	private static final String EXIT = "com.aptana.ruby.debug.core.exit"; //$NON-NLS-1$	
 
 	/**
 	 * Cache of method name attribute

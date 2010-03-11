@@ -5,21 +5,21 @@
    <extension
          point="org.eclipse.debug.core.breakpoints">
       <breakpoint
-            markerType="org.rubypeople.rdt.debug.core.rubyLineBreakpointMarker"
-            class="org.rubypeople.rdt.internal.debug.core.breakpoints.RubyLineBreakpoint"
+            markerType="com.aptana.ruby.debug.core.rubyLineBreakpointMarker"
+            class="com.aptana.ruby.internal.debug.core.breakpoints.RubyLineBreakpoint"
             id="rubyBreakpointMarker"
             name="%rubyBreakpoint.name">
       </breakpoint>
       <breakpoint
-            markerType="org.rubypeople.rdt.debug.core.rubyExceptionBreakpointMarker"
-            class="org.rubypeople.rdt.internal.debug.core.breakpoints.RubyExceptionBreakpoint"
+            markerType="com.aptana.ruby.debug.core.rubyExceptionBreakpointMarker"
+            class="com.aptana.ruby.internal.debug.core.breakpoints.RubyExceptionBreakpoint"
             id="rubyExceptionBreakpoint"
             name="%rubyExceptionBreakpoint.name">
       </breakpoint>
       <breakpoint
-            class="org.rubypeople.rdt.internal.debug.core.breakpoints.RubyMethodBreakpoint"
+            class="com.aptana.ruby.internal.debug.core.breakpoints.RubyMethodBreakpoint"
             id="rubyMethodBreakpoint"
-            markerType="org.rubypeople.rdt.debug.core.rubyMethodBreakpointMarker"
+            markerType="com.aptana.ruby.debug.core.rubyMethodBreakpointMarker"
             name="%rubyMethodBreakpoint.name">
       </breakpoint>
    </extension>
@@ -34,7 +34,7 @@
          id="commonRubyLineBreakpointMarker"
          point="org.eclipse.core.resources.markers">
       <super
-            type="org.rubypeople.rdt.debug.core.rubyBreakpointMarker">
+            type="com.aptana.ruby.debug.core.rubyBreakpointMarker">
       </super>
       <super
             type="org.eclipse.debug.core.lineBreakpointMarker">
@@ -43,23 +43,23 @@
             value="true">
       </persistent>
       <attribute
-            name="org.rubypeople.rdt.debug.core.typeName">
+            name="com.aptana.ruby.debug.core.typeName">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.installCount">
+            name="com.aptana.ruby.debug.core.installCount">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.hitCount">
+            name="com.aptana.ruby.debug.core.hitCount">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.expired">
+            name="com.aptana.ruby.debug.core.expired">
       </attribute>
    </extension>
    <extension
          id="rubyLineBreakpointMarker"
          point="org.eclipse.core.resources.markers">
       <super
-            type="org.rubypeople.rdt.debug.core.commonRubyLineBreakpointMarker">
+            type="com.aptana.ruby.debug.core.commonRubyLineBreakpointMarker">
       </super>
       <persistent
             value="true">
@@ -69,71 +69,71 @@
          id="rubyExceptionBreakpointMarker"
          point="org.eclipse.core.resources.markers">
       <super
-            type="org.rubypeople.rdt.debug.core.rubyBreakpointMarker">
+            type="com.aptana.ruby.debug.core.rubyBreakpointMarker">
       </super>
       <persistent
             value="true">
       </persistent>
       <attribute
-            name="org.rubypeople.rdt.debug.core.caught">
+            name="com.aptana.ruby.debug.core.caught">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.uncaught">
+            name="com.aptana.ruby.debug.core.uncaught">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.checked">
+            name="com.aptana.ruby.debug.core.checked">
       </attribute>
    </extension>
    <extension
          id="rubyMethodBreakpointMarker"
          point="org.eclipse.core.resources.markers">
       <super
-            type="org.rubypeople.rdt.debug.core.rubyLineBreakpointMarker">
+            type="com.aptana.ruby.debug.core.rubyLineBreakpointMarker">
       </super>
       <persistent
             value="true">
       </persistent>
       <attribute
-            name="org.rubypeople.rdt.debug.core.methodName">
+            name="com.aptana.ruby.debug.core.methodName">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.methodSignature">
+            name="com.aptana.ruby.debug.core.methodSignature">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.entry">
+            name="com.aptana.ruby.debug.core.entry">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.exit">
+            name="com.aptana.ruby.debug.core.exit">
       </attribute>
       <attribute
-            name="org.rubypeople.rdt.debug.core.native">
+            name="com.aptana.ruby.debug.core.native">
       </attribute>
    </extension>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
       <launchConfigurationType
-            delegate="org.rubypeople.rdt.internal.debug.core.launching.RubyDebuggerLaunchDelegate"
-            id="org.rubypeople.rdt.debug.core.launchConfigurationType"
+            delegate="com.aptana.ruby.internal.debug.core.launching.RubyDebuggerLaunchDelegate"
+            id="com.aptana.ruby.debug.core.launchConfigurationType"
             modes="debug"
             name="%LaunchConfigurationTypeRubyApplication.name"
             public="true"
-            sourceLocatorId="org.rubypeople.rdt.debug.core.sourceLocator"
-            sourcePathComputerId="org.rubypeople.rdt.debug.core.sourcePathComputer">
+            sourceLocatorId="com.aptana.ruby.debug.core.sourceLocator"
+            sourcePathComputerId="com.aptana.ruby.debug.core.sourcePathComputer">
       </launchConfigurationType>
    </extension>
    <extension
          point="org.eclipse.debug.core.sourceLocators">
       <sourceLocator
-            class="org.rubypeople.rdt.internal.debug.core.launching.RubySourceLookupDirector"
-            id="org.rubypeople.rdt.debug.core.sourceLocator"
+            class="com.aptana.ruby.internal.debug.core.launching.RubySourceLookupDirector"
+            id="com.aptana.ruby.debug.core.sourceLocator"
             name="%sourceLocator.name.0">
       </sourceLocator>
    </extension>
    <extension
          point="org.eclipse.debug.core.sourcePathComputers">
       <sourcePathComputer
-            class="org.rubypeople.rdt.internal.debug.core.launching.RubySourcePathComputerDelegate"
-            id="org.rubypeople.rdt.debug.core.sourcePathComputer">
+            class="com.aptana.ruby.internal.debug.core.launching.RubySourcePathComputerDelegate"
+            id="com.aptana.ruby.debug.core.sourcePathComputer">
       </sourcePathComputer>
    </extension>
 
