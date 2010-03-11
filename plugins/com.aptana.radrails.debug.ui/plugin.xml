@@ -37,12 +37,11 @@
 								<test value="*.rbw"
 									property="org.eclipse.debug.ui.matchesPattern">
 								</test>
-								<!--
-								<and>
-               	    				<test property="org.rubypeople.rdt.launching.isContainer"/>
-               	     				<test property="org.rubypeople.rdt.launching.hasProjectNature" args="org.rubypeople.rdt.core.rubynature"/>
-               	  				</and>
-               	  				-->
+        <test
+              args="kindOf"
+              property="org.eclipse.core.resources.contentTypeId"
+              value="com.aptana.contenttype.ruby">
+        </test>
 							</or>
 						</iterate>
 					</with>
@@ -52,7 +51,6 @@
 				<contextLabel label="%LaunchShortcut.Ruby.label" mode="debug">
 				</contextLabel>
 			</contextualLaunch>
-			<perspective id="org.radrails.rails.ui.PerspectiveRails" />
 		</shortcut>
 	</extension>
 	<extension point="org.eclipse.ui.commands">
