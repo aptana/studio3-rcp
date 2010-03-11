@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class RubyDebugCorePlugin extends Plugin
 {
 
-	public static final String PLUGIN_ID = "org.rubypeople.rdt.debug.core"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.aptana.ruby.debug.core"; //$NON-NLS-1$
 
 	protected static RubyDebugCorePlugin plugin;
 
