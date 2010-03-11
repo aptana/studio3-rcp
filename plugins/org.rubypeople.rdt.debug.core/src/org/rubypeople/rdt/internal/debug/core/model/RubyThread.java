@@ -62,13 +62,13 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 		if (isSuspended())
 		{
 			getRubyDebuggerProxy().readFrames(this);
-//			for (int i = 0; i < frames.length; i++)
-//			{
-//				RubyStackFrame frame = frames[i];
-//				// DebugEvent ev = new DebugEvent(frame, DebugEvent.CREATE);
-//				// DebugPlugin.getDefault().fireDebugEventSet(
-//				// new DebugEvent[] { ev });
-//			}
+			// for (int i = 0; i < frames.length; i++)
+			// {
+			// RubyStackFrame frame = frames[i];
+			// // DebugEvent ev = new DebugEvent(frame, DebugEvent.CREATE);
+			// // DebugPlugin.getDefault().fireDebugEventSet(
+			// // new DebugEvent[] { ev });
+			// }
 		}
 		else
 		{
@@ -366,11 +366,11 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 				{
 					if (failed == null)
 					{
-						failed = new MultiStatus(RubyDebugCorePlugin.getPluginIdentifier(),
-								RubyDebugCorePlugin.INTERNAL_ERROR, "Exception processing async thread queue", null);
+						failed = new MultiStatus(RubyDebugCorePlugin.getPluginIdentifier(), -1,
+								"Exception processing async thread queue", null);
 					}
-					failed.add(new Status(IStatus.ERROR, RubyDebugCorePlugin.getPluginIdentifier(),
-							RubyDebugCorePlugin.INTERNAL_ERROR, "Exception processing async thread queue", e));
+					failed.add(new Status(IStatus.ERROR, RubyDebugCorePlugin.getPluginIdentifier(), -1,
+							"Exception processing async thread queue", e));
 				}
 				i++;
 				monitor.worked(1);

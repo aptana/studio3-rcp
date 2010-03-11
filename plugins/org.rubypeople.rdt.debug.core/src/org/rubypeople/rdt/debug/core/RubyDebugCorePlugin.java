@@ -1,7 +1,5 @@
 package org.rubypeople.rdt.debug.core;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
@@ -12,13 +10,6 @@ public class RubyDebugCorePlugin extends Plugin
 {
 
 	public static final String PLUGIN_ID = "org.rubypeople.rdt.debug.core"; //$NON-NLS-1$
-
-	/**
-	 * Status code indicating an unexpected internal error.
-	 */
-	public static final int INTERNAL_ERROR = 120;
-
-	private static boolean isRubyDebuggerVerbose = false;
 
 	protected static RubyDebugCorePlugin plugin;
 
@@ -32,29 +23,26 @@ public class RubyDebugCorePlugin extends Plugin
 		return plugin;
 	}
 
-	public static IWorkspace getWorkspace()
-	{
-		return ResourcesPlugin.getWorkspace();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception
 	{
-		plugin = this;
 		super.start(context);
-		String rubyDebuggerVerboseOption = Platform.getDebugOption(RubyDebugCorePlugin.PLUGIN_ID
-				+ "/rubyDebuggerVerbose");
-		isRubyDebuggerVerbose = rubyDebuggerVerboseOption == null ? false : rubyDebuggerVerboseOption
-				.equalsIgnoreCase("true");
+		plugin = this;
+	}
+
+	@Override
+	public void stop(BundleContext context) throws Exception
+	{
+		plugin = null;
+		super.stop(context);
 	}
 
 	public static void log(int severity, String message)
 	{
-		Status status = new Status(severity, PLUGIN_ID, IStatus.OK, message, null);
-		RubyDebugCorePlugin.log(status);
+		log(new Status(severity, PLUGIN_ID, IStatus.OK, message, null));
 	}
 
 	public static void log(String message, Throwable e)
@@ -62,7 +50,7 @@ public class RubyDebugCorePlugin extends Plugin
 		log(new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, message, e));
 	}
 
-	public static void log(IStatus status)
+	private static void log(IStatus status)
 	{
 		if (RubyDebugCorePlugin.getDefault() != null)
 		{
@@ -70,25 +58,21 @@ public class RubyDebugCorePlugin extends Plugin
 		}
 		else
 		{
-			System.out.println("Error: ");
+			System.out.println("Error: "); //$NON-NLS-1$
 			System.out.println(status.getMessage());
 		}
 	}
 
 	public static void log(Throwable e)
 	{
-		log(new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, "RdtLaunchingPlugin.internalErrorOccurred", e)); //$NON-NLS-1$
+		log(new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, e.getMessage(), e));
 	}
 
 	public static void debug(Object message)
 	{
-		if (RubyDebugCorePlugin.getDefault() != null)
+		if (RubyDebugCorePlugin.getDefault() != null && RubyDebugCorePlugin.getDefault().isDebugging())
 		{
-			if (RubyDebugCorePlugin.getDefault().isDebugging())
-			{
-				System.out.println(message.toString());
-			}
-
+			System.out.println(message.toString());
 		}
 		else
 		{
@@ -99,14 +83,10 @@ public class RubyDebugCorePlugin extends Plugin
 
 	public static void debug(String message, Throwable e)
 	{
-		if (RubyDebugCorePlugin.getDefault() != null)
+		if (RubyDebugCorePlugin.getDefault() != null && RubyDebugCorePlugin.getDefault().isDebugging())
 		{
-			if (RubyDebugCorePlugin.getDefault().isDebugging())
-			{
-				System.out.println(message + ", Exception: " + e.getMessage());
-				RubyDebugCorePlugin.log(e);
-			}
-
+			System.out.println(message + ", Exception: " + e.getMessage()); //$NON-NLS-1$
+			RubyDebugCorePlugin.log(e);
 		}
 		else
 		{
@@ -114,12 +94,14 @@ public class RubyDebugCorePlugin extends Plugin
 			System.out.println(message);
 			e.printStackTrace();
 		}
-
 	}
 
 	public static boolean isRubyDebuggerVerbose()
 	{
-		return isRubyDebuggerVerbose;
+		String rubyDebuggerVerboseOption = Platform.getDebugOption(RubyDebugCorePlugin.PLUGIN_ID
+				+ "/rubyDebuggerVerbose"); //$NON-NLS-1$
+		return rubyDebuggerVerboseOption == null ? false : rubyDebuggerVerboseOption.equalsIgnoreCase(Boolean.TRUE
+				.toString());
 	}
 
 	public static String getPluginIdentifier()
