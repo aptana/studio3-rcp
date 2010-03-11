@@ -26,4 +26,6 @@ public interface IRubyLaunchConfigurationConstants
 	public static final String ID_RUBY_APPLICATION = "org.rubypeople.rdt.debug.core.launchConfigurationType";
 
 	public static final String ID_RUBY_SOURCE_LOCATOR = "org.rubypeople.rdt.debug.core.sourceLocator";
+
+	public static final String ATTR_WORKING_DIRECTORY = ID_RUBY_DEBUG_MODEL + ".ATTR_WORKING_DIR";
 }

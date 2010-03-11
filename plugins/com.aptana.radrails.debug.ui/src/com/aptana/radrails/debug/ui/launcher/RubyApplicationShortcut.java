@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -100,9 +99,9 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 		List<ILaunchConfiguration> candidateConfigs = new ArrayList<ILaunchConfiguration>(configs.length);
 		for (ILaunchConfiguration config : configs)
 		{
-			boolean projectRelativeFileNamesEqual = config.getAttribute(
-					IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, "").equals(rubyFile.getLocation().toOSString());
-			if (projectRelativeFileNamesEqual)
+			boolean absoluteFilenamesMatch = config.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, "")
+					.equals(rubyFile.getLocation().toOSString());
+			if (absoluteFilenamesMatch)
 			{
 				candidateConfigs.add(config);
 			}
@@ -131,8 +130,8 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 					.generateUniqueLaunchConfigurationNameFrom(rubyFile.getName()));
 			// wc.setAttribute(IRubyLaunchConfigurationConstants.ATTR_PROJECT_NAME, rubyFile.getProject().getName());
 			wc.setAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, rubyFile.getLocation().toOSString());
-			// wc.setAttribute(IRubyLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY, RubyApplicationShortcut
-			// .getDefaultWorkingDirectory(rubyFile.getProject()));
+			wc.setAttribute(IRubyLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY, RubyApplicationShortcut
+					.getDefaultWorkingDirectory(rubyFile));
 			wc.setAttribute(ILaunchConfiguration.ATTR_SOURCE_LOCATOR_ID,
 					IRubyLaunchConfigurationConstants.ID_RUBY_SOURCE_LOCATOR);
 			config = wc.doSave();
@@ -154,13 +153,19 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 		return DebugPlugin.getDefault().getLaunchManager();
 	}
 
-	protected static String getDefaultWorkingDirectory(IProject project)
+	protected static String getDefaultWorkingDirectory(IFile file)
 	{
-		if (project != null && project.exists())
+		// Grab the current file's container
+		if (file.getParent() != null && file.getParent().exists())
 		{
-			return project.getLocation().toOSString();
+			return file.getParent().getLocation().toOSString();
 		}
-		// might have been deleted
+		// Something wacky happened, try the current project...
+		if (file.getProject() != null && file.getProject().exists())
+		{
+			return file.getProject().getLocation().toOSString();
+		}
+		// Weird! Try the workspace root
 		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
 	}
 

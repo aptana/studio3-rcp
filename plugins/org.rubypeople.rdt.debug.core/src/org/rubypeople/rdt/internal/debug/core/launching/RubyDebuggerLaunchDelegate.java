@@ -28,6 +28,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
+import org.rubypeople.rdt.debug.core.RubyDebugCorePlugin;
 import org.rubypeople.rdt.debug.core.launching.IRubyLaunchConfigurationConstants;
 import org.rubypeople.rdt.internal.debug.core.RubyDebuggerProxy;
 import org.rubypeople.rdt.internal.debug.core.model.RubyDebugTarget;
@@ -50,7 +51,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		List<String> commandList = new ArrayList<String>();
 
 		// Ruby executable
-		// FIXME This needs to search for ruby.exe!
+		// FIXME This needs to search for ruby binary!
 		String path = "/usr/bin/ruby";
 		// if (path == null)
 		// {
@@ -66,7 +67,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 
 		// TODO VM Args go here...
 
-		commandList.add("--");
+		commandList.add("--"); //$NON-NLS-1$
 
 		int port = -1;
 		if (mode.equals(ILaunchManager.DEBUG_MODE))
@@ -81,9 +82,9 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		// RDebug-ide
 		// FIXME Grab location of bin script by searching or from pref value!
 		commandList.add("/Users/cwilliams/.gem/ruby/1.8/bin/rdebug-ide");
-		commandList.add("--port");
+		commandList.add("--port"); //$NON-NLS-1$
 		commandList.add(Integer.toString(port));
-		commandList.add("--");
+		commandList.add("--"); //$NON-NLS-1$
 
 		// file we're debugging
 		String program = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, (String) null);
@@ -98,14 +99,15 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		}
 		commandList.add(program);
 
-		// TODO Grab working dir from the launch config...
-
 		String[] commandLine = commandList.toArray(new String[commandList.size()]);
-		Process process = DebugPlugin.exec(commandLine, null);
+
+		Process process = DebugPlugin.exec(commandLine, getWorkingDirectory(configuration));
 		IProcess p = DebugPlugin.newProcess(launch, process, path);
 		if (mode.equals(ILaunchManager.DEBUG_MODE))
 		{
-			RubyDebugTarget target = new RubyDebugTarget(launch, "localhost", port);
+			RubyDebugTarget target = new RubyDebugTarget(launch, "localhost", port); // TODO Extract localhost out to
+																						// some interface as default
+																						// value
 			target.setProcess(p);
 			RubyDebuggerProxy proxy = new RubyDebuggerProxy(target, true);
 			try
@@ -115,18 +117,35 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			}
 			catch (RubyProcessingException e)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				RubyDebugCorePlugin.log(e);
 				target.terminate();
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				RubyDebugCorePlugin.log(e);
 				target.terminate();
 			}
-
 		}
+	}
+
+	/**
+	 * Return a File pointing at the working directory for the launch. Return null if no value specified, or specified
+	 * location does not exist or is not a directory.
+	 * 
+	 * @param configuration
+	 * @return
+	 * @throws CoreException
+	 */
+	protected File getWorkingDirectory(ILaunchConfiguration configuration) throws CoreException
+	{
+		String workingDirVal = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY,
+				(String) null);
+		if (workingDirVal == null)
+			return null;
+		File workingDirectory = new File(workingDirVal);
+		if (!workingDirectory.isDirectory())
+			return null;
+		return workingDirectory;
 	}
 
 	/**
@@ -140,7 +159,6 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	 */
 	private void abort(String message, Throwable e) throws CoreException
 	{
-		// TODO: the plug-in code should be the example plug-in, not Perl debug model id
 		throw new CoreException(new Status(IStatus.ERROR, IRubyLaunchConfigurationConstants.ID_RUBY_DEBUG_MODEL, 0,
 				message, e));
 	}

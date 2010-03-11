@@ -13,6 +13,8 @@ package org.rubypeople.rdt.internal.debug.core.launching;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -48,25 +50,64 @@ public class RubySourcePathComputerDelegate implements ISourcePathComputerDelega
 			throws CoreException
 	{
 		List<ISourceContainer> sourceContainers = new ArrayList<ISourceContainer>();
-		// TODO Take a look at the working directory, loadpaths
-		String path = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, (String) null);
+		// TODO Eval the loadpath in the current debug target for launch, and then add DirectorySourceContainers for
+		// each entry!
+
+		// Grab the working directory from the configuration and add containers for it...
+		String workingDir = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY,
+				(String) null);
+		sourceContainers.addAll(addPath(workingDir));
+		// if it doesn't exist, assume working dir is parent of filename
+		if (sourceContainers.isEmpty())
+		{
+			String path = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, (String) null);
+			sourceContainers.addAll(addParent(path));
+		}
+
+		sourceContainers.add(new WorkspaceSourceContainer());
+		if (File.listRoots() != null && File.listRoots().length > 0)
+			sourceContainers.add(new DirectorySourceContainer(File.listRoots()[0], false));
+
+		return sourceContainers.toArray(new ISourceContainer[sourceContainers.size()]);
+	}
+
+	private Collection<? extends ISourceContainer> addParent(String path)
+	{
 		if (path != null)
 		{
 			IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(path));
 			if (resource != null)
 			{
 				IContainer container = resource.getParent();
+				return addPath(container.getLocation().toPortableString());
+			}
+		}
+		return Collections.emptyList();
+	}
+
+	private Collection<? extends ISourceContainer> addPath(String path)
+	{
+		List<ISourceContainer> sourceContainers = new ArrayList<ISourceContainer>();
+		if (path != null)
+		{
+			IResource resource = ResourcesPlugin.getWorkspace().getRoot().getContainerForLocation(new Path(path));
+			if (resource != null && resource instanceof IContainer && resource.exists())
+			{
+				IContainer container = (IContainer) resource;
 				if (container.getType() == IResource.FOLDER)
 				{
 					sourceContainers.add(new FolderSourceContainer(container, false));
 				}
-				sourceContainers.add(new ProjectSourceContainer(resource.getProject(), false));
+				else if (container.getType() == IResource.PROJECT)
+				{
+					sourceContainers.add(new ProjectSourceContainer(resource.getProject(), false));
+				}
+			}
+			else
+			{
+				sourceContainers.add(new DirectorySourceContainer(new File(path), false));
 			}
 		}
-		sourceContainers.add(new WorkspaceSourceContainer());
-		if (File.listRoots() != null && File.listRoots().length > 0)
-			sourceContainers.add(new DirectorySourceContainer(File.listRoots()[0], false));
-
-		return sourceContainers.toArray(new ISourceContainer[sourceContainers.size()]);
+		return sourceContainers;
 	}
 }
