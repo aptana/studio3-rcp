@@ -42,14 +42,14 @@
          unpack="false"/>
 
    <plugin
-         id="com.aptana.radrails.debug.ui"
+         id="com.aptana.ruby.debug.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.rubypeople.rdt.debug.core"
+         id="com.aptana.ruby.debug.core"
          download-size="0"
          install-size="0"
          version="0.0.0"

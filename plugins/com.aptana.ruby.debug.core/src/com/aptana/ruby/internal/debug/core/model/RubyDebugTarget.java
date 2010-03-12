@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
-import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
+
 import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import com.aptana.ruby.debug.core.RubyDebugModel;
 import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
@@ -55,7 +56,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		{ // null only expected in Unit test
 			initializeBreakpoints();
 		}
-		addDebugParameter("$RemoteDebugPort=" + port);
+		addDebugParameter("$RemoteDebugPort=" + port); //$NON-NLS-1$
 	}
 
 	public RubyDebugTarget(ILaunch launch, String host, int port)
@@ -70,7 +71,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 
 	public void updateThreads()
 	{
-		RubyDebugCorePlugin.debug("udpating threads");
+		RubyDebugCorePlugin.debug("udpating threads"); //$NON-NLS-1$
 		ThreadInfo[] threadInfos = this.getRubyDebuggerProxy().readThreads();
 		updateThreads(threadInfos);
 	}
@@ -97,7 +98,6 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		RubyThread[] newThreads = new RubyThread[threadInfos.length];
 		Set<Integer> newIds = new TreeSet<Integer>();
 		boolean changed = false;
-		int threadIndex = 0;
 		for (int i = 0; i < threadInfos.length; i++)
 		{
 			ThreadInfo currentThreadInfo = threadInfos[i];
@@ -157,8 +157,8 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		RubyThread thread = this.getThreadById(suspensionPoint.getThreadId());
 		if (thread == null)
 		{
-			RubyDebugCorePlugin
-					.log(IStatus.ERROR, "Thread with id " + suspensionPoint.getThreadId() + " was not found");
+			RubyDebugCorePlugin.log(IStatus.ERROR, MessageFormat.format("Thread with id {0} was not found", //$NON-NLS-1$
+					suspensionPoint.getThreadId()));
 			return;
 		}
 		thread.doSuspend(suspensionPoint);
@@ -176,7 +176,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 
 	public String getName() throws DebugException
 	{
-		return "Ruby";
+		return "Ruby"; //$NON-NLS-1$
 	}
 
 	public boolean supportsBreakpoint(IBreakpoint arg0)
@@ -229,7 +229,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		catch (IOException e)
 		{
 			throw new DebugException(new Status(IStatus.ERROR, RubyDebugCorePlugin.PLUGIN_ID,
-					DebugException.INTERNAL_ERROR, "Failed to stop ruby debugger proxy", e));
+					DebugException.INTERNAL_ERROR, "Failed to stop ruby debugger proxy", e)); //$NON-NLS-1$
 		}
 
 		// launch is one of the listeners
@@ -241,7 +241,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 			boolean deleted = debugParameterFile.delete();
 			if (!deleted)
 			{
-				RubyDebugCorePlugin.debug("Could not delete debugParameteFile:" + debugParameterFile.toURI());
+				RubyDebugCorePlugin.debug("Could not delete debugParameterFile:" + debugParameterFile.toURI()); //$NON-NLS-1$
 			}
 		}
 	}
@@ -371,44 +371,14 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		{
 			try
 			{
-				debugParameterFile = File.createTempFile("classic-debug", ".rb");
+				debugParameterFile = File.createTempFile("classic-debug", ".rb"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch (IOException e)
 			{
-				RubyDebugCorePlugin.log("Could not create debugParameterFile", e);
+				RubyDebugCorePlugin.log("Could not create debugParameterFile", e); //$NON-NLS-1$
 			}
 		}
 		return debugParameterFile;
-	}
-
-	/**
-	 * Reinstall all breakpoints installed in the given resources
-	 */
-	public void reinstallBreakpointsIn(List resources, List classNames)
-	{
-		List breakpoints = getBreakpoints();
-		IBreakpoint[] copy = new IBreakpoint[breakpoints.size()];
-		breakpoints.toArray(copy);
-		IBreakpoint breakpoint = null;
-		// String installedType= null;
-
-		for (int i = 0; i < copy.length; i++)
-		{
-			breakpoint = copy[i];
-			if (breakpoint instanceof IRubyLineBreakpoint)
-			{
-				// try {
-				// installedType= breakpoint.getTypeName();
-				// if (classNames.contains(installedType)) {
-				breakpointRemoved(breakpoint, null);
-				breakpointAdded(breakpoint);
-				// }
-				// } catch (CoreException ce) {
-				// RdtDebugCorePlugin.log(ce);
-				// continue;
-				// }
-			}
-		}
 	}
 
 	/**
