@@ -143,6 +143,18 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 				// Now launch the rails command in a terminal!
 				TerminalView terminal = TerminalView.open(project.getName(), "rails", absolutePath); //$NON-NLS-1$
 				ProcessWrapper wrapper = TerminalServer.getInstance().getProcess(terminal.getId());
+				// Run a cd to change to the project's root explicitly
+				wrapper.sendText("cd \"" + absolutePath + "\"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				try
+				{
+					// wait 250 ms to let dir change happen. 
+					Thread.sleep(250);
+				}
+				catch (InterruptedException e)
+				{
+					// ignore
+				}
+				// Now run the rails command
 				wrapper.sendText("rails .\n"); //$NON-NLS-1$
 
 				return Status.OK_STATUS;
