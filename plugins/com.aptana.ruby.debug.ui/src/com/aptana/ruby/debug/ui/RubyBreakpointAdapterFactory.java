@@ -13,7 +13,7 @@ public class RubyBreakpointAdapterFactory implements IAdapterFactory
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapter(java.lang.Object, java.lang.Class)
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType)
 	{
 		RubyLineBreakpointAdapter adapter = new RubyLineBreakpointAdapter();
@@ -29,7 +29,7 @@ public class RubyBreakpointAdapterFactory implements IAdapterFactory
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapterList()
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	public Class[] getAdapterList()
 	{
 		return new Class[] { IToggleBreakpointsTarget.class };
