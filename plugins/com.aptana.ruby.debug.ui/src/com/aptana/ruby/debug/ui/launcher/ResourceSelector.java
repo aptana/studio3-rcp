@@ -42,7 +42,7 @@ abstract class ResourceSelector
 		});
 
 		browseButton = new Button(composite, SWT.PUSH);
-		browseButton.setText("Browse...");
+		browseButton.setText(Messages.ResourceSelector_BrowseButtonLabel);
 		browseButton.addSelectionListener(new SelectionAdapter()
 		{
 			public void widgetSelected(SelectionEvent e)

@@ -1,24 +1,33 @@
 package com.aptana.ruby.internal.debug.core.parsing;
 
-import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import org.xmlpull.v1.XmlPullParser;
 
-public class BreakpointModificationReader extends XmlStreamReader {
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+
+@SuppressWarnings("nls")
+public class BreakpointModificationReader extends XmlStreamReader
+{
 
 	private String no;
 
-	public BreakpointModificationReader(XmlPullParser xpp) {
+	public BreakpointModificationReader(XmlPullParser xpp)
+	{
 		super(xpp);
 	}
 
-	public BreakpointModificationReader(AbstractReadStrategy readStrategy) {
+	public BreakpointModificationReader(AbstractReadStrategy readStrategy)
+	{
 		super(readStrategy);
 	}
 
-	public int readBreakpointNo() throws NumberFormatException {
-		try {
+	public int readBreakpointNo() throws NumberFormatException
+	{
+		try
+		{
 			this.read();
-		} catch (Exception ex) {
+		}
+		catch (Exception ex)
+		{
 			RubyDebugCorePlugin.log(ex);
 			return -1;
 		}
@@ -26,15 +35,21 @@ public class BreakpointModificationReader extends XmlStreamReader {
 	}
 
 	@Override
-	protected boolean processStartElement(XmlPullParser xpp) throws XmlStreamReaderException {
+	protected boolean processStartElement(XmlPullParser xpp) throws XmlStreamReaderException
+	{
 		boolean result = false;
-		if (xpp.getName().equals("breakpointAdded")) {
+		if (xpp.getName().equals("breakpointAdded"))
+		{
 			no = xpp.getAttributeValue("", "no");
 			result = true;
-		} else if (xpp.getName().equals("breakpointDeleted")) {
+		}
+		else if (xpp.getName().equals("breakpointDeleted"))
+		{
 			no = xpp.getAttributeValue("", "no");
 			result = true;
-		} else if (xpp.getName().equals("error")) {
+		}
+		else if (xpp.getName().equals("error"))
+		{
 			no = "-1";
 			result = true;
 		}
@@ -42,11 +57,15 @@ public class BreakpointModificationReader extends XmlStreamReader {
 	}
 
 	@Override
-	public void processContent(String text) {}
+	public void processContent(String text)
+	{
+	}
 
 	@Override
-	protected boolean processEndElement(XmlPullParser xpp) {
-		return xpp.getName().equals("breakpointAdded") || xpp.getName().equals("breakpointDeleted") || xpp.getName().equals("error");
+	protected boolean processEndElement(XmlPullParser xpp)
+	{
+		return xpp.getName().equals("breakpointAdded") || xpp.getName().equals("breakpointDeleted")
+				|| xpp.getName().equals("error");
 	}
 
 }

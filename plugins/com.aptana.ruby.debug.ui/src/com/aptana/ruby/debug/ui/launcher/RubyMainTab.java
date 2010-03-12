@@ -65,7 +65,7 @@ public class RubyMainTab extends AbstractLaunchConfigurationTab
 		createVerticalSpacer(comp, 3);
 
 		Label programLabel = new Label(comp, SWT.NONE);
-		programLabel.setText("&Program:");
+		programLabel.setText(Messages.RubyMainTab_FileLabel);
 		GridData gd = new GridData(GridData.BEGINNING);
 		programLabel.setLayoutData(gd);
 		programLabel.setFont(font);
@@ -100,8 +100,8 @@ public class RubyMainTab extends AbstractLaunchConfigurationTab
 		// FIXME Use a file selector dialog!
 		ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(getShell(), ResourcesPlugin.getWorkspace()
 				.getRoot(), IResource.FILE);
-		dialog.setTitle("Ruby Program");
-		dialog.setMessage("Select Ruby Program");
+		dialog.setTitle(Messages.RubyMainTab_OpenFileDialogTitle);
+		dialog.setMessage(Messages.RubyMainTab_OpenFileDialogMessage);
 		// TODO: single select
 		if (dialog.open() == Window.OK)
 		{
@@ -163,7 +163,7 @@ public class RubyMainTab extends AbstractLaunchConfigurationTab
 	 */
 	public String getName()
 	{
-		return "Main";
+		return Messages.RubyMainTab_Name;
 	}
 
 	/*
@@ -179,13 +179,13 @@ public class RubyMainTab extends AbstractLaunchConfigurationTab
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 			if (file == null || !file.exists())
 			{
-				setErrorMessage("Specified file does not exist");
+				setErrorMessage(Messages.RubyMainTab_FileDoesntExistError);
 				return false;
 			}
 		}
 		else
 		{
-			setMessage("Specify a program");
+			setMessage(Messages.RubyMainTab_EmptyFileError);
 		}
 		return super.isValid(launchConfig);
 	}

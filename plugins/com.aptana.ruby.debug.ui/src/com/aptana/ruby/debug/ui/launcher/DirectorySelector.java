@@ -18,7 +18,7 @@ class DirectorySelector extends ResourceSelector
 		DirectoryDialog dialog = new DirectoryDialog(getShell());
 		dialog.setMessage(browseDialogMessage);
 		String currentWorkingDir = textField.getText();
-		if (!currentWorkingDir.trim().equals(""))
+		if (!currentWorkingDir.trim().equals("")) //$NON-NLS-1$
 		{
 			File path = new File(currentWorkingDir);
 			if (path.exists())

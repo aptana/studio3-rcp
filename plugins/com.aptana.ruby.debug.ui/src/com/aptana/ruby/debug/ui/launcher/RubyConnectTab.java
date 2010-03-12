@@ -55,7 +55,7 @@ public class RubyConnectTab extends AbstractLaunchConfigurationTab
 		createVerticalSpacer(comp, 3);
 
 		Label hostlabel = new Label(comp, SWT.NONE);
-		hostlabel.setText("&Host:");
+		hostlabel.setText(Messages.RubyConnectTab_HostLabel);
 		GridData gd = new GridData(GridData.BEGINNING);
 		hostlabel.setLayoutData(gd);
 		hostlabel.setFont(font);
@@ -73,7 +73,7 @@ public class RubyConnectTab extends AbstractLaunchConfigurationTab
 		});
 
 		Label portLabel = new Label(comp, SWT.NONE);
-		portLabel.setText("&Port:");
+		portLabel.setText(Messages.RubyConnectTab_PortLabel);
 		gd = new GridData(GridData.BEGINNING);
 		portLabel.setLayoutData(gd);
 		portLabel.setFont(font);
@@ -160,7 +160,7 @@ public class RubyConnectTab extends AbstractLaunchConfigurationTab
 	 */
 	public String getName()
 	{
-		return "Main";
+		return Messages.RubyConnectTab_Name;
 	}
 
 	/*
@@ -172,25 +172,25 @@ public class RubyConnectTab extends AbstractLaunchConfigurationTab
 		String host = fHostText.getText();
 		if (host.length() == 0)
 		{
-			setMessage("Specify a host");
+			setMessage(Messages.RubyConnectTab_EmptyHostError);
 		}
 
 		String port = fPortText.getText();
 		if (port.length() == 0)
 		{
-			setMessage("Specify a port");
+			setMessage(Messages.RubyConnectTab_EmptyPortError);
 		}
 		try
 		{
 			int portValue = Integer.parseInt(port);
 			if (portValue < 1)
 			{
-				setMessage("Specify a non-negative port");
+				setMessage(Messages.RubyConnectTab_NegativePortError);
 			}
 		}
 		catch (NumberFormatException e)
 		{
-			setMessage("Specify an integer value for port");
+			setMessage(Messages.RubyConnectTab_NonIntegerPortError);
 		}
 		return super.isValid(launchConfig);
 	}

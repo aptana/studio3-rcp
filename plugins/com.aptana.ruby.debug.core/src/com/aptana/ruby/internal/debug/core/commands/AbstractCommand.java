@@ -30,7 +30,7 @@ public abstract class AbstractCommand
 	{
 		if (!isExecuted())
 		{
-			throw new IllegalStateException("getResultReader must only be called after the command was executed.");
+			throw new IllegalStateException("getResultReader must only be called after the command was executed."); //$NON-NLS-1$
 		}
 		return resultReader;
 	}

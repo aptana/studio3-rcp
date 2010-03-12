@@ -1,5 +1,6 @@
 package com.aptana.ruby.internal.debug.core.model;
 
+import java.text.MessageFormat;
 import java.util.Vector;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -13,6 +14,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
+
 import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import com.aptana.ruby.debug.core.model.IRubyThread;
 import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
@@ -29,7 +31,7 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 	private String status;
 	private int id;
 
-	private ThreadJob fRunningAsyncJob;
+//	private ThreadJob fRunningAsyncJob;
 	private ThreadJob fAsyncJob;
 
 	public RubyThread(IDebugTarget target, int id, String status)
@@ -265,15 +267,8 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 
 	protected void createName(SuspensionPoint suspensionPoint)
 	{
-		this.name = "Ruby Thread - " + this.getId();
-		if (suspensionPoint != null)
-		{
-			this.name += " (" + suspensionPoint + ")";
-		}
-		else
-		{
-			this.name += " (" + status + ")";
-		}
+		this.name = MessageFormat.format("Ruby Thread - {0} ({1})", getId(), suspensionPoint != null ? suspensionPoint
+				: status);
 	}
 
 	public int getId()
@@ -314,7 +309,7 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 	static class ThreadJob extends Job
 	{
 
-		private Vector fRunnables;
+		private Vector<Runnable> fRunnables;
 
 		private RubyThread fJDIThread;
 
@@ -322,7 +317,7 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 		{
 			super("RDT thread evaluations");
 			fJDIThread = thread;
-			fRunnables = new Vector(5);
+			fRunnables = new Vector<Runnable>(5);
 			setSystem(true);
 		}
 
@@ -345,7 +340,7 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 		 */
 		public IStatus run(IProgressMonitor monitor)
 		{
-			fJDIThread.fRunningAsyncJob = this;
+//			fJDIThread.fRunningAsyncJob = this;
 			Object[] runnables;
 			synchronized (fRunnables)
 			{
@@ -375,7 +370,7 @@ public class RubyThread extends RubyDebugElement implements IRubyThread
 				i++;
 				monitor.worked(1);
 			}
-			fJDIThread.fRunningAsyncJob = null;
+//			fJDIThread.fRunningAsyncJob = null;
 			monitor.done();
 			if (failed == null)
 			{

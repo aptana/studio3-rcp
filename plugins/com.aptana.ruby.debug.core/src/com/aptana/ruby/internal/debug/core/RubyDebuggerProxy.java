@@ -38,6 +38,7 @@ import com.aptana.ruby.internal.debug.core.parsing.SuspensionReader;
 import com.aptana.ruby.internal.debug.core.parsing.ThreadInfoReader;
 import com.aptana.ruby.internal.debug.core.parsing.VariableReader;
 
+@SuppressWarnings("nls")
 public class RubyDebuggerProxy
 {
 
@@ -50,7 +51,7 @@ public class RubyDebuggerProxy
 	private ICommandFactory commandFactory;
 	private Thread threadUpdater;
 	private Thread errorReader;
-	private boolean isLoopFinished;
+//	private boolean isLoopFinished;
 
 	public RubyDebuggerProxy(IRubyDebugTarget debugTarget, boolean isRubyDebug)
 	{
@@ -68,7 +69,7 @@ public class RubyDebuggerProxy
 
 	public void start() throws RubyProcessingException, IOException
 	{
-		isLoopFinished = false;
+//		isLoopFinished = false;
 		debuggerConnection.connect();
 		this.setBreakPoints();
 		this.startRubyLoop();
@@ -154,7 +155,7 @@ public class RubyDebuggerProxy
 				{
 					String command = commandFactory.createRemoveBreakpoint(rubyLineBreakpoint.getIndex());
 					// TODO: check for errors
-					int deletedIndex = new BreakpointCommand(command).executeWithResult(debuggerConnection);
+					new BreakpointCommand(command).executeWithResult(debuggerConnection);
 					rubyLineBreakpoint.setIndex(-1);
 				}
 			}
@@ -218,7 +219,7 @@ public class RubyDebuggerProxy
 					RubyDebugCorePlugin.debug("Thread updater started.");
 					Thread.sleep(2000);
 					GenericCommand cmd = null;
-					while (cmd == null || (cmd != null && cmd.getReadStrategy().isConnected()))
+					while (cmd == null || cmd.getReadStrategy().isConnected())
 					{
 						if (!getDebugTarget().isSuspended())
 						{

@@ -4,17 +4,22 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
-import com.aptana.ruby.internal.debug.core.DebuggerNotFoundException;
-import com.aptana.ruby.internal.debug.core.parsing.AbstractReadStrategy;
-import com.aptana.ruby.internal.debug.core.parsing.MultiReaderStrategy;
-import com.aptana.ruby.internal.debug.core.parsing.SuspensionReader;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
+import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
+import com.aptana.ruby.internal.debug.core.DebuggerNotFoundException;
+import com.aptana.ruby.internal.debug.core.parsing.AbstractReadStrategy;
+import com.aptana.ruby.internal.debug.core.parsing.MultiReaderStrategy;
+import com.aptana.ruby.internal.debug.core.parsing.SuspensionReader;
+
 public abstract class AbstractDebuggerConnection
 {
+
+	private static final String PARSER_CLASSNAMES = "org.kxml2.io.KXmlParser,org.kxml2.io.KXmlSerializer"; //$NON-NLS-1$
+	private static final String ENCODING = "UTF-8"; //$NON-NLS-1$
 
 	private int commandPort;
 	private Socket commandSocket;
@@ -24,7 +29,7 @@ public abstract class AbstractDebuggerConnection
 
 	public AbstractDebuggerConnection(int port)
 	{
-		this("localhost", port);
+		this(IRubyLaunchConfigurationConstants.DEFAULT_REMOTE_HOST, port);
 	}
 
 	public AbstractDebuggerConnection(String host, int port)
@@ -53,9 +58,9 @@ public abstract class AbstractDebuggerConnection
 	{
 		if (!isCommandPortConnected())
 		{
-			throw new IllegalStateException(command + " could not be sent since command socket is not open");
+			throw new IllegalStateException(command + " could not be sent since command socket is not open"); //$NON-NLS-1$
 		}
-		RubyDebugCorePlugin.debug("Sending command: " + command.getCommand());
+		RubyDebugCorePlugin.debug("Sending command: " + command.getCommand()); //$NON-NLS-1$
 		getWriter().println(command.getCommand());
 		return getCommandReadStrategy();
 	}
@@ -85,7 +90,7 @@ public abstract class AbstractDebuggerConnection
 			commandSocket = acquireSocket(host, commandPort);
 			if (commandSocket == null)
 			{
-				throw new DebuggerNotFoundException("Could not connect to debugger on port " + commandPort);
+				throw new DebuggerNotFoundException("Could not connect to debugger on port " + commandPort); //$NON-NLS-1$
 			}
 		}
 		return commandSocket;
@@ -131,10 +136,9 @@ public abstract class AbstractDebuggerConnection
 		XmlPullParser xpp = null;
 		try
 		{
-			XmlPullParserFactory factory = XmlPullParserFactory.newInstance(
-					"org.kxml2.io.KXmlParser,org.kxml2.io.KXmlSerializer", null);
+			XmlPullParserFactory factory = XmlPullParserFactory.newInstance(PARSER_CLASSNAMES, null);
 			xpp = factory.newPullParser();
-			xpp.setInput(socket.getInputStream(), "UTF-8");
+			xpp.setInput(socket.getInputStream(), ENCODING);
 		}
 		catch (XmlPullParserException e)
 		{

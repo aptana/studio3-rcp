@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
-import org.jruby.lexer.yacc.SyntaxException;
+
 import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import com.aptana.ruby.debug.core.model.IRubyStackFrame;
 import com.aptana.ruby.debug.core.model.IRubyValue;
@@ -45,10 +45,10 @@ public class RubyVariable extends RubyDebugElement implements IRubyVariable
 		this.value = value;
 		this.name = name;
 		this.objectId = objectId;
-		this.isStatic = scope.equals("class");
-		this.isLocal = scope.equals("local");
-		this.isInstance = scope.equals("instance");
-		this.isConstant = scope.equals("constant");
+		this.isStatic = scope.equals("class"); //$NON-NLS-1$
+		this.isLocal = scope.equals("local"); //$NON-NLS-1$
+		this.isInstance = scope.equals("instance"); //$NON-NLS-1$
+		this.isConstant = scope.equals("constant"); //$NON-NLS-1$
 	}
 
 	/**
@@ -245,8 +245,8 @@ public class RubyVariable extends RubyDebugElement implements IRubyVariable
 		try
 		{
 			String type = ((IRubyValue) parent.getValue()).getReferenceTypeName();
-			return type.equals("Hash") || type.equals("HashWithIndifferentAccess")
-					|| type.equals("ActionController::Flash::FlashHash");
+			return type.equals("Hash") || type.equals("HashWithIndifferentAccess") //$NON-NLS-1$ //$NON-NLS-2$
+					|| type.equals("ActionController::Flash::FlashHash"); //$NON-NLS-1$
 		}
 		catch (DebugException e)
 		{
@@ -262,7 +262,7 @@ public class RubyVariable extends RubyDebugElement implements IRubyVariable
 		try
 		{
 			String type = ((IRubyValue) parent.getValue()).getReferenceTypeName();
-			return type.equals("Array");
+			return type.equals("Array"); //$NON-NLS-1$
 		}
 		catch (DebugException e)
 		{

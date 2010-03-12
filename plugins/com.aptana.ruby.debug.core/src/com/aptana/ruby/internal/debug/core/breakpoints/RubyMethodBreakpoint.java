@@ -1,13 +1,13 @@
 package com.aptana.ruby.internal.debug.core.breakpoints;
 
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+
 import com.aptana.ruby.debug.core.IRubyMethodBreakpoint;
 
 public class RubyMethodBreakpoint extends RubyLineBreakpoint implements IRubyMethodBreakpoint
@@ -41,7 +41,7 @@ public class RubyMethodBreakpoint extends RubyLineBreakpoint implements IRubyMet
 	/**
 	 * Used to match type names
 	 */
-	private Pattern fPattern;
+//	private Pattern fPattern;
 
 	/**
 	 * Constructs a new unconfigured method breakpoint
@@ -75,8 +75,8 @@ public class RubyMethodBreakpoint extends RubyLineBreakpoint implements IRubyMet
 
 		};
 		run(getMarkerRule(resource), wr);
-		String type = convertToRegularExpression(typePattern);
-		fPattern = Pattern.compile(type);
+//		String type = convertToRegularExpression(typePattern);
+//		fPattern = Pattern.compile(type);
 	}
 
 	/**
@@ -118,22 +118,22 @@ public class RubyMethodBreakpoint extends RubyLineBreakpoint implements IRubyMet
 		String typePattern = marker.getAttribute(TYPE_NAME, ""); //$NON-NLS-1$
 		if (typePattern != null)
 		{
-			fPattern = Pattern.compile(convertToRegularExpression(typePattern));
+//			fPattern = Pattern.compile(convertToRegularExpression(typePattern));
 		}
 	}
 
-	/**
-	 * converts the specified string to one which has been formated to our needs
-	 * 
-	 * @param stringMatcherPattern
-	 *            the initial pattern
-	 * @return the modified pattern
-	 */
-	private String convertToRegularExpression(String stringMatcherPattern)
-	{
-		String regex = stringMatcherPattern.replaceAll("\\.", "\\\\."); //$NON-NLS-1$//$NON-NLS-2$
-		regex = regex.replaceAll("\\*", "\\.\\*"); //$NON-NLS-1$//$NON-NLS-2$
-		regex = regex.replaceAll("\\$", "\\\\\\$"); //$NON-NLS-1$ //$NON-NLS-2$
-		return regex;
-	}
+//	/**
+//	 * converts the specified string to one which has been formated to our needs
+//	 * 
+//	 * @param stringMatcherPattern
+//	 *            the initial pattern
+//	 * @return the modified pattern
+//	 */
+//	private String convertToRegularExpression(String stringMatcherPattern)
+//	{
+//		String regex = stringMatcherPattern.replaceAll("\\.", "\\\\."); //$NON-NLS-1$//$NON-NLS-2$
+//		regex = regex.replaceAll("\\*", "\\.\\*"); //$NON-NLS-1$//$NON-NLS-2$
+//		regex = regex.replaceAll("\\$", "\\\\\\$"); //$NON-NLS-1$ //$NON-NLS-2$
+//		return regex;
+//	}
 }

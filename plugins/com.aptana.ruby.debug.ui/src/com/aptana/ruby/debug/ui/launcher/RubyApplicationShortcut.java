@@ -72,7 +72,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 		IEditorInput input = editor.getEditorInput();
 		if (input == null)
 		{
-			RubyDebugUIPlugin.logError("Could not retrieve input from editor: " + editor.getTitle(), null);
+			RubyDebugUIPlugin.logError("Could not retrieve input from editor: " + editor.getTitle(), null); //$NON-NLS-1$
 			return;
 		}
 		if (input instanceof IFileEditorInput)
@@ -99,7 +99,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 		List<ILaunchConfiguration> candidateConfigs = new ArrayList<ILaunchConfiguration>(configs.length);
 		for (ILaunchConfiguration config : configs)
 		{
-			boolean absoluteFilenamesMatch = config.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, "")
+			boolean absoluteFilenamesMatch = config.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, "") //$NON-NLS-1$
 					.equals(rubyFile.getLocation().toOSString());
 			if (absoluteFilenamesMatch)
 			{
@@ -115,7 +115,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 				return candidateConfigs.get(0);
 			default:
 				Status status = new Status(Status.WARNING, RubyDebugUIPlugin.getPluginId(), 0,
-						"Multiple configurations match", null);
+						"Multiple configurations match", null); //$NON-NLS-1$
 				throw new CoreException(status);
 		}
 	}

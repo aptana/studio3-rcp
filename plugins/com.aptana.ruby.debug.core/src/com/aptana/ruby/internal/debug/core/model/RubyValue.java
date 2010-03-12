@@ -26,21 +26,21 @@ public class RubyValue extends RubyDebugElement implements IRubyValue
 	{
 		super(owner.getDebugTarget());
 		this.valueString = valueString;
-		if (type != null && type.equals("String"))
+		if (type != null && type.equals("String")) //$NON-NLS-1$
 		{
 			this.valueString = '"' + this.valueString + '"';
 		}
-		else if (this.valueString.startsWith("Empty "))
+		else if (this.valueString.startsWith("Empty ")) //$NON-NLS-1$
 		{
 			this.valueString = this.valueString.substring(6) + "[0]";
 		}
-		else if (this.valueString.endsWith("element(s))"))
+		else if (this.valueString.endsWith("element(s))")) //$NON-NLS-1$
 		{
 			int index = this.valueString.substring(0, this.valueString.length() - 11).lastIndexOf("(");
 			this.valueString = this.valueString.substring(0, index).trim() + "["
 					+ this.valueString.substring(index + 1, this.valueString.length() - 11).trim() + "]";
 		}
-		else if (type != null && type.equals("Symbol"))
+		else if (type != null && type.equals("Symbol")) //$NON-NLS-1$
 		{
 			this.valueString = ':' + this.valueString;
 		}
