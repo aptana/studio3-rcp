@@ -53,8 +53,8 @@
          <view
                id="com.aptana.explorer.view"
                minimized="false"
-               relationship="stack"
-               relative="left"
+               relationship="left"
+               relative="org.eclipse.ui.editorss"
                visible="true">
          </view>
          <view
