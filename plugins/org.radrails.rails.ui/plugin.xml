@@ -122,14 +122,14 @@
       <command
             categoryId="org.radrails.rails.ui.category"
             defaultHandler="org.radrails.rails.internal.ui.commands.ViewLogCommandHandler"
-            description="%ReportBugCommand.description"
+            description="%ViewLogCommand.description"
             id="org.radrails.rails.ui.command.viewlog"
             name="%ViewLogCommand.Label">
       </command>
       <command
             categoryId="org.radrails.rails.ui.category"
             defaultHandler="org.radrails.rails.internal.ui.commands.ClearLogCommandHandler"
-            description="%ReportBugCommand.description"
+            description="%ClearLogCommand.description"
             id="org.radrails.rails.ui.command.clearlog"
             name="%ClearLogCommand.Label">
       </command>
