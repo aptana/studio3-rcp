@@ -173,4 +173,62 @@
               id="com.aptana.ruby.debug.ui.doubleClickBreakpointAction"/>
      </editorContribution>
   </extension>
+  
+  <extension point="org.eclipse.ui.commands">
+    <command
+        categoryId="org.eclipse.debug.ui.category.run"
+        id="com.aptana.ruby.debug.ui.commands.ModifyCatchpoint"
+        name="%modifyCatchpoint.label"/>
+  </extension>
+  <extension point="org.eclipse.ui.actionSets">
+    <actionSet
+        description="%rubyDebugActionSet.description"
+        id="com.aptana.ruby.debug.ui.RubyDebugActionSet"
+        label="%rubyDebugSctionSet.label"
+        visible="true">
+      <action
+        definitionId="com.aptana.ruby.debug.ui.commands.ModifyCatchpoint"
+        label="%modifyCatchpoint.label"
+        icon="icons/full/elcl16/exc_catch.gif"
+        helpContextId="add_exception_action_context"
+        class="com.aptana.ruby.internal.debug.ui.breakpoints.AddExceptionAction"
+        menubarPath="org.eclipse.ui.run/breakpointGroup"
+        id="com.aptana.ruby.debug.ui.actions.ModifyCatchpoint">
+      </action>
+    </actionSet>
+  </extension>
+  <extension point="org.eclipse.ui.viewActions">
+    <!-- Show statics/constants
+    <viewContribution targetID="org.eclipse.debug.ui.VariableView"
+      id="org.rubypeople.rdt.ui.debug.VariableViewActions">
+      <action label="%showStaticVariables" style="toggle"
+        class="org.rubypeople.rdt.internal.debug.ui.actions.ShowStaticVariablesAction"
+        state="false" tooltip="%action.tooltip.0"
+        menubarPath="rubyActions"
+        id="org.rubypeople.rdt.ui.variableViewActions.ShowStatic">
+      </action>
+      <action label="%showConstants" style="toggle"
+        class="org.rubypeople.rdt.internal.debug.ui.actions.ShowConstantsAction"
+        state="false" tooltip="%action.tooltip.1"
+        menubarPath="rubyActions"
+        id="org.rubypeople.rdt.ui.variableViewActions.ShowConstants">
+      </action>
+    </viewContribution>
+    -->
+    <viewContribution
+        id="com.aptana.ruby.debug.ui.BreakpointViewActions"
+        targetID="org.eclipse.debug.ui.BreakpointView">
+     <action
+           class="com.aptana.ruby.internal.debug.ui.breakpoints.AddExceptionAction"
+           disabledIcon="icons/full/elcl16/exc_catch.gif"
+           helpContextId="add_exception_action_context"
+           hoverIcon="icons/full/elcl16/exc_catch.gif"
+           icon="icons/full/elcl16/exc_catch.gif"
+           id="com.aptana.ruby.debug.ui.actions.AddException"
+           label="%modifyCatchpoint.label"
+           style="push"
+           toolbarPath="rubyExceptions"
+           tooltip="%modifyCatchpoint.tooltip"/>
+    </viewContribution>
+  </extension>
 </plugin>
