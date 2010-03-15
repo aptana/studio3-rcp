@@ -53,6 +53,7 @@
          <view
                id="com.aptana.explorer.view"
                minimized="false"
+               ratio="0.25"
                relationship="left"
                relative="org.eclipse.ui.editorss"
                visible="true">
