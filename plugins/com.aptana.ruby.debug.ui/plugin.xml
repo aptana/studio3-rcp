@@ -178,7 +178,7 @@
     <command
         categoryId="org.eclipse.debug.ui.category.run"
         id="com.aptana.ruby.debug.ui.commands.ModifyCatchpoint"
-        name="%modifyCatchpoint.name"/>
+        name="%modifyCatchpoint.label"/>
   </extension>
   <extension point="org.eclipse.ui.actionSets">
     <actionSet
