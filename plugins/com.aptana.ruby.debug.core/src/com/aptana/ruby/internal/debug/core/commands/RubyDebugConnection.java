@@ -25,7 +25,7 @@ public class RubyDebugConnection extends AbstractDebuggerConnection
 	@Override
 	public SuspensionReader start() throws DebuggerNotFoundException, IOException
 	{
-		AbstractReadStrategy strategy = sendControlCommand(new GenericCommand("start", true));
+		AbstractReadStrategy strategy = sendControlCommand(new GenericCommand("start", true)); //$NON-NLS-1$
 		isStarted = true;
 		return new SuspensionReader(strategy);
 	}
@@ -38,7 +38,7 @@ public class RubyDebugConnection extends AbstractDebuggerConnection
 	@Override
 	public void exit() throws IOException
 	{
-		GenericCommand command = new GenericCommand("exit", true);
+		GenericCommand command = new GenericCommand("exit", true); //$NON-NLS-1$
 		command.execute(this);
 	}
 

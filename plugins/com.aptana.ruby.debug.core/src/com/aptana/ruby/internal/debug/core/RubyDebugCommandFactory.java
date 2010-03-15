@@ -1,6 +1,7 @@
 package com.aptana.ruby.internal.debug.core;
 
 import org.eclipse.core.runtime.CoreException;
+
 import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
 import com.aptana.ruby.debug.core.model.IRubyStackFrame;
 import com.aptana.ruby.internal.debug.core.model.RubyStackFrame;
@@ -108,9 +109,7 @@ public class RubyDebugCommandFactory implements ICommandFactory
 
 	public String createCatchOff(IRubyExceptionBreakpoint breakpoint) throws CoreException
 	{
-		return "catch " + breakpoint.getTypeName() + " off"; // TODO Enforce that user installs whatver "next" version
-																// of ruby-debug-ide will be with my changes to allow
-																// this
+		return "catch " + breakpoint.getTypeName() + " off";
 	}
 
 	public String createCatchOn(IRubyExceptionBreakpoint breakpoint) throws CoreException
