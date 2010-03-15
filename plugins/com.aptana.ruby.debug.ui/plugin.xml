@@ -160,5 +160,17 @@
             configTypeID="com.aptana.ruby.debug.core.launchConfigurationType"
             id="com.aptana.ruby.debug.ui.ruby.launchConfigurationTypeImage">
       </launchConfigurationTypeImage>
-   </extension>
+   </extension>   
+    <extension point="org.eclipse.ui.editorActions">
+     <editorContribution
+           id="com.aptana.ruby.debug.RubyEditor.BreakpointRulerActions"
+          targetID="com.aptana.editor.ruby">
+        <action
+              label="Not Used"
+              class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+              style="push"
+              actionID="RulerDoubleClick"
+              id="com.aptana.ruby.debug.ui.doubleClickBreakpointAction"/>
+     </editorContribution>
+  </extension>
 </plugin>
