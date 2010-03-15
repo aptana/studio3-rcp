@@ -119,6 +119,20 @@
             id="org.radrails.rails.ui.command.reportbug"
             name="%ReportBugCommand.label">
       </command>
+      <command
+            categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.ViewLogCommandHandler"
+            description="%ReportBugCommand.description"
+            id="org.radrails.rails.ui.command.viewlog"
+            name="%ViewLogCommand.Label">
+      </command>
+      <command
+            categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.ClearLogCommandHandler"
+            description="%ReportBugCommand.description"
+            id="org.radrails.rails.ui.command.clearlog"
+            name="%ClearLogCommand.Label">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -148,14 +162,30 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="menu:help?after=additions">
-         <command
-               commandId="org.radrails.rails.ui.command.sendfeedback"
-               style="push">
-         </command>
-         <command
-               commandId="org.radrails.rails.ui.command.reportbug"
-               style="push">
-         </command>
+         <menu
+                id="aptanahelp"
+                label="%Menu.Help.Aptana.label">
+            <command
+                commandId="org.radrails.rails.ui.command.sendfeedback"
+                style="push">
+            </command>
+            <command
+                commandId="org.radrails.rails.ui.command.reportbug"
+                style="push">
+            </command>
+            <separator
+                  name="slot1"
+                  visible="true">
+            </separator>
+            <command
+                commandId="org.radrails.rails.ui.command.viewlog"
+                style="push">
+            </command>
+            <command
+                commandId="org.radrails.rails.ui.command.clearlog"
+                style="push">
+            </command>
+         </menu>
       </menuContribution>
    </extension>
    <extension

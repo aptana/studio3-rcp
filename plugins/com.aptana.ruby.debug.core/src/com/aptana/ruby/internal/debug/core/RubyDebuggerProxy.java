@@ -20,6 +20,7 @@ import com.aptana.ruby.debug.core.model.IRubyStackFrame;
 import com.aptana.ruby.internal.debug.core.commands.AbstractDebuggerConnection;
 import com.aptana.ruby.internal.debug.core.commands.BreakpointCommand;
 import com.aptana.ruby.internal.debug.core.commands.ClassicDebuggerConnection;
+import com.aptana.ruby.internal.debug.core.commands.ExceptionBreakpointCommand;
 import com.aptana.ruby.internal.debug.core.commands.GenericCommand;
 import com.aptana.ruby.internal.debug.core.commands.RubyDebugConnection;
 import com.aptana.ruby.internal.debug.core.model.IRubyDebugTarget;
@@ -105,9 +106,8 @@ public class RubyDebuggerProxy
 			{
 				if (breakpoint instanceof IRubyExceptionBreakpoint)
 				{
-					// TODO: check result
 					String command = commandFactory.createCatchOn((IRubyExceptionBreakpoint) breakpoint);
-					new BreakpointCommand(command).execute(debuggerConnection);
+					new ExceptionBreakpointCommand(command).executeWithResult(debuggerConnection);
 				}
 				else if (breakpoint instanceof IRubyMethodBreakpoint)
 				{
