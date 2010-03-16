@@ -136,6 +136,12 @@
                id="org.eclipse.debug.ui.DebugPerspective">
          </perspectiveShortcut>
       </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.debug.ui.DebugPerspective">
+         <perspectiveShortcut
+               id="org.radrails.rails.ui.PerspectiveRails">
+         </perspectiveShortcut>
+      </perspectiveExtension>
    </extension>
    <extension
          point="org.eclipse.ui.contexts">
