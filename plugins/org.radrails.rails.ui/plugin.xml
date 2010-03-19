@@ -107,6 +107,13 @@
       </category>
       <command
             categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.ViewReleaseNotesCommandHandler"
+            description="%ViewReleaseNotes.description"
+            id="org.radrails.rails.ui.command.viewreleasenotes"
+            name="%ViewReleaseNotes.label">
+      </command>
+      <command
+            categoryId="org.radrails.rails.ui.category"
             defaultHandler="org.radrails.rails.internal.ui.commands.SendFeedbackCommandHandler"
             description="%SendFeedbackCommand.description"
             id="org.radrails.rails.ui.command.sendfeedback"
@@ -184,6 +191,14 @@
             <command
                 commandId="org.radrails.rails.ui.command.clearlog"
                 style="push">
+            </command>
+            <separator
+                  name="slot2"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.radrails.rails.ui.command.viewreleasenotes"
+                  style="push">
             </command>
          </menu>
       </menuContribution>
