@@ -32,4 +32,6 @@ public final class Messages extends NLS {
 	 * ApplicationWorkbenchAdvisor_ErrorGettingCurrentEditorReferences
 	 */
 	public static String ApplicationWorkbenchAdvisor_ErrorGettingCurrentEditorReferences;
+
+	public static String IDEWorkbenchErrorHandler_KeybindingConflict;
 }

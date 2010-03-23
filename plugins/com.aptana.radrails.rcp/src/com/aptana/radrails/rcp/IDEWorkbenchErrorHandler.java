@@ -71,7 +71,7 @@ public class IDEWorkbenchErrorHandler extends WorkbenchErrorHandler
 
 	private static String MSG_FATAL_ERROR_Title = IDEWorkbenchMessages.InternalError;
 
-	private static final String[] IGNORED_STATUS_MESSAGES = { "Keybinding conflicts occurred" }; //$NON-NLS-1$
+	private static final String[] IGNORED_STATUS_MESSAGES = { Messages.IDEWorkbenchErrorHandler_KeybindingConflict };
 
 	// cache handled statuses
 	private final Map<IStatus, Object> map = Collections.synchronizedMap(new WeakHashMap<IStatus, Object>());
