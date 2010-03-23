@@ -73,12 +73,14 @@ import org.eclipse.ui.internal.ide.IDEInternalPreferences;
 import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 import org.eclipse.ui.internal.ide.IDESelectionConversionService;
 import org.eclipse.ui.internal.ide.IDEWorkbenchActivityHelper;
+import org.eclipse.ui.internal.ide.IDEWorkbenchErrorHandler;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.undo.WorkspaceUndoMonitor;
 import org.eclipse.ui.internal.progress.ProgressMonitorJobsDialog;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.statushandlers.AbstractStatusHandler;
+import org.eclipse.ui.statushandlers.StatusAdapter;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
@@ -110,6 +112,8 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
      * last time the workbench was run.
      */
     private static final String INSTALLED_FEATURES = "installedFeatures"; //$NON-NLS-1$
+
+	private static final String[] IGNORED_STATUS_MESSAGES = { Messages.IDEWorkbenchErrorHandler_KeybindingConflict };
 
     private static IDEWorkbenchAdvisor workbenchAdvisor = null;
 
@@ -791,7 +795,38 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
     public AbstractStatusHandler getWorkbenchErrorHandler() {
         if (ideWorkbenchErrorHandler == null) {
             ideWorkbenchErrorHandler = new IDEWorkbenchErrorHandler(
-                    getWorkbenchConfigurer());
+                    getWorkbenchConfigurer()) {
+
+				public void handle(final StatusAdapter statusAdapter, int style)
+				{
+					if (!isIgnored(statusAdapter))
+					{
+						super.handle(statusAdapter, style);
+					}
+				}
+
+				private boolean isIgnored(StatusAdapter statusAdapter)
+				{
+					IStatus status = statusAdapter.getStatus();
+					if (status.getSeverity() == IStatus.ERROR)
+					{
+						// we would still show all errors regardless the message
+						return false;
+					}
+					String message = status.getMessage();
+					if (message != null)
+					{
+						for (String ignored : IGNORED_STATUS_MESSAGES)
+						{
+							if (message.indexOf(ignored) > -1)
+							{
+								return true;
+							}
+						}
+					}
+					return false;
+				}
+            };
         }
         return ideWorkbenchErrorHandler;
     }
