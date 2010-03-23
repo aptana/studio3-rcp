@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.radrails.rails.core;bundle-version="1.0.0",
  org.eclipse.core.filesystem;bundle-version="1.0.0",
  com.aptana.git.ui;bundle-version="1.0.0",
- com.aptana.terminal;bundle-version="1.0.0"
+ com.aptana.terminal;bundle-version="1.0.0",
+ com.aptana.explorer
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Activator: org.radrails.rails.ui.RailsUIPlugin
 Eclipse-LazyStart: true

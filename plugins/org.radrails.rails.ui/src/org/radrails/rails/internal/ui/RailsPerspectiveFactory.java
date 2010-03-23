@@ -8,11 +8,13 @@
 
 package org.radrails.rails.internal.ui;
 
+import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IPlaceholderFolderLayout;
 import org.eclipse.ui.console.IConsoleConstants;
 
+import com.aptana.explorer.IExplorerUIConstants;
 import com.aptana.terminal.views.TerminalView;
 
 /**
@@ -33,7 +35,8 @@ public class RailsPerspectiveFactory implements IPerspectiveFactory
 		String editorArea = layout.getEditorArea();
 
 		// Left
-		layout.createPlaceholderFolder("left", IPageLayout.LEFT, 0.25f, editorArea); //$NON-NLS-1$
+		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, editorArea); //$NON-NLS-1$
+		left.addView(IExplorerUIConstants.VIEW_ID);
 
 		// Bottom right: Console. Had to leave this programmatic to get the Console appear in bottom right
         IPlaceholderFolderLayout consoleArea = layout.createPlaceholderFolder("consoleArea", IPageLayout.BOTTOM, 0.75f, //$NON-NLS-1$
