@@ -138,6 +138,11 @@
             id="org.radrails.rails.ui.command.clearlog"
             name="%ClearLogCommand.Label">
       </command>
+      <command
+            categoryId="org.radrails.rails.ui.category"
+            id="org.radrails.rails.ui.command.preview"
+            name="%PreviewAction.label">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -199,6 +204,19 @@
                   style="push">
             </command>
          </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:com.aptana.explorer.gear?after=group.run">
+         <command
+               commandId="org.radrails.rails.ui.command.server"
+               label="%ScriptServerAction.label"
+               style="push">
+         </command>
+         <command
+               commandId="org.radrails.rails.ui.command.preview"
+               label="%PreviewAction.label"
+               style="push">
+         </command>
       </menuContribution>
    </extension>
    <extension
