@@ -143,7 +143,7 @@
       <command
             categoryId="org.radrails.rails.ui.category"
             id="org.radrails.rails.ui.command.preview"
-            name="Preview">
+            name="%PreviewAction.label">
       </command>
    </extension>
    <extension
@@ -211,12 +211,12 @@
             locationURI="toolbar:com.aptana.explorer.gear?after=group.run">
          <command
                commandId="org.radrails.rails.ui.command.server"
-               label="Run Server"
+               label="%ScriptServerAction.label"
                style="push">
          </command>
          <command
                commandId="org.radrails.rails.ui.command.preview"
-               label="Preview"
+               label="%PreviewAction.label"
                style="push">
          </command>
       </menuContribution>
