@@ -113,7 +113,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
      */
     private static final String INSTALLED_FEATURES = "installedFeatures"; //$NON-NLS-1$
 
-	private static final String[] IGNORED_STATUS_MESSAGES = { Messages.IDEWorkbenchErrorHandler_KeybindingConflict };
+	private static final String[] IGNORED_STATUS_MESSAGES = { "Keybinding conflicts occurred" }; //$NON-NLS-1$
 
     private static IDEWorkbenchAdvisor workbenchAdvisor = null;
 
