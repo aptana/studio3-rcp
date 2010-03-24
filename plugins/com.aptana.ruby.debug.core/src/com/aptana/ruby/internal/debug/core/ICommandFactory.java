@@ -1,6 +1,8 @@
 package com.aptana.ruby.internal.debug.core;
 
 import org.eclipse.core.runtime.CoreException;
+
+import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
 import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
 import com.aptana.ruby.debug.core.model.IRubyStackFrame;
 import com.aptana.ruby.internal.debug.core.model.RubyStackFrame;
@@ -45,4 +47,6 @@ public interface ICommandFactory
 	public String createLoad(String filename);
 
 	public String createAddMethodBreakpoint(String fileName, String typeName, String methodName, int line);
+
+	public String createSetCondition(IRubyLineBreakpoint lineBreakpoint) throws CoreException;
 }

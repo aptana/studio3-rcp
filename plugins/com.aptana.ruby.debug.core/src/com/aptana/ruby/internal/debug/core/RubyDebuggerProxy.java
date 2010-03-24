@@ -19,6 +19,7 @@ import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
 import com.aptana.ruby.debug.core.model.IRubyStackFrame;
 import com.aptana.ruby.internal.debug.core.commands.AbstractDebuggerConnection;
 import com.aptana.ruby.internal.debug.core.commands.BreakpointCommand;
+import com.aptana.ruby.internal.debug.core.commands.BreakpointConditionSetCommand;
 import com.aptana.ruby.internal.debug.core.commands.ClassicDebuggerConnection;
 import com.aptana.ruby.internal.debug.core.commands.ExceptionBreakpointCommand;
 import com.aptana.ruby.internal.debug.core.commands.GenericCommand;
@@ -52,7 +53,8 @@ public class RubyDebuggerProxy
 	private ICommandFactory commandFactory;
 	private Thread threadUpdater;
 	private Thread errorReader;
-//	private boolean isLoopFinished;
+
+	// private boolean isLoopFinished;
 
 	public RubyDebuggerProxy(IRubyDebugTarget debugTarget, boolean isRubyDebug)
 	{
@@ -70,7 +72,7 @@ public class RubyDebuggerProxy
 
 	public void start() throws RubyProcessingException, IOException
 	{
-//		isLoopFinished = false;
+		// isLoopFinished = false;
 		debuggerConnection.connect();
 		this.setBreakPoints();
 		this.startRubyLoop();
@@ -125,6 +127,11 @@ public class RubyDebuggerProxy
 							rubyLineBreakpoint.getLineNumber());
 					int index = new BreakpointCommand(command).executeWithResult(debuggerConnection);
 					rubyLineBreakpoint.setIndex(index);
+					if (rubyLineBreakpoint.isConditionEnabled())
+					{
+						command = commandFactory.createSetCondition(rubyLineBreakpoint);
+						new BreakpointConditionSetCommand(command).execute(debuggerConnection);
+					}
 				}
 			}
 		}
@@ -486,6 +493,7 @@ public class RubyDebuggerProxy
 					{
 						break;
 					}
+					// TODO Implement hit count here. force a resume unless hit count matches!
 					RubyDebugCorePlugin.debug(hit);
 					// TODO: should this be using the JOB API?
 					new Thread()

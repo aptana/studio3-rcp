@@ -24,4 +24,8 @@ public interface IRubyBreakpoint extends IBreakpoint
 	 */
 	public boolean isInstalled() throws CoreException;
 
+	public int getHitCount() throws CoreException;
+
+	public void setHitCount(int hitCount) throws CoreException;
+
 }
