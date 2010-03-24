@@ -185,7 +185,7 @@ public final class RubyBreakpointConditionEditor extends AbstractRubyBreakpointE
 	{
 		Composite controls = SWTFactory.createComposite(parent, parent.getFont(), 2, 1, GridData.FILL_HORIZONTAL, 0, 0);
 		fConditional = new Button(controls, SWT.CHECK);
-		fConditional.setText(processMnemonics(PropertyPageMessages.JavaBreakpointConditionEditor_0));
+		fConditional.setText(processMnemonics(PropertyPageMessages.RubyBreakpointConditionEditor_0));
 		fConditional.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		fConditional.addSelectionListener(new SelectionAdapter()
 		{

@@ -16,12 +16,12 @@ public class PropertyPageMessages extends NLS
 {
 	private static final String BUNDLE_NAME = PropertyPageMessages.class.getName();
 
-	public static String JavaBreakpointConditionEditor_0;
+	public static String RubyBreakpointConditionEditor_0;
 
 	public static String BreakpointConditionEditor_1;
 
-	public static String JavaBreakpointPage_0;
-	public static String JavaBreakpointPage_4;
+	public static String RubyBreakpointPage_0;
+	public static String RubyBreakpointPage_4;
 
 	static
 	{

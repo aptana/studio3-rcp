@@ -56,7 +56,7 @@ public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor {
 	
 	protected Control createStandardControls(Composite parent) {
 		Composite composite = SWTFactory.createComposite(parent, parent.getFont(), 4, 1, 0, 0, 0);
-		fHitCountButton = SWTFactory.createCheckButton(composite, processMnemonics(PropertyPageMessages.JavaBreakpointPage_4), null, false, 1);
+		fHitCountButton = SWTFactory.createCheckButton(composite, processMnemonics(PropertyPageMessages.RubyBreakpointPage_4), null, false, 1);
 		fHitCountButton.setLayoutData(new GridData());
 		fHitCountButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -153,7 +153,7 @@ public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor {
 					hitCount = Integer.parseInt(fHitCountText.getText());
 				} 
 				catch (NumberFormatException e) {
-					throw new CoreException(new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.JavaBreakpointPage_0, e));
+					throw new CoreException(new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.RubyBreakpointPage_0, e));
 				}
 			}
 			fBreakpoint.setHitCount(hitCount);
@@ -171,10 +171,10 @@ public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor {
 			try {
 				hitCount = Integer.parseInt(hitCountText);
 			} catch (NumberFormatException e1) {
-				return new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.JavaBreakpointPage_0, null);
+				return new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.RubyBreakpointPage_0, null);
 			}
 			if (hitCount < 1) {
-				return new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.JavaBreakpointPage_0, null);
+				return new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.RubyBreakpointPage_0, null);
 			}
 		}
 		return Status.OK_STATUS;
