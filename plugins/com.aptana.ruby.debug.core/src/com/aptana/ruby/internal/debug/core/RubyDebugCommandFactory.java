@@ -2,6 +2,7 @@ package com.aptana.ruby.internal.debug.core;
 
 import org.eclipse.core.runtime.CoreException;
 
+import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
 import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
 import com.aptana.ruby.debug.core.model.IRubyStackFrame;
 import com.aptana.ruby.internal.debug.core.model.RubyStackFrame;
@@ -122,8 +123,8 @@ public class RubyDebugCommandFactory implements ICommandFactory
 		return "thread stop " + thread.getId();
 	}
 
-	public String createSetCondition(int bpNum, String condition)
+	public String createSetCondition(IRubyLineBreakpoint lineBreakpoint) throws CoreException
 	{
-		return "condition " + bpNum + ' ' + condition;
+		return "condition " + lineBreakpoint.getIndex() + " " + lineBreakpoint.getCondition();
 	}
 }

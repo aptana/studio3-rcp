@@ -3,7 +3,7 @@ package com.aptana.ruby.internal.debug.core;
 public abstract class SuspensionPoint
 {
 	private String file;
-	private String line;
+	private int line;
 	private int threadId;
 
 	public SuspensionPoint()
@@ -15,7 +15,7 @@ public abstract class SuspensionPoint
 		return file;
 	}
 
-	public String getLine()
+	public int getLine()
 	{
 		return line;
 	}
@@ -25,7 +25,7 @@ public abstract class SuspensionPoint
 		this.file = file;
 	}
 
-	public void setLine(String line)
+	public void setLine(int line)
 	{
 		this.line = line;
 	}

@@ -24,4 +24,25 @@ public interface IRubyBreakpoint extends IBreakpoint
 	 */
 	public boolean isInstalled() throws CoreException;
 
+	/**
+	 * Returns this breakpoint's hit count or, -1 if this
+	 * breakpoint does not have a hit count.
+	 * 
+	 * @return this breakpoint's hit count, or -1
+	 * @exception CoreException if unable to access the property
+	 *  from this breakpoint's underlying marker
+	 */
+	public int getHitCount() throws CoreException;
+	
+	/**
+	 * Sets the hit count attribute of this breakpoint.
+	 * If this breakpoint is currently disabled and the hit count
+	 * is set greater than -1, this breakpoint is automatically enabled.
+	 * 
+	 * @param count the new hit count
+	 * @exception CoreException if unable to set the property
+	 * 	on this breakpoint's underlying marker
+	 */
+	public void setHitCount(int count) throws CoreException;	
+
 }

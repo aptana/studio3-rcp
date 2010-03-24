@@ -62,30 +62,29 @@ public class RubyDebugUIPlugin extends AbstractUIPlugin
 
 	public static void logError(String msg, Throwable e)
 	{
-		getDefault().getLog().log(new Status(IStatus.ERROR, getPluginId(), msg, e));
+		log(new Status(IStatus.ERROR, getPluginId(), msg, e));
 	}
 
 	public static void logError(CoreException e)
 	{
-		getDefault().getLog().log(e.getStatus());
+		log(e.getStatus());
 	}
 
 	public static void logWarning(String warning)
 	{
-		if (getDefault() != null)
-			getDefault().getLog().log(new Status(IStatus.WARNING, getPluginId(), warning));
+		log(new Status(IStatus.WARNING, getPluginId(), warning));
 	}
 
 	public static void logInfo(String string)
 	{
 		if (getDefault() != null && getDefault().isDebugging())
-			getDefault().getLog().log(new Status(IStatus.INFO, getPluginId(), string));
+			log(new Status(IStatus.INFO, getPluginId(), string));
 	}
 
 	public static void trace(String string)
 	{
 		if (getDefault() != null && getDefault().isDebugging())
-			getDefault().getLog().log(new Status(IStatus.OK, getPluginId(), string));
+			log(new Status(IStatus.OK, getPluginId(), string));
 	}
 
 	@Override
@@ -93,6 +92,17 @@ public class RubyDebugUIPlugin extends AbstractUIPlugin
 	{
 		super.initializeImageRegistry(reg);
 		reg.put(IMG_EVIEW_ARGUMENTS_TAB, imageDescriptorFromPlugin(PLUGIN_ID, IMG_EVIEW_ARGUMENTS_TAB));
+	}
+
+	public static void log(IStatus status)
+	{
+		if (getDefault() != null)
+			getDefault().getLog().log(status);
+	}
+
+	public static String getUniqueIdentifier()
+	{
+		return getPluginId();
 	}
 
 }

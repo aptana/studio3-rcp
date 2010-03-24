@@ -10,15 +10,34 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IBreakpoint;
+
 import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
 import com.aptana.ruby.debug.core.RubyDebugModel;
 
 public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreakpoint
 {
 	// TODO Move this constant to some public interface...
-	public static final String RUBY_BREAKPOINT_MARKER = "com.aptana.ruby.debug.core.rubyLineBreakpointMarker"; //$NON-NLS-1$
+	public static final String RUBY_LINE_BREAKPOINT = "com.aptana.ruby.debug.core.rubyLineBreakpointMarker"; //$NON-NLS-1$
 
-	private static final String EXTERNAL_FILENAME = "externalFileName";
+	/**
+	 * Breakpoint attribute storing a breakpoint's conditional expression (value
+	 * <code>"com.aptana.ruby.debug.core.condition"</code>). This attribute is stored as a <code>String</code>.
+	 */
+	protected static final String CONDITION = "com.aptana.ruby.debug.core.condition"; //$NON-NLS-1$
+	/**
+	 * Breakpoint attribute storing a breakpoint's condition enabled state (value
+	 * <code>"com.aptana.ruby.debug.core.conditionEnabled"</code>). This attribute is stored as an <code>boolean</code>.
+	 */
+	protected static final String CONDITION_ENABLED = "com.aptana.ruby.debug.core.conditionEnabled"; //$NON-NLS-1$
+
+	/**
+	 * Breakpoint attribute storing a breakpoint's condition suspend policy (value
+	 * <code>" com.aptana.ruby.debug.core.conditionSuspendOnTrue"
+	 * </code>). This attribute is stored as an <code>boolean</code>.
+	 */
+	protected static final String CONDITION_SUSPEND_ON_TRUE = "com.aptana.ruby.debug.core.conditionSuspendOnTrue"; //$NON-NLS-1$
+
+	private static final String EXTERNAL_FILENAME = "externalFileName"; //$NON-NLS-1$
 	private int index = -1; // index of breakpoint on ruby debugger side
 
 	public RubyLineBreakpoint()
@@ -26,14 +45,14 @@ public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreak
 	}
 
 	/**
-	 * @param typeName2
+	 * @param typeName
 	 * @see RDtDebugModel#createLineBreakpoint(IResource, String, int, int, int, int, boolean, Map)
 	 */
 	public RubyLineBreakpoint(IResource resource, String fileName, String typeName, int lineNumber, int charStart,
 			int charEnd, int hitCount, boolean add, Map<String, Object> attributes) throws DebugException
 	{
 		this(resource, fileName, typeName, lineNumber, charStart, charEnd, hitCount, add, attributes,
-				RUBY_BREAKPOINT_MARKER);
+				RUBY_LINE_BREAKPOINT);
 	}
 
 	protected RubyLineBreakpoint(final IResource resource, final String fileName, final String typeName,
@@ -46,7 +65,7 @@ public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreak
 			public void run(IProgressMonitor monitor) throws CoreException
 			{
 				// create the marker
-				setMarker(resource.createMarker(RUBY_BREAKPOINT_MARKER));
+				setMarker(resource.createMarker(RUBY_LINE_BREAKPOINT));
 				if (resource.equals(ResourcesPlugin.getWorkspace().getRoot()))
 				{
 					attributes.put(EXTERNAL_FILENAME, fileName);
@@ -131,7 +150,7 @@ public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreak
 	 */
 	public static String getMarkerType()
 	{
-		return RUBY_BREAKPOINT_MARKER;
+		return RUBY_LINE_BREAKPOINT;
 	}
 
 	public String getModelIdentifier()
@@ -151,34 +170,47 @@ public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreak
 
 	public String getCondition() throws CoreException
 	{
-		return null;
+		return ensureMarker().getAttribute(CONDITION, null);
 	}
 
 	public boolean isConditionEnabled() throws CoreException
 	{
-		return false;
+		return ensureMarker().getAttribute(CONDITION_ENABLED, false);
 	}
 
-	public boolean isConditionSuspendOnTrue() throws CoreException
+	public boolean isConditionSuspendOnTrue() throws DebugException
 	{
-		return false;
+		return ensureMarker().getAttribute(CONDITION_SUSPEND_ON_TRUE, true);
 	}
 
 	public void setCondition(String condition) throws CoreException
 	{
+		if (condition != null && condition.trim().length() == 0)
+		{
+			condition = null;
+		}
+		setAttributes(new String[] { CONDITION }, new Object[] { condition });
+		recreate();
 	}
 
-	public void setConditionEnabled(boolean enabled) throws CoreException
+	public void setConditionEnabled(boolean conditionEnabled) throws CoreException
 	{
+		setAttributes(new String[] { CONDITION_ENABLED }, new Object[] { Boolean.valueOf(conditionEnabled) });
+		recreate();
 	}
 
 	public void setConditionSuspendOnTrue(boolean suspendOnTrue) throws CoreException
 	{
+		if (isConditionSuspendOnTrue() != suspendOnTrue)
+		{
+			setAttributes(new String[] { CONDITION_SUSPEND_ON_TRUE }, new Object[] { Boolean.valueOf(suspendOnTrue) });
+			recreate();
+		}
 	}
 
 	public boolean supportsCondition()
 	{
-		return false;
+		return true;
 	}
 
 }

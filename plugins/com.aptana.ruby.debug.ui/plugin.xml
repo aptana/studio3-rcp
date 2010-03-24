@@ -84,27 +84,6 @@
                id="com.aptana.ruby.debug.ui.actions.ToggleBreakpointAction">
          </action>
       </viewerContribution>
-      <!--
-		<viewerContribution
-			targetID="com.aptana.ruby.ui.rubyeditor.contextMenu"
-			id="com.aptana.ruby.debug.ui.RubyEditorPopupActions">
-         <action
-               label="%EnableBreakpoint.label"
-               helpContextId="enable_disable_breakpoint_action_context"
-               class="org.eclipse.debug.ui.actions.RulerEnableDisableBreakpointActionDelegate"
-               menubarPath="debug"
-               id="com.aptana.ruby.debug.ui.actions.EnableDisableBreakpointRulerActionDelegate">
-         </action>
-         <action
-               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
-               helpContextId="manage_breakpoint_action_context"
-               icon="icons/full/obj16/brkp_obj.gif"
-               id="com.aptana.ruby.debug.ui.actions.BreakpointRulerActionDelegate"
-               label="%AddBreakpoint.label"
-               menubarPath="debug">
-         </action>
-		</viewerContribution>
-		-->
 	</extension>
 	  <extension
          point="org.eclipse.debug.ui.debugModelPresentations">
@@ -236,5 +215,30 @@
            toolbarPath="rubyExceptions"
            tooltip="%modifyCatchpoint.tooltip"/>
     </viewContribution>
+  </extension>
+  <extension
+        point="org.eclipse.debug.ui.detailPaneFactories">
+     <detailFactories
+           class="com.aptana.ruby.internal.debug.ui.breakpoints.BreakpointDetailPaneFactory"
+           id="com.aptana.ruby.debug.ui.breakpoint.detailFactories">
+        <enablement>
+           <with
+                 variable="selection">
+              <count
+                    value="1">
+              </count>
+              <iterate>
+                 <or>
+                    <instanceof
+                          value="com.aptana.ruby.debug.core.IRubyLineBreakpoint">
+                    </instanceof>
+                    <instanceof
+                          value="com.aptana.ruby.debug.core.IRubyExceptionBreakpoint">
+                    </instanceof>
+                 </or>
+              </iterate>
+           </with>
+        </enablement>
+     </detailFactories>
   </extension>
 </plugin>

@@ -1,6 +1,8 @@
 package com.aptana.ruby.internal.debug.core;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.runtime.CoreException;
@@ -10,6 +12,7 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.model.IBreakpoint;
 
+import com.aptana.ruby.debug.core.IRubyBreakpoint;
 import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
 import com.aptana.ruby.debug.core.IRubyMethodBreakpoint;
 import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
@@ -19,6 +22,7 @@ import com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint;
 import com.aptana.ruby.debug.core.model.IRubyStackFrame;
 import com.aptana.ruby.internal.debug.core.commands.AbstractDebuggerConnection;
 import com.aptana.ruby.internal.debug.core.commands.BreakpointCommand;
+import com.aptana.ruby.internal.debug.core.commands.BreakpointConditionSetCommand;
 import com.aptana.ruby.internal.debug.core.commands.ClassicDebuggerConnection;
 import com.aptana.ruby.internal.debug.core.commands.ExceptionBreakpointCommand;
 import com.aptana.ruby.internal.debug.core.commands.GenericCommand;
@@ -52,7 +56,8 @@ public class RubyDebuggerProxy
 	private ICommandFactory commandFactory;
 	private Thread threadUpdater;
 	private Thread errorReader;
-//	private boolean isLoopFinished;
+
+	// private boolean isLoopFinished;
 
 	public RubyDebuggerProxy(IRubyDebugTarget debugTarget, boolean isRubyDebug)
 	{
@@ -70,7 +75,7 @@ public class RubyDebuggerProxy
 
 	public void start() throws RubyProcessingException, IOException
 	{
-//		isLoopFinished = false;
+		// isLoopFinished = false;
 		debuggerConnection.connect();
 		this.setBreakPoints();
 		this.startRubyLoop();
@@ -125,6 +130,11 @@ public class RubyDebuggerProxy
 							rubyLineBreakpoint.getLineNumber());
 					int index = new BreakpointCommand(command).executeWithResult(debuggerConnection);
 					rubyLineBreakpoint.setIndex(index);
+					if (rubyLineBreakpoint.isConditionEnabled())
+					{
+						command = commandFactory.createSetCondition(rubyLineBreakpoint);
+						new BreakpointConditionSetCommand(command).execute(debuggerConnection);
+					}
 				}
 			}
 		}
@@ -474,6 +484,7 @@ public class RubyDebuggerProxy
 
 		public void run()
 		{
+			Map<IRubyBreakpoint, Integer> map = new HashMap<IRubyBreakpoint, Integer>(3);
 			try
 			{
 				System.setProperty(DEBUGGER_ACTIVE_KEY, "true");
@@ -485,6 +496,38 @@ public class RubyDebuggerProxy
 					if (hit == null)
 					{
 						break;
+					}
+					// HACK Implement hit count here, since debugger backends don't support it!
+					if (!hit.isStep())
+					{
+						IRubyBreakpoint breakpoint = getBreakpoint(hit);
+						if (breakpoint != null)
+						{
+							int hitCount = breakpoint.getHitCount();
+							if (hitCount != -1)
+							{
+								// increment our counter for this breakpoint
+								int count = 0;
+								if (map.containsKey(breakpoint))
+								{
+									count = map.get(breakpoint);
+								}
+								count++;
+								// Check counter versus hit count
+								if (count != hitCount)
+								{
+									// haven't hit our target count yet, update counter
+									map.put(breakpoint, count);
+									// resume
+									RubyDebuggerProxy.this.resume(((RubyDebugTarget) getDebugTarget())
+											.getThreadById(hit.getThreadId()));
+									continue;
+								}
+								// hit the desired count! Disable this breakpoint from now on!
+								removeBreakpoint(breakpoint);
+								map.remove(breakpoint);
+							}
+						}
 					}
 					RubyDebugCorePlugin.debug(hit);
 					// TODO: should this be using the JOB API?
@@ -508,6 +551,9 @@ public class RubyDebuggerProxy
 			}
 			finally
 			{
+				if (map != null)
+					map.clear();
+				map = null;
 				System.setProperty(DEBUGGER_ACTIVE_KEY, "false");
 				try
 				{
@@ -521,6 +567,43 @@ public class RubyDebuggerProxy
 				RubyDebugCorePlugin.debug("Socket reader loop finished.");
 			}
 		}
+	}
+
+	public IRubyBreakpoint getBreakpoint(SuspensionPoint hit)
+	{
+
+		IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(
+				RubyDebugModel.getModelIdentifier());
+		for (IBreakpoint breakpoint : breakpoints)
+		{
+			if (hit.isBreakpoint() && breakpoint instanceof IRubyLineBreakpoint)
+			{
+				try
+				{
+					IRubyLineBreakpoint lineBreak = (IRubyLineBreakpoint) breakpoint;
+					if (lineBreak.getLineNumber() == hit.getLine() && lineBreak.getFileName().equals(hit.getFile()))
+						return lineBreak;
+				}
+				catch (CoreException e)
+				{
+					RubyDebugCorePlugin.log(e);
+				}
+			}
+			else if (hit.isException() && breakpoint instanceof IRubyExceptionBreakpoint)
+			{
+				try
+				{
+					IRubyExceptionBreakpoint exception = (IRubyExceptionBreakpoint) breakpoint;
+					if (exception.getTypeName().equals(((ExceptionSuspensionPoint) hit).getExceptionType()))
+						return exception;
+				}
+				catch (CoreException e)
+				{
+					RubyDebugCorePlugin.log(e);
+				}
+			}
+		}
+		return null;
 	}
 
 }

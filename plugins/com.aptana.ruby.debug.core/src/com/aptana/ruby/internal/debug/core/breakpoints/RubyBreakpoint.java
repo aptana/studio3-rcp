@@ -88,4 +88,37 @@ public abstract class RubyBreakpoint extends Breakpoint
 	{
 		return ensureMarker().getAttribute(INSTALL_COUNT, 0) > 0;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jdt.debug.core.IJavaBreakpoint#getHitCount()
+	 */
+	public int getHitCount() throws CoreException {
+		return ensureMarker().getAttribute(HIT_COUNT, -1);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jdt.debug.core.IJavaBreakpoint#setHitCount(int)
+	 */
+	public void setHitCount(int count) throws CoreException {	
+		if (getHitCount() != count) {
+			if (!isEnabled() && count > -1) {
+				setAttributes(new String []{ENABLED, HIT_COUNT, EXPIRED},
+					new Object[]{Boolean.TRUE, new Integer(count), Boolean.FALSE});
+			} else {
+				setAttributes(new String[]{HIT_COUNT, EXPIRED},
+					new Object[]{new Integer(count), Boolean.FALSE});
+			}
+			recreate();
+		}
+	}
+
+	protected void recreate()
+	{
+		// TODO Remove and re-add to debug target?
+//		DebugPlugin plugin = DebugPlugin.getDefault();
+//		if (plugin != null)
+//		{
+//			plugin.getBreakpointManager().fireBreakpointChanged(this);
+//		}
+	}
 }
