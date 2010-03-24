@@ -59,6 +59,7 @@ import com.aptana.ruby.internal.debug.ui.propertypages.PropertyPageMessages;
  * 
  * @since 1.0
  */
+@SuppressWarnings("restriction")
 public final class RubyBreakpointConditionEditor extends AbstractRubyBreakpointEditor
 {
 
