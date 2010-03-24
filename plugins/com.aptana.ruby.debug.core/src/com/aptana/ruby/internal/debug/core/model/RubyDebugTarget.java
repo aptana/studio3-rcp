@@ -139,7 +139,7 @@ public class RubyDebugTarget extends RubyDebugElement implements IRubyDebugTarge
 		return events.toArray(new DebugEvent[] {});
 	}
 
-	protected RubyThread getThreadById(int id)
+	public RubyThread getThreadById(int id)
 	{
 		for (int i = 0; i < threads.length; i++)
 		{

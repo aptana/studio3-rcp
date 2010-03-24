@@ -67,7 +67,16 @@ public class SuspensionReader extends XmlStreamReader
 		{
 			return false;
 		}
-		suspensionPoint.setLine(xpp.getAttributeValue("", "line"));
+		int line = 0;
+		try
+		{
+			line = Integer.parseInt(xpp.getAttributeValue("", "line"));
+		}
+		catch (NumberFormatException e)
+		{
+			RubyDebugCorePlugin.log(e);
+		}
+		suspensionPoint.setLine(line);
 		suspensionPoint.setFile(xpp.getAttributeValue("", "file"));
 		suspensionPoint.setThreadId(Integer.parseInt(xpp.getAttributeValue("", "threadId")));
 		return true;
