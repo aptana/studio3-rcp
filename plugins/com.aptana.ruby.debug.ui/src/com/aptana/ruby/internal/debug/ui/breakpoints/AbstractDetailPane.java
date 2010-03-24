@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.debug.internal.ui.SWTFactory;
-import org.eclipse.debug.ui.IDetailPane3;
+import org.eclipse.debug.ui.IDetailPane;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -43,13 +43,14 @@ import com.aptana.ruby.debug.ui.RubyDebugUIPlugin;
  * 
  * @since 1.0
  */
-public abstract class AbstractDetailPane implements IDetailPane3 {
+@SuppressWarnings("restriction")
+public abstract class AbstractDetailPane implements IDetailPane {
 	
 	private String fName;
 	private String fDescription;
 	private String fId;
 	private AbstractRubyBreakpointEditor fEditor;
-	private Set fAutoSaveProperties = new HashSet();
+	private Set<Integer> fAutoSaveProperties = new HashSet<Integer>();
 	private IWorkbenchPartSite fSite; 
 	
 	// property listeners

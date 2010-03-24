@@ -24,6 +24,7 @@ import org.eclipse.ui.IPropertyListener;
  * 
  * @since 1.0
  */
+@SuppressWarnings("restriction")
 public class CompositeBreakpointEditor extends AbstractRubyBreakpointEditor {
 	
 	private AbstractRubyBreakpointEditor[] fEditors;

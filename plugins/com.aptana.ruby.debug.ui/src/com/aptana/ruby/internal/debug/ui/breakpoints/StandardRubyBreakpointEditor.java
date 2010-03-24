@@ -34,35 +34,43 @@ import com.aptana.ruby.internal.debug.ui.propertypages.PropertyPageMessages;
 /**
  * @since 1.0
  */
-public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor {
-	
+@SuppressWarnings("restriction")
+public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor
+{
+
 	private IRubyBreakpoint fBreakpoint;
 	private Button fHitCountButton;
 	private Text fHitCountText;
-	
+
 	/**
-     * Property id for hit count enabled state.
-     */
-    public static final int PROP_HIT_COUNT_ENABLED = 0x1005;
-    
+	 * Property id for hit count enabled state.
+	 */
+	public static final int PROP_HIT_COUNT_ENABLED = 0x1005;
+
 	/**
-     * Property id for breakpoint hit count.
-     */
-    public static final int PROP_HIT_COUNT = 0x1006;  
-    
-	public Control createControl(Composite parent) {
+	 * Property id for breakpoint hit count.
+	 */
+	public static final int PROP_HIT_COUNT = 0x1006;
+
+	public Control createControl(Composite parent)
+	{
 		return createStandardControls(parent);
 	}
-	
-	protected Control createStandardControls(Composite parent) {
+
+	protected Control createStandardControls(Composite parent)
+	{
 		Composite composite = SWTFactory.createComposite(parent, parent.getFont(), 4, 1, 0, 0, 0);
-		fHitCountButton = SWTFactory.createCheckButton(composite, processMnemonics(PropertyPageMessages.RubyBreakpointPage_4), null, false, 1);
+		fHitCountButton = SWTFactory.createCheckButton(composite,
+				processMnemonics(PropertyPageMessages.RubyBreakpointPage_4), null, false, 1);
 		fHitCountButton.setLayoutData(new GridData());
-		fHitCountButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
+		fHitCountButton.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent event)
+			{
 				boolean enabled = fHitCountButton.getSelection();
 				fHitCountText.setEnabled(enabled);
-				if(enabled) {
+				if (enabled)
+				{
 					fHitCountText.setFocus();
 				}
 				setDirty(PROP_HIT_COUNT_ENABLED);
@@ -71,50 +79,65 @@ public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor {
 		fHitCountText = SWTFactory.createSingleText(composite, 1);
 		GridData gd = (GridData) fHitCountText.getLayoutData();
 		gd.minimumWidth = 50;
-		fHitCountText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
+		fHitCountText.addModifyListener(new ModifyListener()
+		{
+			public void modifyText(ModifyEvent e)
+			{
 				setDirty(PROP_HIT_COUNT);
 			}
 		});
 		SWTFactory.createLabel(composite, "", 1); // spacer //$NON-NLS-1$
-		composite.addDisposeListener(new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
+		composite.addDisposeListener(new DisposeListener()
+		{
+			public void widgetDisposed(DisposeEvent e)
+			{
 				dispose();
 			}
 		});
 		return composite;
 	}
-	
-	public void setInput(Object breakpoint) throws CoreException {
-		if (breakpoint instanceof IRubyBreakpoint) {
+
+	public void setInput(Object breakpoint) throws CoreException
+	{
+		if (breakpoint instanceof IRubyBreakpoint)
+		{
 			setBreakpoint((IRubyBreakpoint) breakpoint);
-		} else {
+		}
+		else
+		{
 			setBreakpoint(null);
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jdt.internal.debug.ui.breakpoints.AbstractJavaBreakpointEditor#getInput()
 	 */
-	public Object getInput() {
+	public Object getInput()
+	{
 		return fBreakpoint;
 	}
-	
+
 	/**
 	 * Sets the breakpoint to edit. The same editor can be used iteratively for different breakpoints.
 	 * 
-	 * @param breakpoint the breakpoint to edit or <code>null</code> if none
-	 * @exception CoreException if unable to access breakpoint attributes
+	 * @param breakpoint
+	 *            the breakpoint to edit or <code>null</code> if none
+	 * @exception CoreException
+	 *                if unable to access breakpoint attributes
 	 */
-	protected void setBreakpoint(IRubyBreakpoint breakpoint) throws CoreException {
+	protected void setBreakpoint(IRubyBreakpoint breakpoint) throws CoreException
+	{
 		fBreakpoint = breakpoint;
 		boolean enabled = false;
 		boolean hasHitCount = false;
 		String text = ""; //$NON-NLS-1$
-		if (breakpoint != null) {
+		if (breakpoint != null)
+		{
 			enabled = true;
 			int hitCount = breakpoint.getHitCount();
-			if (hitCount > 0) {
+			if (hitCount > 0)
+			{
 				text = new Integer(hitCount).toString();
 				hasHitCount = true;
 			}
@@ -125,35 +148,45 @@ public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor {
 		fHitCountText.setText(text);
 		setDirty(false);
 	}
-	
+
 	/**
 	 * Returns the current breakpoint being edited or <code>null</code> if none.
 	 * 
 	 * @return breakpoint or <code>null</code>
 	 */
-	protected IRubyBreakpoint getBreakpoint() { 
+	protected IRubyBreakpoint getBreakpoint()
+	{
 		return fBreakpoint;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jdt.internal.debug.ui.breakpoints.AbstractJavaBreakpointEditor#setFocus()
 	 */
-	public void setFocus() {
+	public void setFocus()
+	{
 		// do nothing
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jdt.internal.debug.ui.breakpoints.AbstractJavaBreakpointEditor#doSave()
 	 */
-	public void doSave() throws CoreException {
-		if (fBreakpoint != null) {
+	public void doSave() throws CoreException
+	{
+		if (fBreakpoint != null)
+		{
 			int hitCount = -1;
-			if (fHitCountButton.getSelection()) {
-				try {
+			if (fHitCountButton.getSelection())
+			{
+				try
+				{
 					hitCount = Integer.parseInt(fHitCountText.getText());
-				} 
-				catch (NumberFormatException e) {
-					throw new CoreException(new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.RubyBreakpointPage_0, e));
+				}
+				catch (NumberFormatException e)
+				{
+					throw new CoreException(new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(),
+							IStatus.ERROR, PropertyPageMessages.RubyBreakpointPage_0, e));
 				}
 			}
 			fBreakpoint.setHitCount(hitCount);
@@ -161,20 +194,29 @@ public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor {
 		setDirty(false);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jdt.internal.debug.ui.breakpoints.AbstractJavaBreakpointEditor#getStatus()
 	 */
-	public IStatus getStatus() {
-		if (fHitCountButton.getSelection()) {
-			String hitCountText= fHitCountText.getText();
-			int hitCount= -1;
-			try {
+	public IStatus getStatus()
+	{
+		if (fHitCountButton.getSelection())
+		{
+			String hitCountText = fHitCountText.getText();
+			int hitCount = -1;
+			try
+			{
 				hitCount = Integer.parseInt(hitCountText);
-			} catch (NumberFormatException e1) {
-				return new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.RubyBreakpointPage_0, null);
 			}
-			if (hitCount < 1) {
-				return new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR, PropertyPageMessages.RubyBreakpointPage_0, null);
+			catch (NumberFormatException e1)
+			{
+				return new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR,
+						PropertyPageMessages.RubyBreakpointPage_0, null);
+			}
+			if (hitCount < 1)
+			{
+				return new Status(IStatus.ERROR, RubyDebugUIPlugin.getUniqueIdentifier(), IStatus.ERROR,
+						PropertyPageMessages.RubyBreakpointPage_0, null);
 			}
 		}
 		return Status.OK_STATUS;
@@ -183,19 +225,25 @@ public class StandardRubyBreakpointEditor extends AbstractRubyBreakpointEditor {
 	/**
 	 * Creates and returns a check box button with the given text.
 	 * 
-	 * @param parent parent composite
-	 * @param text label
-	 * @param propId property id to fire on modification
+	 * @param parent
+	 *            parent composite
+	 * @param text
+	 *            label
+	 * @param propId
+	 *            property id to fire on modification
 	 * @return check box
 	 */
-	protected Button createSusupendPropertyEditor(Composite parent, String text, final int propId) {
+	protected Button createSusupendPropertyEditor(Composite parent, String text, final int propId)
+	{
 		Button button = new Button(parent, SWT.CHECK);
 		button.setFont(parent.getFont());
 		button.setText(text);
 		GridData gd = new GridData(SWT.BEGINNING);
 		button.setLayoutData(gd);
-		button.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
+		button.addSelectionListener(new SelectionAdapter()
+		{
+			public void widgetSelected(SelectionEvent e)
+			{
 				setDirty(propId);
 			}
 		});
