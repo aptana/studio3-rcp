@@ -17,8 +17,6 @@ public class PropertyPageMessages extends NLS
 	private static final String BUNDLE_NAME = PropertyPageMessages.class.getName();
 
 	public static String JavaBreakpointConditionEditor_0;
-	public static String JavaBreakpointConditionEditor_1;
-	public static String JavaBreakpointConditionEditor_2;
 
 	public static String BreakpointConditionEditor_1;
 
