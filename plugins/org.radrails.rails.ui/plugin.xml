@@ -28,6 +28,9 @@
             name="%wizard.name"
             preferredPerspectives="org.radrails.rails.ui.PerspectiveRails"
             project="true">
+         <description>
+            Create a new Ruby/Rails project
+         </description>
       </wizard>
       <category
             id="org.radrails.rails.ui.category"
