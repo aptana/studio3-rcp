@@ -4,7 +4,7 @@
 	<feature url="features/org.radrails.rails.feature_{version.full}.jar" id="org.radrails.rails.feature" version="{version.full}">
 		<category name="Aptana Studio 3 Plugin"/>
 	</feature>				
-    <category-def name="Aptana RadRails" label="Rails">
+    <category-def name="Aptana Studio 3 Plugin" label="Aptana Studio 3 Plugin">
         <description>Adds support for Ruby on Rails to the Aptana Studio</description>
     </category-def>
     <!-- Update Test A-->
