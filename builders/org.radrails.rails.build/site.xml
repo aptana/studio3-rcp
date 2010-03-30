@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site pack200="true"> 
-    <description url="http://download.aptana.com/tools/radrails/plugin/rails/">RadRails is a Ruby on Rails IDE</description> 
-	<feature url="features/org.radrails.rails_feature_{version.full}.jar" id="org.radrails.rails_feature" version="{version.full}">
-		<category name="Aptana RadRails"/>
+    <description url="http://download.aptana.com/studio3/plugin/update/">RadRails is a Ruby on Rails IDE</description> 
+	<feature url="features/org.radrails.rails.feature_{version.full}.jar" id="org.radrails.rails.feature" version="{version.full}">
+		<category name="Aptana Studio 3 Plugin"/>
 	</feature>				
     <category-def name="Aptana RadRails" label="Rails">
         <description>Adds support for Ruby on Rails to the Aptana Studio</description>
