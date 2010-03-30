@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.aptana.com/tools/studio/plugin/update/studio3-rcp/"/>
+      <update label="%updateSiteName" url="http://download.aptana.com/studio3-rcp/plugin/update/"/>
    </url>
 
    <includes
