@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/red/"/>
+      <update label="%updateSiteName" url="http://download.aptana.com/rails/plugin/update/"/>
    </url>
 
    <includes
@@ -58,6 +58,20 @@
 
    <plugin
          id="org.radrails.rails.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.aptana.ruby.debug.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.aptana.ruby.debug.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
