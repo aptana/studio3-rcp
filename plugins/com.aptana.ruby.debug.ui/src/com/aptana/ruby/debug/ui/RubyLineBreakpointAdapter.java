@@ -90,7 +90,7 @@ public class RubyLineBreakpointAdapter implements IToggleBreakpointsTarget
 		IContentType rubyType = Platform.getContentTypeManager().getContentType(RUBY_CONTENT_TYPE_ID);
 		IFile file = (IFile) resource;
 		IContentType type = IDE.getContentType(file);
-		if (type.isKindOf(rubyType))
+		if (type != null && type.isKindOf(rubyType))
 		{
 			return editorPart;
 		}
