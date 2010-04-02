@@ -176,11 +176,17 @@ public class RubyMainTab extends AbstractLaunchConfigurationTab
 		if (text.length() > 0)
 		{
 			IPath path = new Path(text);
+			// first check if it's an absolute path
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 			if (file == null || !file.exists())
 			{
-				setErrorMessage(Messages.RubyMainTab_FileDoesntExistError);
-				return false;
+				// now check relative to workspace root
+				file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				if (file == null || !file.exists())
+				{
+					setErrorMessage(Messages.RubyMainTab_FileDoesntExistError);
+					return false;
+				}
 			}
 		}
 		else
