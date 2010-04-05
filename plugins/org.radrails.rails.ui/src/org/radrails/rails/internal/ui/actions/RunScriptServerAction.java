@@ -190,7 +190,7 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		return getSelectedRailsProject() != null;
 	}
 
-	private IProject getSelectedRailsProject()
+	protected IProject getSelectedRailsProject()
 	{
 		for (IResource resource : getSelectedResources())
 		{
@@ -232,7 +232,7 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		wrapper.sendText(command + "\n"); //$NON-NLS-1$
 	}
 
-	private boolean isRails3(IProject railsProject)
+	protected boolean isRails3(IProject railsProject)
 	{
 		IFile gemfile = railsProject.getFile("Gemfile"); //$NON-NLS-1$
 		if (gemfile == null || !gemfile.exists())

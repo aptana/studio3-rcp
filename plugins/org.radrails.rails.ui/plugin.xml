@@ -102,6 +102,11 @@
             id="org.radrails.rails.ui.command.server"
             name="%ScriptServerAction.label">
       </command>
+      <command
+            categoryId="org.radrails.rails.ui.category"
+            id="org.radrails.rails.ui.command.debug.server"
+            name="%DebugScriptServerAction.label">
+      </command>
       <category
             id="org.radrails.rails.ui.category"
             name="%RailsCommandsCategory.name">
@@ -154,6 +159,12 @@
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+SHIFT+\">
+      </key>
+      <key
+            commandId="org.radrails.rails.ui.command.debug.server"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+SHIFT+D">
       </key>
    </extension>
    <extension
@@ -216,6 +227,11 @@
                style="push">
          </command>
          <command
+               commandId="org.radrails.rails.ui.command.debug.server"
+               label="%DebugScriptServerAction.label"
+               style="push">
+         </command>
+         <command
                commandId="org.radrails.rails.ui.command.preview"
                label="%PreviewAction.label"
                style="push">
@@ -233,6 +249,14 @@
                definitionId="org.radrails.rails.ui.command.server"
                id="org.radrails.rails.ui.action.server"
                label="%ScriptServerAction.label"
+               menubarPath="org.eclipse.ui.run/runGroup"
+               style="push">
+         </action>
+         <action
+               class="org.radrails.rails.internal.ui.actions.DebugScriptServerAction"
+               definitionId="org.radrails.rails.ui.command.debug.server"
+               id="org.radrails.rails.ui.action.debug.server"
+               label="%DebugScriptServerAction.label"
                menubarPath="org.eclipse.ui.run/runGroup"
                style="push">
          </action>
