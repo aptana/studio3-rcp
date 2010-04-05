@@ -166,11 +166,6 @@
 				<mkdir dir="${baseLocation}/dropins/eclipse/features/${@{file}.name}" />
 				<unjar dest="${baseLocation}/dropins/eclipse/features/${@{file}.name}" src="@{file}" />
 				<delete file="@{file}" />
-				<echo message="Replacing the update site domain names." />
-				<!-- The following will replace update.aptana.org update/... sites with download.aptana.com/... update sites -->
-				<replaceregexp file="${baseLocation}/dropins/eclipse/features/${@{file}.name}/feature.xml" match="http://update.aptana.com/update/" replace="http://download.aptana.com/tools/studio/plugin/" byline="true" />
-				<!-- The following will replace aptana.org update sites with aptana.com update sites -->
-				<replaceregexp file="${baseLocation}/dropins/eclipse/features/${@{file}.name}/feature.xml" match="http://download.aptana.org/tools/studio/plugin/" replace="http://download.aptana.com/tools/studio/plugin/" byline="true" />
 			</sequential>
 		</for>
 		<!-- UnJAR the handful of plugins that we need to... -->
