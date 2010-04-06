@@ -37,8 +37,6 @@ import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
 import com.aptana.git.ui.CloneJob;
-import com.aptana.terminal.server.TerminalServer;
-import com.aptana.terminal.server.ProcessWrapper;
 import com.aptana.terminal.views.TerminalView;
 
 public class NewProjectWizard extends BasicNewResourceWizard implements IExecutableExtension
@@ -136,26 +134,12 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 			public IStatus runInUIThread(IProgressMonitor monitor)
 			{
 				SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
-				String absolutePath = project.getLocation().toOSString();
 				if (subMonitor.isCanceled())
 					return Status.CANCEL_STATUS;
 
 				// Now launch the rails command in a terminal!
-				TerminalView terminal = TerminalView.open(project.getName(), "rails", absolutePath); //$NON-NLS-1$
-				ProcessWrapper wrapper = TerminalServer.getInstance().getProcess(terminal.getId());
-				// Run a cd to change to the project's root explicitly
-				wrapper.sendText("cd \"" + absolutePath + "\"\n"); //$NON-NLS-1$ //$NON-NLS-2$
-				try
-				{
-					// wait 250 ms to let dir change happen. 
-					Thread.sleep(250);
-				}
-				catch (InterruptedException e)
-				{
-					// ignore
-				}
-				// Now run the rails command
-				wrapper.sendText("rails .\n"); //$NON-NLS-1$
+				TerminalView terminal = TerminalView.openView(project.getName(), "rails", project.getLocation()); //$NON-NLS-1$
+				terminal.sendInput("rails .\n"); //$NON-NLS-1$
 
 				return Status.OK_STATUS;
 			}
