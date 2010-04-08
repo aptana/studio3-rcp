@@ -79,7 +79,7 @@ import com.aptana.util.EclipseUtils;
 @SuppressWarnings("restriction")
 public class WizardNewProjectCreationPage extends WizardPage
 {
-
+	private static final String ICON_WARNING = "icons/warning_48.png"; //$NON-NLS-1$
 	// initial value stores
 	private String initialProjectFieldValue;
 
@@ -442,7 +442,7 @@ public class WizardNewProjectCreationPage extends WizardPage
 		// is created in a location that contains a Rails project files.
 		projectGenerationErrorLabel = new CLabel(projectGenerationGroup, SWT.WRAP);
 		projectGenerationErrorLabel.setText(Messages.WizardNewProjectCreationPage_cannotCreateProjectMessage);
-		projectGenerationErrorLabel.setImage(RailsUIPlugin.getImage("icons/warning_48.png")); //$NON-NLS-1$
+		projectGenerationErrorLabel.setImage(RailsUIPlugin.getImage(ICON_WARNING));
 
 		projectGenerationStackLayout.topControl = projectGenerationControls;
 		projectGenerationGroup.layout();
