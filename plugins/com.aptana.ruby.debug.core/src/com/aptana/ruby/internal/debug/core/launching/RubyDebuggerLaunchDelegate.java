@@ -19,9 +19,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
@@ -30,12 +33,12 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
+
 import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
 import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
 import com.aptana.ruby.internal.debug.core.model.RubyDebugTarget;
 import com.aptana.ruby.internal.debug.core.model.RubyProcessingException;
-
 import com.aptana.util.ExecutableUtil;
 
 /**
@@ -140,10 +143,16 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		{
 			abort("Ruby program unspecified.", null);
 		}
+		// check for absolute path
 		File file = new File(program);
 		if (!file.exists())
 		{
-			abort(MessageFormat.format("Ruby program {0} does not exist.", program), null);
+			// check for relative to workspace root
+			IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(program));
+			if (iFile == null || !iFile.exists())
+			{
+				abort(MessageFormat.format("Ruby program {0} does not exist.", program), null);
+			}
 		}
 		return program;
 	}
