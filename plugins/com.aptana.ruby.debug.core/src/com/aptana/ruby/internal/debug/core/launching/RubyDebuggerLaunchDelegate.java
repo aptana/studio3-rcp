@@ -145,16 +145,17 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		}
 		// check for absolute path
 		File file = new File(program);
-		if (!file.exists())
+		if (file.exists())
+			return program;
+		
+		// check for relative to workspace root
+		IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(program));
+		if (iFile == null || !iFile.exists())
 		{
-			// check for relative to workspace root
-			IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(program));
-			if (iFile == null || !iFile.exists())
-			{
-				abort(MessageFormat.format("Ruby program {0} does not exist.", program), null);
-			}
+			abort(MessageFormat.format("Ruby program {0} does not exist.", program), null);
 		}
-		return program;
+		// TODO What about checking relative to working dir?
+		return iFile.getLocation().toOSString();
 	}
 
 	private Collection<? extends String> debugArguments(String exe, String host, int port,
