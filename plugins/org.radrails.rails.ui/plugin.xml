@@ -60,6 +60,9 @@
                relative="com.aptana.explorer.view"
                visible="false">
          </view>
+         <viewShortcut
+               id="com.aptana.terminal.views.TerminalView">
+         </viewShortcut>
          <view
                id="com.aptana.terminal.views.TerminalView"
                relationship="stack"
