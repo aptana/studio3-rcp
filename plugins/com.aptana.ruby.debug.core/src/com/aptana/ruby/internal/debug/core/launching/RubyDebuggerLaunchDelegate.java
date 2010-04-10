@@ -22,6 +22,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -66,8 +67,8 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	{
 		List<String> commandList = new ArrayList<String>();
 		// Ruby binary
-		String exe = rubyExecutable();
-		commandList.add(exe);
+		IPath rubyExecutablePath = rubyExecutable();
+		commandList.add(rubyExecutablePath.toOSString());
 		// Arguments to ruby
 		commandList.addAll(interpreterArguments(configuration));
 
@@ -83,7 +84,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			{
 				abort("Unable to find free port", null);
 			}
-			commandList.addAll(debugArguments(exe, host, port, configuration));
+			commandList.addAll(debugArguments(rubyExecutablePath, host, port, configuration));
 		}
 		// File to run
 		commandList.add(fileToLaunch(configuration));
@@ -158,16 +159,16 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		return iFile.getLocation().toOSString();
 	}
 
-	private Collection<? extends String> debugArguments(String exe, String host, int port,
+	private Collection<? extends String> debugArguments(IPath rubyExecutablePath, String host, int port,
 			ILaunchConfiguration configuration) throws CoreException
 	{
 		List<String> commandList = new ArrayList<String>();
-		String rdebug = ExecutableUtil.find("rdebug-ide", false, null, getRDebugIDELocations(exe)); //$NON-NLS-1$
+		IPath rdebug = ExecutableUtil.find("rdebug-ide", false, null, getRDebugIDELocations(rubyExecutablePath)); //$NON-NLS-1$
 		if (rdebug == null)
 		{
 			abort("Unable to find 'rdebug-ide' binary script. May need to install 'ruby-debug-ide' gem.", null);
 		}
-		commandList.add(rdebug);
+		commandList.add(rdebug.toOSString());
 		commandList.add(DEBUGGER_PORT_SWITCH);
 		commandList.add(Integer.toString(port));
 		commandList.add(END_OF_ARGUMENTS_DELIMETER);
@@ -175,18 +176,18 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	}
 
 	@SuppressWarnings("nls")
-	private List<String> getRDebugIDELocations(String rubyExe)
+	private List<IPath> getRDebugIDELocations(IPath rubyExecutablePath)
 	{
-		List<String> locations = new ArrayList<String>();
+		List<IPath> locations = new ArrayList<IPath>();
 		// TODO What are the common places this could be?
 		// check in bin dir alongside where our ruby exe is!
-		locations.add(new File(rubyExe).getParent() + File.separator + "rdebug-ide");
-		locations.add(System.getProperty("user.home") + "/.gem/ruby/1.8/bin/rdebug-ide");
-		locations.add(System.getProperty("user.home") + "/.gem/ruby/1.9/bin/rdebug-ide");
-		locations.add("/opt/local/bin/rdebug-ide");
-		locations.add("/usr/local/bin/rdebug-ide");
-		locations.add("/usr/bin/rdebug-ide");
-		locations.add("/bin/rdebug-ide");
+		locations.add(rubyExecutablePath.removeLastSegments(1).append("rdebug-ide"));
+		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.8/bin/rdebug-ide"));
+		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.9/bin/rdebug-ide"));
+		locations.add(Path.fromOSString("/opt/local/bin/rdebug-ide"));
+		locations.add(Path.fromOSString("/usr/local/bin/rdebug-ide"));
+		locations.add(Path.fromOSString("/usr/bin/rdebug-ide"));
+		locations.add(Path.fromOSString("/bin/rdebug-ide"));
 		return locations;
 	}
 
@@ -216,11 +217,11 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		return arguments;
 	}
 
-	protected String rubyExecutable() throws CoreException
+	protected IPath rubyExecutable() throws CoreException
 	{
 		// Ruby executable, look for rubyw, then ruby
 		// TODO check TM_RUBY env value?
-		String path = ExecutableUtil.find(RUBYW, true, null, getCommonRubyBinaryLocations(RUBYW));
+		IPath path = ExecutableUtil.find(RUBYW, true, null, getCommonRubyBinaryLocations(RUBYW));
 		if (path == null)
 		{
 			path = ExecutableUtil.find(RUBY, true, null, getCommonRubyBinaryLocations(RUBY));
@@ -229,8 +230,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		{
 			abort("Unable to find a Ruby executable.", null);
 		}
-		File exe = new File(path);
-		if (!exe.exists())
+		if (!path.toFile().exists())
 		{
 			abort(MessageFormat.format("Specified Ruby executable {0} does not exist.", path), null);
 		}
@@ -243,22 +243,22 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	 * @return
 	 */
 	@SuppressWarnings("nls")
-	protected List<String> getCommonRubyBinaryLocations(String binaryName)
+	protected List<IPath> getCommonRubyBinaryLocations(String binaryName)
 	{
-		List<String> locations = new ArrayList<String>();
+		List<IPath> locations = new ArrayList<IPath>();
 		if (Platform.getOS().equals(Platform.OS_WIN32))
 		{
-			locations.add("C:\\ruby\\bin\\" + binaryName + ".exe");
+			locations.add(Path.fromOSString("C:\\ruby\\bin").append(binaryName).addFileExtension("exe"));
 		}
 		else
 		{
-			locations.add("/opt/local/bin/" + binaryName);
-			locations.add("/usr/local/bin/" + binaryName);
-			locations.add("/usr/bin/" + binaryName);
+			locations.add(Path.fromOSString("/opt/local/bin/").append(binaryName));
+			locations.add(Path.fromOSString("/usr/local/bin/").append(binaryName));
+			locations.add(Path.fromOSString("/usr/bin/").append(binaryName));
 		}
 		if (Platform.getOS().equals(Platform.OS_MACOSX))
 		{
-			locations.add("/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/" + binaryName);
+			locations.add(Path.fromOSString("/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/").append(binaryName));
 		}
 		return locations;
 	}

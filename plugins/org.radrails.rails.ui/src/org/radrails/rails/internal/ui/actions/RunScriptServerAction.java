@@ -27,8 +27,6 @@ import org.eclipse.ui.PlatformUI;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
-import com.aptana.terminal.server.ProcessWrapper;
-import com.aptana.terminal.server.TerminalServer;
 import com.aptana.terminal.views.TerminalView;
 
 public class RunScriptServerAction extends Action implements IObjectActionDelegate, IWorkbenchWindowActionDelegate
@@ -225,11 +223,10 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 			command = "script/server"; //$NON-NLS-1$
 		}
 		// Now do the launch in terminal
-		TerminalView term = TerminalView.open(viewId, viewId, railsProject.getLocation().toOSString());
-		if (term == null)
-			return;
-		ProcessWrapper wrapper = TerminalServer.getInstance().getProcess(term.getId());
-		wrapper.sendText(command + "\n"); //$NON-NLS-1$
+		TerminalView term = TerminalView.openView(viewId, viewId, railsProject.getLocation());
+		if (term != null) {
+			term.sendInput(command + '\n');
+		}
 	}
 
 	protected boolean isRails3(IProject railsProject)
