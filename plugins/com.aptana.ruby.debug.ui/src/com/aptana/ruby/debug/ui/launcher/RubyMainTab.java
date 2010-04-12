@@ -11,6 +11,8 @@
  *******************************************************************************/
 package com.aptana.ruby.debug.ui.launcher;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -177,17 +179,19 @@ public class RubyMainTab extends AbstractLaunchConfigurationTab
 		{
 			IPath path = new Path(text);
 			// first check if it's an absolute path
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
-			if (file == null || !file.exists())
+			File aFile = new File(text);
+			if (!aFile.exists() || aFile.isDirectory())
 			{
 				// now check relative to workspace root
-				file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 				if (file == null || !file.exists())
 				{
 					setErrorMessage(Messages.RubyMainTab_FileDoesntExistError);
 					return false;
 				}
 			}
+			setErrorMessage(null);
+			setMessage(null);
 		}
 		else
 		{

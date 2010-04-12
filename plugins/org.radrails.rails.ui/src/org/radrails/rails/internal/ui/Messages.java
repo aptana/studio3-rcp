@@ -5,7 +5,7 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS
 {
 	private static final String BUNDLE_NAME = "org.radrails.rails.internal.ui.messages"; //$NON-NLS-1$
-	
+
 	public static String NewProjectWizard_ContentsAlreadyExist_Msg;
 
 	public static String NewProjectWizard_ContentsAlreadyExist_Title;
@@ -32,10 +32,11 @@ public class Messages extends NLS
 	public static String ProjectLocationSelectionDialog_locationLabel;
 	public static String WizardNewProjectCreationPage_projectLocationEmpty;
 	public static String WizardNewProjectCreationPage_gitLocationEmpty;
-	
+	public static String WizardNewProjectCreationPage_cannotCreateProjectMessage;
+
 	public static String ClearLogConfirmTitle;
 	public static String ClearLogConfirmDescription;
-	
+
 	static
 	{
 		// initialize resource bundle

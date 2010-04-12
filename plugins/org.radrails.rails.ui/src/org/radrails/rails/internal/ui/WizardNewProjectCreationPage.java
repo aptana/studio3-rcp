@@ -14,6 +14,7 @@
  *******************************************************************************/
 package org.radrails.rails.internal.ui;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
@@ -30,6 +31,8 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.FocusAdapter;
@@ -53,6 +56,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 import org.eclipse.ui.internal.ide.dialogs.IDEResourceInfoUtils;
+import org.radrails.rails.ui.RailsUIPlugin;
+
+import com.aptana.util.EclipseUtils;
 
 /**
  * Standard main page for a wizard that is creates a project resource.
@@ -73,7 +79,7 @@ import org.eclipse.ui.internal.ide.dialogs.IDEResourceInfoUtils;
 @SuppressWarnings("restriction")
 public class WizardNewProjectCreationPage extends WizardPage
 {
-
+	private static final String ICON_WARNING = "icons/warning_48.png"; //$NON-NLS-1$
 	// initial value stores
 	private String initialProjectFieldValue;
 
@@ -97,8 +103,12 @@ public class WizardNewProjectCreationPage extends WizardPage
 	};
 
 	private String lastLocationDefault;
-
 	private Button noGenerator;
+	private Group projectGenerationGroup;
+	private StackLayout projectGenerationStackLayout;
+	private Composite projectGenerationControls;
+	private CLabel projectGenerationErrorLabel;
+	private boolean hasRailsAppFiles;
 
 	// constants
 	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
@@ -264,7 +274,15 @@ public class WizardNewProjectCreationPage extends WizardPage
 			}
 		}
 
-		DirectoryDialog dialog = new DirectoryDialog(locationPathField.getShell(), SWT.SHEET);
+		DirectoryDialog dialog;
+		if (EclipseUtils.inEclipse35orHigher)
+		{
+			dialog = new DirectoryDialog(locationPathField.getShell(), SWT.SHEET);
+		}
+		else
+		{
+			dialog = new DirectoryDialog(locationPathField.getShell());
+		}
 		dialog.setMessage(EMPTY_STRING);
 		dialog.setFilterPath(dirName);
 		selectedDirectory = dialog.open();
@@ -292,7 +310,15 @@ public class WizardNewProjectCreationPage extends WizardPage
 				dirName = EMPTY_STRING;
 		}
 
-		DirectoryDialog dialog = new DirectoryDialog(gitLocation.getShell(), SWT.SHEET);
+		DirectoryDialog dialog;
+		if (EclipseUtils.inEclipse35orHigher)
+		{
+			dialog = new DirectoryDialog(gitLocation.getShell(), SWT.SHEET);
+		}
+		else
+		{
+			dialog = new DirectoryDialog(gitLocation.getShell());
+		}
 		dialog.setMessage(EMPTY_STRING);
 		dialog.setFilterPath(dirName);
 		String selectedDirectory = dialog.open();
@@ -390,28 +416,42 @@ public class WizardNewProjectCreationPage extends WizardPage
 	private final void createGenerateGroup(Composite parent)
 	{
 		// project generation group
-		Group group = new Group(parent, SWT.BORDER);
-		group.setLayout(new GridLayout(1, false));
-		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		group.setText(Messages.WizardNewProjectCreationPage_GenerateAppGroupLabel);
+		projectGenerationGroup = new Group(parent, SWT.NONE);
+		projectGenerationGroup.setText(Messages.WizardNewProjectCreationPage_GenerateAppGroupLabel);
+		projectGenerationStackLayout = new StackLayout();
+		projectGenerationGroup.setLayout(projectGenerationStackLayout);
+		projectGenerationGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		runGenerator = new Button(group, SWT.RADIO);
+		projectGenerationControls = new Composite(projectGenerationGroup, SWT.NONE);
+		projectGenerationControls.setLayout(new GridLayout(1, false));
+		projectGenerationControls.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		runGenerator = new Button(projectGenerationControls, SWT.RADIO);
 		runGenerator.setText(Messages.WizardNewProjectCreationPage_StandardGeneratorText);
 		runGenerator.setSelection(true);
 
-		gitCloneGenerate = new Button(group, SWT.RADIO);
+		gitCloneGenerate = new Button(projectGenerationControls, SWT.RADIO);
 		gitCloneGenerate.setText(Messages.WizardNewProjectCreationPage_CloneGitRepoLabel);
 
-		createGitLocationComposite(group);
+		createGitLocationComposite(projectGenerationControls);
 
-		noGenerator = new Button(group, SWT.RADIO);
+		noGenerator = new Button(projectGenerationControls, SWT.RADIO);
 		noGenerator.setText(Messages.WizardNewProjectCreationPage_NoGeneratorText);
+
+		// Create an error label that we'll display in a case where the project
+		// is created in a location that contains a Rails project files.
+		projectGenerationErrorLabel = new CLabel(projectGenerationGroup, SWT.WRAP);
+		projectGenerationErrorLabel.setText(Messages.WizardNewProjectCreationPage_cannotCreateProjectMessage);
+		projectGenerationErrorLabel.setImage(RailsUIPlugin.getImage(ICON_WARNING));
+
+		projectGenerationStackLayout.topControl = projectGenerationControls;
+		projectGenerationGroup.layout();
 	}
 
-	private void createGitLocationComposite(Group group)
+	private void createGitLocationComposite(Composite parent)
 	{
 		// project specification group
-		Composite projectGroup = new Composite(group, SWT.NONE);
+		Composite projectGroup = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 4;
 		projectGroup.setLayout(layout);
@@ -599,6 +639,19 @@ public class WizardNewProjectCreationPage extends WizardPage
 	 */
 	protected boolean validatePage()
 	{
+		// Validate that there is no Rails project already existing in the
+		// new project location
+		hasRailsAppFiles = hasRailsApp(locationPathField.getText());
+		if (hasRailsAppFiles)
+		{
+			projectGenerationStackLayout.topControl = projectGenerationErrorLabel;
+			projectGenerationGroup.layout();
+		}
+		else
+		{
+			projectGenerationStackLayout.topControl = projectGenerationControls;
+			projectGenerationGroup.layout();
+		}
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
 		String projectFieldContents = getProjectNameFieldValue();
@@ -642,6 +695,13 @@ public class WizardNewProjectCreationPage extends WizardPage
 		return true;
 	}
 
+	private boolean hasRailsApp(String path)
+	{
+		File projectFile = new File(path);
+		File env = new File(projectFile, "config" + File.separator + "environment.rb"); //$NON-NLS-1$ //$NON-NLS-2$
+		return env.exists();
+	}
+
 	/*
 	 * see @DialogPage.setVisible(boolean)
 	 */
@@ -656,7 +716,7 @@ public class WizardNewProjectCreationPage extends WizardPage
 
 	public boolean runGenerator()
 	{
-		return runGenerator.getSelection();
+		return !hasRailsAppFiles && runGenerator.getSelection();
 	}
 
 	public boolean cloneFromGit()
