@@ -5,10 +5,19 @@
  */
 package com.aptana.radrails.rcp;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.service.prefs.BackingStoreException;
+
+import com.aptana.radrails.rcp.preferences.IPreferenceConstants;
 
 /**
  * The main plugin class to be used in the desktop.
@@ -35,6 +44,7 @@ public class IdePlugin extends AbstractUIPlugin {
      */
     public void start(BundleContext context) throws Exception {
         super.start(context);
+        initPreferences();
     }
 
     /**
@@ -67,4 +77,34 @@ public class IdePlugin extends AbstractUIPlugin {
 		getDefault().getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e));
 	}
 
+	private void initPreferences()
+	{
+		// Force "auto-refresh" pref to true by default for RadRails
+		IEclipsePreferences prefs = new DefaultScope().getNode(ResourcesPlugin.PI_RESOURCES);
+		prefs.putBoolean(ResourcesPlugin.PREF_AUTO_REFRESH, true);
+
+		if (!Platform.getPreferencesService().getBoolean(PLUGIN_ID, IPreferenceConstants.WORKSPACE_ENCODING_SET, false,
+				null))
+		{
+			try
+			{
+				ResourcesPlugin.getWorkspace().getRoot().setDefaultCharset("UTF-8", null); //$NON-NLS-1$
+			}
+			catch (CoreException e)
+			{
+				getDefault().getLog().log(
+						new Status(IStatus.ERROR, getDefault().getBundle().getSymbolicName(), IStatus.OK,
+								Messages.PreferenceInitializer_Cannot_Set_Default_Encoding, e));
+			}
+			prefs = (new InstanceScope()).getNode(PLUGIN_ID);
+			prefs.putBoolean(IPreferenceConstants.WORKSPACE_ENCODING_SET, true);
+			try
+			{
+				prefs.flush();
+			}
+			catch (BackingStoreException e)
+			{
+			}
+		}
+	}
 }

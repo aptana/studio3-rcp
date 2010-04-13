@@ -60,10 +60,4 @@
          <location>usr/bin/firefox</location>
       </browser>
    </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="com.aptana.radrails.rcp.preferences.PreferenceInitializer">
-      </initializer>
-   </extension>
 </plugin>
