@@ -96,6 +96,15 @@
          <actionSet
                id="org.radrails.rails.ui.actionSet">
          </actionSet>
+         <perspectiveShortcut
+               id="com.aptana.ui.WebPerspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="com.aptana.ui.WebPerspective">
+         <perspectiveShortcut
+               id="org.radrails.rails.ui.PerspectiveRails">
+         </perspectiveShortcut>
       </perspectiveExtension>
    </extension>
    <extension

@@ -46,6 +46,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IPerspectiveRegistry;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbench;
@@ -85,8 +86,11 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	// Preferences to remember if the toolbar (coolbar and  perspective bar) should be shown
 	private static final String SHOW_COOLBAR = "SHOW_COOLBAR"; //$NON-NLS-1$
 	private static final String SHOW_PERSPECTIVEBAR = "SHOW_PERSPECTIVEBAR"; //$NON-NLS-1$
+	// a preference to indicate if the toolbar state has been manually modified by user
+    private static final String TOOLBAR_MANUALLY_ADJUSTED = "TOOLBAR_MANUALLY_ADJUSTED"; //$NON-NLS-1$
 
     private static final String WELCOME_EDITOR_ID = "org.eclipse.ui.internal.ide.dialogs.WelcomeEditor"; //$NON-NLS-1$
+    private static final String RAILS_PERSPECTIVE_ID = "org.radrails.rails.ui.PerspectiveRails"; //$NON-NLS-1$
 
     private IDEWorkbenchAdvisor wbAdvisor;
     private boolean editorsAndIntrosOpened = false;
@@ -112,6 +116,9 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     private IAdaptable lastInput;
 
     private IWorkbenchAction openPerspectiveAction;
+
+	// to distinguish if setCoolBar()/setPerspectiveBar() is called by user or due to perspective activation
+	private boolean isToolbarProgrammaticSet;
 
     /**
      * Crates a new IDE workbench window advisor.
@@ -254,6 +261,10 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
                         // store coolbar show/hide state
                         // this also affects new windows opened in this session
                         store.setValue(SHOW_COOLBAR, ((Boolean)newValue).booleanValue());
+                        if (!isToolbarProgrammaticSet)
+                        {
+                        	store.setValue(TOOLBAR_MANUALLY_ADJUSTED, true);
+                        }
                     }
                 }
                 if (event.getProperty().equals(WorkbenchWindow.PROP_PERSPECTIVEBAR_VISIBLE))
@@ -263,10 +274,35 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
                         // store perspective bar show/hide state
                         // this also affects new windows opened in this session
                         store.setValue(SHOW_PERSPECTIVEBAR, ((Boolean)newValue).booleanValue());
+                        if (!isToolbarProgrammaticSet)
+                        {
+                        	store.setValue(TOOLBAR_MANUALLY_ADJUSTED, true);
+                        }
                     }
                 }
             }
         });
+
+		workbenchWindow.addPerspectiveListener(new IPerspectiveListener()
+		{
+
+			public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective)
+			{
+				// only control the toolbar state on perspective basis when user has not modified it manually
+				if (!store.getBoolean(TOOLBAR_MANUALLY_ADJUSTED))
+				{
+					boolean showToolbar = !perspective.getId().equals(RAILS_PERSPECTIVE_ID);
+					isToolbarProgrammaticSet = true;
+					workbenchWindow.setCoolBarVisible(showToolbar);
+					workbenchWindow.setPerspectiveBarVisible(showToolbar);
+					isToolbarProgrammaticSet = false;
+				}
+			}
+
+			public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId)
+			{
+			}
+		});
     }
 
     /**
