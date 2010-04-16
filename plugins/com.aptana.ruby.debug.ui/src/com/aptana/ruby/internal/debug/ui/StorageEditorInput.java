@@ -10,6 +10,8 @@ import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.editors.text.ILocationProvider;
 
+import com.aptana.ruby.debug.ui.RubyDebugUIPlugin;
+
 /**
  * 
  */
@@ -59,6 +61,7 @@ public class StorageEditorInput implements IStorageEditorInput, ILocationProvide
 		return storage.getFullPath().toPortableString();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter)
 	{
 		if (ILocationProvider.class.equals(adapter))
@@ -88,8 +91,7 @@ public class StorageEditorInput implements IStorageEditorInput, ILocationProvide
 		}
 		catch (CoreException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			RubyDebugUIPlugin.logError(e);
 		}
 		return false;
 	}
