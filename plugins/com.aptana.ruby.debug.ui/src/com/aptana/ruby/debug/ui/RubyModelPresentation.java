@@ -15,8 +15,11 @@ import java.io.File;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.ILineBreakpoint;
 import org.eclipse.debug.core.model.IValue;
@@ -27,8 +30,12 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorRegistry;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
+
+import com.aptana.ruby.internal.debug.ui.StorageEditorInput;
 
 /**
  * Renders Ruby debug elements
@@ -85,11 +92,14 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 	 */
 	public IEditorInput getEditorInput(Object element)
 	{
-		// TODO if file is external we can't just open a FileEditorInput here...
 		IFile file = getFile(element);
 		if (file != null)
 		{
 			return new FileEditorInput(file);
+		}
+		if (element instanceof IStorage)
+		{
+			return new StorageEditorInput((IStorage) element);
 		}
 		return null;
 	}
@@ -100,15 +110,22 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 	 */
 	public String getEditorId(IEditorInput input, Object element)
 	{
-		// TODO handle opening external files
+		IEditorDescriptor desc = null;
 		IFile file = getFile(element);
 		if (file != null)
 		{
-			IEditorDescriptor desc = IDE.getDefaultEditor(file);
-			if (desc != null)
-			{
-				return desc.getId();
-			}
+			desc = IDE.getDefaultEditor(file);
+		}
+		else if (element instanceof IStorage)
+		{
+			IStorage storage = (IStorage) element;
+			IContentType contentType = Platform.getContentTypeManager().findContentTypeFor(storage.getName());
+			IEditorRegistry editorReg = PlatformUI.getWorkbench().getEditorRegistry();
+			desc = editorReg.getDefaultEditor(storage.getName(), contentType);
+		}
+		if (desc != null)
+		{
+			return desc.getId();
 		}
 		return null;
 	}
@@ -126,7 +143,6 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 			File file = ((LocalFileStorage) element).getFile();
 			IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(
 					new Path(file.getAbsolutePath()));
-			// TODO What about when it's not related to anything in the workspace at all (i.e. std lib!)
 			if (resource != null)
 				return (IFile) resource;
 		}
