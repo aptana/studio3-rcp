@@ -85,6 +85,7 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 	 */
 	public IEditorInput getEditorInput(Object element)
 	{
+		// TODO if file is external we can't just open a FileEditorInput here...
 		IFile file = getFile(element);
 		if (file != null)
 		{
@@ -99,6 +100,7 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 	 */
 	public String getEditorId(IEditorInput input, Object element)
 	{
+		// TODO handle opening external files
 		IFile file = getFile(element);
 		if (file != null)
 		{
