@@ -61,10 +61,10 @@
                visible="false">
          </view>
          <viewShortcut
-               id="com.aptana.terminal.views.TerminalView">
+               id="com.aptana.terminal.views.terminal">
          </viewShortcut>
          <view
-               id="com.aptana.terminal.views.TerminalView"
+               id="com.aptana.terminal.views.terminal"
                relationship="stack"
                relative="org.eclipse.ui.console.ConsoleView"
                visible="false">
