@@ -58,8 +58,6 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 import org.eclipse.ui.internal.ide.dialogs.IDEResourceInfoUtils;
 import org.radrails.rails.ui.RailsUIPlugin;
 
-import com.aptana.util.EclipseUtils;
-
 /**
  * Standard main page for a wizard that is creates a project resource.
  * <p>
@@ -274,15 +272,7 @@ public class WizardNewProjectCreationPage extends WizardPage
 			}
 		}
 
-		DirectoryDialog dialog;
-		if (EclipseUtils.inEclipse35orHigher)
-		{
-			dialog = new DirectoryDialog(locationPathField.getShell(), SWT.SHEET);
-		}
-		else
-		{
-			dialog = new DirectoryDialog(locationPathField.getShell());
-		}
+		DirectoryDialog dialog = new DirectoryDialog(locationPathField.getShell(), SWT.SHEET);
 		dialog.setMessage(EMPTY_STRING);
 		dialog.setFilterPath(dirName);
 		selectedDirectory = dialog.open();
@@ -310,15 +300,7 @@ public class WizardNewProjectCreationPage extends WizardPage
 				dirName = EMPTY_STRING;
 		}
 
-		DirectoryDialog dialog;
-		if (EclipseUtils.inEclipse35orHigher)
-		{
-			dialog = new DirectoryDialog(gitLocation.getShell(), SWT.SHEET);
-		}
-		else
-		{
-			dialog = new DirectoryDialog(gitLocation.getShell());
-		}
+		DirectoryDialog dialog = new DirectoryDialog(gitLocation.getShell(), SWT.SHEET);
 		dialog.setMessage(EMPTY_STRING);
 		dialog.setFilterPath(dirName);
 		String selectedDirectory = dialog.open();
