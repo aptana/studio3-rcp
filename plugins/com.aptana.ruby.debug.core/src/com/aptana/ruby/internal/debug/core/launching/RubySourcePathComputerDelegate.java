@@ -65,8 +65,7 @@ public class RubySourcePathComputerDelegate implements ISourcePathComputerDelega
 		}
 
 		sourceContainers.add(new WorkspaceSourceContainer());
-		if (File.listRoots() != null && File.listRoots().length > 0)
-			sourceContainers.add(new DirectorySourceContainer(File.listRoots()[0], false));
+		sourceContainers.add(new RootSourceContainer());
 
 		return sourceContainers.toArray(new ISourceContainer[sourceContainers.size()]);
 	}

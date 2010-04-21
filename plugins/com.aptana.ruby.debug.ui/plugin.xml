@@ -241,4 +241,11 @@
         </enablement>
      </detailFactories>
   </extension>
+  <extension
+        point="org.eclipse.ui.elementFactories">
+     <factory
+           class="com.aptana.ruby.internal.debug.ui.StorageEditorInputFactory"
+           id="com.aptana.ui.part.StorageEditorInputFactory">
+     </factory>
+  </extension>
 </plugin>
