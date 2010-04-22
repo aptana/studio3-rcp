@@ -28,25 +28,25 @@
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.core.filesystem"/>
       <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.update.core"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.help"/>
-      <import plugin="org.eclipse.ui.browser"/>
-      <import plugin="org.eclipse.ui.navigator"/>
-      <import plugin="org.eclipse.core.expressions"/>
-      <import plugin="org.eclipse.ui.intro"/>
-      <import plugin="org.eclipse.ui.cheatsheets"/>
-      <import plugin="org.eclipse.core.resources" version="3.2.2" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.debug.core" version="3.2.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jface.text" version="3.2.2" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.console" version="3.1.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.debug.ui" version="3.2.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="com.aptana.util"/>
+      <import plugin="com.aptana.git.ui"/>
+      <import plugin="com.aptana.terminal"/>
+      <import plugin="com.aptana.explorer"/>
+      <import plugin="com.aptana.scripting"/>
+      <import plugin="com.aptana.editor.common"/>
+      <import plugin="org.jruby"/>
    </requires>
 
    <plugin
