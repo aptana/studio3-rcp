@@ -19,14 +19,18 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.CommonNavigator;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
+import com.aptana.explorer.IExplorerUIConstants;
 import com.aptana.terminal.views.TerminalView;
 
 public class RunScriptServerAction extends Action implements IObjectActionDelegate, IWorkbenchWindowActionDelegate
@@ -203,6 +207,27 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 				RailsUIPlugin.logError(e);
 			}
 		}
+		// checks the active project in App Explorer
+		CommonNavigator navigator = getAppExplorer();
+		if (navigator != null)
+		{
+			Object input = navigator.getCommonViewer().getInput();
+			if (input instanceof IProject)
+			{
+				IProject project = (IProject) input;
+				try
+				{
+					if (project.hasNature(RailsProjectNature.ID))
+					{
+						return project;
+					}
+				}
+				catch (CoreException e)
+				{
+					RailsUIPlugin.logError(e);
+				}
+			}
+		}
 		return null;
 	}
 
@@ -238,4 +263,21 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		return true;
 	}
 
+	private CommonNavigator getAppExplorer()
+	{
+		IViewReference[] refs = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.getViewReferences();
+		for (IViewReference ref : refs)
+		{
+			if (ref.getId().equals(IExplorerUIConstants.VIEW_ID))
+			{
+				IViewPart part = ref.getView(false);
+				if (part instanceof CommonNavigator)
+				{
+					return (CommonNavigator) part;
+				}
+			}
+		}
+		return null;
+	}
 }
