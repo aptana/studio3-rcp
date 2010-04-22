@@ -37,14 +37,20 @@
          version="0.0.0"
          search-location="both"/>
 
+   <includes
+         id="org.eclipse.platform"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.ui.browser"/>
+      <import plugin="org.eclipse.equinox.p2.ui.sdk.scheduler"/>
       <import plugin="com.ibm.icu"/>
       <import plugin="org.eclipse.core.net"/>
+      <import plugin="com.aptana.commandline.launcher"/>
       <import plugin="org.eclipse.osgi"/>
       <import plugin="org.apache.lucene" version="1.9.1" match="compatible"/>
       <import plugin="org.apache.lucene.analysis" version="1.9.1" match="compatible"/>
@@ -57,8 +63,6 @@
       <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.eclipse.ecf.provider.filetransfer" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.equinox.p2.ui.sdk.scheduler"/>
-      <import plugin="com.aptana.commandline.launcher"/>
    </requires>
 
    <plugin
