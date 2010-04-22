@@ -23,11 +23,6 @@
    </url>
 
    <includes
-         id="org.eclipse.platform"
-         version="0.0.0"
-         search-location="both"/>
-
-   <includes
          id="org.eclipse.help"
          version="0.0.0"
          search-location="both"/>
