@@ -47,7 +47,7 @@ public class DebugScriptServerAction extends RunScriptServerAction
 	{
 		String arguments = "";
 		String filename = "";
-		if (!isRails3(railsProject))
+		if (scriptServerExists(railsProject))
 		{
 			IFile file = railsProject.getFile(new Path("script").append("server"));
 			filename = file.getLocation().toOSString();

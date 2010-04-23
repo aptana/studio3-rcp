@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -241,7 +242,7 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		String viewId = MessageFormat.format("{0} server", railsProject //$NON-NLS-1$
 				.getName());
 		String command = "rails server"; //$NON-NLS-1$
-		if (!isRails3(railsProject))
+		if (scriptServerExists(railsProject))
 		{
 			viewId = MessageFormat.format("{0} script/server", railsProject //$NON-NLS-1$
 					.getName());
@@ -254,13 +255,10 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		}
 	}
 
-	protected boolean isRails3(IProject railsProject)
+	protected boolean scriptServerExists(IProject railsProject)
 	{
-		IFile gemfile = railsProject.getFile("Gemfile"); //$NON-NLS-1$
-		if (gemfile == null || !gemfile.exists())
-			return false;
-		// TODO Actually look in file and make sure it says gem "rails", "3.*"
-		return true;
+		IFile scriptServer = railsProject.getFile(new Path("script").append("server")); //$NON-NLS-1$ //$NON-NLS-2$
+		return scriptServer != null && scriptServer.exists();
 	}
 
 	private CommonNavigator getAppExplorer()
