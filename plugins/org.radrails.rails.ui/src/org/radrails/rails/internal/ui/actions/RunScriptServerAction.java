@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -19,14 +20,18 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.CommonNavigator;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
+import com.aptana.explorer.IExplorerUIConstants;
 import com.aptana.terminal.views.TerminalView;
 
 public class RunScriptServerAction extends Action implements IObjectActionDelegate, IWorkbenchWindowActionDelegate
@@ -203,6 +208,27 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 				RailsUIPlugin.logError(e);
 			}
 		}
+		// checks the active project in App Explorer
+		CommonNavigator navigator = getAppExplorer();
+		if (navigator != null)
+		{
+			Object input = navigator.getCommonViewer().getInput();
+			if (input instanceof IProject)
+			{
+				IProject project = (IProject) input;
+				try
+				{
+					if (project.hasNature(RailsProjectNature.ID))
+					{
+						return project;
+					}
+				}
+				catch (CoreException e)
+				{
+					RailsUIPlugin.logError(e);
+				}
+			}
+		}
 		return null;
 	}
 
@@ -216,7 +242,7 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		String viewId = MessageFormat.format("{0} server", railsProject //$NON-NLS-1$
 				.getName());
 		String command = "rails server"; //$NON-NLS-1$
-		if (!isRails3(railsProject))
+		if (scriptServerExists(railsProject))
 		{
 			viewId = MessageFormat.format("{0} script/server", railsProject //$NON-NLS-1$
 					.getName());
@@ -229,13 +255,27 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		}
 	}
 
-	protected boolean isRails3(IProject railsProject)
+	protected boolean scriptServerExists(IProject railsProject)
 	{
-		IFile gemfile = railsProject.getFile("Gemfile"); //$NON-NLS-1$
-		if (gemfile == null || !gemfile.exists())
-			return false;
-		// TODO Actually look in file and make sure it says gem "rails", "3.*"
-		return true;
+		IFile scriptServer = railsProject.getFile(new Path("script").append("server")); //$NON-NLS-1$ //$NON-NLS-2$
+		return scriptServer != null && scriptServer.exists();
 	}
 
+	private CommonNavigator getAppExplorer()
+	{
+		IViewReference[] refs = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.getViewReferences();
+		for (IViewReference ref : refs)
+		{
+			if (ref.getId().equals(IExplorerUIConstants.VIEW_ID))
+			{
+				IViewPart part = ref.getView(false);
+				if (part instanceof CommonNavigator)
+				{
+					return (CommonNavigator) part;
+				}
+			}
+		}
+		return null;
+	}
 }
