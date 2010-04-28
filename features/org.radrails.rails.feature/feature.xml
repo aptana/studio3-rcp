@@ -22,7 +22,7 @@
    </url>
 
    <includes
-         id="com.aptana.red.core"
+         id="com.aptana.feature"
          version="0.0.0"/>
 
    <includes
