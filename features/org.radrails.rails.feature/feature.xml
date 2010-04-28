@@ -3,7 +3,8 @@
       id="org.radrails.rails.feature"
       label="%featureName"
       version="3.0.0.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="com.aptana.branding">
 
    <description url="http://www.aptana.com">
       %description
