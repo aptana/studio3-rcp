@@ -180,6 +180,7 @@
 					<include name="com.aptana.terminal_*.jar" />
 					<include name="com.aptana.libraries_*.jar" />
 					<include name="org.jruby_*.jar" />
+					<include name="com.aptana.branding_*.jar" />
 				</fileset>
 			</path>
 			<sequential>
