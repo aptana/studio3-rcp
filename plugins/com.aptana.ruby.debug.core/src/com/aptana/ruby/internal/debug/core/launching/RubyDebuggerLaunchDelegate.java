@@ -82,7 +82,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			port = findFreePort();
 			if (port == -1)
 			{
-				abort("Unable to find free port", null);
+				abort(Messages.RubyDebuggerLaunchDelegate_0, null);
 			}
 			commandList.addAll(debugArguments(rubyExecutablePath, host, port, configuration));
 		}
@@ -142,18 +142,18 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		String program = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_FILE_NAME, (String) null);
 		if (program == null)
 		{
-			abort("Ruby program unspecified.", null);
+			abort(Messages.RubyDebuggerLaunchDelegate_1, null);
 		}
 		// check for absolute path
 		File file = new File(program);
 		if (file.exists())
 			return program;
-		
+
 		// check for relative to workspace root
 		IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(program));
 		if (iFile == null || !iFile.exists())
 		{
-			abort(MessageFormat.format("Ruby program {0} does not exist.", program), null);
+			abort(MessageFormat.format(Messages.RubyDebuggerLaunchDelegate_2, program), null);
 		}
 		// TODO What about checking relative to working dir?
 		return iFile.getLocation().toOSString();
@@ -166,7 +166,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		IPath rdebug = ExecutableUtil.find("rdebug-ide", false, null, getRDebugIDELocations(rubyExecutablePath)); //$NON-NLS-1$
 		if (rdebug == null)
 		{
-			abort("Unable to find 'rdebug-ide' binary script. May need to install 'ruby-debug-ide' gem.", null);
+			abort(Messages.RubyDebuggerLaunchDelegate_3, null);
 		}
 		commandList.add(rdebug.toOSString());
 		commandList.add(DEBUGGER_PORT_SWITCH);
@@ -175,19 +175,21 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		return commandList;
 	}
 
-	@SuppressWarnings("nls")
 	private List<IPath> getRDebugIDELocations(IPath rubyExecutablePath)
 	{
 		List<IPath> locations = new ArrayList<IPath>();
-		// TODO What are the common places this could be?
 		// check in bin dir alongside where our ruby exe is!
-		locations.add(rubyExecutablePath.removeLastSegments(1).append("rdebug-ide"));
-		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.8/bin/rdebug-ide"));
-		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.9/bin/rdebug-ide"));
-		locations.add(Path.fromOSString("/opt/local/bin/rdebug-ide"));
-		locations.add(Path.fromOSString("/usr/local/bin/rdebug-ide"));
-		locations.add(Path.fromOSString("/usr/bin/rdebug-ide"));
-		locations.add(Path.fromOSString("/bin/rdebug-ide"));
+		if (rubyExecutablePath != null)
+		{
+			locations.add(rubyExecutablePath.removeLastSegments(1).append("rdebug-ide")); //$NON-NLS-1$
+		}
+		// TODO Check gem executable directory! (we need to get this from 'gem environment')
+		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.8/bin/rdebug-ide")); //$NON-NLS-1$ //$NON-NLS-2$
+		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.9/bin/rdebug-ide")); //$NON-NLS-1$ //$NON-NLS-2$
+		locations.add(Path.fromOSString("/opt/local/bin/rdebug-ide")); //$NON-NLS-1$
+		locations.add(Path.fromOSString("/usr/local/bin/rdebug-ide")); //$NON-NLS-1$
+		locations.add(Path.fromOSString("/usr/bin/rdebug-ide")); //$NON-NLS-1$
+		locations.add(Path.fromOSString("/bin/rdebug-ide")); //$NON-NLS-1$
 		return locations;
 	}
 
@@ -226,13 +228,14 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		{
 			path = ExecutableUtil.find(RUBY, true, null, getCommonRubyBinaryLocations(RUBY));
 		}
+		// TODO If we can't find one, should we just try plain "ruby"?
 		if (path == null)
 		{
-			abort("Unable to find a Ruby executable.", null);
+			abort(Messages.RubyDebuggerLaunchDelegate_13, null);
 		}
 		if (!path.toFile().exists())
 		{
-			abort(MessageFormat.format("Specified Ruby executable {0} does not exist.", path), null);
+			abort(MessageFormat.format(Messages.RubyDebuggerLaunchDelegate_14, path), null);
 		}
 		return path;
 	}
@@ -242,23 +245,23 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	 * 
 	 * @return
 	 */
-	@SuppressWarnings("nls")
 	protected List<IPath> getCommonRubyBinaryLocations(String binaryName)
 	{
 		List<IPath> locations = new ArrayList<IPath>();
 		if (Platform.getOS().equals(Platform.OS_WIN32))
 		{
-			locations.add(Path.fromOSString("C:\\ruby\\bin").append(binaryName).addFileExtension("exe"));
+			locations.add(Path.fromOSString("C:\\ruby\\bin").append(binaryName).addFileExtension("exe")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else
 		{
-			locations.add(Path.fromOSString("/opt/local/bin/").append(binaryName));
-			locations.add(Path.fromOSString("/usr/local/bin/").append(binaryName));
-			locations.add(Path.fromOSString("/usr/bin/").append(binaryName));
+			locations.add(Path.fromOSString("/opt/local/bin/").append(binaryName)); //$NON-NLS-1$
+			locations.add(Path.fromOSString("/usr/local/bin/").append(binaryName)); //$NON-NLS-1$
+			locations.add(Path.fromOSString("/usr/bin/").append(binaryName)); //$NON-NLS-1$
 		}
 		if (Platform.getOS().equals(Platform.OS_MACOSX))
 		{
-			locations.add(Path.fromOSString("/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/").append(binaryName));
+			locations.add(Path.fromOSString("/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/") //$NON-NLS-1$
+					.append(binaryName));
 		}
 		return locations;
 	}
