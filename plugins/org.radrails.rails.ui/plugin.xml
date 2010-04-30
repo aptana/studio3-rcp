@@ -259,18 +259,32 @@
          <action
                class="org.radrails.rails.internal.ui.actions.RunScriptServerAction"
                definitionId="org.radrails.rails.ui.command.server"
+               enablesFor="+"
                id="org.radrails.rails.ui.action.server"
                label="%ScriptServerAction.label"
                menubarPath="org.eclipse.ui.run/runGroup"
                style="push">
+            <enablement>
+              <and>
+                <objectClass name="org.eclipse.core.resources.IResource"/>
+                <objectState name="projectNature" value="org.radrails.rails.core.railsnature"/>
+              </and>
+            </enablement>
          </action>
          <action
                class="org.radrails.rails.internal.ui.actions.DebugScriptServerAction"
                definitionId="org.radrails.rails.ui.command.debug.server"
+               enablesFor="+"
                id="org.radrails.rails.ui.action.debug.server"
                label="%DebugScriptServerAction.label"
                menubarPath="org.eclipse.ui.run/runGroup"
                style="push">
+           <enablement>
+              <and>
+                <objectClass name="org.eclipse.core.resources.IResource"/>
+                <objectState name="projectNature" value="org.radrails.rails.core.railsnature"/>
+              </and>
+            </enablement>
          </action>
       </actionSet>
    </extension>
