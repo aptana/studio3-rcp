@@ -20,13 +20,15 @@ import org.radrails.rails.ui.RailsUIPlugin;
 
 public class HerokuLoginWizardPage extends WizardPage
 {
+	private static final String NAME = "HerokuLogin"; //$NON-NLS-1$
+	private static final String HEROKU_ICON = "icons/heroku.png"; //$NON-NLS-1$
 
 	private Text userId;
 	private Text password;
 
 	protected HerokuLoginWizardPage()
 	{
-		super("HerokuLogin", "Deploy to Heroku", RailsUIPlugin.getImageDescriptor("icons/heroku.png"));
+		super(NAME, Messages.HerokuLoginWizardPage_Title, RailsUIPlugin.getImageDescriptor(HEROKU_ICON));
 	}
 
 	@Override
@@ -41,15 +43,15 @@ public class HerokuLoginWizardPage extends WizardPage
 
 		// Actual contents
 		Label label = new Label(composite, SWT.NONE);
-		label.setText("Please enter your Heroku credentials:");
+		label.setText(Messages.HerokuLoginWizardPage_EnterCredentialsLabel);
 
 		Composite credentials = new Composite(composite, SWT.NONE);
 		credentials.setLayout(new GridLayout(2, false));
 
 		Label userIdLabel = new Label(credentials, SWT.NONE);
-		userIdLabel.setText("User ID: ");
+		userIdLabel.setText(Messages.HerokuLoginWizardPage_UserIDLabel);
 		userId = new Text(credentials, SWT.SINGLE | SWT.BORDER);
-		userId.setMessage("email address");
+		userId.setMessage(Messages.HerokuLoginWizardPage_UserIDExample);
 		GridData gd = new GridData(300, SWT.DEFAULT);
 		userId.setLayoutData(gd);
 		userId.addModifyListener(new ModifyListener()
@@ -63,9 +65,9 @@ public class HerokuLoginWizardPage extends WizardPage
 		});
 
 		Label passwordLabel = new Label(credentials, SWT.NONE);
-		passwordLabel.setText("Password: ");
+		passwordLabel.setText(Messages.HerokuLoginWizardPage_PasswordLabel);
 		password = new Text(credentials, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD);
-		password.setMessage("password");
+		password.setMessage(Messages.HerokuLoginWizardPage_PasswordExample);
 		password.setLayoutData(gd);
 		password.addModifyListener(new ModifyListener()
 		{
@@ -78,7 +80,7 @@ public class HerokuLoginWizardPage extends WizardPage
 		});
 
 		Button checkAuth = new Button(credentials, SWT.PUSH);
-		checkAuth.setText("Submit");
+		checkAuth.setText(Messages.HerokuLoginWizardPage_SubmitButtonLabel);
 		checkAuth.addSelectionListener(new SelectionAdapter()
 		{
 			@Override
@@ -104,7 +106,7 @@ public class HerokuLoginWizardPage extends WizardPage
 
 		// Signup link
 		Link link = new Link(composite, SWT.NONE);
-		link.setText("<a>Don't have an account? click here to sign up</a>");
+		link.setText(Messages.HerokuLoginWizardPage_SignupLink);
 		link.addSelectionListener(new SelectionAdapter()
 		{
 			@Override
@@ -134,14 +136,14 @@ public class HerokuLoginWizardPage extends WizardPage
 		String userId = this.userId.getText();
 		if (userId == null || userId.trim().length() < 1)
 		{
-			setErrorMessage("Must provide a User ID.");
+			setErrorMessage(Messages.HerokuLoginWizardPage_EmptyUserIDError);
 			return false;
 		}
 
 		String password = this.password.getText();
 		if (password == null || password.trim().length() < 1)
 		{
-			setErrorMessage("Must provide a password.");
+			setErrorMessage(Messages.HerokuLoginWizardPage_EmptyPasswordError);
 			return false;
 		}
 

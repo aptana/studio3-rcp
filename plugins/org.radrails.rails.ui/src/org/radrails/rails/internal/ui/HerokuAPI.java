@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.radrails.rails.ui.RailsUIPlugin;
 
+@SuppressWarnings("restriction")
 public class HerokuAPI
 {
 
@@ -26,32 +27,34 @@ public class HerokuAPI
 
 	public static File getCredentialsFile()
 	{
-		String userHome = System.getProperty("user.home");
+		String userHome = System.getProperty("user.home"); //$NON-NLS-1$
 		if (userHome == null || userHome.trim().length() == 0)
 		{
 			userHome = ""; // FIXME What should we use if we can't resolve user home???? //$NON-NLS-1$
 		}
-		File herokuDir = new File(userHome, ".heroku");
-		return new File(herokuDir, "credentials");
+		File herokuDir = new File(userHome, ".heroku"); //$NON-NLS-1$
+		return new File(herokuDir, "credentials"); //$NON-NLS-1$
 	}
 
 	public IStatus authenticate()
 	{
 		try
 		{
-			URL url = new URL("https://api.heroku.com/apps"); // FIXME This isn't working. I always get a 200!
+			URL url = new URL("https://api.heroku.com/apps"); // FIXME This isn't working. I always get a 200! //$NON-NLS-1$
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			String usernamePassword = userId + ":" + password;
-			connection.setRequestProperty("Authorization", "Basic " + Base64.encode(usernamePassword.getBytes()));
+			String usernamePassword = userId + ":" + password; //$NON-NLS-1$
+			connection.setRequestProperty("Authorization", "Basic " + Base64.encode(usernamePassword.getBytes())); //$NON-NLS-1$ //$NON-NLS-2$
 			int code = connection.getResponseCode();
 			if (code != 200)
 			{
 				if (code == 401)
 				{
-					return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(), "Authentication failed!");
+					return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(),
+							Messages.HerokuAPI_AuthFailed_Error);
 				}
 
-				return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(), "Unable to verify credentials");
+				return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(),
+						Messages.HerokuAPI_AuthConnectionFailed_Error);
 			}
 			return Status.OK_STATUS;
 		}

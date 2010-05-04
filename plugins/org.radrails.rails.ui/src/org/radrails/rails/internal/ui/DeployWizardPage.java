@@ -16,6 +16,7 @@ import org.radrails.rails.ui.RailsUIPlugin;
 public class DeployWizardPage extends WizardPage
 {
 
+	private static final String NAME = "Deployment"; //$NON-NLS-1$
 	private static final String HEROKU_IMG_PATH = "icons/heroku.png"; //$NON-NLS-1$
 
 	private Button deployWithFTP;
@@ -24,7 +25,7 @@ public class DeployWizardPage extends WizardPage
 
 	protected DeployWizardPage()
 	{
-		super("Deployment", "Choose your deployment option", RailsUIPlugin.getImageDescriptor(HEROKU_IMG_PATH));
+		super(NAME, Messages.DeployWizardPage_Title, RailsUIPlugin.getImageDescriptor(HEROKU_IMG_PATH));
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class DeployWizardPage extends WizardPage
 
 		// Actual contents
 		Label label = new Label(composite, SWT.NONE);
-		label.setText("Need a provider? Sign up for one here:");
+		label.setText(Messages.DeployWizardPage_ProvidersLabel);
 
 		// deploy with Heroku
 		deployWithHeroku = new Button(composite, SWT.RADIO);
@@ -48,14 +49,14 @@ public class DeployWizardPage extends WizardPage
 		deployWithHeroku.setSelection(true);
 
 		label = new Label(composite, SWT.NONE);
-		label.setText("or choose one of these deployment mechanisms:");
+		label.setText(Messages.DeployWizardPage_OtherDeploymentOptionsLabel);
 
 		// "Other" Deployment options radio button group
 		deployWithFTP = new Button(composite, SWT.RADIO);
-		deployWithFTP.setText("Deploy using FTP");
+		deployWithFTP.setText(Messages.DeployWizardPage_FTPLabel);
 
 		deployWithCapistrano = new Button(composite, SWT.RADIO);
-		deployWithCapistrano.setText("Deploy using Capistrano");
+		deployWithCapistrano.setText(Messages.DeployWizardPage_CapistranoLabel);
 
 		Dialog.applyDialogFont(composite);
 	}

@@ -17,13 +17,15 @@ public class FTPDeployWizardPage extends WizardPage
 {
 
 	static final String NAME = "FTPDeployment"; //$NON-NLS-1$
+	// FIXME Use correct image for this!
+	private static final String ICON_PATH = "icons/newproj_wiz.gif"; //$NON-NLS-1$
 
 	private Combo protocolCombo;
 	private Text siteName;
 
 	protected FTPDeployWizardPage()
 	{
-		super(NAME, "Deploy My Project", RailsUIPlugin.getImageDescriptor("icons/newproj_wiz.gif")); // FIXME Use correct image for this!
+		super(NAME, Messages.FTPDeployWizardPage_Title, RailsUIPlugin.getImageDescriptor(ICON_PATH));
 	}
 
 	@Override
@@ -38,12 +40,12 @@ public class FTPDeployWizardPage extends WizardPage
 
 		// Actual contents
 		Label siteNameLabel = new Label(composite, SWT.NONE);
-		siteNameLabel.setText("Site Name: ");
+		siteNameLabel.setText(Messages.FTPDeployWizardPage_SiteNameLabel);
 
 		siteName = new Text(composite, SWT.SINGLE | SWT.BORDER);
 
 		Label protocolLabel = new Label(composite, SWT.NONE);
-		protocolLabel.setText("Protocol: ");
+		protocolLabel.setText(Messages.FTPDeployWizardPage_ProtocolLabel);
 
 		protocolCombo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		protocolCombo.add("SFTP"); // TODO Add the available protocols in a more programmatic way? //$NON-NLS-1$
@@ -54,7 +56,7 @@ public class FTPDeployWizardPage extends WizardPage
 		GridData gd = new GridData();
 		gd.horizontalSpan = 2;
 		remoteInfoGroup.setLayoutData(gd);
-		remoteInfoGroup.setText("Remote Info");
+		remoteInfoGroup.setText(Messages.FTPDeployWizardPage_RemoteInfoLabel);
 
 		// TODO Add server hostname, login, etc.
 

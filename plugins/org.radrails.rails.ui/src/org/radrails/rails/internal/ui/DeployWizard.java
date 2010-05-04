@@ -45,8 +45,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			try
 			{
 				IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
-				IWebBrowser browser = support.createBrowser("heroku-signup");
-				browser.openURL(new URL("http://api.heroku.com/signup"));
+				IWebBrowser browser = support.createBrowser("heroku-signup"); //$NON-NLS-1$
+				browser.openURL(new URL("http://api.heroku.com/signup")); //$NON-NLS-1$
 				// TODO Inject special JS into it. Need to fill in id of 'invitation_email' with the value!
 				// This seems bizzare, can't we somehow send a query param to populate the email address?
 			}
@@ -97,7 +97,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 	{
 		return project;
 	}
-	
+
 	// FIXME Need to override canFinish method....
 
 }

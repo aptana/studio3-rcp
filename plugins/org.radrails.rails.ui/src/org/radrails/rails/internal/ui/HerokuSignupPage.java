@@ -22,13 +22,14 @@ public class HerokuSignupPage extends WizardPage
 {
 
 	static final String NAME = "HerokuSignup"; //$NON-NLS-1$
+	private static final String HEROKU_ICON = "icons/heroku.png"; //$NON-NLS-1$
 
 	private Text userId;
 	private String startingUserId;
 
 	protected HerokuSignupPage(String startingUserId)
 	{
-		super(NAME, "Sign up for Heroku", RailsUIPlugin.getImageDescriptor("icons/heroku.png"));
+		super(NAME, Messages.HerokuSignupPage_Title, RailsUIPlugin.getImageDescriptor(HEROKU_ICON));
 		this.startingUserId = startingUserId;
 	}
 
@@ -44,15 +45,15 @@ public class HerokuSignupPage extends WizardPage
 
 		// Actual contents
 		Label label = new Label(composite, SWT.NONE);
-		label.setText("Please enter your Heroku credentials:");
+		label.setText(Messages.HerokuLoginWizardPage_EnterCredentialsLabel);
 
 		Composite credentials = new Composite(composite, SWT.NONE);
 		credentials.setLayout(new GridLayout(2, false));
 
 		Label userIdLabel = new Label(credentials, SWT.NONE);
-		userIdLabel.setText("User ID: ");
+		userIdLabel.setText(Messages.HerokuLoginWizardPage_UserIDLabel);
 		userId = new Text(credentials, SWT.SINGLE | SWT.BORDER);
-		userId.setMessage("email address");
+		userId.setMessage(Messages.HerokuLoginWizardPage_UserIDExample);
 		if (startingUserId != null && startingUserId.trim().length() > 0)
 		{
 			userId.setText(startingUserId);
@@ -71,11 +72,11 @@ public class HerokuSignupPage extends WizardPage
 
 		gd = new GridData(400, SWT.DEFAULT);
 		note.setLayoutData(gd);
-		note.setText("Note: You will need to re-run the Project Deployment Wizard once you have successfully verified your Heroku account.");
+		note.setText(Messages.HerokuSignupPage_SignupNote);
 
 		// Add signup button
 		Button signup = new Button(composite, SWT.PUSH);
-		signup.setText("Sign up");
+		signup.setText(Messages.HerokuSignupPage_SignupButtonLabel);
 		signup.addSelectionListener(new SelectionAdapter()
 		{
 			@Override
@@ -102,5 +103,20 @@ public class HerokuSignupPage extends WizardPage
 	public String getUserID()
 	{
 		return this.userId.getText();
+	}
+
+	@Override
+	public boolean isPageComplete()
+	{
+
+		String userId = this.userId.getText();
+		if (userId == null || userId.trim().length() < 1)
+		{
+			setErrorMessage(Messages.HerokuLoginWizardPage_EmptyUserIDError);
+			return false;
+		}
+
+		setErrorMessage(null);
+		return true;
 	}
 }

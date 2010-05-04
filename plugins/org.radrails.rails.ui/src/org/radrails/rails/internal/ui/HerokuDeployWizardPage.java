@@ -24,6 +24,8 @@ import com.aptana.git.core.model.GitRepository;
 public class HerokuDeployWizardPage extends WizardPage
 {
 
+	private static final String HEROKU_ICON = "icons/heroku.png"; //$NON-NLS-1$
+
 	static final String NAME = "HerokuDeploy"; //$NON-NLS-1$
 
 	private Text appName;
@@ -31,7 +33,7 @@ public class HerokuDeployWizardPage extends WizardPage
 
 	protected HerokuDeployWizardPage()
 	{
-		super(NAME, "Deploy to Heroku", RailsUIPlugin.getImageDescriptor("icons/heroku.png"));
+		super(NAME, Messages.HerokuDeployWizardPage_Title, RailsUIPlugin.getImageDescriptor(HEROKU_ICON));
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class HerokuDeployWizardPage extends WizardPage
 		appSettings.setLayout(new GridLayout(2, false));
 
 		Label label = new Label(appSettings, SWT.NONE);
-		label.setText("Name your application:");
+		label.setText(Messages.HerokuDeployWizardPage_ApplicationNameLabel);
 
 		appName = new Text(appSettings, SWT.SINGLE | SWT.BORDER);
 		GridData gd = new GridData(250, SWT.DEFAULT);
@@ -67,7 +69,7 @@ public class HerokuDeployWizardPage extends WizardPage
 		});
 
 		publishButton = new Button(composite, SWT.CHECK);
-		publishButton.setText("Publish my application immediately");
+		publishButton.setText(Messages.HerokuDeployWizardPage_PublishApplicationLabel);
 		publishButton.setSelection(true);
 
 		if (doesntHaveGitRepo())
@@ -83,7 +85,7 @@ public class HerokuDeployWizardPage extends WizardPage
 
 			gd = new GridData(400, SWT.DEFAULT);
 			note.setLayoutData(gd);
-			note.setText("Note: Your project is not currently set up to use Git, and Heroku will not work without a Git repository. As part of the deployment process, we will create a Git repository for your project and perform an initial commit to your local repository.");
+			note.setText(Messages.HerokuDeployWizardPage_NoGitRepoNote);
 		}
 
 		Dialog.applyDialogFont(composite);
@@ -130,7 +132,7 @@ public class HerokuDeployWizardPage extends WizardPage
 		String app = this.appName.getText();
 		if (app == null || app.trim().length() < 1)
 		{
-			setErrorMessage("Must set an application name");
+			setErrorMessage(Messages.HerokuDeployWizardPage_EmotyApplicationNameError);
 			return false;
 		}
 
