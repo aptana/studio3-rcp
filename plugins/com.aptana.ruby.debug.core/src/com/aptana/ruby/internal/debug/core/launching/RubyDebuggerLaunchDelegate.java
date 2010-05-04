@@ -181,15 +181,15 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		// check in bin dir alongside where our ruby exe is!
 		if (rubyExecutablePath != null)
 		{
-			locations.add(rubyExecutablePath.removeLastSegments(1).append("rdebug-ide")); //$NON-NLS-1$
+			locations.add(rubyExecutablePath.removeLastSegments(1));
 		}
 		// TODO Check gem executable directory! (we need to get this from 'gem environment')
-		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.8/bin/rdebug-ide")); //$NON-NLS-1$ //$NON-NLS-2$
-		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.9/bin/rdebug-ide")); //$NON-NLS-1$ //$NON-NLS-2$
-		locations.add(Path.fromOSString("/opt/local/bin/rdebug-ide")); //$NON-NLS-1$
-		locations.add(Path.fromOSString("/usr/local/bin/rdebug-ide")); //$NON-NLS-1$
-		locations.add(Path.fromOSString("/usr/bin/rdebug-ide")); //$NON-NLS-1$
-		locations.add(Path.fromOSString("/bin/rdebug-ide")); //$NON-NLS-1$
+		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.8/bin")); //$NON-NLS-1$ //$NON-NLS-2$
+		locations.add(Path.fromOSString(System.getProperty("user.home")).append(".gem/ruby/1.9/bin")); //$NON-NLS-1$ //$NON-NLS-2$
+		locations.add(Path.fromOSString("/opt/local/bin")); //$NON-NLS-1$
+		locations.add(Path.fromOSString("/usr/local/bin")); //$NON-NLS-1$
+		locations.add(Path.fromOSString("/usr/bin")); //$NON-NLS-1$
+		locations.add(Path.fromOSString("/bin")); //$NON-NLS-1$
 		return locations;
 	}
 
