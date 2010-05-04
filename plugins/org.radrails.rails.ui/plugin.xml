@@ -198,6 +198,11 @@
                label="%ScriptServerAction.label"
                tooltip="%ScriptServerAction.tooltip">
          </action>
+         <action
+               class="org.radrails.rails.internal.ui.actions.DeployAction"
+               id="org.radrails.rails.ui.action.deploy"
+               label="Deploy">
+         </action>
       </objectContribution>
    </extension>
    <extension
