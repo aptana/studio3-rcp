@@ -51,6 +51,7 @@ public class FTPDeployWizardPage extends WizardPage
 		protocolCombo.add("SFTP"); // TODO Add the available protocols in a more programmatic way? //$NON-NLS-1$
 		protocolCombo.add("FTP"); //$NON-NLS-1$
 		protocolCombo.add("FTPS"); //$NON-NLS-1$
+		protocolCombo.setText("SFTP"); //$NON-NLS-1$
 
 		Group remoteInfoGroup = new Group(composite, SWT.NONE);
 		GridData gd = new GridData();

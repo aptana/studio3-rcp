@@ -98,6 +98,11 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 		return project;
 	}
 
-	// FIXME Need to override canFinish method....
+	@Override
+	public boolean canFinish()
+	{
+		IWizardPage page = getContainer().getCurrentPage();
+		return page.isPageComplete() && page.getNextPage() == null;
+	}
 
 }
