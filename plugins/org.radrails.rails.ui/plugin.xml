@@ -99,6 +99,12 @@
          <perspectiveShortcut
                id="com.aptana.ui.WebPerspective">
          </perspectiveShortcut>
+         <actionSet
+               id="com.aptana.editor.common.globalActionSet">
+         </actionSet>
+         <actionSet
+               id="com.aptana.terminal.actionSet">
+         </actionSet>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="com.aptana.ui.WebPerspective">
