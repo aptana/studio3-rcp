@@ -3,6 +3,7 @@ package org.radrails.rails.internal.ui.actions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -21,7 +22,7 @@ public class DeployAction extends Action implements IObjectActionDelegate
 	{
 		// Instantiates and initializes the wizard
 		DeployWizard wizard = new DeployWizard();
-		// wizard.init(part.getSite().getWorkbenchWindow().getWorkbench(), (IStructuredSelection) selection);
+		wizard.init(part.getSite().getWorkbenchWindow().getWorkbench(), (IStructuredSelection) selection);
 
 		// Instantiates the wizard container with the wizard and opens it
 		Shell shell = part.getSite().getShell();

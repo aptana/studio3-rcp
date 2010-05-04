@@ -1,13 +1,17 @@
 package org.radrails.rails.internal.ui;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
@@ -45,10 +49,58 @@ public class HerokuLoginWizardPage extends WizardPage
 		Label userIdLabel = new Label(credentials, SWT.NONE);
 		userIdLabel.setText("User ID: ");
 		userId = new Text(credentials, SWT.SINGLE | SWT.BORDER);
+		userId.setMessage("email address");
+		GridData gd = new GridData(300, SWT.DEFAULT);
+		userId.setLayoutData(gd);
+		userId.addModifyListener(new ModifyListener()
+		{
+
+			@Override
+			public void modifyText(ModifyEvent e)
+			{
+				getContainer().updateButtons();
+			}
+		});
 
 		Label passwordLabel = new Label(credentials, SWT.NONE);
 		passwordLabel.setText("Password: ");
 		password = new Text(credentials, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD);
+		password.setMessage("password");
+		password.setLayoutData(gd);
+		password.addModifyListener(new ModifyListener()
+		{
+
+			@Override
+			public void modifyText(ModifyEvent e)
+			{
+				getContainer().updateButtons();
+			}
+		});
+
+		Button checkAuth = new Button(credentials, SWT.PUSH);
+		checkAuth.setText("Submit");
+		checkAuth.addSelectionListener(new SelectionAdapter()
+		{
+			@Override
+			public void widgetSelected(SelectionEvent e)
+			{
+				HerokuAPI api = new HerokuAPI(userId.getText(), password.getText());
+				IStatus status = api.authenticate();
+				if (!status.isOK())
+				{
+					setErrorMessage(status.getMessage());
+				}
+				else
+				{
+					api.writeCredentials();
+					// if page is complete move on to next page
+					if (isPageComplete())
+					{
+						getContainer().showPage(getNextPage());
+					}
+				}
+			}
+		});
 
 		// Signup link
 		Link link = new Link(composite, SWT.NONE);
@@ -58,8 +110,10 @@ public class HerokuLoginWizardPage extends WizardPage
 			@Override
 			public void widgetSelected(SelectionEvent e)
 			{
-				// TODO open new wizard page with just email address and submit button
-				super.widgetSelected(e);
+				// Open the next dialog page where user can begin signup process!
+				IWizardPage signupPage = new HerokuSignupPage(userId.getText());
+				signupPage.setWizard(getWizard());
+				getContainer().showPage(signupPage);
 			}
 		});
 
@@ -90,8 +144,6 @@ public class HerokuLoginWizardPage extends WizardPage
 			setErrorMessage("Must provide a password.");
 			return false;
 		}
-
-		// TODO When do we check that the credentials actually authenticate? Probably here!
 
 		setErrorMessage(null);
 		return true;

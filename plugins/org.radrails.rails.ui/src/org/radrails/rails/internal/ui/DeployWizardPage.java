@@ -67,22 +67,10 @@ public class DeployWizardPage extends WizardPage
 		// Determine what page is next by the user's choice in the radio buttons
 		if (deployWithHeroku.getSelection())
 		{
-			// Check for credentials already existing in ~/.heroku/credentials file, if they do skip to
-			// HerokuDeployWizardPage
-			String userHome = System.getProperty("user.home");
-			if (userHome != null && userHome.trim().length() > 0)
-			{
-				File herokuDir = new File(userHome, ".heroku");
-				if (herokuDir.isDirectory())
-				{
-					File credentialsFile = new File(herokuDir, "credentials");
-					if (credentialsFile.exists())
-					{
-						nextPage = new HerokuDeployWizardPage();
-					}
-				}
-			}
-			if (nextPage == null)
+			File credentials = HerokuAPI.getCredentialsFile();
+			if (credentials.exists())
+				nextPage = new HerokuDeployWizardPage();
+			else
 				nextPage = new HerokuLoginWizardPage();
 		}
 		else if (deployWithFTP.getSelection())

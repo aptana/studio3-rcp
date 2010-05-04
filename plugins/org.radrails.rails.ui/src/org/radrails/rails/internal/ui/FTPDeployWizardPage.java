@@ -16,12 +16,14 @@ import org.radrails.rails.ui.RailsUIPlugin;
 public class FTPDeployWizardPage extends WizardPage
 {
 
+	static final String NAME = "FTPDeployment"; //$NON-NLS-1$
+
 	private Combo protocolCombo;
 	private Text siteName;
 
 	protected FTPDeployWizardPage()
 	{
-		super("FTPDeployment", "Deploy My Project", RailsUIPlugin.getImageDescriptor("icons/newproj_wiz.gif"));
+		super(NAME, "Deploy My Project", RailsUIPlugin.getImageDescriptor("icons/newproj_wiz.gif")); // FIXME Use correct image for this!
 	}
 
 	@Override
