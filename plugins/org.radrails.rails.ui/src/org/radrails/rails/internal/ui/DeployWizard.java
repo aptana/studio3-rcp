@@ -50,7 +50,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			runnable = createHerokuSignupRunnable(page);
 		}
 		// TODO Add branch for capistrano deployment
-		
+
 		if (runnable != null)
 		{
 			try
@@ -83,12 +83,27 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					// TODO use new createOrAttach method once code from github branch is merged over!
 					IGitRepositoryManager manager = GitPlugin.getDefault().getGitRepositoryManager();
 					GitRepository repo = manager.getUnattachedExisting(project.getLocationURI());
+					boolean created = false;
 					if (repo == null)
 					{
 						manager.create(new File(project.getLocationURI()).getAbsolutePath());
+						created = true;
 					}
 					sub.worked(10);
-					manager.attachExisting(project, sub.newChild(10));
+					repo = manager.attachExisting(project, sub.newChild(10));
+
+					// Now do an initial commit
+					if (created)
+					{
+						if (!repo.isDirty())
+						{
+							repo.index().refresh(sub.newChild(15));
+						}
+						repo.index().stageFiles(repo.index().changedFiles());
+						repo.index().commit("Initial Commit");
+					}
+					// TODO What if we didn't create the repo right now, but it is "dirty"?
+					sub.setWorkRemaining(60);
 
 					// TODO Now publish the project if publish immediately is true!
 				}
@@ -118,7 +133,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				SubMonitor sub = SubMonitor.convert(monitor, 100);
 				try
 				{
-					// TODO Send a ping to aptana.com with email address for referral tracking
+					// TODO Send a ping to aptana.com with email address for referral tracking (uh, what URL am I
+					// hitting and with what data?)
 					sub.worked(25);
 					// Bring up Heroku signup page, http://api.heroku.com/signup
 					IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
@@ -126,7 +142,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					browser.openURL(new URL("http://api.heroku.com/signup")); //$NON-NLS-1$
 					sub.worked(50);
 					// TODO Inject special JS into it. Need to fill in id of 'invitation_email' with the value!
-					// This seems bizzare, can't we somehow send a query param to populate the email address?
+					// This seems bizzare, can't we somehow send a query param to populate the email address?, or better
+					// yet, just post to the page as if the user filled out the form?
 				}
 				catch (Exception e)
 				{
