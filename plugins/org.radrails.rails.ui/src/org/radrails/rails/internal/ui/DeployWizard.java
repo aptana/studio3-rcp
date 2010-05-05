@@ -1,9 +1,15 @@
 package org.radrails.rails.internal.ui;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
@@ -14,6 +20,10 @@ import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.radrails.rails.ui.RailsUIPlugin;
 
+import com.aptana.git.core.GitPlugin;
+import com.aptana.git.core.model.GitRepository;
+import com.aptana.git.core.model.IGitRepositoryManager;
+
 public class DeployWizard extends Wizard implements IWorkbenchWizard
 {
 
@@ -22,14 +32,13 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 	@Override
 	public boolean performFinish()
 	{
+		IRunnableWithProgress runnable = null;
 		// check what the user chose, then do the heavy lifting, or tell the page to finish...
 		IWizardPage currentPage = getContainer().getCurrentPage();
 		if (currentPage.getName().equals(HerokuDeployWizardPage.NAME))
 		{
 			HerokuDeployWizardPage page = (HerokuDeployWizardPage) currentPage;
-			String appName = page.getAppName();
-			boolean publishImmediately = page.publishImmediately();
-			// TODO Create a job to deploy with these values!
+			runnable = createHerokuDeployRunnable(page);
 		}
 		else if (currentPage.getName().equals(FTPDeployWizardPage.NAME))
 		{
@@ -38,25 +47,98 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 		else if (currentPage.getName().equals(HerokuSignupPage.NAME))
 		{
 			HerokuSignupPage page = (HerokuSignupPage) currentPage;
-			String userID = page.getUserID();
-
-			// TODO Send a ping to aptana.com with email address for referral tracking
-			// Bring up Heroku signup page, http://api.heroku.com/signup
+			runnable = createHerokuSignupRunnable(page);
+		}
+		// TODO Add branch for capistrano deployment
+		
+		if (runnable != null)
+		{
 			try
 			{
-				IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
-				IWebBrowser browser = support.createBrowser("heroku-signup"); //$NON-NLS-1$
-				browser.openURL(new URL("http://api.heroku.com/signup")); //$NON-NLS-1$
-				// TODO Inject special JS into it. Need to fill in id of 'invitation_email' with the value!
-				// This seems bizzare, can't we somehow send a query param to populate the email address?
+				getContainer().run(true, false, runnable);
 			}
 			catch (Exception e)
 			{
 				RailsUIPlugin.logError(e);
 			}
 		}
-		// TODO Add branch for capistrano deployment
 		return true;
+	}
+
+	protected IRunnableWithProgress createHerokuDeployRunnable(HerokuDeployWizardPage page)
+	{
+		IRunnableWithProgress runnable;
+		final String appName = page.getAppName();
+		final boolean publishImmediately = page.publishImmediately();
+		runnable = new IRunnableWithProgress()
+		{
+
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+			{
+				SubMonitor sub = SubMonitor.convert(monitor, 100);
+				try
+				{
+					// Initialize git repo for project if necessary
+					// TODO use new createOrAttach method once code from github branch is merged over!
+					IGitRepositoryManager manager = GitPlugin.getDefault().getGitRepositoryManager();
+					GitRepository repo = manager.getUnattachedExisting(project.getLocationURI());
+					if (repo == null)
+					{
+						manager.create(new File(project.getLocationURI()).getAbsolutePath());
+					}
+					sub.worked(10);
+					manager.attachExisting(project, sub.newChild(10));
+
+					// TODO Now publish the project if publish immediately is true!
+				}
+				catch (CoreException ce)
+				{
+					throw new InvocationTargetException(ce);
+				}
+				finally
+				{
+					sub.done();
+				}
+			}
+		};
+		return runnable;
+	}
+
+	protected IRunnableWithProgress createHerokuSignupRunnable(HerokuSignupPage page)
+	{
+		IRunnableWithProgress runnable;
+		final String userID = page.getUserID();
+		runnable = new IRunnableWithProgress()
+		{
+
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+			{
+				SubMonitor sub = SubMonitor.convert(monitor, 100);
+				try
+				{
+					// TODO Send a ping to aptana.com with email address for referral tracking
+					sub.worked(25);
+					// Bring up Heroku signup page, http://api.heroku.com/signup
+					IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
+					IWebBrowser browser = support.createBrowser("heroku-signup"); //$NON-NLS-1$
+					browser.openURL(new URL("http://api.heroku.com/signup")); //$NON-NLS-1$
+					sub.worked(50);
+					// TODO Inject special JS into it. Need to fill in id of 'invitation_email' with the value!
+					// This seems bizzare, can't we somehow send a query param to populate the email address?
+				}
+				catch (Exception e)
+				{
+					throw new InvocationTargetException(e);
+				}
+				finally
+				{
+					sub.done();
+				}
+			}
+		};
+		return runnable;
 	}
 
 	@Override

@@ -47,6 +47,7 @@ public class DeployWizardPage extends WizardPage
 		deployWithHeroku = new Button(composite, SWT.RADIO);
 		deployWithHeroku.setImage(RailsUIPlugin.getImage(HEROKU_IMG_PATH));
 		deployWithHeroku.setSelection(true);
+		// TODO Add a click listener, if clicked treat it like selecting and clicking Next button!
 
 		label = new Label(composite, SWT.NONE);
 		label.setText(Messages.DeployWizardPage_OtherDeploymentOptionsLabel);
