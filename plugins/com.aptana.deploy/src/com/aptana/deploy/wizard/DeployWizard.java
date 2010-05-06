@@ -1,6 +1,5 @@
 package com.aptana.deploy.wizard;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -95,31 +94,15 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				try
 				{
 					// Initialize git repo for project if necessary
-					// TODO use new createOrAttach method once code from github branch is merged over!
 					IGitRepositoryManager manager = GitPlugin.getDefault().getGitRepositoryManager();
-					GitRepository repo = manager.getUnattachedExisting(project.getLocationURI());
-					boolean created = false;
-					if (repo == null)
-					{
-						manager.create(new File(project.getLocationURI()).getAbsolutePath());
-						created = true;
-					}
-					sub.worked(10);
-					repo = manager.attachExisting(project, sub.newChild(10));
-
-					// Now do an initial commit
-					if (created)
-					{
-						if (!repo.isDirty())
-						{
-							repo.index().refresh(sub.newChild(15));
-						}
-						repo.index().stageFiles(repo.index().changedFiles());
-						repo.index().commit("Initial Commit");
-					}
+					GitRepository repo = manager.createOrAttach(project, sub.newChild(20));
 					// TODO What if we didn't create the repo right now, but it is "dirty"?
-					sub.setWorkRemaining(60);
-
+					// Now do an initial commit
+					repo.index().refresh(sub.newChild(15));	
+					repo.index().stageFiles(repo.index().changedFiles());
+					repo.index().commit("Initial Commit");
+					sub.worked(10);
+					
 					// Run commands to create/deploy
 					final String bundleName = "Heroku"; //$NON-NLS-1$
 					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable()
@@ -133,11 +116,15 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 							CommandElement command = getCommand(bundleName, "Install Gem"); //$NON-NLS-1$
 							command.execute();
 
+							// TODO Send along the app name
 							command = getCommand(bundleName, "Create App"); //$NON-NLS-1$
 							command.execute();
 
-							command = getCommand(bundleName, "Deploy App"); //$NON-NLS-1$
-							command.execute();
+							if (publishImmediately)
+							{
+								command = getCommand(bundleName, "Deploy App"); //$NON-NLS-1$
+								command.execute();
+							}
 						}
 					});
 
