@@ -35,6 +35,7 @@ import com.aptana.git.core.model.IGitRepositoryManager;
 import com.aptana.scripting.model.BundleElement;
 import com.aptana.scripting.model.BundleEntry;
 import com.aptana.scripting.model.BundleManager;
+import com.aptana.scripting.model.CommandContext;
 import com.aptana.scripting.model.CommandElement;
 import com.aptana.usage.PingStartup;
 
@@ -114,7 +115,9 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 							// TODO How do we determine when these commands are done? Probably need to sleep between
 							// these...
 							CommandElement command = getCommand(bundleName, "Install Gem"); //$NON-NLS-1$
-							command.execute();
+							CommandContext context = command.createCommandContext();
+							context.put("HEROKU_APP_NAME", appName); //$NON-NLS-1$
+							command.execute(context);
 
 							// TODO Send along the app name
 							command = getCommand(bundleName, "Create App"); //$NON-NLS-1$
