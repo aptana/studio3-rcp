@@ -1,8 +1,11 @@
 package org.radrails.rails.internal.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -23,6 +26,7 @@ import org.radrails.rails.ui.RailsUIPlugin;
 import com.aptana.git.core.GitPlugin;
 import com.aptana.git.core.model.GitRepository;
 import com.aptana.git.core.model.IGitRepositoryManager;
+import com.aptana.usage.PingStartup;
 
 public class DeployWizard extends Wizard implements IWorkbenchWizard
 {
@@ -127,15 +131,51 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 		runnable = new IRunnableWithProgress()
 		{
 
+			/**
+			 * Send a ping to aptana.com with email address for referral tracking
+			 * 
+			 * @throws IOException
+			 */
+			private void sendPing() throws IOException
+			{
+				HttpURLConnection connection = null;
+				try
+				{
+					StringBuilder builder = new StringBuilder();
+					builder.append("http://toolbox.aptana.com/webhook/heroku?request_id="); //$NON-NLS-1$
+					builder.append(URLEncoder.encode(PingStartup.getApplicationId(), "UTF-8")); //$NON-NLS-1$
+					builder.append("&email="); //$NON-NLS-1$
+					builder.append(URLEncoder.encode(userID, "UTF-8")); //$NON-NLS-1$
+					builder.append("&type=signup"); //$NON-NLS-1$
+
+					URL url = new URL(builder.toString());
+					connection = (HttpURLConnection) url.openConnection();
+					connection.setUseCaches(false);
+					connection.setAllowUserInteraction(false);
+					int responseCode = connection.getResponseCode();
+					if (responseCode != HttpURLConnection.HTTP_OK)
+					{
+						// Log an error
+						RailsUIPlugin.logError(
+								"Received a non-200 response code when sinding ping to: " + builder.toString(), null);
+					}
+				}
+				finally
+				{
+					if (connection != null)
+						connection.disconnect();
+				}
+			}
+
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
 			{
 				SubMonitor sub = SubMonitor.convert(monitor, 100);
 				try
 				{
-					// TODO Send a ping to aptana.com with email address for referral tracking (uh, what URL am I
-					// hitting and with what data?)
+					sendPing();
 					sub.worked(25);
+
 					// Bring up Heroku signup page, http://api.heroku.com/signup
 					IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
 					IWebBrowser browser = support.createBrowser("heroku-signup"); //$NON-NLS-1$
@@ -201,7 +241,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 	public boolean canFinish()
 	{
 		IWizardPage page = getContainer().getCurrentPage();
-		// We don't want getNextPage() getting invoked so early on first page, because it does auth check on Heroku credentials...
+		// We don't want getNextPage() getting invoked so early on first page, because it does auth check on Heroku
+		// credentials...
 		if (page.getName().equals(DeployWizardPage.NAME))
 			return false;
 		return page.isPageComplete() && page.getNextPage() == null;

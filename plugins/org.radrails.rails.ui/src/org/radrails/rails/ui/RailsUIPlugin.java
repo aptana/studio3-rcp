@@ -110,12 +110,17 @@ public class RailsUIPlugin extends AbstractUIPlugin
 		return PLUGIN_ID;
 	}
 
+	public static void logError(String message, Exception e)
+	{
+		getDefault().getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message, e));
+	}
+
 	public static void logError(Exception e)
 	{
 		if (e instanceof CoreException)
 			logError((CoreException) e);
 		else
-			getDefault().getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e));
+			logError(e.getMessage(), e);
 	}
 
 	public static void logError(CoreException e)
