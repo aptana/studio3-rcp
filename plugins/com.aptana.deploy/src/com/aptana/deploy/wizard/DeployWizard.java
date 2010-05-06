@@ -33,6 +33,10 @@ import com.aptana.deploy.Activator;
 import com.aptana.git.core.GitPlugin;
 import com.aptana.git.core.model.GitRepository;
 import com.aptana.git.core.model.IGitRepositoryManager;
+import com.aptana.scripting.model.BundleElement;
+import com.aptana.scripting.model.BundleEntry;
+import com.aptana.scripting.model.BundleManager;
+import com.aptana.scripting.model.CommandElement;
 import com.aptana.usage.PingStartup;
 
 public class DeployWizard extends Wizard implements IWorkbenchWizard
@@ -116,7 +120,27 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					// TODO What if we didn't create the repo right now, but it is "dirty"?
 					sub.setWorkRemaining(60);
 
-					// TODO Now publish the project if publish immediately is true!
+					// Run commands to create/deploy
+					final String bundleName = "Heroku"; //$NON-NLS-1$
+					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable()
+					{
+
+						@Override
+						public void run()
+						{
+							// TODO How do we determine when these commands are done? Probably need to sleep between
+							// these...
+							CommandElement command = getCommand(bundleName, "Install Gem"); //$NON-NLS-1$
+							command.execute();
+
+							command = getCommand(bundleName, "Create App"); //$NON-NLS-1$
+							command.execute();
+
+							command = getCommand(bundleName, "Deploy App"); //$NON-NLS-1$
+							command.execute();
+						}
+					});
+
 				}
 				catch (CoreException ce)
 				{
@@ -126,6 +150,18 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				{
 					sub.done();
 				}
+			}
+
+			private CommandElement getCommand(String bundleName, String commandName)
+			{
+				BundleEntry entry = BundleManager.getInstance().getBundleEntry(bundleName);
+				for (BundleElement bundle : entry.getContributingBundles())
+				{
+					CommandElement command = bundle.getCommandByName(commandName);
+					if (command != null)
+						return command;
+				}
+				return null;
 			}
 		};
 		return runnable;
