@@ -1,4 +1,4 @@
-package org.radrails.rails.internal.ui;
+package com.aptana.deploy.wizard;
 
 import java.io.File;
 
@@ -11,7 +11,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.radrails.rails.ui.RailsUIPlugin;
+
+import com.aptana.deploy.Activator;
+import com.aptana.deploy.HerokuAPI;
+import com.aptana.deploy.Messages;
 
 public class DeployWizardPage extends WizardPage
 {
@@ -25,7 +28,7 @@ public class DeployWizardPage extends WizardPage
 
 	protected DeployWizardPage()
 	{
-		super(NAME, Messages.DeployWizardPage_Title, RailsUIPlugin.getImageDescriptor(HEROKU_IMG_PATH));
+		super(NAME, Messages.DeployWizardPage_Title, Activator.getImageDescriptor(HEROKU_IMG_PATH));
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class DeployWizardPage extends WizardPage
 
 		// deploy with Heroku
 		deployWithHeroku = new Button(composite, SWT.RADIO);
-		deployWithHeroku.setImage(RailsUIPlugin.getImage(HEROKU_IMG_PATH));
+		deployWithHeroku.setImage(Activator.getImage(HEROKU_IMG_PATH));
 		deployWithHeroku.setSelection(true);
 		// TODO Add a click listener, if clicked treat it like selecting and clicking Next button!
 

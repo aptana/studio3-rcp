@@ -1,4 +1,4 @@
-package org.radrails.rails.internal.ui;
+package com.aptana.deploy.wizard;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.Dialog;
@@ -16,8 +16,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.radrails.rails.ui.RailsUIPlugin;
 
+import com.aptana.deploy.Activator;
+import com.aptana.deploy.Messages;
 import com.aptana.git.core.GitPlugin;
 import com.aptana.git.core.model.GitRepository;
 
@@ -33,7 +34,7 @@ public class HerokuDeployWizardPage extends WizardPage
 
 	protected HerokuDeployWizardPage()
 	{
-		super(NAME, Messages.HerokuDeployWizardPage_Title, RailsUIPlugin.getImageDescriptor(HEROKU_ICON));
+		super(NAME, Messages.HerokuDeployWizardPage_Title, Activator.getImageDescriptor(HEROKU_ICON));
 	}
 
 	@Override

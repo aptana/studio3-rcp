@@ -1,4 +1,4 @@
-package org.radrails.rails.internal.ui;
+package com.aptana.deploy.wizard;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.JFaceResources;
@@ -16,7 +16,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.radrails.rails.ui.RailsUIPlugin;
+
+import com.aptana.deploy.Activator;
+import com.aptana.deploy.Messages;
 
 public class HerokuSignupPage extends WizardPage
 {
@@ -29,7 +31,7 @@ public class HerokuSignupPage extends WizardPage
 
 	protected HerokuSignupPage(String startingUserId)
 	{
-		super(NAME, Messages.HerokuSignupPage_Title, RailsUIPlugin.getImageDescriptor(HEROKU_ICON));
+		super(NAME, Messages.HerokuSignupPage_Title, Activator.getImageDescriptor(HEROKU_ICON));
 		this.startingUserId = startingUserId;
 	}
 

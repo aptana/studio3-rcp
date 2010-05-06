@@ -1,4 +1,4 @@
-package org.radrails.rails.internal.ui.actions;
+package com.aptana.deploy.actions;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -9,7 +9,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.radrails.rails.internal.ui.DeployWizard;
+
+import com.aptana.deploy.wizard.DeployWizard;
 
 public class DeployAction extends Action implements IObjectActionDelegate
 {

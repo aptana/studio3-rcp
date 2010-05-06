@@ -1,4 +1,4 @@
-package org.radrails.rails.internal.ui;
+package com.aptana.deploy.wizard;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -11,7 +11,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.radrails.rails.ui.RailsUIPlugin;
+
+import com.aptana.deploy.Activator;
+import com.aptana.deploy.Messages;
 
 public class FTPDeployWizardPage extends WizardPage
 {
@@ -25,7 +27,7 @@ public class FTPDeployWizardPage extends WizardPage
 
 	protected FTPDeployWizardPage()
 	{
-		super(NAME, Messages.FTPDeployWizardPage_Title, RailsUIPlugin.getImageDescriptor(ICON_PATH));
+		super(NAME, Messages.FTPDeployWizardPage_Title, Activator.getImageDescriptor(ICON_PATH));
 	}
 
 	@Override

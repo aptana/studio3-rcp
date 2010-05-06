@@ -1,4 +1,4 @@
-package org.radrails.rails.internal.ui;
+package com.aptana.deploy.wizard;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +21,8 @@ import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.radrails.rails.ui.RailsUIPlugin;
 
+import com.aptana.deploy.Activator;
 import com.aptana.git.core.GitPlugin;
 import com.aptana.git.core.model.GitRepository;
 import com.aptana.git.core.model.IGitRepositoryManager;
@@ -63,7 +63,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			}
 			catch (Exception e)
 			{
-				RailsUIPlugin.logError(e);
+				Activator.logError(e);
 			}
 		}
 		return true;
@@ -156,7 +156,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					if (responseCode != HttpURLConnection.HTTP_OK)
 					{
 						// Log an error
-						RailsUIPlugin.logError(
+						Activator.logError(
 								"Received a non-200 response code when sinding ping to: " + builder.toString(), null);
 					}
 				}
@@ -177,6 +177,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					sub.worked(25);
 
 					// Bring up Heroku signup page, http://api.heroku.com/signup
+					// TODO Open _internal_ browser 
 					IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
 					IWebBrowser browser = support.createBrowser("heroku-signup"); //$NON-NLS-1$
 					browser.openURL(new URL("http://api.heroku.com/signup")); //$NON-NLS-1$

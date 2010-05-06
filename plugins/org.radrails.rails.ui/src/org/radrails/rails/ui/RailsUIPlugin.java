@@ -8,8 +8,6 @@
 
 package org.radrails.rails.ui;
 
-import java.util.Hashtable;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -29,37 +27,15 @@ public class RailsUIPlugin extends AbstractUIPlugin
 
 	private static final String PLUGIN_ID = "org.radrails.rails.ui"; //$NON-NLS-1$
 
-	private static Hashtable<String, Image> images = new Hashtable<String, Image>();
-
-	/**
-	 * Default constructor.
-	 */
-	public RailsUIPlugin()
+	public static Image getImage(String string)
 	{
-		super();
-		instance = this;
-	}
-
-	/**
-	 * getImage
-	 * 
-	 * @param path
-	 * @return Image
-	 */
-	public static Image getImage(String path)
-	{
-		if (images.get(path) == null)
+		if (getDefault().getImageRegistry().get(string) == null)
 		{
-			ImageDescriptor id = getImageDescriptor(path);
-			if (id == null)
-			{
-				return null;
-			}
-			Image i = id.createImage();
-			images.put(path, i);
-			return i;
+			ImageDescriptor id = imageDescriptorFromPlugin(PLUGIN_ID, string);
+			if (id != null)
+				getDefault().getImageRegistry().put(string, id);
 		}
-		return images.get(path);
+		return getDefault().getImageRegistry().get(string);
 	}
 
 	/**
@@ -73,23 +49,12 @@ public class RailsUIPlugin extends AbstractUIPlugin
 	}
 
 	/**
-	 * Returns an image descriptor for the image file at the given plug-in relative path.
-	 * 
-	 * @param path
-	 *            the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(String path)
-	{
-		return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
-
-	/**
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(final BundleContext context) throws Exception
 	{
 		super.start(context);
+		instance = this;
 	}
 
 	/**

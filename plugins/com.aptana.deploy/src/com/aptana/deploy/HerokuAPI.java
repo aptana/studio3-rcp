@@ -1,4 +1,4 @@
-package org.radrails.rails.internal.ui;
+package com.aptana.deploy;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +12,6 @@ import java.net.URL;
 import org.eclipse.core.internal.preferences.Base64;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.radrails.rails.ui.RailsUIPlugin;
 
 @SuppressWarnings("restriction")
 public class HerokuAPI
@@ -21,7 +20,7 @@ public class HerokuAPI
 	/**
 	 * Authorization header name. Used for Basic Auth over HTTP/S.
 	 */
-	private static final String AUTHORIZATION_HEADER = "Authorization";
+	private static final String AUTHORIZATION_HEADER = "Authorization"; //$NON-NLS-1$
 
 	/**
 	 * User agent header name. Used to identify studio as the "client".
@@ -72,6 +71,7 @@ public class HerokuAPI
 			connection.setRequestProperty(ACCEPT_HEADER, ACCEPT_CONTENT_TYPES);
 			connection.setUseCaches(false);
 			connection.setAllowUserInteraction(false);
+			// FIXME If auth fails, it seems to pop up a UI dialog asking for credentials!
 			String usernamePassword = userId + ":" + password; //$NON-NLS-1$
 			connection.setRequestProperty(AUTHORIZATION_HEADER,
 					"Basic " + new String(Base64.encode(usernamePassword.getBytes()))); //$NON-NLS-1$
@@ -81,16 +81,15 @@ public class HerokuAPI
 
 			if (code == HttpURLConnection.HTTP_UNAUTHORIZED || code == HttpURLConnection.HTTP_FORBIDDEN)
 			{
-				return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(),
-						Messages.HerokuAPI_AuthFailed_Error);
+				return new Status(IStatus.ERROR, Activator.getPluginIdentifier(), Messages.HerokuAPI_AuthFailed_Error);
 			}
 			// some other response code...
-			return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(),
+			return new Status(IStatus.ERROR, Activator.getPluginIdentifier(),
 					Messages.HerokuAPI_AuthConnectionFailed_Error);
 		}
 		catch (Exception e)
 		{
-			return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(), e.getMessage(), e);
+			return new Status(IStatus.ERROR, Activator.getPluginIdentifier(), e.getMessage(), e);
 		}
 		finally
 		{
@@ -114,7 +113,7 @@ public class HerokuAPI
 		}
 		catch (IOException e)
 		{
-			RailsUIPlugin.logError(e);
+			Activator.logError(e);
 		}
 		finally
 		{
@@ -144,7 +143,7 @@ public class HerokuAPI
 		}
 		catch (Exception e)
 		{
-			RailsUIPlugin.logError(e);
+			Activator.logError(e);
 		}
 		finally
 		{
@@ -164,7 +163,7 @@ public class HerokuAPI
 			@Override
 			public IStatus authenticate()
 			{
-				return new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(),
+				return new Status(IStatus.ERROR, Activator.getPluginIdentifier(),
 						"Unable to get credentials from credential file");
 			}
 
