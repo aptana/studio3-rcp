@@ -6,6 +6,9 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -46,11 +49,31 @@ public class DeployWizardPage extends WizardPage
 		Label label = new Label(composite, SWT.NONE);
 		label.setText(Messages.DeployWizardPage_ProvidersLabel);
 
+		// TODO If the project isn't a rails one, then skip herokue and next label...
 		// deploy with Heroku
 		deployWithHeroku = new Button(composite, SWT.RADIO);
 		deployWithHeroku.setImage(Activator.getImage(HEROKU_IMG_PATH));
 		deployWithHeroku.setSelection(true);
-		// TODO Add a click listener, if clicked treat it like selecting and clicking Next button!
+		deployWithHeroku.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseDown(MouseEvent e)
+			{
+				super.mouseDown(e);
+				// If the image is clicked treat it like selecting and clicking Next button!
+				Rectangle deployBounds = deployWithHeroku.getBounds();
+				Rectangle imageBounds = deployWithHeroku.getImage().getBounds();
+				int x = deployBounds.width - imageBounds.width;
+				imageBounds.x = x;
+				if (imageBounds.contains(e.x, e.y))
+				{
+					if (isPageComplete())
+					{
+						getContainer().showPage(getNextPage());
+					}
+				}
+			}
+		});
 
 		label = new Label(composite, SWT.NONE);
 		label.setText(Messages.DeployWizardPage_OtherDeploymentOptionsLabel);
