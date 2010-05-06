@@ -2,10 +2,12 @@ package com.aptana.deploy.wizard;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -16,11 +18,16 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.eclipse.ui.internal.browser.BrowserViewer;
+import org.eclipse.ui.internal.browser.WebBrowserEditor;
+import org.eclipse.ui.internal.browser.WebBrowserEditorInput;
 
 import com.aptana.deploy.Activator;
 import com.aptana.git.core.GitPlugin;
@@ -136,7 +143,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			 * 
 			 * @throws IOException
 			 */
-			private void sendPing() throws IOException
+			private void sendPing(IProgressMonitor monitor) throws IOException
 			{
 				HttpURLConnection connection = null;
 				try
@@ -156,8 +163,10 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					if (responseCode != HttpURLConnection.HTTP_OK)
 					{
 						// Log an error
-						Activator.logError(
-								"Received a non-200 response code when sinding ping to: " + builder.toString(), null);
+						Activator
+								.logError(MessageFormat.format(
+										"Received a non-200 response code when sinding ping to: {0}",
+										builder.toString()), null);
 					}
 				}
 				finally
@@ -173,18 +182,9 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				SubMonitor sub = SubMonitor.convert(monitor, 100);
 				try
 				{
-					sendPing();
-					sub.worked(25);
-
-					// Bring up Heroku signup page, http://api.heroku.com/signup
-					// TODO Open _internal_ browser 
-					IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
-					IWebBrowser browser = support.createBrowser("heroku-signup"); //$NON-NLS-1$
-					browser.openURL(new URL("http://api.heroku.com/signup")); //$NON-NLS-1$
-					sub.worked(50);
-					// TODO Inject special JS into it. Need to fill in id of 'invitation_email' with the value!
-					// This seems bizzare, can't we somehow send a query param to populate the email address?, or better
-					// yet, just post to the page as if the user filled out the form?
+					sendPing(sub.newChild(25));
+					String javascriptToInject = grabJSToInject(sub.newChild(25));
+					openSignup(javascriptToInject, sub.newChild(50));
 				}
 				catch (Exception e)
 				{
@@ -194,6 +194,37 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				{
 					sub.done();
 				}
+			}
+
+			private String grabJSToInject(IProgressMonitor monitor)
+			{
+				// TODO Grab JS to inject into signup page!
+				return "";
+			}
+
+			/**
+			 * Open the Heroku signup page.
+			 * 
+			 * @param monitor
+			 * @throws Exception
+			 */
+			@SuppressWarnings("restriction")
+			private void openSignup(String javascript, IProgressMonitor monitor) throws Exception
+			{
+				final String BROWSER_ID = "heroku-signup"; //$NON-NLS-1$
+				URL url = new URL("http://api.heroku.com/signup"); //$NON-NLS-1$
+
+				int style = IWorkbenchBrowserSupport.NAVIGATION_BAR | IWorkbenchBrowserSupport.LOCATION_BAR
+						| IWorkbenchBrowserSupport.STATUS;
+				WebBrowserEditorInput input = new WebBrowserEditorInput(url, style, BROWSER_ID);
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IEditorPart editorPart = page.openEditor(input, WebBrowserEditor.WEB_BROWSER_EDITOR_ID);
+				WebBrowserEditor webBrowserEditor = (WebBrowserEditor) editorPart;
+				Field f = WebBrowserEditor.class.getDeclaredField("webBrowser"); //$NON-NLS-1$
+				f.setAccessible(true);
+				BrowserViewer viewer = (BrowserViewer) f.get(webBrowserEditor);
+				Browser browser = viewer.getBrowser();
+				browser.execute(javascript);
 			}
 		};
 		return runnable;
