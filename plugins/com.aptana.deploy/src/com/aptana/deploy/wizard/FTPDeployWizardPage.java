@@ -19,8 +19,7 @@ public class FTPDeployWizardPage extends WizardPage
 {
 
 	static final String NAME = "FTPDeployment"; //$NON-NLS-1$
-	// FIXME Use correct image for this!
-	private static final String ICON_PATH = "icons/newproj_wiz.gif"; //$NON-NLS-1$
+	private static final String ICON_PATH = "icons/ftp.png"; //$NON-NLS-1$
 
 	private Combo protocolCombo;
 	private Text siteName;
