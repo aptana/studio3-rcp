@@ -9,6 +9,7 @@ public class Messages extends NLS
 	public static String DeployWizardPage_CapistranoLabel;
 	public static String DeployWizardPage_FTPLabel;
 	public static String DeployWizardPage_OtherDeploymentOptionsLabel;
+	public static String DeployWizardPage_DeploymentOptionsLabel;
 	public static String DeployWizardPage_ProvidersLabel;
 	public static String DeployWizardPage_Title;
 	public static String FTPDeployWizardPage_ProtocolLabel;

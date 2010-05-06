@@ -2,6 +2,8 @@ package com.aptana.deploy.wizard;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -31,7 +33,7 @@ public class DeployWizardPage extends WizardPage
 
 	protected DeployWizardPage()
 	{
-		super(NAME, Messages.DeployWizardPage_Title, Activator.getImageDescriptor(HEROKU_IMG_PATH));
+		super(NAME, Messages.DeployWizardPage_Title, null);
 	}
 
 	@Override
@@ -47,36 +49,43 @@ public class DeployWizardPage extends WizardPage
 
 		// Actual contents
 		Label label = new Label(composite, SWT.NONE);
-		label.setText(Messages.DeployWizardPage_ProvidersLabel);
 
-		// TODO If the project isn't a rails one, then skip herokue and next label...
-		// deploy with Heroku
-		deployWithHeroku = new Button(composite, SWT.RADIO);
-		deployWithHeroku.setImage(Activator.getImage(HEROKU_IMG_PATH));
-		deployWithHeroku.setSelection(true);
-		deployWithHeroku.addMouseListener(new MouseAdapter()
+		if (isRailsProject())
 		{
-			@Override
-			public void mouseDown(MouseEvent e)
+			setImageDescriptor(Activator.getImageDescriptor(HEROKU_IMG_PATH));
+			label.setText(Messages.DeployWizardPage_ProvidersLabel);
+			// deploy with Heroku
+			deployWithHeroku = new Button(composite, SWT.RADIO);
+			deployWithHeroku.setImage(Activator.getImage(HEROKU_IMG_PATH));
+			deployWithHeroku.setSelection(true);
+			deployWithHeroku.addMouseListener(new MouseAdapter()
 			{
-				super.mouseDown(e);
-				// If the image is clicked treat it like selecting and clicking Next button!
-				Rectangle deployBounds = deployWithHeroku.getBounds();
-				Rectangle imageBounds = deployWithHeroku.getImage().getBounds();
-				int x = deployBounds.width - imageBounds.width;
-				imageBounds.x = x;
-				if (imageBounds.contains(e.x, e.y))
+				@Override
+				public void mouseDown(MouseEvent e)
 				{
-					if (isPageComplete())
+					super.mouseDown(e);
+					// If the image is clicked treat it like selecting and clicking Next button!
+					Rectangle deployBounds = deployWithHeroku.getBounds();
+					Rectangle imageBounds = deployWithHeroku.getImage().getBounds();
+					int x = deployBounds.width - imageBounds.width;
+					imageBounds.x = x;
+					if (imageBounds.contains(e.x, e.y))
 					{
-						getContainer().showPage(getNextPage());
+						if (isPageComplete())
+						{
+							getContainer().showPage(getNextPage());
+						}
 					}
 				}
-			}
-		});
+			});
 
-		label = new Label(composite, SWT.NONE);
-		label.setText(Messages.DeployWizardPage_OtherDeploymentOptionsLabel);
+			label = new Label(composite, SWT.NONE);
+			label.setText(Messages.DeployWizardPage_OtherDeploymentOptionsLabel);
+		}
+		else
+		{
+			label.setText(Messages.DeployWizardPage_DeploymentOptionsLabel);
+		}
 
 		// "Other" Deployment options radio button group
 		deployWithFTP = new Button(composite, SWT.RADIO);
@@ -86,6 +95,21 @@ public class DeployWizardPage extends WizardPage
 		// deployWithCapistrano.setText(Messages.DeployWizardPage_CapistranoLabel);
 
 		Dialog.applyDialogFont(composite);
+	}
+
+	private boolean isRailsProject()
+	{
+		try
+		{
+			IProject project = ((DeployWizard) getWizard()).getProject();
+			// project.hasNature(RailsProjectNature.ID)
+			return project.hasNature("org.radrails.rails.core.railsnature"); //$NON-NLS-1$
+		}
+		catch (CoreException e)
+		{
+			Activator.logError(e);
+		}
+		return false;
 	}
 
 	@Override
