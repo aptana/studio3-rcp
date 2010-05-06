@@ -16,11 +16,11 @@ import org.radrails.rails.ui.RailsUIPlugin;
 public class DeployWizardPage extends WizardPage
 {
 
-	private static final String NAME = "Deployment"; //$NON-NLS-1$
+	static final String NAME = "Deployment"; //$NON-NLS-1$
 	private static final String HEROKU_IMG_PATH = "icons/heroku.png"; //$NON-NLS-1$
 
 	private Button deployWithFTP;
-	private Button deployWithCapistrano;
+	// private Button deployWithCapistrano;
 	private Button deployWithHeroku;
 
 	protected DeployWizardPage()
@@ -56,10 +56,18 @@ public class DeployWizardPage extends WizardPage
 		deployWithFTP = new Button(composite, SWT.RADIO);
 		deployWithFTP.setText(Messages.DeployWizardPage_FTPLabel);
 
-		deployWithCapistrano = new Button(composite, SWT.RADIO);
-		deployWithCapistrano.setText(Messages.DeployWizardPage_CapistranoLabel);
+		// deployWithCapistrano = new Button(composite, SWT.RADIO);
+		// deployWithCapistrano.setText(Messages.DeployWizardPage_CapistranoLabel);
 
 		Dialog.applyDialogFont(composite);
+	}
+
+	@Override
+	public boolean canFlipToNextPage()
+	{
+		// user can always move on, and we don't want getNextPage() getting called quickly since it tries to actually
+		// auth against Heroku...
+		return true;
 	}
 
 	@Override
@@ -70,7 +78,7 @@ public class DeployWizardPage extends WizardPage
 		if (deployWithHeroku.getSelection())
 		{
 			File credentials = HerokuAPI.getCredentialsFile();
-			if (credentials.exists())
+			if (credentials.exists() && HerokuAPI.fromCredentials().authenticate().isOK())
 				nextPage = new HerokuDeployWizardPage();
 			else
 				nextPage = new HerokuLoginWizardPage();
@@ -79,10 +87,10 @@ public class DeployWizardPage extends WizardPage
 		{
 			nextPage = new FTPDeployWizardPage();
 		}
-		else if (deployWithCapistrano.getSelection())
-		{
-			// TODO CapistranoDeployWizardPage
-		}
+		// else if (deployWithCapistrano.getSelection())
+		// {
+		// // TODO CapistranoDeployWizardPage
+		// }
 		if (nextPage == null)
 			nextPage = super.getNextPage();
 		if (nextPage != null)

@@ -201,6 +201,9 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 	public boolean canFinish()
 	{
 		IWizardPage page = getContainer().getCurrentPage();
+		// We don't want getNextPage() getting invoked so early on first page, because it does auth check on Heroku credentials...
+		if (page.getName().equals(DeployWizardPage.NAME))
+			return false;
 		return page.isPageComplete() && page.getNextPage() == null;
 	}
 
