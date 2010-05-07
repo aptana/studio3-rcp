@@ -98,7 +98,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     private IPerspectiveDescriptor lastPerspective = null;
 
     private IWorkbenchPage lastActivePage;
-    private String lastEditorTitle = /* StringUtils.EMPTY */""; // TODO //$NON-NLS-1$
+    private String lastEditorTitle = /* StringUtil.EMPTY */""; // TODO //$NON-NLS-1$
 
     private IPropertyListener editorPropertyListener = new IPropertyListener() {
         public void propertyChanged(Object source, int propId) {
@@ -445,7 +445,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
             title = product.getName();
         }
         if (title == null) {
-            title = /* StringUtils.EMPTY */""; // TODO //$NON-NLS-1$
+            title = /* StringUtil.EMPTY */""; // TODO //$NON-NLS-1$
         }
 
         if (currentPage != null) {
@@ -456,7 +456,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
                         lastEditorTitle, title);
             }
             IPerspectiveDescriptor persp = currentPage.getPerspective();
-            String label = /* StringUtils.EMPTY */""; // TODO //$NON-NLS-1$
+            String label = /* StringUtil.EMPTY */""; // TODO //$NON-NLS-1$
             if (persp != null) {
                 label = persp.getLabel();
             }
@@ -464,7 +464,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
             if (input != null && !input.equals(wbAdvisor.getDefaultPageInput())) {
                 label = currentPage.getLabel();
             }
-            if (label != null && !label.equals( /* StringUtils.EMPTY */"")) { //$NON-NLS-1$ 
+            if (label != null && !label.equals( /* StringUtil.EMPTY */"")) { //$NON-NLS-1$ 
                 title = NLS.bind(
                         IDEWorkbenchMessages.WorkbenchWindow_shellTitle, label,
                         title);
@@ -531,7 +531,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
     private static String getTitle(IEditorPart part) {
         String title = part.getTitleToolTip();
-        return title.equals(/* StringUtils.EMPTY */"") ? part.getTitle() //$NON-NLS-1$
+        return title.equals(/* StringUtil.EMPTY */"") ? part.getTitle() //$NON-NLS-1$
                 : title;
     }
 

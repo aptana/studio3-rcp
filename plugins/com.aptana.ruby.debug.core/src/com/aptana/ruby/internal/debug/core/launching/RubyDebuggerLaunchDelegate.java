@@ -35,12 +35,12 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 
+import com.aptana.core.util.ExecutableUtil;
 import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
 import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
 import com.aptana.ruby.internal.debug.core.model.RubyDebugTarget;
 import com.aptana.ruby.internal.debug.core.model.RubyProcessingException;
-import com.aptana.util.ExecutableUtil;
 
 /**
  * Launches Ruby program on a Ruby interpreter
