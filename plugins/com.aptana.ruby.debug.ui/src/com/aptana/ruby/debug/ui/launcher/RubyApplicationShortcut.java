@@ -22,6 +22,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 
+import com.aptana.console.process.ConsoleProcessFactory;
 import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
 import com.aptana.ruby.debug.ui.RubyDebugUIPlugin;
 
@@ -134,6 +135,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 					.getDefaultWorkingDirectory(rubyFile));
 			wc.setAttribute(ILaunchConfiguration.ATTR_SOURCE_LOCATOR_ID,
 					IRubyLaunchConfigurationConstants.ID_RUBY_SOURCE_LOCATOR);
+			wc.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID, ConsoleProcessFactory.ID);
 			config = wc.doSave();
 		}
 		catch (CoreException ce)

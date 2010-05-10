@@ -120,6 +120,8 @@
 					<include name="com.aptana.terminal_*.jar" />
 					<include name="com.aptana.libraries_*.jar" />
 					<include name="org.jruby_*.jar" />
+					<include name="com.aptana.branding_*.jar" />
+					<include name="com.aptana.ide.libraries.subscription_*.jar" />
 				</fileset>
 			</path>
 			<sequential>
@@ -188,6 +190,7 @@
 				<dirset dir="${buildDirectory}" defaultexcludes="true">
 					<include name="plugins/*" />
 					<include name="features/*" />
+					<exclude name="plugins/com.aptana.radrails.rcp" />
 					<exclude name="features/com.aptana.radrails.feature.rcp" />
 					<exclude name="${topLevelElementType}s/${topLevelElementId}" />
 				</dirset>

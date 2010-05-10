@@ -3,8 +3,7 @@
       id="org.radrails.rails"
       label="%featureName"
       version="3.0.0.qualifier"
-      provider-name="%providerName"
-      plugin="org.radrails.rails.ui">
+      provider-name="%providerName">
 
    <description url="http://www.aptana.com">
       %description
@@ -23,7 +22,7 @@
    </url>
 
    <includes
-         id="com.aptana.red.core"
+         id="com.aptana.feature"
          version="0.0.0"/>
 
    <requires>
@@ -40,7 +39,6 @@
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.eclipse.jface"/>
       <import plugin="org.eclipse.jface.text"/>
-      <import plugin="com.aptana.util"/>
       <import plugin="com.aptana.git.ui"/>
       <import plugin="com.aptana.terminal"/>
       <import plugin="com.aptana.explorer"/>

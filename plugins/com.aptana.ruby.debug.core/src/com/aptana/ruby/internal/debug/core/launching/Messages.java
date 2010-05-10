@@ -5,8 +5,15 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS
 {
 
-	private static final String BUNDLE_NAME = "com.aptana.ruby.internal.debug.core.launching.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = Messages.class.getPackage().getName() + ".messages"; //$NON-NLS-1$
 	
+	public static String RubyDebuggerLaunchDelegate_0;
+	public static String RubyDebuggerLaunchDelegate_1;
+	public static String RubyDebuggerLaunchDelegate_13;
+	public static String RubyDebuggerLaunchDelegate_14;
+	public static String RubyDebuggerLaunchDelegate_2;
+	public static String RubyDebuggerLaunchDelegate_3;
+
 	public static String SocketAttachConnector_Connecting____1;
 	public static String SocketAttachConnector_Configuring_connection____1;
 	public static String SocketAttachConnector_Port_unspecified_for_remote_connection__2;
