@@ -12,6 +12,7 @@ package com.aptana.radrails.rcp;
 
 import java.io.File;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -88,9 +89,12 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	private static final String SHOW_PERSPECTIVEBAR = "SHOW_PERSPECTIVEBAR"; //$NON-NLS-1$
 	// a preference to indicate if the toolbar state has been manually modified by user
     private static final String TOOLBAR_MANUALLY_ADJUSTED = "TOOLBAR_MANUALLY_ADJUSTED"; //$NON-NLS-1$
+    // a preference to indicate if the perspective state has been manually modified by user
+    private static final String PERSPECTIVE_MANUALLY_ADJUSTED = "PERSPECTIVE_MANUALLY_ADJUSTED"; //$NON-NLS-1$
 
     private static final String WELCOME_EDITOR_ID = "org.eclipse.ui.internal.ide.dialogs.WelcomeEditor"; //$NON-NLS-1$
     private static final String RAILS_PERSPECTIVE_ID = "org.radrails.rails.ui.PerspectiveRails"; //$NON-NLS-1$
+    private static final String WEB_PERSPECTIVE_ID = "com.aptana.ui.WebPerspective"; //$NON-NLS-1$
 
     private IDEWorkbenchAdvisor wbAdvisor;
     private boolean editorsAndIntrosOpened = false;
@@ -286,6 +290,8 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		workbenchWindow.addPerspectiveListener(new IPerspectiveListener()
 		{
 
+			private boolean resetting;
+
 			public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective)
 			{
 				// only control the toolbar state on perspective basis when user has not modified it manually
@@ -297,13 +303,50 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					workbenchWindow.setPerspectiveBarVisible(showToolbar);
 					isToolbarProgrammaticSet = false;
 				}
+
+				String id = perspective.getId();
+				boolean isAptanaPerspective = id.equals(WEB_PERSPECTIVE_ID) || id.equals(RAILS_PERSPECTIVE_ID);
+				if (isAptanaPerspective)
+				{
+					if (resetting)
+					{
+						// user resets the perspective, so applies the default customization for Web/Rails perspective
+						store.setValue(MessageFormat.format("{0}:{1}", id, PERSPECTIVE_MANUALLY_ADJUSTED), false); //$NON-NLS-1$
+						customizePerspective(page);
+					}
+					else if (!store.getBoolean(MessageFormat.format("{0}:{1}", id, PERSPECTIVE_MANUALLY_ADJUSTED))) //$NON-NLS-1$
+					{
+						customizePerspective(page);
+					}
+				}
 			}
 
 			public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId)
 			{
+				String id = perspective.getId();
+				boolean isAptanaPerspective = id.equals(WEB_PERSPECTIVE_ID) || id.equals(RAILS_PERSPECTIVE_ID);
+				if (isAptanaPerspective)
+				{
+					if (changeId.equals(IWorkbenchPage.CHANGE_RESET))
+					{
+						store.setValue(MessageFormat.format(
+								"{0}:{1}", perspective.getId(), PERSPECTIVE_MANUALLY_ADJUSTED), true); //$NON-NLS-1$
+						resetting = true;
+					}
+					else if (changeId.equals(IWorkbenchPage.CHANGE_RESET_COMPLETE))
+					{
+						resetting = false;
+					}
+				}
 			}
 		});
     }
+
+	private void customizePerspective(IWorkbenchPage page)
+	{
+		page.hideActionSet("org.eclipse.ui.edit.text.actionSet.annotationNavigation"); //$NON-NLS-1$
+		page.hideActionSet("org.eclipse.ui.edit.text.actionSet.navigation"); //$NON-NLS-1$
+	}
 
     /**
      * Enhances the standard Eclipse EditorAreaDropAdapter to add support for
