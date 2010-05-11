@@ -239,9 +239,9 @@ public class RunScriptServerAction extends Action implements IObjectActionDelega
 		if (railsProject == null)
 			return;
 		// now determine which version so we can tell what to run...
-		String viewId = MessageFormat.format("{0} server", railsProject //$NON-NLS-1$
+		String viewId = MessageFormat.format("{0} script/rails server", railsProject //$NON-NLS-1$
 				.getName());
-		String command = "rails server"; //$NON-NLS-1$
+		String command = "script/rails server"; //$NON-NLS-1$
 		if (scriptServerExists(railsProject))
 		{
 			viewId = MessageFormat.format("{0} script/server", railsProject //$NON-NLS-1$
