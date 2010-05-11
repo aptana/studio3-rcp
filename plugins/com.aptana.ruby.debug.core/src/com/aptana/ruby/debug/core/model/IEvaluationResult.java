@@ -74,7 +74,6 @@ public interface IEvaluationResult {
 	 * with the target or with actually performing some action in the target.
 	 *
 	 * @return The exception that occurred during the evaluation
-	 * @see com.sun.jdi.InvocationException
 	 * @see org.eclipse.debug.core.DebugException
 	 */
 	public DebugException getException();
