@@ -60,7 +60,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 		}
 		else if (currentPage.getName().equals(FTPDeployWizardPage.NAME))
 		{
-			// TODO Set up FTP deployment stuff, run it
+			FTPDeployWizardPage page = (FTPDeployWizardPage) currentPage;
+			runnable = createFTPDeployRunnable(page);
 		}
 		else if (currentPage.getName().equals(HerokuSignupPage.NAME))
 		{
@@ -81,6 +82,30 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			}
 		}
 		return true;
+	}
+
+	protected IRunnableWithProgress createFTPDeployRunnable(FTPDeployWizardPage page)
+	{
+		// TODO Grab values needed/connection point, etc, then run sync?
+		IRunnableWithProgress runnable;
+		runnable = new IRunnableWithProgress()
+		{
+
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+			{
+				SubMonitor sub = SubMonitor.convert(monitor, 100);
+				try
+				{
+
+				}
+				finally
+				{
+					sub.done();
+				}
+			}
+		};
+		return runnable;
 	}
 
 	protected IRunnableWithProgress createHerokuDeployRunnable(HerokuDeployWizardPage page)
@@ -118,13 +143,13 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 							// TODO How do we determine when these commands are done? Probably need to sleep between
 							// these...
 							CommandElement command = getCommand(bundleName, "Install Gem"); //$NON-NLS-1$
+							command.execute();
+
+							command = getCommand(bundleName, "Create App"); //$NON-NLS-1$
+							// Send along the app name
 							CommandContext context = command.createCommandContext();
 							context.put("HEROKU_APP_NAME", appName); //$NON-NLS-1$
 							command.execute(context);
-
-							// TODO Send along the app name
-							command = getCommand(bundleName, "Create App"); //$NON-NLS-1$
-							command.execute();
 
 							if (publishImmediately)
 							{
