@@ -18,6 +18,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.ProgressEvent;
+import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -28,6 +30,7 @@ import org.eclipse.ui.internal.browser.BrowserViewer;
 import org.eclipse.ui.internal.browser.WebBrowserEditor;
 import org.eclipse.ui.internal.browser.WebBrowserEditorInput;
 
+import com.aptana.core.util.IOUtil;
 import com.aptana.deploy.Activator;
 import com.aptana.git.core.GitPlugin;
 import com.aptana.git.core.model.GitRepository;
@@ -99,11 +102,11 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					GitRepository repo = manager.createOrAttach(project, sub.newChild(20));
 					// TODO What if we didn't create the repo right now, but it is "dirty"?
 					// Now do an initial commit
-					repo.index().refresh(sub.newChild(15));	
+					repo.index().refresh(sub.newChild(15));
 					repo.index().stageFiles(repo.index().changedFiles());
 					repo.index().commit("Initial Commit");
 					sub.worked(10);
-					
+
 					// Run commands to create/deploy
 					final String bundleName = "Heroku"; //$NON-NLS-1$
 					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable()
@@ -169,13 +172,14 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			 * 
 			 * @throws IOException
 			 */
-			private void sendPing(IProgressMonitor monitor) throws IOException
+			private String sendPing(IProgressMonitor monitor) throws IOException
 			{
 				HttpURLConnection connection = null;
 				try
 				{
-					StringBuilder builder = new StringBuilder();
-					builder.append("http://toolbox.aptana.com/webhook/heroku?request_id="); //$NON-NLS-1$
+					final String HOST = "http://toolbox.aptana.com"; //$NON-NLS-1$
+					StringBuilder builder = new StringBuilder(HOST);
+					builder.append("/webhook/heroku?request_id="); //$NON-NLS-1$
 					builder.append(URLEncoder.encode(PingStartup.getApplicationId(), "UTF-8")); //$NON-NLS-1$
 					builder.append("&email="); //$NON-NLS-1$
 					builder.append(URLEncoder.encode(userID, "UTF-8")); //$NON-NLS-1$
@@ -191,8 +195,12 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 						// Log an error
 						Activator
 								.logError(MessageFormat.format(
-										"Received a non-200 response code when sinding ping to: {0}",
+										"Received a non-200 response code when sending ping to: {0}",
 										builder.toString()), null);
+					}
+					else
+					{
+						return IOUtil.read(connection.getInputStream());
 					}
 				}
 				finally
@@ -200,6 +208,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					if (connection != null)
 						connection.disconnect();
 				}
+				return "";
 			}
 
 			@Override
@@ -208,9 +217,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				SubMonitor sub = SubMonitor.convert(monitor, 100);
 				try
 				{
-					sendPing(sub.newChild(25));
-					String javascriptToInject = grabJSToInject(sub.newChild(25));
-					openSignup(javascriptToInject, sub.newChild(50));
+					String javascriptToInject = sendPing(sub.newChild(40));
+					openSignup(javascriptToInject, sub.newChild(60));
 				}
 				catch (Exception e)
 				{
@@ -222,12 +230,6 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				}
 			}
 
-			private String grabJSToInject(IProgressMonitor monitor)
-			{
-				// TODO Grab JS to inject into signup page!
-				return "";
-			}
-
 			/**
 			 * Open the Heroku signup page.
 			 * 
@@ -235,22 +237,52 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			 * @throws Exception
 			 */
 			@SuppressWarnings("restriction")
-			private void openSignup(String javascript, IProgressMonitor monitor) throws Exception
+			private void openSignup(final String javascript, IProgressMonitor monitor) throws Exception
 			{
 				final String BROWSER_ID = "heroku-signup"; //$NON-NLS-1$
-				URL url = new URL("http://api.heroku.com/signup"); //$NON-NLS-1$
+				final URL url = new URL("http://api.heroku.com/signup"); //$NON-NLS-1$
 
-				int style = IWorkbenchBrowserSupport.NAVIGATION_BAR | IWorkbenchBrowserSupport.LOCATION_BAR
+				final int style = IWorkbenchBrowserSupport.NAVIGATION_BAR | IWorkbenchBrowserSupport.LOCATION_BAR
 						| IWorkbenchBrowserSupport.STATUS;
-				WebBrowserEditorInput input = new WebBrowserEditorInput(url, style, BROWSER_ID);
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IEditorPart editorPart = page.openEditor(input, WebBrowserEditor.WEB_BROWSER_EDITOR_ID);
-				WebBrowserEditor webBrowserEditor = (WebBrowserEditor) editorPart;
-				Field f = WebBrowserEditor.class.getDeclaredField("webBrowser"); //$NON-NLS-1$
-				f.setAccessible(true);
-				BrowserViewer viewer = (BrowserViewer) f.get(webBrowserEditor);
-				Browser browser = viewer.getBrowser();
-				browser.execute(javascript);
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable()
+				{
+
+					@Override
+					public void run()
+					{
+						try
+						{
+							WebBrowserEditorInput input = new WebBrowserEditorInput(url, style, BROWSER_ID);
+							IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+							IEditorPart editorPart = page.openEditor(input, WebBrowserEditor.WEB_BROWSER_EDITOR_ID);
+							WebBrowserEditor webBrowserEditor = (WebBrowserEditor) editorPart;
+							Field f = WebBrowserEditor.class.getDeclaredField("webBrowser"); //$NON-NLS-1$
+							f.setAccessible(true);
+							BrowserViewer viewer = (BrowserViewer) f.get(webBrowserEditor);
+							final Browser browser = viewer.getBrowser();
+							browser.addProgressListener(new ProgressListener()
+							{
+
+								@Override
+								public void completed(ProgressEvent event)
+								{
+									browser.removeProgressListener(this);
+									browser.execute(javascript);
+								}
+
+								@Override
+								public void changed(ProgressEvent event)
+								{
+									// ignore
+								}
+							});
+						}
+						catch (Exception e)
+						{
+							Activator.logError(e);
+						}
+					}
+				});
 			}
 		};
 		return runnable;
