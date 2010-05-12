@@ -35,6 +35,7 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 
+import com.aptana.core.ShellExecutable;
 import com.aptana.core.util.ExecutableUtil;
 import com.aptana.ruby.debug.core.RubyDebugCorePlugin;
 import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
@@ -92,9 +93,12 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		commandList.addAll(programArguments(configuration));
 
 		// Now actually launch the process!
-		Process process = DebugPlugin.exec(commandList.toArray(new String[commandList.size()]),
-				getWorkingDirectory(configuration), getEnvironment(configuration));
-
+		Process process;
+		try {
+			process = ShellExecutable.run(commandList, getWorkingDirectory(configuration), getEnvironment(configuration));
+		} catch (IOException e) {
+			throw new CoreException(new Status(Status.ERROR, RubyDebugCorePlugin.PLUGIN_ID, "Shell execution failed.", e)); //$NON-NLS-1$
+		}
 		// FIXME Build a label from args?
 		String label = commandList.get(0);
 
@@ -163,7 +167,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			ILaunchConfiguration configuration) throws CoreException
 	{
 		List<String> commandList = new ArrayList<String>();
-		IPath rdebug = ExecutableUtil.find("rdebug-ide", false, null, getRDebugIDELocations(rubyExecutablePath)); //$NON-NLS-1$
+		IPath rdebug = ExecutableUtil.find("rdebug-ide", false, getRDebugIDELocations(rubyExecutablePath)); //$NON-NLS-1$
 		if (rdebug == null)
 		{
 			abort(Messages.RubyDebuggerLaunchDelegate_3, null);
@@ -223,10 +227,10 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	{
 		// Ruby executable, look for rubyw, then ruby
 		// TODO check TM_RUBY env value?
-		IPath path = ExecutableUtil.find(RUBYW, true, null, getCommonRubyBinaryLocations(RUBYW));
+		IPath path = ExecutableUtil.find(RUBYW, true, getCommonRubyBinaryLocations(RUBYW));
 		if (path == null)
 		{
-			path = ExecutableUtil.find(RUBY, true, null, getCommonRubyBinaryLocations(RUBY));
+			path = ExecutableUtil.find(RUBY, true, getCommonRubyBinaryLocations(RUBY));
 		}
 		// TODO If we can't find one, should we just try plain "ruby"?
 		if (path == null)
@@ -279,14 +283,14 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	 * @return
 	 * @throws CoreException
 	 */
-	protected File getWorkingDirectory(ILaunchConfiguration configuration) throws CoreException
+	protected IPath getWorkingDirectory(ILaunchConfiguration configuration) throws CoreException
 	{
 		String workingDirVal = configuration.getAttribute(IRubyLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY,
 				(String) null);
 		if (workingDirVal == null)
 			return null;
-		File workingDirectory = new File(workingDirVal);
-		if (!workingDirectory.isDirectory())
+		IPath workingDirectory = Path.fromOSString(workingDirVal);
+		if (!workingDirectory.toFile().isDirectory())
 			return null;
 		return workingDirectory;
 	}
