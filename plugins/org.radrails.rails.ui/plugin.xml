@@ -172,6 +172,11 @@
             id="org.radrails.rails.ui.command.preview"
             name="%PreviewAction.label">
       </command>
+      <command
+            categoryId="org.radrails.rails.ui.category"
+            id="org.radrails.rails.ui.command.script.console"
+            name="%ScriptConsoleAction.label">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -257,6 +262,11 @@
                label="%PreviewAction.label"
                style="push">
          </command>
+         <command
+               commandId="org.radrails.rails.ui.command.script.console"
+               label="%ScriptConsoleAction.label"
+               style="push">
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -293,6 +303,26 @@
                 <objectClass name="org.eclipse.core.resources.IResource"/>
                 <objectState name="projectNature" value="org.radrails.rails.core.railsnature"/>
               </and>
+            </enablement>
+         </action>
+         <action
+               class="org.radrails.rails.internal.ui.actions.ScriptConsoleAction"
+               definitionId="org.radrails.rails.ui.command.script.console"
+               enablesFor="+"
+               id="org.radrails.rails.ui.action.script.console"
+               label="%ScriptConsoleAction.label"
+               menubarPath="org.eclipse.ui.run/runGroup"
+               style="push">
+            <enablement>
+               <and>
+                  <objectClass
+                        name="org.eclipse.core.resources.IResource">
+                  </objectClass>
+                  <objectState
+                        name="projectNature"
+                        value="org.radrails.rails.core.railsnature">
+                  </objectState>
+               </and>
             </enablement>
          </action>
       </actionSet>
