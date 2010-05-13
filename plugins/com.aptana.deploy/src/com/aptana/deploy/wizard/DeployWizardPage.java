@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Label;
 
 import com.aptana.deploy.Activator;
 import com.aptana.deploy.HerokuAPI;
-import com.aptana.deploy.Messages;
 
 public class DeployWizardPage extends WizardPage
 {

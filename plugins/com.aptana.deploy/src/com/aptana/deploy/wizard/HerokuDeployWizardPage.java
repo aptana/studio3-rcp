@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import com.aptana.deploy.Activator;
-import com.aptana.deploy.Messages;
 import com.aptana.git.core.GitPlugin;
 import com.aptana.git.core.model.GitRepository;
 

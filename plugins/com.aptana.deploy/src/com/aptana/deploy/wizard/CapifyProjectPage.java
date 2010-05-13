@@ -40,7 +40,7 @@ public class CapifyProjectPage extends WizardPage
 
 	protected CapifyProjectPage()
 	{
-		super(NAME, "Generate Capistrano Files", null);
+		super(NAME, Messages.CapifyProjectPage_Title, null);
 	}
 
 	@Override
@@ -57,11 +57,11 @@ public class CapifyProjectPage extends WizardPage
 
 		// Actual contents
 		Label label = new Label(composite, SWT.WRAP);
-		label.setText("Click the button below to generate Capistrano configuration files to your project using the capify command. Once the files have been generated, you will need to edit the 'config/deploy.rb' file to specify your details.");
+		label.setText(Messages.CapifyProjectPage_Description);
 		label.setLayoutData(new GridData(500, SWT.DEFAULT));
 
 		Button generateButton = new Button(composite, SWT.PUSH);
-		generateButton.setText("Generate Capistrano Files");
+		generateButton.setText(Messages.CapifyProjectPage_GenerateButtonLabel);
 		generateButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 		generateButton.addSelectionListener(new SelectionAdapter()
 		{
@@ -107,7 +107,7 @@ public class CapifyProjectPage extends WizardPage
 
 		// label/link
 		Link link = new Link(composite, SWT.NONE);
-		link.setText("Need help figuring out the config/deploy.rb file? See <a>http://www.capify.org/index.php/From_The_Beginning</a>");
+		link.setText(Messages.CapifyProjectPage_LinkText);
 		link.addSelectionListener(new SelectionAdapter()
 		{
 			@Override

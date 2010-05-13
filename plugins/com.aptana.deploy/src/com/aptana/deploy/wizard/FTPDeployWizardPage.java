@@ -8,7 +8,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 import com.aptana.deploy.Activator;
-import com.aptana.deploy.Messages;
 import com.aptana.ide.ui.ftp.internal.FTPConnectionPropertyComposite;
 import com.aptana.ide.ui.secureftp.internal.CommonFTPConnectionPropertyComposite;
 
