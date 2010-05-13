@@ -134,6 +134,7 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>erb</string>
 				<string>rhtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
