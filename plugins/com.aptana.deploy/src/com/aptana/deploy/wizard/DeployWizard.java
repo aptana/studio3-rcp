@@ -422,5 +422,12 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 		}
 		return page.isPageComplete() && page.getNextPage() == null;
 	}
+	
+	@Override
+	public void dispose()
+	{
+		// FIXME Because we're dynamic and not adding pages the normal way, the pages aren't getting disposed individually. We need to track what pages are open and dispose them!
+		super.dispose();
+	}
 
 }
