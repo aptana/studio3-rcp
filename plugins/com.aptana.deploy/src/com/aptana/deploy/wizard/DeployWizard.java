@@ -42,6 +42,7 @@ import com.aptana.scripting.model.CommandContext;
 import com.aptana.scripting.model.CommandElement;
 import com.aptana.usage.PingStartup;
 
+@SuppressWarnings("restriction")
 public class DeployWizard extends Wizard implements IWorkbenchWizard
 {
 
@@ -86,7 +87,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 
 	protected IRunnableWithProgress createFTPDeployRunnable(FTPDeployWizardPage page)
 	{
-		// TODO Grab values needed/connection point, etc, then run sync?
+		// TODO Grab values needed/connection point, etc to use in Runnable
 		IRunnableWithProgress runnable;
 		runnable = new IRunnableWithProgress()
 		{
@@ -97,7 +98,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				SubMonitor sub = SubMonitor.convert(monitor, 100);
 				try
 				{
-
+					// TODO For Michael, do the sync work here
 				}
 				finally
 				{
@@ -177,7 +178,9 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				{
 					CommandElement command = bundle.getCommandByName(commandName);
 					if (command != null)
+					{
 						return command;
+					}
 				}
 				return null;
 			}
@@ -231,9 +234,11 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				finally
 				{
 					if (connection != null)
+					{
 						connection.disconnect();
+					}
 				}
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 
 			@Override
@@ -261,7 +266,6 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			 * @param monitor
 			 * @throws Exception
 			 */
-			@SuppressWarnings("restriction")
 			private void openSignup(final String javascript, IProgressMonitor monitor) throws Exception
 			{
 				final String BROWSER_ID = "heroku-signup"; //$NON-NLS-1$
@@ -359,7 +363,9 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 		// We don't want getNextPage() getting invoked so early on first page, because it does auth check on Heroku
 		// credentials...
 		if (page.getName().equals(DeployWizardPage.NAME))
+		{
 			return false;
+		}
 		return page.isPageComplete() && page.getNextPage() == null;
 	}
 

@@ -129,9 +129,13 @@ public class DeployWizardPage extends WizardPage
 		{
 			File credentials = HerokuAPI.getCredentialsFile();
 			if (credentials.exists() && HerokuAPI.fromCredentials().authenticate().isOK())
+			{
 				nextPage = new HerokuDeployWizardPage();
+			}
 			else
+			{
 				nextPage = new HerokuLoginWizardPage();
+			}
 		}
 		else if (deployWithFTP.getSelection())
 		{
@@ -142,7 +146,9 @@ public class DeployWizardPage extends WizardPage
 		// // TODO CapistranoDeployWizardPage
 		// }
 		if (nextPage == null)
+		{
 			nextPage = super.getNextPage();
+		}
 		if (nextPage != null)
 		{
 			nextPage.setWizard(getWizard());

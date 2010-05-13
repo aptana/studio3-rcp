@@ -52,9 +52,13 @@ public class Activator extends AbstractUIPlugin
 	public static void logError(Exception e)
 	{
 		if (e instanceof CoreException)
+		{
 			logError((CoreException) e);
+		}
 		else
+		{
 			logError(e.getMessage(), e);
+		}
 	}
 
 	public static void logError(CoreException e)
@@ -68,7 +72,9 @@ public class Activator extends AbstractUIPlugin
 		{
 			ImageDescriptor id = imageDescriptorFromPlugin(PLUGIN_ID, string);
 			if (id != null)
+			{
 				getDefault().getImageRegistry().put(string, id);
+			}
 		}
 		return getDefault().getImageRegistry().get(string);
 	}
@@ -77,7 +83,9 @@ public class Activator extends AbstractUIPlugin
 	{
 		ImageDescriptor desc = getDefault().getImageRegistry().getDescriptor(path);
 		if (desc != null)
+		{
 			return desc;
+		}
 		desc = imageDescriptorFromPlugin(PLUGIN_ID, path);
 		getDefault().getImageRegistry().put(path, desc);
 		return desc;

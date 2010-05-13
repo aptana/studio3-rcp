@@ -96,7 +96,9 @@ public class HerokuDeployWizardPage extends WizardPage
 	{
 		IProject project = getProject();
 		if (project == null)
+		{
 			return ""; // Seems like we have big issues if we ever got into this state... //$NON-NLS-1$
+		}
 		return project.getName();
 	}
 
@@ -104,11 +106,15 @@ public class HerokuDeployWizardPage extends WizardPage
 	{
 		IProject project = getProject();
 		if (project == null)
+		{
 			return false; // Seems like we have big issues if we ever got into this state...
+		}
 		GitRepository repo = GitPlugin.getDefault().getGitRepositoryManager()
 				.getUnattachedExisting(project.getLocationURI());
 		if (repo != null)
+		{
 			return false;
+		}
 		return true;
 	}
 

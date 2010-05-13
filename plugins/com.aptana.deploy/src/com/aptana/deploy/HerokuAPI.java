@@ -77,7 +77,9 @@ public class HerokuAPI
 					"Basic " + new String(Base64.encode(usernamePassword.getBytes()))); //$NON-NLS-1$
 			int code = connection.getResponseCode();
 			if (code == HttpURLConnection.HTTP_OK)
+			{
 				return Status.OK_STATUS;
+			}
 
 			if (code == HttpURLConnection.HTTP_UNAUTHORIZED || code == HttpURLConnection.HTTP_FORBIDDEN)
 			{
@@ -94,7 +96,9 @@ public class HerokuAPI
 		finally
 		{
 			if (connection != null)
+			{
 				connection.disconnect();
+			}
 		}
 	}
 
@@ -120,7 +124,9 @@ public class HerokuAPI
 			try
 			{
 				if (writer != null)
+				{
 					writer.close();
+				}
 			}
 			catch (IOException e)
 			{
@@ -150,7 +156,9 @@ public class HerokuAPI
 			try
 			{
 				if (reader != null)
+				{
 					reader.close();
+				}
 			}
 			catch (IOException e)
 			{

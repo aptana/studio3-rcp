@@ -19,6 +19,7 @@ import org.osgi.framework.BundleContext;
 /**
  * Plugin class for the rails.ui plugin.
  * 
+ * @author cwilliams
  * @author mkent
  */
 public class RailsUIPlugin extends AbstractUIPlugin
@@ -33,7 +34,9 @@ public class RailsUIPlugin extends AbstractUIPlugin
 		{
 			ImageDescriptor id = imageDescriptorFromPlugin(PLUGIN_ID, string);
 			if (id != null)
+			{
 				getDefault().getImageRegistry().put(string, id);
+			}
 		}
 		return getDefault().getImageRegistry().get(string);
 	}
@@ -83,9 +86,13 @@ public class RailsUIPlugin extends AbstractUIPlugin
 	public static void logError(Exception e)
 	{
 		if (e instanceof CoreException)
+		{
 			logError((CoreException) e);
+		}
 		else
+		{
 			logError(e.getMessage(), e);
+		}
 	}
 
 	public static void logError(CoreException e)
