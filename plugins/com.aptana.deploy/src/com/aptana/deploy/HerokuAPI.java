@@ -66,7 +66,7 @@ public class HerokuAPI
 		{
 			URL url = new URL("https://api.heroku.com/apps"); //$NON-NLS-1$
 			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestProperty(USER_AGENT, "Aptana Studio 3.0.0"); // FIXME Grab proper version number
+			connection.setRequestProperty(USER_AGENT, "Aptana Studio 3.0.0"); // FIXME Grab proper version number //$NON-NLS-1$
 			connection.setRequestProperty(HEROKU_API_VERSION_HEADER, API_VERSION_NUMBER);
 			connection.setRequestProperty(ACCEPT_HEADER, ACCEPT_CONTENT_TYPES);
 			connection.setUseCaches(false);
@@ -172,7 +172,7 @@ public class HerokuAPI
 			public IStatus authenticate()
 			{
 				return new Status(IStatus.ERROR, Activator.getPluginIdentifier(),
-						"Unable to get credentials from credential file");
+						Messages.HerokuAPI_UnableToGetHerokuCredentialsError);
 			}
 
 			@Override

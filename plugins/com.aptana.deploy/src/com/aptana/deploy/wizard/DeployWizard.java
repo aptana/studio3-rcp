@@ -140,7 +140,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 							{
 								IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 										.getActivePage();
-								IFile file = getProject().getFile(new Path("config").append("deploy.rb"));
+								IFile file = getProject().getFile(new Path("config").append("deploy.rb")); //$NON-NLS-1$ //$NON-NLS-2$
 								IDE.openEditor(page, file);
 							}
 							catch (PartInitException e)
@@ -184,7 +184,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					// Now do an initial commit
 					repo.index().refresh(sub.newChild(15));
 					repo.index().stageFiles(repo.index().changedFiles());
-					repo.index().commit("Initial Commit");
+					repo.index().commit(Messages.DeployWizard_AutomaticGitCommitMessage);
 					sub.worked(10);
 
 					// Run commands to create/deploy
@@ -277,7 +277,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 						// Log an error
 						Activator
 								.logError(MessageFormat.format(
-										"Received a non-200 response code when sending ping to: {0}",
+										Messages.DeployWizard_FailureToGrabHerokuSignupJSError,
 										builder.toString()), null);
 					}
 					else
