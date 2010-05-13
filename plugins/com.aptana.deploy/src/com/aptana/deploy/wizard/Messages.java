@@ -41,6 +41,12 @@ public class Messages extends NLS
 	public static String FTPDeployWizardPage_SiteNameLabel;
 	public static String FTPDeployWizardPage_Title;
 	
+	public static String InstallCapistranoGemPage_Description;
+
+	public static String InstallCapistranoGemPage_InstallGemLabel;
+
+	public static String InstallCapistranoGemPage_Title;
+
 	static
 	{
 		// initialize resource bundle

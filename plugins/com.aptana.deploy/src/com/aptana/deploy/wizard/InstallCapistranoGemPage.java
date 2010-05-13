@@ -32,7 +32,7 @@ public class InstallCapistranoGemPage extends WizardPage
 
 	protected InstallCapistranoGemPage()
 	{
-		super(NAME, "Install Capistrano Gem", null);
+		super(NAME, Messages.InstallCapistranoGemPage_Title, null);
 	}
 
 	@Override
@@ -47,11 +47,11 @@ public class InstallCapistranoGemPage extends WizardPage
 
 		// Actual contents
 		Label label = new Label(composite, SWT.WRAP);
-		label.setText("The 'capistrano' gem does not appear to be installed. Click here to install it, or click 'Cancel' below.");
+		label.setText(Messages.InstallCapistranoGemPage_Description);
 		label.setLayoutData(new GridData(500, SWT.DEFAULT));
 
 		Button generateButton = new Button(composite, SWT.PUSH);
-		generateButton.setText("Install Capistrano Gem");
+		generateButton.setText(Messages.InstallCapistranoGemPage_InstallGemLabel);
 		generateButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 		generateButton.addSelectionListener(new SelectionAdapter()
 		{
