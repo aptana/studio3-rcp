@@ -8,10 +8,12 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -24,8 +26,10 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.internal.browser.BrowserViewer;
 import org.eclipse.ui.internal.browser.WebBrowserEditor;
 import org.eclipse.ui.internal.browser.WebBrowserEditorInput;
@@ -69,7 +73,11 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 			HerokuSignupPage page = (HerokuSignupPage) currentPage;
 			runnable = createHerokuSignupRunnable(page);
 		}
-		// TODO Add branch for capistrano deployment
+		else if (currentPage.getName().equals(CapifyProjectPage.NAME))
+		{
+			CapifyProjectPage page = (CapifyProjectPage) currentPage;
+			runnable = createCapifyRunnable(page);
+		}
 
 		if (runnable != null)
 		{
@@ -99,6 +107,52 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				try
 				{
 					// TODO For Michael, do the sync work here
+				}
+				finally
+				{
+					sub.done();
+				}
+			}
+		};
+		return runnable;
+	}
+
+	protected IRunnableWithProgress createCapifyRunnable(CapifyProjectPage page)
+	{
+		IRunnableWithProgress runnable;
+		runnable = new IRunnableWithProgress()
+		{
+
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+			{
+				SubMonitor sub = SubMonitor.convert(monitor, 100);
+				try
+				{
+					// Just open the config/deploy.rb file in an editor
+					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable()
+					{
+
+						@Override
+						public void run()
+						{
+							try
+							{
+								IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+										.getActivePage();
+								IFile file = getProject().getFile(new Path("config").append("deploy.rb"));
+								IDE.openEditor(page, file);
+							}
+							catch (PartInitException e)
+							{
+								throw new RuntimeException(e);
+							}
+						}
+					});
+				}
+				catch (Exception e)
+				{
+					throw new InvocationTargetException(e);
 				}
 				finally
 				{

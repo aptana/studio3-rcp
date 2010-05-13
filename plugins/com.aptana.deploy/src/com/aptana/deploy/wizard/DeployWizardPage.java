@@ -28,7 +28,7 @@ public class DeployWizardPage extends WizardPage
 	private static final String HEROKU_IMG_PATH = "icons/heroku.png"; //$NON-NLS-1$
 
 	private Button deployWithFTP;
-	// private Button deployWithCapistrano;
+	private Button deployWithCapistrano;
 	private Button deployWithHeroku;
 
 	protected DeployWizardPage()
@@ -91,8 +91,8 @@ public class DeployWizardPage extends WizardPage
 		deployWithFTP = new Button(composite, SWT.RADIO);
 		deployWithFTP.setText(Messages.DeployWizardPage_FTPLabel);
 
-		// deployWithCapistrano = new Button(composite, SWT.RADIO);
-		// deployWithCapistrano.setText(Messages.DeployWizardPage_CapistranoLabel);
+		deployWithCapistrano = new Button(composite, SWT.RADIO);
+		deployWithCapistrano.setText(Messages.DeployWizardPage_CapistranoLabel);
 
 		Dialog.applyDialogFont(composite);
 	}
@@ -141,10 +141,19 @@ public class DeployWizardPage extends WizardPage
 		{
 			nextPage = new FTPDeployWizardPage();
 		}
-		// else if (deployWithCapistrano.getSelection())
-		// {
-		// // TODO CapistranoDeployWizardPage
-		// }
+		else if (deployWithCapistrano.getSelection())
+		{
+			boolean capistranoInstalled = true;
+			// TODO need to check for existence of capistrano gem
+			if (capistranoInstalled)
+			{
+				nextPage = new CapifyProjectPage();
+			}
+//			else
+//			{
+//				nextPage = new InstallCapistranoGemPage();
+//			}
+		}
 		if (nextPage == null)
 		{
 			nextPage = super.getNextPage();
