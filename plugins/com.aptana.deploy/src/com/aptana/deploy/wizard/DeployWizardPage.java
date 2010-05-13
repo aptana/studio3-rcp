@@ -142,16 +142,14 @@ public class DeployWizardPage extends WizardPage
 		}
 		else if (deployWithCapistrano.getSelection())
 		{
-			boolean capistranoInstalled = true;
-			// TODO need to check for existence of capistrano gem
-			if (capistranoInstalled)
+			if (InstallCapistranoGemPage.isCapistranoGemInstalled())
 			{
 				nextPage = new CapifyProjectPage();
 			}
-//			else
-//			{
-//				nextPage = new InstallCapistranoGemPage();
-//			}
+			else
+			{
+				nextPage = new InstallCapistranoGemPage();
+			}
 		}
 		if (nextPage == null)
 		{
