@@ -93,12 +93,9 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		commandList.addAll(programArguments(configuration));
 
 		// Now actually launch the process!
-		Process process;
-		try {
-			process = ShellExecutable.run(commandList, getWorkingDirectory(configuration), getEnvironment(configuration));
-		} catch (IOException e) {
-			throw new CoreException(new Status(Status.ERROR, RubyDebugCorePlugin.PLUGIN_ID, "Shell execution failed.", e)); //$NON-NLS-1$
-		}
+		Process process = DebugPlugin.exec(commandList.toArray(new String[commandList.size()]),
+				getWorkingDirectory(configuration).toFile(),
+				getEnvironment(configuration));
 		// FIXME Build a label from args?
 		String label = commandList.get(0);
 
@@ -272,6 +269,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 
 	private String[] getEnvironment(ILaunchConfiguration configuration) throws CoreException
 	{
+		ShellExecutable.getEnvironment();
 		return DebugPlugin.getDefault().getLaunchManager().getEnvironment(configuration);
 	}
 
