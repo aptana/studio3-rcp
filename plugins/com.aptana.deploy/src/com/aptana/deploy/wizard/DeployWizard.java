@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -275,9 +277,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					if (responseCode != HttpURLConnection.HTTP_OK)
 					{
 						// Log an error
-						Activator
-								.logError(MessageFormat.format(
-										Messages.DeployWizard_FailureToGrabHerokuSignupJSError,
+						Activator.logError(
+								MessageFormat.format(Messages.DeployWizard_FailureToGrabHerokuSignupJSError,
 										builder.toString()), null);
 					}
 					else
@@ -422,12 +423,42 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 		}
 		return page.isPageComplete() && page.getNextPage() == null;
 	}
-	
+
+	/*
+	 * Because we're dynamic and not adding pages the normal way, the pages aren't getting disposed individually. We
+	 * need to track what pages are open and dispose them! (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#dispose()
+	 */
 	@Override
 	public void dispose()
 	{
-		// FIXME Because we're dynamic and not adding pages the normal way, the pages aren't getting disposed individually. We need to track what pages are open and dispose them!
-		super.dispose();
+		try
+		{
+			// Find current page and traverse backwards through all the pages to collect them.
+			Set<IWizardPage> pages = new HashSet<IWizardPage>();
+			IWizardPage page = getContainer().getCurrentPage();
+			while (page != null)
+			{
+				pages.add(page);
+				page = page.getPreviousPage();
+			}
+			// traverse forward
+			page = getContainer().getCurrentPage();
+			while (page != null)
+			{
+				pages.add(page);
+				page = page.getNextPage();
+			}
+			for (IWizardPage aPage : pages)
+			{
+				aPage.dispose();
+			}
+			pages = null;
+		}
+		finally
+		{
+			super.dispose();
+		}
 	}
 
 }
