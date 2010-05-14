@@ -217,7 +217,9 @@ public class InstallCapistranoGemPage extends WizardPage
 		// Determine if capistrano is installed
 		IPath path = ExecutableUtil.find("capify", true, null); //$NON-NLS-1$
 		if (path != null && path.toFile().exists())
+		{
 			return true;
+		}
 		return false;
 	}
 
