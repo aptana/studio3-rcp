@@ -27,6 +27,8 @@ public class HerokuLoginWizardPage extends WizardPage
 
 	private Text userId;
 	private Text password;
+	
+	private IWizardPage fNextPage;
 
 	protected HerokuLoginWizardPage()
 	{
@@ -127,9 +129,12 @@ public class HerokuLoginWizardPage extends WizardPage
 	@Override
 	public IWizardPage getNextPage()
 	{
-		IWizardPage nextPage = new HerokuDeployWizardPage();
-		nextPage.setWizard(getWizard());
-		return nextPage;
+		if (fNextPage == null)
+		{
+			fNextPage = new HerokuDeployWizardPage();
+			fNextPage.setWizard(getWizard());
+		}
+		return fNextPage;
 	}
 
 	@Override
