@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.browser.Browser;
@@ -27,6 +28,7 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -38,9 +40,18 @@ import org.eclipse.ui.internal.browser.WebBrowserEditorInput;
 
 import com.aptana.core.util.IOUtil;
 import com.aptana.deploy.Activator;
+import com.aptana.deploy.internal.wizard.FTPDeployComposite.Direction;
 import com.aptana.git.core.GitPlugin;
 import com.aptana.git.core.model.GitRepository;
 import com.aptana.git.core.model.IGitRepositoryManager;
+import com.aptana.ide.core.io.ConnectionPointUtils;
+import com.aptana.ide.core.io.IConnectionPoint;
+import com.aptana.ide.syncing.core.ISiteConnection;
+import com.aptana.ide.syncing.core.SiteConnectionManager;
+import com.aptana.ide.syncing.core.SiteConnectionUtils;
+import com.aptana.ide.syncing.ui.actions.BaseSyncAction;
+import com.aptana.ide.syncing.ui.actions.DownloadAction;
+import com.aptana.ide.syncing.ui.actions.UploadAction;
 import com.aptana.scripting.model.BundleElement;
 import com.aptana.scripting.model.BundleEntry;
 import com.aptana.scripting.model.BundleManager;
@@ -97,9 +108,17 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 
 	protected IRunnableWithProgress createFTPDeployRunnable(FTPDeployWizardPage page)
 	{
-		// TODO Grab values needed/connection point, etc to use in Runnable
-		IRunnableWithProgress runnable;
-		runnable = new IRunnableWithProgress()
+		if (!page.completePage())
+		{
+			return null;
+		}
+		final IConnectionPoint connectionPoint = page.getConnectionPoint();
+		final boolean isAutoSyncSelected = page.isAutoSyncSelected();
+		final Direction direction = page.getSyncDirection();
+		final IWorkbenchPart activePart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.getActivePart();
+
+		IRunnableWithProgress runnable = new IRunnableWithProgress()
 		{
 
 			@Override
@@ -108,7 +127,39 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 				SubMonitor sub = SubMonitor.convert(monitor, 100);
 				try
 				{
-					// TODO For Michael, do the sync work here
+					ISiteConnection site;
+					ISiteConnection[] sites = SiteConnectionUtils.findSites(project, connectionPoint);
+					if (sites.length == 0)
+					{
+						// creates the site to link the project with the FTP connection
+						site = SiteConnectionUtils.createSite(MessageFormat.format("{0} <-> {1}", project.getName(), //$NON-NLS-1$
+								connectionPoint.getName()), ConnectionPointUtils
+								.createWorkspaceConnectionPoint(project), connectionPoint);
+						SiteConnectionManager.getInstance().addSiteConnection(site);
+					}
+					else
+					{
+						// the site to link the project with the FTP connection already exists
+						site = sites[0];
+					}
+
+					if (isAutoSyncSelected)
+					{
+						BaseSyncAction action = null;
+						switch (direction)
+						{
+							case UPLOAD:
+								action = new UploadAction();
+								break;
+							case DOWNLOAD:
+								action = new DownloadAction();
+								break;
+						}
+						action.setActivePart(null, activePart);
+						action.setSelection(new StructuredSelection(project));
+						action.setSelectedSite(site);
+						action.run(null);
+					}
 				}
 				finally
 				{
@@ -376,9 +427,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 	public void addPages()
 	{
 		// Add the first basic page where they choose the deployment option
-		addPage(new DeployWizardPage());
-		setForcePreviousAndNextButtons(true); // we only add one page here, but we calculate the next page
-												// dynamically...
+		addPage(new DeployWizardPage(project));
+		setForcePreviousAndNextButtons(true); // we only add one page here, but we calculate the next page dynamically...
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class DeployAction extends Action implements IObjectActionDelegate
 			shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		}
 		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.setPageSize(350, 400);
+		dialog.setPageSize(350, 470);
 		dialog.create();
 		dialog.open();
 	}

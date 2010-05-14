@@ -30,9 +30,12 @@ public class DeployWizardPage extends WizardPage
 	private Button deployWithCapistrano;
 	private Button deployWithHeroku;
 
-	protected DeployWizardPage()
+	private IProject project;
+
+	protected DeployWizardPage(IProject project)
 	{
 		super(NAME, Messages.DeployWizardPage_Title, null);
+		this.project = project;
 	}
 
 	@Override
@@ -126,7 +129,7 @@ public class DeployWizardPage extends WizardPage
 		// re-creating new objects for next page.
 		IWizardPage nextPage = null;
 		// Determine what page is next by the user's choice in the radio buttons
-		if (deployWithHeroku.getSelection())
+		if (deployWithHeroku != null && deployWithHeroku.getSelection())
 		{
 			File credentials = HerokuAPI.getCredentialsFile();
 			if (credentials.exists() && HerokuAPI.fromCredentials().authenticate().isOK())
@@ -140,7 +143,7 @@ public class DeployWizardPage extends WizardPage
 		}
 		else if (deployWithFTP.getSelection())
 		{
-			nextPage = new FTPDeployWizardPage();
+			nextPage = new FTPDeployWizardPage(project);
 		}
 		else if (deployWithCapistrano.getSelection())
 		{

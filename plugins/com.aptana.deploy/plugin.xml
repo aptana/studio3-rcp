@@ -14,5 +14,11 @@
          </action>
       </objectContribution>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.aptana.deploy.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>
