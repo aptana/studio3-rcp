@@ -135,11 +135,17 @@ public class CapifyProjectPage extends WizardPage
 	@Override
 	public void dispose()
 	{
-		if (fCtlTerminal != null)
+		try
 		{
-			fCtlTerminal.disposeTerminal();
+			if (fCtlTerminal != null)
+			{
+				fCtlTerminal.disposeTerminal();
+			}
 		}
-		super.dispose();
+		finally
+		{
+			super.dispose();
+		}
 	}
 
 	private ITerminalConnector[] getTerminalConnectors()
