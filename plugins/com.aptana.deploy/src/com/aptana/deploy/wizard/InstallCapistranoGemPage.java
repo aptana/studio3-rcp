@@ -4,7 +4,11 @@ import java.io.File;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -21,6 +25,7 @@ import org.eclipse.tm.internal.terminal.control.ITerminalListener;
 import org.eclipse.tm.internal.terminal.provisional.api.ITerminalConnector;
 import org.eclipse.tm.internal.terminal.provisional.api.TerminalConnectorExtension;
 import org.eclipse.tm.internal.terminal.provisional.api.TerminalState;
+import org.eclipse.ui.PlatformUI;
 
 import com.aptana.core.util.ExecutableUtil;
 import com.aptana.core.util.ProcessUtil;
@@ -34,6 +39,7 @@ public class InstallCapistranoGemPage extends WizardPage
 	static final String NAME = "InstallCapistrano"; //$NON-NLS-1$
 	private VT100TerminalControl fCtlTerminal;
 	private IWizardPage fNextPage;
+	protected Job checkGemInstalledJob;
 
 	protected InstallCapistranoGemPage()
 	{
@@ -92,6 +98,41 @@ public class InstallCapistranoGemPage extends WizardPage
 
 				// install gem
 				fCtlTerminal.pasteString("gem install capistrano\n"); //$NON-NLS-1$
+
+				// Poll to check if capistrano is installed
+				if (checkGemInstalledJob == null)
+				{
+					checkGemInstalledJob = new Job("Checking if capistrano gem is installed")
+					{
+						protected IStatus run(IProgressMonitor monitor)
+						{
+							if (monitor != null && monitor.isCanceled())
+							{
+								return Status.CANCEL_STATUS;
+							}
+							if (isCapistranoGemInstalled())
+							{
+								PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable()
+								{
+
+									@Override
+									public void run()
+									{
+										getContainer().updateButtons(); // ok update the wizard
+									}
+								});
+							}
+							else
+							{
+								schedule(1000); // check again in a second
+							}
+							return Status.OK_STATUS;
+						}
+					};
+					checkGemInstalledJob.setSystem(true);
+				}
+				checkGemInstalledJob.cancel();
+				checkGemInstalledJob.schedule(1000);
 			}
 		});
 
@@ -120,8 +161,6 @@ public class InstallCapistranoGemPage extends WizardPage
 		fCtlTerminal.setConnector(fCtlTerminal.getConnectors()[0]);
 		fCtlTerminal.connectTerminal();
 
-		// TODO Need to listen to console/process/poll to determine when it's done and check if gem was installed!
-
 		Dialog.applyDialogFont(composite);
 	}
 
@@ -130,6 +169,11 @@ public class InstallCapistranoGemPage extends WizardPage
 	{
 		try
 		{
+			if (checkGemInstalledJob != null)
+			{
+				checkGemInstalledJob.cancel();
+				checkGemInstalledJob = null;
+			}
 			if (fCtlTerminal != null)
 			{
 				fCtlTerminal.disposeTerminal();
