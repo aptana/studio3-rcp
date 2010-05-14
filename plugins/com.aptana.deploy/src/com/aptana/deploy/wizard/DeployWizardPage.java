@@ -122,6 +122,8 @@ public class DeployWizardPage extends WizardPage
 	@Override
 	public IWizardPage getNextPage()
 	{
+		// TODO Should hold onto "next" page and dispose it if user progress back and forth here since we keep
+		// re-creating new objects for next page.
 		IWizardPage nextPage = null;
 		// Determine what page is next by the user's choice in the radio buttons
 		if (deployWithHeroku.getSelection())
