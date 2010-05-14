@@ -1,7 +1,10 @@
 package com.aptana.deploy.wizard;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -20,6 +23,7 @@ import org.eclipse.tm.internal.terminal.provisional.api.TerminalConnectorExtensi
 import org.eclipse.tm.internal.terminal.provisional.api.TerminalState;
 
 import com.aptana.core.util.ExecutableUtil;
+import com.aptana.core.util.ProcessUtil;
 import com.aptana.terminal.connector.LocalTerminalConnector;
 import com.aptana.terminal.internal.emulator.VT100TerminalControl;
 
@@ -29,6 +33,7 @@ public class InstallCapistranoGemPage extends WizardPage
 
 	static final String NAME = "InstallCapistrano"; //$NON-NLS-1$
 	private VT100TerminalControl fCtlTerminal;
+	private IWizardPage fNextPage;
 
 	protected InstallCapistranoGemPage()
 	{
@@ -63,8 +68,29 @@ public class InstallCapistranoGemPage extends WizardPage
 					fCtlTerminal.clearTerminal();
 				}
 
+				// Need to check to see if we should run under sudo to install gem...
+				if (!Platform.getOS().equals(Platform.OS_WIN32))
+				{
+					// TODO This code is pretty blase about possible nulls/errors/etc. Should probably try and make it
+					// more bullet-proof.
+
+					// grab the path to the gem executable dir
+					IPath gemBin = ExecutableUtil.find("gem", true, null); //$NON-NLS-1$
+					String output = ProcessUtil.outputForCommand(gemBin.toOSString(), null, "environment"); //$NON-NLS-1$
+					final String searchString = "EXECUTABLE DIRECTORY:"; //$NON-NLS-1$
+					int index = output.indexOf(searchString);
+					output = output.substring(index + searchString.length());
+					// find first newline...
+					output = output.split("\r\n|\r|\n")[0].trim(); //$NON-NLS-1$
+					// Now see if user has rights to write to this dir to determine if we need to run under sudo
+					if (!new File(output).canWrite())
+					{
+						// Does not have permission
+						fCtlTerminal.pasteString("sudo "); //$NON-NLS-1$
+					}
+				}
+
 				// install gem
-				// TODO Determine if we need to run via sudo or not!
 				fCtlTerminal.pasteString("gem install capistrano\n"); //$NON-NLS-1$
 			}
 		});
@@ -102,11 +128,17 @@ public class InstallCapistranoGemPage extends WizardPage
 	@Override
 	public void dispose()
 	{
-		if (fCtlTerminal != null)
+		try
 		{
-			fCtlTerminal.disposeTerminal();
+			if (fCtlTerminal != null)
+			{
+				fCtlTerminal.disposeTerminal();
+			}
 		}
-		super.dispose();
+		finally
+		{
+			super.dispose();
+		}
 	}
 
 	private ITerminalConnector[] getTerminalConnectors()
@@ -122,9 +154,12 @@ public class InstallCapistranoGemPage extends WizardPage
 	@Override
 	public IWizardPage getNextPage()
 	{
-		IWizardPage nextPage = new CapifyProjectPage();
-		nextPage.setWizard(getWizard());
-		return nextPage;
+		if (fNextPage == null)
+		{
+			fNextPage = new CapifyProjectPage();
+			fNextPage.setWizard(getWizard());
+		}
+		return fNextPage;
 	}
 
 	@Override
