@@ -133,8 +133,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					{
 						// creates the site to link the project with the FTP connection
 						site = SiteConnectionUtils.createSite(MessageFormat.format("{0} <-> {1}", project.getName(), //$NON-NLS-1$
-								connectionPoint.getName()), ConnectionPointUtils
-								.createWorkspaceConnectionPoint(project), connectionPoint);
+								connectionPoint.getName()),
+								ConnectionPointUtils.createWorkspaceConnectionPoint(project), connectionPoint);
 						SiteConnectionManager.getInstance().addSiteConnection(site);
 					}
 					else
@@ -248,23 +248,15 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 						@Override
 						public void run()
 						{
-							// TODO How do we determine when these commands are done? Probably need to sleep between
-							// these...
-//							CommandElement command = getCommand(bundleName, "Install Gem"); //$NON-NLS-1$
-//							command.execute();
-
 							CommandElement command = getCommand(bundleName, "Create App"); //$NON-NLS-1$
+							if (publishImmediately)
+							{
+								command = getCommand(bundleName, "Create and Deploy App"); //$NON-NLS-1$
+							}
 							// Send along the app name
 							CommandContext context = command.createCommandContext();
 							context.put("HEROKU_APP_NAME", appName); //$NON-NLS-1$
 							command.execute(context);
-							// TODO We need to wait until this is done! This opens a terminal, is there any way we can grab it and query if the underlying process is done and successful?
-
-							if (publishImmediately)
-							{
-								command = getCommand(bundleName, "Deploy App"); //$NON-NLS-1$
-								command.execute();
-							}
 						}
 					});
 
@@ -429,7 +421,8 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 	{
 		// Add the first basic page where they choose the deployment option
 		addPage(new DeployWizardPage(project));
-		setForcePreviousAndNextButtons(true); // we only add one page here, but we calculate the next page dynamically...
+		setForcePreviousAndNextButtons(true); // we only add one page here, but we calculate the next page
+												// dynamically...
 	}
 
 	@Override
