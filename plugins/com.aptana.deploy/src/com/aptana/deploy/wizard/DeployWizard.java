@@ -250,14 +250,15 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 						{
 							// TODO How do we determine when these commands are done? Probably need to sleep between
 							// these...
-							CommandElement command = getCommand(bundleName, "Install Gem"); //$NON-NLS-1$
-							command.execute();
+//							CommandElement command = getCommand(bundleName, "Install Gem"); //$NON-NLS-1$
+//							command.execute();
 
-							command = getCommand(bundleName, "Create App"); //$NON-NLS-1$
+							CommandElement command = getCommand(bundleName, "Create App"); //$NON-NLS-1$
 							// Send along the app name
 							CommandContext context = command.createCommandContext();
 							context.put("HEROKU_APP_NAME", appName); //$NON-NLS-1$
 							command.execute(context);
+							// TODO We need to wait until this is done!
 
 							if (publishImmediately)
 							{

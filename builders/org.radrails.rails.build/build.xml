@@ -182,6 +182,8 @@
 					<include name="org.jruby_*.jar" />
 					<include name="com.aptana.branding_*.jar" />
 					<include name="com.aptana.ide.libraries.subscription_*.jar" />
+					<include name="com.aptana.editor.ruby_*.jar" />
+          <include name="com.aptana.parsing_*.jar" />
 				</fileset>
 			</path>
 			<sequential>
