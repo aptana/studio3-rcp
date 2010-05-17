@@ -2,6 +2,10 @@ package com.aptana.deploy.wizard;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IPageChangeProvider;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -27,7 +31,7 @@ public class HerokuLoginWizardPage extends WizardPage
 
 	private Text userId;
 	private Text password;
-	
+
 	private IWizardPage fNextPage;
 
 	protected HerokuLoginWizardPage()
@@ -98,7 +102,7 @@ public class HerokuLoginWizardPage extends WizardPage
 				}
 				else
 				{
-					api.writeCredentials();
+//					api.writeCredentials(); // we write them automatically via a page changed listener below...
 					// if page is complete move on to next page
 					if (isPageComplete())
 					{
@@ -124,6 +128,24 @@ public class HerokuLoginWizardPage extends WizardPage
 		});
 
 		Dialog.applyDialogFont(composite);
+
+		// Save credentials if user hit Next too!!!
+		IWizardContainer container = getWizard().getContainer();
+		((IPageChangeProvider) container).addPageChangedListener(new IPageChangedListener()
+		{
+
+			@Override
+			public void pageChanged(PageChangedEvent event)
+			{
+				Object selected = event.getSelectedPage();
+				if (selected instanceof HerokuDeployWizardPage)
+				{
+					// If user has moved on to deploy page, write their credentials to a file
+					HerokuAPI api = new HerokuAPI(userId.getText(), password.getText());
+					api.writeCredentials();
+				}
+			}
+		});
 	}
 
 	@Override
