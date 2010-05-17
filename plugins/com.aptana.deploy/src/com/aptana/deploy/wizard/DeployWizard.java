@@ -258,7 +258,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 							CommandContext context = command.createCommandContext();
 							context.put("HEROKU_APP_NAME", appName); //$NON-NLS-1$
 							command.execute(context);
-							// TODO We need to wait until this is done!
+							// TODO We need to wait until this is done! This opens a terminal, is there any way we can grab it and query if the underlying process is done and successful?
 
 							if (publishImmediately)
 							{
@@ -319,7 +319,7 @@ public class DeployWizard extends Wizard implements IWorkbenchWizard
 					builder.append(URLEncoder.encode(PingStartup.getApplicationId(), "UTF-8")); //$NON-NLS-1$
 					builder.append("&email="); //$NON-NLS-1$
 					builder.append(URLEncoder.encode(userID, "UTF-8")); //$NON-NLS-1$
-					builder.append("&type=signup"); //$NON-NLS-1$
+					builder.append("&type=signuphook"); //$NON-NLS-1$
 
 					URL url = new URL(builder.toString());
 					connection = (HttpURLConnection) url.openConnection();
