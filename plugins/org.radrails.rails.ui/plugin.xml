@@ -205,6 +205,35 @@
                id="org.radrails.rails.ui.actions.RunScriptServerAction"
                label="%ScriptServerAction.label"
                tooltip="%ScriptServerAction.tooltip">
+            <enablement>
+               <and>
+                  <objectClass
+                        name="org.eclipse.core.resources.IResource">
+                  </objectClass>
+                  <objectState
+                        name="projectNature"
+                        value="org.radrails.rails.core.railsnature">
+                  </objectState>
+               </and>
+            </enablement>
+         </action>
+         <action
+               class="org.radrails.rails.internal.ui.actions.DebugScriptServerAction"
+               definitionId="org.radrails.rails.ui.command.debug.server"
+               id="org.radrails.rails.ui.actions.DebugScriptServerAction"
+               label="%DebugScriptServerAction.label"
+               tooltip="%DebugScriptServerAction.tooltip">
+            <enablement>
+               <and>
+                  <objectClass
+                        name="org.eclipse.core.resources.IResource">
+                  </objectClass>
+                  <objectState
+                        name="projectNature"
+                        value="org.radrails.rails.core.railsnature">
+                  </objectState>
+               </and>
+            </enablement>
          </action>
       </objectContribution>
    </extension>
