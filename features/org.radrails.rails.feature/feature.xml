@@ -10,7 +10,7 @@
       %description
    </description>
 
-   <copyright url="http://www.aptana.com">
+   <copyright url="%copyrightURL">
       %copyright
    </copyright>
 
