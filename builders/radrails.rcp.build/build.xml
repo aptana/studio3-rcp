@@ -92,6 +92,10 @@
 				<include name="features/*" />
 				<include name="plugins/*" />
 			</fileset>
+			<fileset dir="${php.p2.repo}" defaultexcludes="true">
+				<include name="features/*" />
+				<include name="plugins/*" />
+			</fileset>
 			<fileset dir="${red.dir}" defaultexcludes="true">
 				<include name="features/*" />
 				<include name="plugins/*" />

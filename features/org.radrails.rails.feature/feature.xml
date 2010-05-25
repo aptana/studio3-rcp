@@ -31,4 +31,8 @@
          version="0.0.0"
          name="RadRails"/>
 
+   <includes
+         id="com.aptana.php.feature"
+         version="0.0.0"/>
+
 </feature>
