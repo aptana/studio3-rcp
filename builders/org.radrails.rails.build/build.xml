@@ -188,6 +188,7 @@
 					<include name="com.aptana.ide.libraries.subscription_*.jar" />
           			<include name="com.aptana.parsing_*.jar" />
 					<include name="com.aptana.php.libraries_*.jar" />
+					<include name="com.aptana.portablegit.win32_*.jar" />
 				</fileset>
 			</path>
 			<sequential>
