@@ -8,7 +8,7 @@
    </feature>
    <category-def name="Aptana Studio 3 RCP" label="Aptana Studio 3 RCP">
       <description>
-         Updates for Studio 3 as a standalone installation.
+         Updates for Aptana Studio 3 as a standalone installation.
       </description>
    </category-def>
 </site>
