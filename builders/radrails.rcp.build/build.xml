@@ -67,10 +67,10 @@
 		</delete>
 		<delete dir="${buildDirectory}/${buildLabel}" failonerror="false" />
 		<delete dir="${p2.repo.dir}" failonerror="false" />
-		<!-- Do an git checkout of the build directory -->
+		<!-- Do a git clean of the build directory -->
 		<exec executable="/bin/bash" dir="${buildDirectory}">
-			<arg value="-c" />
-			<arg value="${git.executable} checkout -f" />
+		  <arg value="-c" />
+		  <arg value="${git.executable} clean -f -d -x" />
 		</exec>
 	</target>
 
