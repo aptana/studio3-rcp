@@ -105,9 +105,8 @@
 		<replace file="${buildDirectory}/plugins/com.aptana.radrails.rcp/plugin.properties" token="0.0.0.qualifier" value="${version.full}" />
 		<replace file="${buildDirectory}/plugins/com.aptana.radrails.rcp/plugin.properties" token="%timestamp%" value="${timestamp}" />
 		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp/feature.properties" token="build.name" value="${build.name}" />
-		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp.wrapper/feature.properties" token="build.name" value="${build.name}" />
-		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp.wrapper/rootfiles/version.txt" token="0.0.0" value="${version.full}" />
-		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp.wrapper/rootfiles/version.txt" token=".qualifier" value="${build.revision}" />
+		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp/rootfiles/version.txt" token="0.0.0" value="${version.full}" />
+		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp/rootfiles/version.txt" token=".qualifier" value="${build.revision}" />
 	</target>
 
 	<!-- ===================================================================== -->
