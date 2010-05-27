@@ -51,7 +51,6 @@
 
    <features>
       <feature id="com.aptana.radrails.feature.rcp"/>
-      <feature id="com.aptana.radrails.feature.rcp.wrapper"/>
    </features>
 
 
