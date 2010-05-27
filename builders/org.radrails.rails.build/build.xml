@@ -151,6 +151,10 @@
 				<include name="features/*" />
 				<include name="plugins/*" />
 			</fileset>
+			<fileset dir="${php.p2.repo}" defaultexcludes="true">
+				<include name="features/*" />
+				<include name="plugins/*" />
+			</fileset>
 		</copy>
 
 		<!-- Unjar the features -->
@@ -177,6 +181,9 @@
 					<include name="org.jruby_*.jar" />
 					<include name="com.aptana.branding_*.jar" />
 					<include name="com.aptana.ide.libraries.subscription_*.jar" />
+          			<include name="com.aptana.parsing_*.jar" />
+					<include name="com.aptana.php.libraries_*.jar" />
+					<include name="com.aptana.portablegit.win32_*.jar" />
 				</fileset>
 			</path>
 			<sequential>

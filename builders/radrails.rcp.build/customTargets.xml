@@ -164,7 +164,7 @@
 		<antcall target="publish" />
 	</target>
 
-	<target name="modify.binaries">
+	<target name="modify.binaries" unless="dont.modify.binaries">
 		<!-- TODO Fix config.ini on other platforms! -->
 		<!-- =========== Mac 64-bit Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
@@ -177,7 +177,8 @@
 				<flattenmapper />
 			</mapper>
 		</pathconvert>
-		<property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />
+		<!-- FIXME This artifact is already a directory on 3.6! No need to unzip -->
+		<property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />		
 		<mkdir dir="${mac.cocoa.launcher.dir}" />
 		<unzip src="${p2.repo.dir}/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
 		<delete file="${p2.repo.dir}/binary/${mac.cocoa.launcher}" />

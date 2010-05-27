@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.Path;
 
 import com.aptana.terminal.views.TerminalView;
 
-public class RunScriptServerAction extends RailsScriptAction
+public class ScriptConsoleAction extends RailsScriptAction
 {
 
 	@Override
@@ -18,14 +18,14 @@ public class RunScriptServerAction extends RailsScriptAction
 		if (railsProject == null)
 			return;
 		// now determine which version so we can tell what to run...
-		String viewId = MessageFormat.format("{0} script/rails server", railsProject //$NON-NLS-1$
+		String viewId = MessageFormat.format("{0} script/rails console", railsProject //$NON-NLS-1$
 				.getName());
-		String command = "script/rails server"; //$NON-NLS-1$
-		if (scriptServerExists(railsProject))
+		String command = "script/rails console"; //$NON-NLS-1$
+		if (scriptConsoleExists(railsProject))
 		{
-			viewId = MessageFormat.format("{0} script/server", railsProject //$NON-NLS-1$
+			viewId = MessageFormat.format("{0} script/console", railsProject //$NON-NLS-1$
 					.getName());
-			command = "script/server"; //$NON-NLS-1$
+			command = "script/console"; //$NON-NLS-1$
 		}
 		// Now do the launch in terminal
 		TerminalView term = TerminalView.openView(viewId, viewId, railsProject.getLocation());
@@ -35,10 +35,10 @@ public class RunScriptServerAction extends RailsScriptAction
 		}
 	}
 
-	protected boolean scriptServerExists(IProject railsProject)
+	protected boolean scriptConsoleExists(IProject railsProject)
 	{
-		IFile scriptServer = railsProject.getFile(new Path("script").append("server")); //$NON-NLS-1$ //$NON-NLS-2$
-		return scriptServer != null && scriptServer.exists();
+		IFile scriptConsole = railsProject.getFile(new Path("script").append("console")); //$NON-NLS-1$ //$NON-NLS-2$
+		return scriptConsole != null && scriptConsole.exists();
 	}
 
 }

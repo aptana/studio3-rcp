@@ -10,7 +10,7 @@
       %description
    </description>
 
-   <copyright url="http://www.aptana.com">
+   <copyright url="%copyrightURL">
       %copyright
    </copyright>
 
@@ -30,5 +30,9 @@
          id="org.radrails.rails"
          version="0.0.0"
          name="RadRails"/>
+
+   <includes
+         id="com.aptana.php.feature"
+         version="0.0.0"/>
 
 </feature>

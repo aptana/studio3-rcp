@@ -67,10 +67,10 @@
 		</delete>
 		<delete dir="${buildDirectory}/${buildLabel}" failonerror="false" />
 		<delete dir="${p2.repo.dir}" failonerror="false" />
-		<!-- Do an git checkout of the build directory -->
+		<!-- Do a git clean of the build directory -->
 		<exec executable="/bin/bash" dir="${buildDirectory}">
-			<arg value="-c" />
-			<arg value="${git.executable} checkout -f" />
+		  <arg value="-c" />
+		  <arg value="${git.executable} clean -f -d -x" />
 		</exec>
 	</target>
 
@@ -89,6 +89,10 @@
 		<mkdir dir="${baseLocation}/dropins/eclipse" />
 		<copy todir="${baseLocation}/dropins/eclipse">
 			<fileset dir="${red-core.p2.repo}" defaultexcludes="true">
+				<include name="features/*" />
+				<include name="plugins/*" />
+			</fileset>
+			<fileset dir="${php.p2.repo}" defaultexcludes="true">
 				<include name="features/*" />
 				<include name="plugins/*" />
 			</fileset>
@@ -122,6 +126,9 @@
 					<include name="org.jruby_*.jar" />
 					<include name="com.aptana.branding_*.jar" />
 					<include name="com.aptana.ide.libraries.subscription_*.jar" />
+					<include name="com.aptana.parsing_*.jar" />
+					<include name="com.aptana.php.libraries_*.jar" />
+					<include name="com.aptana.portablegit.win32_*.jar" />
 				</fileset>
 			</path>
 			<sequential>

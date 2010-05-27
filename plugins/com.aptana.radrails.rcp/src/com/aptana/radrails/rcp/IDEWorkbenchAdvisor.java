@@ -38,7 +38,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.AutomaticUpdatePlugin;
 import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.PreferenceConstants;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -89,6 +91,7 @@ import org.osgi.service.prefs.BackingStoreException;
 import com.aptana.commandline.launcher.CommandlineArgumentsHandler;
 import com.aptana.commandline.launcher.server.LauncherServer;
 import com.aptana.commandline.launcher.server.port.PortManager;
+import com.aptana.radrails.rcp.preferences.IPreferenceConstants;
 import com.ibm.icu.text.Collator;
 
 /**
@@ -265,10 +268,11 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
             Job.getJobManager().resume();
         }
 
+        initPreferences();
+
         // Force Automatic Updates
         IEclipsePreferences prefs = new ConfigurationScope().getNode(IdePlugin.PLUGIN_ID);
 		boolean alreadyForcedAutomaticUpdate = prefs.getBoolean(FORCED_AUTOMATIC_UPDATE, false);
-
 		if (!alreadyForcedAutomaticUpdate) {
 			IPreferenceStore automaticUpdatePluginPreferenceStore = AutomaticUpdatePlugin.getDefault().getPreferenceStore();
 			automaticUpdatePluginPreferenceStore.setValue(
@@ -907,4 +911,34 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         return openFiles;
     }
 
+	private void initPreferences()
+	{
+		// Force "auto-refresh" pref to true by default for RadRails
+		IEclipsePreferences prefs = new DefaultScope().getNode(ResourcesPlugin.PI_RESOURCES);
+		prefs.putBoolean(ResourcesPlugin.PREF_AUTO_REFRESH, true);
+
+		if (!Platform.getPreferencesService().getBoolean(IdePlugin.PLUGIN_ID,
+				IPreferenceConstants.WORKSPACE_ENCODING_SET, false, null))
+		{
+			try
+			{
+				ResourcesPlugin.getWorkspace().getRoot().setDefaultCharset("UTF-8", null); //$NON-NLS-1$
+			}
+			catch (CoreException e)
+			{
+				IdePlugin.getDefault().getLog().log(
+						new Status(IStatus.ERROR, IdePlugin.PLUGIN_ID, IStatus.OK,
+								Messages.PreferenceInitializer_Cannot_Set_Default_Encoding, e));
+			}
+			prefs = (new InstanceScope()).getNode(IdePlugin.PLUGIN_ID);
+			prefs.putBoolean(IPreferenceConstants.WORKSPACE_ENCODING_SET, true);
+			try
+			{
+				prefs.flush();
+			}
+			catch (BackingStoreException e)
+			{
+			}
+		}
+	}
 }

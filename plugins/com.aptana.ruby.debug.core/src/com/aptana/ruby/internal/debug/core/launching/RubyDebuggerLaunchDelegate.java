@@ -17,7 +17,10 @@ import java.net.ServerSocket;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -269,8 +272,28 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 
 	private String[] getEnvironment(ILaunchConfiguration configuration) throws CoreException
 	{
-		ShellExecutable.getEnvironment();
-		return DebugPlugin.getDefault().getLaunchManager().getEnvironment(configuration);
+		Map<String, String> env = new HashMap<String, String>();
+		env.putAll(ShellExecutable.getEnvironment());
+		String[] envp =  DebugPlugin.getDefault().getLaunchManager().getEnvironment(configuration);
+		if (envp != null) {
+			for (String envstring : envp) {
+				if (envstring.indexOf((int) '\u0000') != -1) {
+					envstring = envstring.replaceFirst("\u0000.*", "");
+				}
+				int eqlsign = envstring.indexOf('=');
+				if (eqlsign != -1) {
+					env.put(envstring.substring(0,eqlsign), envstring.substring(eqlsign+1));
+				}
+			}
+		}
+		if (env.isEmpty()) {
+			return null;
+		}
+		List<String> list = new ArrayList<String>();
+		for (Entry<String, String> entry : env.entrySet()) {
+			list.add(entry.getKey()+"="+entry.getValue());
+		}
+		return list.toArray(new String[list.size()]);
 	}
 
 	/**
