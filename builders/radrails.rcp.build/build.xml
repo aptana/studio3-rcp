@@ -148,7 +148,6 @@
 				<exclude name="plugins/com.aptana.radrails.intro/**/*" />
 				<include name="features**/*" />
 				<exclude name="features/com.aptana.radrails.feature.rcp/**/*" />
-				<exclude name="features/com.aptana.radrails.feature.rcp.wrapper/**/*" />
 			</fileset>
 		</delete>
 	</target>

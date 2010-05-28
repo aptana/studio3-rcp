@@ -105,9 +105,8 @@
 		<replace file="${buildDirectory}/plugins/com.aptana.radrails.rcp/plugin.properties" token="0.0.0.qualifier" value="${version.full}" />
 		<replace file="${buildDirectory}/plugins/com.aptana.radrails.rcp/plugin.properties" token="%timestamp%" value="${timestamp}" />
 		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp/feature.properties" token="build.name" value="${build.name}" />
-		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp.wrapper/feature.properties" token="build.name" value="${build.name}" />
-		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp.wrapper/rootfiles/version.txt" token="0.0.0" value="${version.full}" />
-		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp.wrapper/rootfiles/version.txt" token=".qualifier" value="${build.revision}" />
+		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp/rootfiles/version.txt" token="0.0.0" value="${version.full}" />
+		<replace file="${buildDirectory}/features/com.aptana.radrails.feature.rcp/rootfiles/version.txt" token=".qualifier" value="${build.revision}" />
 	</target>
 
 	<!-- ===================================================================== -->
@@ -163,7 +162,7 @@
 		<antcall target="updateSite" />
 		<antcall target="publish" />
 	</target>
-
+  
 	<target name="modify.binaries" unless="dont.modify.binaries">
 		<!-- TODO Fix config.ini on other platforms! -->
 		<!-- =========== Mac 64-bit Mangling ==================================================== -->
@@ -171,13 +170,12 @@
 		<!-- cocoa -->
 		<pathconvert property="mac.cocoa.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.cocoa.macosx.x86_64_*" />
+				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_64_*" />
 			</fileset>
 			<mapper>
 				<flattenmapper />
 			</mapper>
 		</pathconvert>
-		<!-- FIXME This artifact is already a directory on 3.6! No need to unzip -->
 		<property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />		
 		<mkdir dir="${mac.cocoa.launcher.dir}" />
 		<unzip src="${p2.repo.dir}/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
@@ -202,7 +200,7 @@
 		<!-- Unzip the launcher to a temp dir... -->
 		<pathconvert property="win32.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.win32.win32.x86_3*" />
+				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.win32.win32.x86_3*" />
 			</fileset>
 			<mapper>
 				<flattenmapper />
@@ -226,7 +224,7 @@
 		<!-- Unzip the launcher to a temp dir... -->
 		<pathconvert property="win64.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.win32.win32.x86_64_*" />
+				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.win32.win32.x86_64_*" />
 			</fileset>
 			<mapper>
 				<flattenmapper />
@@ -250,7 +248,7 @@
 		<!-- Unzip the launcher to a temp dir... -->
 		<pathconvert property="linux.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.gtk.linux.x86_3*" />
+				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.gtk.linux.x86_3*" />
 			</fileset>
 			<mapper>
 				<flattenmapper />
@@ -274,7 +272,7 @@
 		<!-- Unzip the launcher to a temp dir... -->
 		<pathconvert property="linux_64.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.launcher.gtk.linux.x86_64_*" />
+				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.gtk.linux.x86_64_*" />
 			</fileset>
 			<mapper>
 				<flattenmapper />
