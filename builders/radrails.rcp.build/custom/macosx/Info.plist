@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5</string>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>APTS</string>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+	<string>3.0</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
