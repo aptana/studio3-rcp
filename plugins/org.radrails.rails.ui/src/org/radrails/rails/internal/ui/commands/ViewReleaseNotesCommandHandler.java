@@ -19,9 +19,7 @@ import org.radrails.rails.ui.RailsUIPlugin;
  *
  */
 public class ViewReleaseNotesCommandHandler extends AbstractHandler {
-	private static final String RELEASE_NOTES_URL_STRING = "http://radrails.org/tools/radrails/releasenotes/studio3preview"; //$NON-NLS-1$
-	// TODO: switch to real release notes location once we go public
-	// private static final String RELEASE_NOTES_URL_STRING = "http://aptana.org/tools/studio3/releasenotes"; //$NON-NLS-1$
+	private static final String RELEASE_NOTES_URL_STRING = "http://aptana.com/products/studio3/releasenotes"; //$NON-NLS-1$
 	private static URL RELEASE_NOTES_URL;
 
 	static
