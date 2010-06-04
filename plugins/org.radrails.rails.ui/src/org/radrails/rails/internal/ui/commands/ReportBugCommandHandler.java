@@ -13,7 +13,7 @@ import org.radrails.rails.ui.RailsUIPlugin;
 
 public class ReportBugCommandHandler extends AbstractHandler
 {
-	private static final String REPORT_BUG_URL_STRING = "https://aptana.lighthouseapp.com/projects/35266-radrails/tickets/new"; //$NON-NLS-1$
+	private static final String REPORT_BUG_URL_STRING = "https://aptana.lighthouseapp.com/projects/45260-rr3/tickets/new"; //$NON-NLS-1$
 	private static URL REPORT_BUG_URL;
 
 	static
