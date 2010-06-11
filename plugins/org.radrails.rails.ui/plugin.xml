@@ -69,6 +69,9 @@
                relative="org.eclipse.ui.console.ConsoleView"
                visible="false">
          </view>
+         <viewShortcut
+               id="org.eclipse.ui.console.ConsoleView">
+         </viewShortcut>
          <view
                id="org.eclipse.pde.runtime.LogView"
                relationship="stack"
