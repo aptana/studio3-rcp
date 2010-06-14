@@ -80,7 +80,7 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	protected void initializeDefaultPageImageDescriptor()
 	{
 		ImageDescriptor desc = RailsUIPlugin.imageDescriptorFromPlugin(RailsUIPlugin.getPluginIdentifier(),
-				"icons/newproj_wiz.gif"); //$NON-NLS-1$
+				"icons/newproj_wiz.png"); //$NON-NLS-1$
 		setDefaultPageImageDescriptor(desc);
 	}
 

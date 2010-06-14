@@ -23,7 +23,7 @@
             category="org.radrails.rails.ui.category"
             class="org.radrails.rails.internal.ui.NewProjectWizard"
             finalPerspective="org.radrails.rails.ui.PerspectiveRails"
-            icon="icons/newproj.gif"
+            icon="icons/newproj.png"
             id="org.radrails.rails.ui.projectWizard"
             name="%wizard.name"
             preferredPerspectives="org.radrails.rails.ui.PerspectiveRails"
