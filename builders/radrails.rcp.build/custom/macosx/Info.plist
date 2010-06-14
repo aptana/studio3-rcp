@@ -70,7 +70,7 @@
 				<string>css</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>CSS</string>
+			<string>css.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Cascading style sheet</string>
 			<key>CFBundleTypeRole</key>
@@ -85,7 +85,7 @@
 				<string>shtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>HTML</string>
+			<string>html.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>HTML document</string>
 			<key>CFBundleTypeRole</key>
@@ -98,7 +98,7 @@
 				<string>htc</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>JS</string>
+			<string>java_script.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>JavaScript source</string>
 			<key>CFBundleTypeRole</key>
@@ -110,7 +110,7 @@
 				<string>log</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>LOG</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Log file</string>
 			<key>CFBundleTypeRole</key>
@@ -125,7 +125,7 @@
 				<string>php5</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>PHP</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>PHP source</string>
 			<key>CFBundleTypeRole</key>
@@ -138,7 +138,7 @@
 				<string>rhtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>RHTML</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>HTML with embedded Ruby</string>
 			<key>CFBundleTypeRole</key>
@@ -150,7 +150,7 @@
 				<string>erbsql</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>SQL</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>SQL with embedded Ruby</string>
 			<key>CFBundleTypeRole</key>
@@ -165,7 +165,7 @@
 				<string>rxml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>RUBY</string>
+			<string>ruby.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Ruby source</string>
 			<key>CFBundleTypeRole</key>
@@ -176,7 +176,7 @@
 			<array>
 				<string>sql</string>
 			</array>
-			<key>CFBundleTypeIconFile</key>
+			<key>general_text.icns</key>
 			<string>SQL</string>
 			<key>CFBundleTypeName</key>
 			<string>SQL source</string>
@@ -189,7 +189,7 @@
 				<string>svg</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>SVG</string>
+			<string>xml.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Scalable vector graphics</string>
 			<key>CFBundleTypeRole</key>
@@ -203,7 +203,7 @@
 				<string>utf8</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>TEXT</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
 				<string>text/plain</string>
@@ -225,7 +225,7 @@
 				<string>xhtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>XHTML</string>
+			<string>html.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>XHTML document</string>
 			<key>CFBundleTypeRole</key>
@@ -242,7 +242,7 @@
 				<string>dtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>XML</string>
+			<string>xml.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>XML document</string>
 			<key>CFBundleTypeRole</key>
@@ -255,7 +255,7 @@
 				<string>xslt</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>XSL</string>
+			<string>xml.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>XSL stylesheet</string>
 			<key>CFBundleTypeRole</key>
@@ -268,9 +268,22 @@
 				<string>yml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>YAML</string>
+			<string>ruby.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>YAML document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sass</string>
+				<string>scss</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>sass.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Sass document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 		</dict>
