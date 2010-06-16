@@ -34,9 +34,6 @@ public class Messages extends NLS
 	public static String WizardNewProjectCreationPage_gitLocationEmpty;
 	public static String WizardNewProjectCreationPage_cannotCreateProjectMessage;
 
-	public static String ClearLogConfirmTitle;
-	public static String ClearLogConfirmDescription;
-
 	static
 	{
 		// initialize resource bundle
