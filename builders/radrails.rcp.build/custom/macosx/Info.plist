@@ -287,6 +287,18 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>haml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>general_text.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Haml document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
 	</array>
 	<key>Eclipse</key>
 	<array>

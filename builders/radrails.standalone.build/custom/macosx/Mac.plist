@@ -2,6 +2,26 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleExecutable</key>
+	<string>AptanaStudio3</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Aptana Studio 3 for Mac OS X, Copyright Aptana, Inc. 2010. All rights reserved.</string>
+	<key>CFBundleIconFile</key>
+	<string>radrails.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.aptana.studio3</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>AptanaStudio3</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.0</string>
+	<key>CFBundleSignature</key>
+	<string>APTS</string>
+	<key>CFBundleVersion</key>
+	<string>3.0</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -13,6 +33,8 @@
 			<string>AS</string>
 			<key>CFBundleTypeName</key>
 			<string>ActionScript source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -24,6 +46,8 @@
 			<string>ASP</string>
 			<key>CFBundleTypeName</key>
 			<string>ASP document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -37,6 +61,8 @@
 			<string>ASPNET</string>
 			<key>CFBundleTypeName</key>
 			<string>ASP.NET document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -44,9 +70,11 @@
 				<string>css</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>CSS</string>
+			<string>css.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Cascading style sheet</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -57,9 +85,11 @@
 				<string>shtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>HTML</string>
+			<string>html.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>HTML document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -68,9 +98,11 @@
 				<string>htc</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>JS</string>
+			<string>java_script.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>JavaScript source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -78,9 +110,11 @@
 				<string>log</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>LOG</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Log file</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -91,9 +125,11 @@
 				<string>php5</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>PHP</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>PHP source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -102,9 +138,11 @@
 				<string>rhtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>RHTML</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>HTML with embedded Ruby</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -112,9 +150,11 @@
 				<string>erbsql</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>SQL</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>SQL with embedded Ruby</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -125,19 +165,23 @@
 				<string>rxml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>RUBY</string>
+			<string>ruby.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Ruby source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>sql</string>
 			</array>
-			<key>CFBundleTypeIconFile</key>
+			<key>general_text.icns</key>
 			<string>SQL</string>
 			<key>CFBundleTypeName</key>
 			<string>SQL source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -145,9 +189,11 @@
 				<string>svg</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>SVG</string>
+			<string>xml.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Scalable vector graphics</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -157,7 +203,7 @@
 				<string>utf8</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>TEXT</string>
+			<string>general_text.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
 				<string>text/plain</string>
@@ -170,6 +216,8 @@
 				<string>sEXT</string>
 				<string>ttro</string>
 			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -177,9 +225,11 @@
 				<string>xhtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>XHTML</string>
+			<string>html.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>XHTML document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -192,9 +242,11 @@
 				<string>dtml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>XML</string>
+			<string>xml.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>XML document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -203,9 +255,11 @@
 				<string>xslt</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>XSL</string>
+			<string>xml.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>XSL stylesheet</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -214,31 +268,38 @@
 				<string>yml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>YAML</string>
+			<string>ruby.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>YAML document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sass</string>
+				<string>scss</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>sass.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Sass document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>haml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>general_text.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Haml document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 	</array>
-	<key>CFBundleExecutable</key>
-	<string>AptanaStudio3</string>
-	<key>CFBundleGetInfoString</key>
-	<string>Aptana for Mac OS X, Copyright Aptana, Inc. 2008. All rights reserved.</string>
-	<key>CFBundleIconFile</key>
-	<string>aptana.icns</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.aptana.ide</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>AptanaStudio3</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.8</string>
-	<key>CFBundleSignature</key>
-	<string>APTS</string>
-	<key>CFBundleVersion</key>
-	<string>1.8</string>
 	<key>Eclipse</key>
 	<array>
 		<string>-keyring</string>
