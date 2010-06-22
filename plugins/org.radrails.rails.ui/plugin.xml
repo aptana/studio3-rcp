@@ -103,7 +103,7 @@
                id="com.aptana.ui.WebPerspective">
          </perspectiveShortcut>
          <actionSet
-               id="com.aptana.editor.common.globalActionSet">
+               id="com.aptana.ui.globalActionSet">
          </actionSet>
          <actionSet
                id="com.aptana.terminal.actionSet">
