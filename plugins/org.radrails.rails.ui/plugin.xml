@@ -117,6 +117,9 @@
          <perspectiveShortcut
                id="org.radrails.rails.ui.PerspectiveRails">
          </perspectiveShortcut>
+         <newWizardShortcut
+               id="org.radrails.rails.ui.projectWizard">
+         </newWizardShortcut>
       </perspectiveExtension>
    </extension>
    <extension
@@ -288,5 +291,14 @@
             </enablement>
          </action>
       </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+       <commonWizard
+            associatedExtensionId="org.eclipse.ui.navigator.resourceContent"
+            type="new"
+            wizardId="org.radrails.rails.ui.projectWizard">
+         <enablement></enablement>
+      </commonWizard>
    </extension>
 </plugin>
