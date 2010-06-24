@@ -233,7 +233,7 @@
                           value="com.aptana.ruby.debug.core.IRubyLineBreakpoint">
                     </instanceof>
                     <instanceof
-                          value="com.aptana.ruby.debug.core.IRubyExceptionBreakpoint">
+                          value="com.aptana.ruby.debug.core.model.IRubyExceptionBreakpoint">
                     </instanceof>
                  </or>
               </iterate>
