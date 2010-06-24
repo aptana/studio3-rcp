@@ -125,12 +125,11 @@
           target: get.revision                      
          - - - - - - - - - - - - - - - - - -->
 	<target name="get.revision">
-		<echo message="Retrieving Git timestamp for latest revision" level="info" />
-		<exec executable="/bin/bash" dir="${basedir}" outputproperty="git.revision.max">
-			<arg value="-c" />
-			<arg value="${git.executable} log --max-count=1 --pretty=format:'%ct'" />
-		</exec>
-		<property name="build.revision" value="${git.revision.max}" />
+		<!-- Force to use the timestamp, so we always get a new qualifier! -->
+		<tstamp>
+	      	<format property="build.timestamp" pattern="yyyyMMddkkmm"/>
+		</tstamp>
+		<property name="build.revision" value="${build.timestamp}" />
 		<echo message="Revision timestamp: ${build.revision}" level="info" />
 	</target>
 
