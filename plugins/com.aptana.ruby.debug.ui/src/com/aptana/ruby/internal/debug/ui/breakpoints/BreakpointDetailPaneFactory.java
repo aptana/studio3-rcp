@@ -40,7 +40,7 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory
 	 * (non-Javadoc)
 	 * @see org.eclipse.debug.ui.IDetailPaneFactory#getDetailPaneTypes(org.eclipse.jface.viewers.IStructuredSelection)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Set getDetailPaneTypes(IStructuredSelection selection)
 	{
 		HashSet<String> set = new HashSet<String>();

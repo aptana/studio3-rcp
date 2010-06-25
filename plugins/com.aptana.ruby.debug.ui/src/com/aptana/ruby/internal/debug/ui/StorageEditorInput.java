@@ -61,7 +61,7 @@ public class StorageEditorInput implements IStorageEditorInput, ILocationProvide
 		return storage.getFullPath().toPortableString();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class adapter)
 	{
 		if (ILocationProvider.class.equals(adapter))
