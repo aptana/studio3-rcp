@@ -14,6 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.equinox.p2.ui.sdk.scheduler,
  com.ibm.icu,
  org.eclipse.core.net,
- com.aptana.commandline.launcher
+ com.aptana.commandline.launcher,
+ com.aptana.core
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
