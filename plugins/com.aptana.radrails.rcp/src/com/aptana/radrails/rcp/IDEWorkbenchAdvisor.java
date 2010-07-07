@@ -91,6 +91,7 @@ import org.osgi.service.prefs.BackingStoreException;
 import com.aptana.commandline.launcher.CommandlineArgumentsHandler;
 import com.aptana.commandline.launcher.server.LauncherServer;
 import com.aptana.commandline.launcher.server.port.PortManager;
+import com.aptana.core.util.PlatformUtil;
 import com.aptana.radrails.rcp.preferences.IPreferenceConstants;
 import com.ibm.icu.text.Collator;
 
@@ -254,6 +255,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
      * @see org.eclipse.ui.application.WorkbenchAdvisor#postStartup()
      */
     public void postStartup() {
+		PlatformUtil.expandEnvironmentStrings(PlatformUtil.DESKTOP_DIRECTORY);
         try {
             refreshFromLocal();
             activateProxyService();
