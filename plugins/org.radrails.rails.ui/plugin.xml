@@ -130,21 +130,25 @@
       </category>
       <command
             categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.RunServerHandler"
             id="org.radrails.rails.ui.command.server"
             name="%ScriptServerAction.label">
       </command>
       <command
             categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.DebugServerHandler"
             id="org.radrails.rails.ui.command.debug.server"
             name="%DebugScriptServerAction.label">
       </command>
       <command
             categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.PreviewCommandHandler"
             id="org.radrails.rails.ui.command.preview"
             name="%PreviewAction.label">
       </command>
       <command
             categoryId="org.radrails.rails.ui.category"
+            defaultHandler="org.radrails.rails.internal.ui.commands.ScriptConsoleHandler"
             id="org.radrails.rails.ui.command.script.console"
             name="%ScriptConsoleAction.label">
       </command>
