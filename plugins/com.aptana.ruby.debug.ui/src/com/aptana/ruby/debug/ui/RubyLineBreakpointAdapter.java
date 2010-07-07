@@ -15,6 +15,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import com.aptana.editor.erb.IERBConstants;
+import com.aptana.editor.ruby.IRubyConstants;
 import com.aptana.ruby.debug.core.RubyDebugModel;
 import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
 
@@ -23,7 +25,6 @@ import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
  */
 public class RubyLineBreakpointAdapter implements IToggleBreakpointsTarget
 {
-	private static final String RUBY_CONTENT_TYPE_ID = "com.aptana.contenttype.ruby"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -39,8 +40,8 @@ public class RubyLineBreakpointAdapter implements IToggleBreakpointsTarget
 		IResource resource = (IResource) textEditor.getEditorInput().getAdapter(IResource.class);
 		ITextSelection textSelection = (ITextSelection) selection;
 		int lineNumber = textSelection.getStartLine();
-		IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(
-				IRubyLaunchConfigurationConstants.ID_RUBY_DEBUG_MODEL);
+		IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager()
+				.getBreakpoints(IRubyLaunchConfigurationConstants.ID_RUBY_DEBUG_MODEL);
 		for (int i = 0; i < breakpoints.length; i++)
 		{
 			IBreakpoint breakpoint = breakpoints[i];
@@ -87,14 +88,22 @@ public class RubyLineBreakpointAdapter implements IToggleBreakpointsTarget
 		if (resource == null || !(resource instanceof IFile))
 			return null;
 
-		IContentType rubyType = Platform.getContentTypeManager().getContentType(RUBY_CONTENT_TYPE_ID);
 		IFile file = (IFile) resource;
 		IContentType type = IDE.getContentType(file);
-		if (type != null && type.isKindOf(rubyType))
+		if (type != null
+				&& (isKind(type, IRubyConstants.CONTENT_TYPE_RUBY)
+						|| isKind(type, IRubyConstants.CONTENT_TYPE_RUBY_AMBIGUOUS) || isKind(type,
+						IERBConstants.CONTENT_TYPE_HTML_ERB)))
 		{
 			return editorPart;
 		}
 		return null;
+	}
+
+	private boolean isKind(IContentType type, String targetTypeId)
+	{
+		IContentType targetType = Platform.getContentTypeManager().getContentType(targetTypeId);
+		return type.isKindOf(targetType);
 	}
 
 	/*
