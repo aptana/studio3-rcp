@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.ui,
  com.ibm.icu,
  org.eclipse.core.net,
  com.aptana.commandline.launcher,
- com.aptana.core
+ com.aptana.core,
+ org.eclipse.core.filesystem;bundle-version="1.0.0"
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
