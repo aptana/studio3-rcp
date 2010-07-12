@@ -124,7 +124,7 @@
 		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="yes" eol="mac">
 			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
 		</concat>
-		<delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" />
+		<!-- <delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" /> -->
 		<antcall target="clean.old.profiles" />
 		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
 		<!-- Use system zip to retain the executable permissions -->
