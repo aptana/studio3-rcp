@@ -16,7 +16,7 @@ import com.aptana.editor.common.text.hyperlink.EditorLineHyperlink;
  */
 public class RenderPathHyperlinkDetector implements IHyperlinkDetector
 {
-	private static Pattern RENDERED_VIEW_PATTERN = Pattern.compile("^Rendered\\s+(\\S.*?)\\s+"); //$NON-NLS-1$
+	private static Pattern RENDERED_VIEW_PATTERN = Pattern.compile("^Rendered\\s+(\\S.+?)\\s+"); //$NON-NLS-1$
 
 	@Override
 	public IHyperlink[] detectHyperlinks(String contents)
