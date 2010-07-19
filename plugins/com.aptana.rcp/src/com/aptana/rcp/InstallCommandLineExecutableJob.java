@@ -17,7 +17,9 @@ import org.eclipse.osgi.service.datalocation.Location;
 
 /**
  * This copies the "studio3" executable script from our install directory to /usr/local/bin so that it's on the user's
- * path. This script allows us to open the IDE from the command line ala "mate".
+ * path. This script allows us to open the IDE from the command line ala "mate". Right now this won't run/get scheduled
+ * again if the destination file already exists (so if we want to force a copy of an updated one we'll need to change
+ * this logic).
  * 
  * @author cwilliams
  */
@@ -78,7 +80,12 @@ class InstallCommandLineExecutableJob extends Job
 	public boolean shouldSchedule()
 	{
 		// Install on any non-win machine
-		return !Platform.getOS().equals(Platform.OS_WIN32);
+		if (Platform.getOS().equals(Platform.OS_WIN32))
+		{
+			return false;
+		}
+		File dest = new File(INSTALL_PATH, EXECUTABLE_NAME);
+		return !dest.exists();
 	}
 
 	@Override
