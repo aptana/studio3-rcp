@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Aptana Studio 3" id="com.aptana.rcp.product" application="com.aptana.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/com.aptana.rcp/content/about.gif"/>
+      <text>
+         %aboutText
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>--launcher.XXMaxPermSize
+256m</programArgs>
+      <vmArgs>-Xms40m
+-Xmx384m</vmArgs>
+      <vmArgsLin>-Djava.awt.headless=true</vmArgsLin>
+      <vmArgsMac>-Xdock:icon=../Resources/aptana.icns
+-XstartOnFirstThread
+-Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsSol>-Djava.awt.headless=true</vmArgsSol>
+      <vmArgsWin>-Djava.awt.headless=true</vmArgsWin>
+   </launcherArgs>
+
+   <windowImages i16="/com.aptana.rcp/content/window1616.png" i32="/com.aptana.rcp/content/window3232.png" i48="/com.aptana.rcp/content/window4848.png" i64="/com.aptana.rcp/content/window6464.png" i128="/com.aptana.rcp/content/window128128.png"/>
+
+   <splash
+      location="com.aptana.rcp"
+      startupProgressRect="0,230,590,5"
+      startupMessageRect="7,202,445,20"
+      startupForegroundColor="FFFFFF" />
+   <launcher name="AptanaStudio3">
+      <linux icon="/com.aptana.rcp/content/aptana.xpm"/>
+      <macosx icon="/com.aptana.rcp/content/aptana.icns"/>
+      <solaris/>
+      <win useIco="true">
+         <ico path="/com.aptana.rcp/content/aptana.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.aptana.feature.rcp"/>
+   </features>
+
+
+</product>

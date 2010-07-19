@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.radrails.rails.feature"
+      id="com.aptana.feature.studio"
       label="%featureName"
       version="3.0.0.qualifier"
       provider-name="%providerName"
@@ -19,11 +19,20 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.aptana.com/studio3/plugin/update/"/>
+      <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/red/"/>
    </url>
 
    <includes
-         id="com.aptana.feature.studio"
+         id="com.aptana.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.radrails.rails"
+         version="0.0.0"
+         name="RadRails"/>
+
+   <includes
+         id="com.aptana.php.feature"
          version="0.0.0"/>
 
 </feature>
