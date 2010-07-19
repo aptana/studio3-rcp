@@ -33,5 +33,7 @@ public final class Messages extends NLS {
 	 */
 	public static String ApplicationWorkbenchAdvisor_ErrorGettingCurrentEditorReferences;
 
+	public static String InstallCommandLineExecutableJob_JobName;
+
 	public static String PreferenceInitializer_Cannot_Set_Default_Encoding;
 }

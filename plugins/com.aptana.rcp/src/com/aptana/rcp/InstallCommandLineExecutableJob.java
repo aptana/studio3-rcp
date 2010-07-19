@@ -3,17 +3,18 @@ package com.aptana.rcp;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Map;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.osgi.service.datalocation.Location;
+
+import com.aptana.core.util.ProcessUtil;
 
 /**
  * This copies the "studio3" executable script from our install directory to /usr/local/bin so that it's on the user's
@@ -31,7 +32,7 @@ class InstallCommandLineExecutableJob extends Job
 
 	public InstallCommandLineExecutableJob()
 	{
-		super("Installing studio3 executable");
+		super(Messages.InstallCommandLineExecutableJob_JobName);
 	}
 
 	@Override
@@ -55,19 +56,22 @@ class InstallCommandLineExecutableJob extends Job
 			{
 				return Status.CANCEL_STATUS;
 			}
-			// Kind of ridiculous to do this, but use EFS to copy...
-			IFileStore store = EFS.getStore(executable.toURI());
-			store.copy(EFS.getStore(dest.toURI()), EFS.NONE, sub.newChild(9));
+			Map<Integer, String> result = ProcessUtil.runInBackground(
+					"ln", Path.fromOSString(installFolder.getAbsolutePath()), "-s", //$NON-NLS-1$ //$NON-NLS-2$
+					executable.getAbsolutePath(), dest.getAbsolutePath());
+			if (result != null)
+			{
+				Integer exitCode = result.keySet().iterator().next();
+				if (exitCode != 0)
+				{
+					IdePlugin.logError(new Exception(result.values().iterator().next()));
+				}
+			}
 		}
 		catch (URISyntaxException e)
 		{
 			IdePlugin.logError(e);
 			return new Status(IStatus.ERROR, IdePlugin.PLUGIN_ID, e.getMessage(), e);
-		}
-		catch (CoreException e)
-		{
-			IdePlugin.logError(e);
-			return e.getStatus();
 		}
 		finally
 		{
