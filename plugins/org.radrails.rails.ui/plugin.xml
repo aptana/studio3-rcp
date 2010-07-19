@@ -305,4 +305,10 @@
          <enablement></enablement>
       </commonWizard>
    </extension>
+   <extension
+         point="com.aptana.org.eclipse.tm.terminal.terminalHyperlinkDetectors">
+      <detector
+            class="org.radrails.rails.internal.ui.hyperlink.RenderPathHyperlinkDetector">
+      </detector>
+   </extension>
 </plugin>
