@@ -137,14 +137,33 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 		if (file != null)
 		{
 			desc = IDE.getDefaultEditor(file);
+			if (desc != null)
+			{
+				return desc.getId();
+			}
 		}
-		else if (element instanceof IStorage)
+
+		String filename = null;
+		if (element instanceof IStorage)
 		{
 			IStorage storage = (IStorage) element;
-			IContentType contentType = Platform.getContentTypeManager().findContentTypeFor(storage.getName());
-			IEditorRegistry editorReg = PlatformUI.getWorkbench().getEditorRegistry();
-			desc = editorReg.getDefaultEditor(storage.getName(), contentType);
+			filename = storage.getName();
 		}
+		else
+		{
+			IFileStore store = getFileStore(element);
+			if (store != null)
+			{
+				filename = store.getName();
+			}
+		}
+		if (filename == null)
+		{
+			return null;
+		}
+		IContentType contentType = Platform.getContentTypeManager().findContentTypeFor(filename);
+		IEditorRegistry editorReg = PlatformUI.getWorkbench().getEditorRegistry();
+		desc = editorReg.getDefaultEditor(filename, contentType);
 		if (desc != null)
 		{
 			return desc.getId();
