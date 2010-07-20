@@ -13,10 +13,13 @@ package com.aptana.ruby.debug.ui;
 
 import java.io.File;
 
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
@@ -32,9 +35,11 @@ import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorRegistry;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 
+import com.aptana.ruby.debug.core.IRubyLineBreakpoint;
 import com.aptana.ruby.internal.debug.ui.StorageEditorInput;
 
 /**
@@ -65,6 +70,18 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 	 */
 	public String getText(Object element)
 	{
+		if (element instanceof IRubyLineBreakpoint)
+		{
+			try
+			{
+				IRubyLineBreakpoint rlbp = (IRubyLineBreakpoint) element;
+				return rlbp.getFileName() + ":" + rlbp.getLineNumber(); //$NON-NLS-1$
+			}
+			catch (CoreException e)
+			{
+				// ignore
+			}
+		}
 		return null;
 	}
 
@@ -101,6 +118,11 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 		{
 			return new StorageEditorInput((IStorage) element);
 		}
+		IFileStore store = getFileStore(element);
+		if (store != null)
+		{
+			return new FileStoreEditorInput(store);
+		}
 		return null;
 	}
 
@@ -136,17 +158,38 @@ public class RubyModelPresentation extends LabelProvider implements IDebugModelP
 			return (IFile) element;
 		if (element instanceof ILineBreakpoint)
 		{
-			return (IFile) ((ILineBreakpoint) element).getMarker().getResource();
+			IResource resource = ((ILineBreakpoint) element).getMarker().getResource();
+			if (resource instanceof IFile)
+			{
+				return (IFile) resource;
+			}
 		}
 		if (element instanceof LocalFileStorage)
 		{
 			File file = ((LocalFileStorage) element).getFile();
-			IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(
-					new Path(file.getAbsolutePath()));
+			IResource resource = ResourcesPlugin.getWorkspace().getRoot()
+					.getFileForLocation(new Path(file.getAbsolutePath()));
 			if (resource != null)
 				return (IFile) resource;
 		}
 
+		return null;
+	}
+
+	private IFileStore getFileStore(Object element)
+	{
+		if (element instanceof IRubyLineBreakpoint)
+		{
+			try
+			{
+				String fileName = ((IRubyLineBreakpoint) element).getFileName();
+				return EFS.getStore(Path.fromPortableString(fileName).toFile().toURI());
+			}
+			catch (CoreException e)
+			{
+				// ignore
+			}
+		}
 		return null;
 	}
 }

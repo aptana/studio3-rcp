@@ -19,7 +19,7 @@ public class RubyBreakpointAdapterFactory implements IAdapterFactory
 		RubyLineBreakpointAdapter adapter = new RubyLineBreakpointAdapter();
 		if (adaptableObject instanceof IWorkbenchPart)
 		{
-			if (adapter.getEditor((IWorkbenchPart) adaptableObject) != null)
+			if (adapter.getFileStore((IWorkbenchPart) adaptableObject) != null)
 				return adapter;
 		}
 		return null;
