@@ -139,8 +139,8 @@ public class ExternalRubyFileAnnotationModel extends AbstractMarkerAnnotationMod
 	 */
 	private void batchedUpdate(IMarkerDelta[] markerDeltas)
 	{
-		HashSet removedMarkers = new HashSet(markerDeltas.length);
-		HashSet modifiedMarkers = new HashSet(markerDeltas.length);
+		HashSet<IMarker> removedMarkers = new HashSet<IMarker>(markerDeltas.length);
+		HashSet<IMarker> modifiedMarkers = new HashSet<IMarker>(markerDeltas.length);
 
 		for (int i = 0; i < markerDeltas.length; i++)
 		{
@@ -162,6 +162,7 @@ public class ExternalRubyFileAnnotationModel extends AbstractMarkerAnnotationMod
 		if (modifiedMarkers.isEmpty() && removedMarkers.isEmpty())
 			return;
 
+		@SuppressWarnings("rawtypes")
 		Iterator e = getAnnotationIterator(false);
 		while (e.hasNext())
 		{
@@ -190,9 +191,9 @@ public class ExternalRubyFileAnnotationModel extends AbstractMarkerAnnotationMod
 			}
 		}
 
-		Iterator iter = modifiedMarkers.iterator();
+		Iterator<IMarker> iter = modifiedMarkers.iterator();
 		while (iter.hasNext())
-			addMarkerAnnotation((IMarker) iter.next());
+			addMarkerAnnotation(iter.next());
 	}
 
 	/*
