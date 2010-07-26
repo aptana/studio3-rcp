@@ -37,7 +37,7 @@ public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreak
 	 */
 	protected static final String CONDITION_SUSPEND_ON_TRUE = "com.aptana.ruby.debug.core.conditionSuspendOnTrue"; //$NON-NLS-1$
 
-	private static final String EXTERNAL_FILENAME = "externalFileName"; //$NON-NLS-1$
+	public static final String EXTERNAL_FILENAME = "externalFileName"; //$NON-NLS-1$
 	private int index = -1; // index of breakpoint on ruby debugger side
 
 	public RubyLineBreakpoint()
