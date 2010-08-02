@@ -248,4 +248,11 @@
            id="com.aptana.ui.part.StorageEditorInputFactory">
      </factory>
   </extension>
+  <extension
+        point="org.eclipse.core.filebuffers.annotationModelCreation">
+     <factory
+           class="com.aptana.ruby.debug.ui.ExternalRubyFileAnnotationModelFactory"
+           contentTypeId="com.aptana.contenttype.ruby">
+     </factory>
+  </extension>
 </plugin>

@@ -1,7 +1,6 @@
 package com.aptana.rcp;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.osgi.service.datalocation.Location;
 
 import com.aptana.core.util.ProcessUtil;
+import com.aptana.core.util.URLEncoder;
 
 /**
  * This copies the "studio3" executable script from our install directory to /usr/local/bin so that it's on the user's
@@ -44,7 +44,7 @@ class InstallCommandLineExecutableJob extends Job
 		{
 			Location loc = Platform.getInstallLocation();
 			URL url = loc.getURL();
-			File installFolder = new File(url.toURI());
+			File installFolder = new File(URLEncoder.encode(url).toURI());
 			sub.worked(1);
 			File executable = new File(installFolder, EXECUTABLE_NAME);
 			if (!executable.exists())
@@ -68,7 +68,7 @@ class InstallCommandLineExecutableJob extends Job
 				}
 			}
 		}
-		catch (URISyntaxException e)
+		catch (Exception e)
 		{
 			IdePlugin.logError(e);
 			return new Status(IStatus.ERROR, IdePlugin.PLUGIN_ID, e.getMessage(), e);

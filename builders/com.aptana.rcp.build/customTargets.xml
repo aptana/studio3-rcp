@@ -384,18 +384,18 @@
 
 	<target name="updateSite">
 		<copy file="${builder}/update_site/site.xml" tofile="${p2.repo.dir}/site.xml" />
-		<pathconvert property="version.full">
+		<pathconvert property="site.version.full">
 			<fileset dir="${p2.repo.dir}/features">
-				<include name="${topLevelElementId}_*.jar" />
+				<include name="com.aptana.feature.rcp_*.jar" />
 			</fileset>
 			<mapper>
 				<chainedmapper>
 					<flattenmapper />
-					<globmapper from="${topLevelElementId}_*.jar" to="*" casesensitive="yes" />
+					<globmapper from="com.aptana.feature.rcp_*.jar" to="*" casesensitive="yes" />
 				</chainedmapper>
 			</mapper>
 		</pathconvert>
-		<replace token="{version.full}" value="${version.full}" file="${p2.repo.dir}/site.xml" />
+		<replace token="{version.full}" value="${site.version.full}" file="${p2.repo.dir}/site.xml" />
 		<zip destfile="${buildDirectory}/${topLevelElementId}-${version.full}.zip">
 			<fileset dir="${p2.repo.dir}" defaultexcludes="false" />
 		</zip>
