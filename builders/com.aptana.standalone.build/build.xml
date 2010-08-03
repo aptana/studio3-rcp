@@ -355,12 +355,12 @@
 			<isset property="org.eclipse.ui/defaultPerspectiveId" />
 		<then>
 			<echo message="Setting default perspective to ${org.eclipse.ui/defaultPerspectiveId}" />
-			<pathconvert property="com.aptana.ide.rcp.jar.name">
+			<pathconvert property="com.aptana.rcp.jar.name">
 				<fileset dir="${p2.director.install.path}/plugins" includes="${rcp.plugin.name}_*.jar" />
 				<flattenmapper/>
 			</pathconvert>
 			<mkdir dir="${tmp.dir}/${rcp.plugin.name}"/>
-			<unzip src="${p2.director.install.path}/plugins/${com.aptana.ide.rcp.jar.name}" dest="${tmp.dir}/${rcp.plugin.name}" />
+			<unzip src="${p2.director.install.path}/plugins/${com.aptana.rcp.jar.name}" dest="${tmp.dir}/${rcp.plugin.name}" />
 			<replaceregexp file="${tmp.dir}/${rcp.plugin.name}/preference_customization.ini"
 		                     match="(org.eclipse.ui/defaultPerspectiveId=).*"
 		                     replace="\1${org.eclipse.ui/defaultPerspectiveId}"
@@ -372,7 +372,7 @@
 			<echo message="${preference_customization.ini}" />
 			<echo message="=====================================" />
 			-->
-			<zip basedir="${tmp.dir}/${rcp.plugin.name}" destfile="${p2.director.install.path}/plugins/${com.aptana.ide.rcp.jar.name}" />
+			<zip basedir="${tmp.dir}/${rcp.plugin.name}" destfile="${p2.director.install.path}/plugins/${com.aptana.rcp.jar.name}" />
 	  		<delete dir="${tmp.dir}/${rcp.plugin.name}" />
 		</then>
 		</if>
