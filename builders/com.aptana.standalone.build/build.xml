@@ -124,19 +124,34 @@
 		<concat destfile="${tmp.dir}/${collectingFolder}/configuration/config.ini" append="yes" eol="mac">
 			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
 		</concat>
-		<delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" />
-		<!-- <antcall target="clean.old.profiles" /> -->
+		<!-- <delete file="${tmp.dir}/${collectingFolder}/${product.name}.app/Contents/MacOS/${product.name}.ini" /> -->
+		<antcall target="clean.old.profiles" />
 		<echo message="**  Rezipping Mac ZIP File  **" level="info" />
+		<!-- Use system zip to retain the executable permissions -->
+		<move file="${tmp.dir}/${collectingFolder}" tofile="${tmp.dir}/${zipFolder}" />
+		<!-- HACK Set the execute permissions on radrails shell script -->
+		<exec executable="chmod" dir="${tmp.dir}/${zipFolder}">
+		    <arg value="755"/>
+			<arg value="studio3"/>
+		</exec>
+		<exec executable="zip" dir="${tmp.dir}">
+		    <arg value="-r"/>
+		    <arg value="${archivePrefix}.macosx.cocoa.x86_64.zip"/>
+		    <arg value="${zipFolder}"/>
+		</exec>
+		<move file="${tmp.dir}/${archivePrefix}.macosx.cocoa.x86_64.zip" tofile="${output.dir}/${archivePrefix}.macosx.cocoa.x86_64.zip" />
+		<!--
 		<zip destfile="${output.dir}/${archivePrefix}.macosx.cocoa.x86_64.zip" filesonly="false">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}/" includes="**/**" prefix="${zipFolder}">
-				<exclude name="${product.name}" />
+				<exclude name="radrails" />
 				<exclude name="${product.name}.app/Contents/MacOS/${product.name}" />
 			</zipfileset>
 			<zipfileset dir="${tmp.dir}/${collectingFolder}" filemode="755" defaultexcludes="true" prefix="${zipFolder}">
-				<include name="${product.name}" />
+				<include name="radrails" />
 				<include name="${product.name}.app/Contents/MacOS/${product.name}" />
 			</zipfileset>
 		</zip>
+		-->
 		<delete dir="${tmp.dir}" />
 	</target>
 	
