@@ -31,14 +31,14 @@
                value="content/window1616.png,content/window3232.png,content/window4848.png,content/window6464.png,content/window128128.png"/>
          <property
                name="startupProgressRect"
-               value="0,230,590,5"/>
+               value="0,260,590,15"/>
          <property
                name="appName"
                value="Aptana Studio 3">
          </property>
          <property
                name="startupMessageRect"
-               value="7,202,445,20">
+               value="7,240,445,20">
          </property>
          <property
                name="startupForegroundColor"
