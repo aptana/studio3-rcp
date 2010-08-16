@@ -32,8 +32,8 @@
 
    <splash
       location="com.aptana.rcp"
-      startupProgressRect="0,230,590,5"
-      startupMessageRect="7,202,445,20"
+      startupProgressRect="0,260,590,15"
+      startupMessageRect="7,240,445,20"
       startupForegroundColor="FFFFFF" />
    <launcher name="AptanaStudio3">
       <linux icon="/com.aptana.rcp/content/aptana.xpm"/>
