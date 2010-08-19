@@ -197,6 +197,26 @@
             </enablement>
          </action>
          <action
+               class="org.radrails.rails.internal.ui.actions.PreviewCommandAction"
+               definitionId="org.radrails.rails.ui.command.preview"
+               enablesFor="+"
+               id="org.radrails.rails.ui.action.preview"
+               label="%PreviewAction.label"
+               menubarPath="org.eclipse.ui.run/runGroup"
+               style="push">
+            <enablement>
+               <and>
+                  <objectClass
+                        name="org.eclipse.core.resources.IResource">
+                  </objectClass>
+                  <objectState
+                        name="projectNature"
+                        value="org.radrails.rails.core.railsnature">
+                  </objectState>
+               </and>
+            </enablement>
+         </action>
+         <action
                class="org.radrails.rails.internal.ui.actions.ScriptConsoleAction"
                definitionId="org.radrails.rails.ui.command.script.console"
                enablesFor="+"
