@@ -303,7 +303,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 				// only control the toolbar state on perspective basis when user has not modified it manually
 				if (!store.getBoolean(TOOLBAR_MANUALLY_ADJUSTED))
 				{
-					boolean showToolbar = !perspective.getId().equals(WEB_PERSPECTIVE_ID);
+					boolean showToolbar = true;
 					isToolbarProgrammaticSet = true;
 					workbenchWindow.setCoolBarVisible(showToolbar);
 					workbenchWindow.setPerspectiveBarVisible(showToolbar);
