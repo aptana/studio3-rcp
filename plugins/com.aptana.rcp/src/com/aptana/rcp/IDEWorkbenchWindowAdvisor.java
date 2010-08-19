@@ -96,7 +96,6 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 	private static final String PERSPECTIVE_MANUALLY_ADJUSTED = "PERSPECTIVE_MANUALLY_ADJUSTED"; //$NON-NLS-1$
 
 	private static final String WELCOME_EDITOR_ID = "org.eclipse.ui.internal.ide.dialogs.WelcomeEditor"; //$NON-NLS-1$
-	private static final String RAILS_PERSPECTIVE_ID = "org.radrails.rails.ui.PerspectiveRails"; //$NON-NLS-1$
 	private static final String WEB_PERSPECTIVE_ID = "com.aptana.ui.WebPerspective"; //$NON-NLS-1$
 
 	private IDEWorkbenchAdvisor wbAdvisor;
@@ -304,7 +303,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 				// only control the toolbar state on perspective basis when user has not modified it manually
 				if (!store.getBoolean(TOOLBAR_MANUALLY_ADJUSTED))
 				{
-					boolean showToolbar = !perspective.getId().equals(RAILS_PERSPECTIVE_ID);
+					boolean showToolbar = !perspective.getId().equals(WEB_PERSPECTIVE_ID);
 					isToolbarProgrammaticSet = true;
 					workbenchWindow.setCoolBarVisible(showToolbar);
 					workbenchWindow.setPerspectiveBarVisible(showToolbar);
@@ -312,7 +311,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 				}
 
 				String id = perspective.getId();
-				boolean isAptanaPerspective = id.equals(WEB_PERSPECTIVE_ID) || id.equals(RAILS_PERSPECTIVE_ID);
+				boolean isAptanaPerspective = id.equals(WEB_PERSPECTIVE_ID);
 				if (isAptanaPerspective)
 				{
 					if (resetting)
@@ -331,7 +330,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 			public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId)
 			{
 				String id = perspective.getId();
-				boolean isAptanaPerspective = id.equals(WEB_PERSPECTIVE_ID) || id.equals(RAILS_PERSPECTIVE_ID);
+				boolean isAptanaPerspective = id.equals(WEB_PERSPECTIVE_ID);
 				if (isAptanaPerspective)
 				{
 					if (changeId.equals(IWorkbenchPage.CHANGE_RESET))
