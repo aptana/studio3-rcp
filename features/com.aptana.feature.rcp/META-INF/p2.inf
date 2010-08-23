@@ -1,4 +1,0 @@
-instructions.install = \
-   chmod(targetDir:${installFolder}/../../..,targetFile:studio3,permissions:755);
-instructions.install.import= \
-   org.eclipse.equinox.p2.touchpoint.eclipse.chmod
