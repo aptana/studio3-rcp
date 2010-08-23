@@ -1,0 +1,2 @@
+instructions.configure = \
+    chmod(targetDir:${installFolder},targetFile:studio3,permissions:755);
