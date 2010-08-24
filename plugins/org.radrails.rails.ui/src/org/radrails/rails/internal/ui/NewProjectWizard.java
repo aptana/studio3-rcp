@@ -36,6 +36,8 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
+import com.aptana.core.ShellExecutable;
+import com.aptana.core.util.ProcessUtil;
 import com.aptana.git.ui.CloneJob;
 import com.aptana.terminal.views.TerminalView;
 
@@ -138,8 +140,14 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 					return Status.CANCEL_STATUS;
 
 				// Now launch the rails command in a terminal!
-				TerminalView terminal = TerminalView.openView(project.getName(), project.getName(), project.getLocation()); //$NON-NLS-1$
-				terminal.sendInput("rails .\n"); //$NON-NLS-1$
+				TerminalView terminal = TerminalView.openView(project.getName(), project.getName(),
+						project.getLocation());
+				String input = "rails .\n"; //$NON-NLS-1$
+				if (requiresNewArgToGenerateApp(project))
+				{
+					input = "rails new .\n"; //$NON-NLS-1$
+				}
+				terminal.sendInput(input);
 
 				return Status.OK_STATUS;
 			}
@@ -147,6 +155,34 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		job.setUser(true);
 		job.setPriority(Job.SHORT);
 		job.schedule();
+	}
+
+	/**
+	 * As of Rails 3 beta4, to generate an app, you need to use 'rails new APP_NAME'
+	 * 
+	 * @param project
+	 * @return
+	 */
+	@SuppressWarnings("nls")
+	protected boolean requiresNewArgToGenerateApp(IProject project)
+	{
+		String version = ProcessUtil.outputForCommand("rails", project.getLocation(), ShellExecutable.getEnvironment(),
+				"-v");
+		if (version == null)
+		{
+			return false;
+		}
+		String[] parts = version.split("\\s");
+		String lastPart = parts[parts.length - 1];
+		if (lastPart.startsWith("1") || lastPart.startsWith("2"))
+		{
+			return false;
+		}
+		if (lastPart.startsWith("3.0.0beta"))
+		{
+			return lastPart.endsWith("beta4");
+		}
+		return true;
 	}
 
 	/**
@@ -271,21 +307,22 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 				StatusAdapter status;
 				if (cause.getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS)
 				{
-					status = new StatusAdapter(new Status(IStatus.WARNING, RailsUIPlugin.getPluginIdentifier(), NLS
-							.bind(Messages.NewProject_caseVariantExistsError, newProjectHandle.getName()), cause));
+					status = new StatusAdapter(new Status(IStatus.WARNING, RailsUIPlugin.getPluginIdentifier(),
+							NLS.bind(Messages.NewProject_caseVariantExistsError, newProjectHandle.getName()), cause));
 				}
 				else
 				{
-					status = new StatusAdapter(new Status(cause.getStatus().getSeverity(), RailsUIPlugin
-							.getPluginIdentifier(), Messages.NewProject_errorMessage, cause));
+					status = new StatusAdapter(new Status(cause.getStatus().getSeverity(),
+							RailsUIPlugin.getPluginIdentifier(), Messages.NewProject_errorMessage, cause));
 				}
 				status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY, Messages.NewProject_errorMessage);
 				StatusManager.getManager().handle(status, StatusManager.BLOCK);
 			}
 			else
 			{
-				StatusAdapter status = new StatusAdapter(new Status(IStatus.WARNING, RailsUIPlugin
-						.getPluginIdentifier(), 0, NLS.bind(Messages.NewProject_internalError, t.getMessage()), t));
+				StatusAdapter status = new StatusAdapter(new Status(IStatus.WARNING,
+						RailsUIPlugin.getPluginIdentifier(), 0, NLS.bind(Messages.NewProject_internalError,
+								t.getMessage()), t));
 				status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY, Messages.NewProject_errorMessage);
 				StatusManager.getManager().handle(status, StatusManager.LOG | StatusManager.BLOCK);
 			}
