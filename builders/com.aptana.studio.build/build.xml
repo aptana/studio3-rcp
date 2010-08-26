@@ -181,6 +181,8 @@
           			<include name="com.aptana.parsing_*.jar" />
 					<include name="com.aptana.php.libraries_*.jar" />
 					<include name="com.aptana.portablegit.win32_*.jar" />
+					<include name="com.python.pydev*.jar" />
+					<include name="org.python.pydev*.jar" />
 				</fileset>
 			</path>
 			<sequential>
