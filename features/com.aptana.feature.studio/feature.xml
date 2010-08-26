@@ -35,4 +35,8 @@
          id="com.aptana.php.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.python.pydev.feature"
+         version="0.0.0"/>
+
 </feature>
