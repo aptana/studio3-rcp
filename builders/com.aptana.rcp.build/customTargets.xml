@@ -367,6 +367,14 @@
 				<![CDATA[(| (osgi.os=aix)(osgi.os=hpux)(osgi.os=linux)(osgi.os=qnx)(osgi.os=solaris))]]>
 			</replacevalue>
 		</replace>
+		<replace summary="yes" file="${p2.repo.dir}/content.xml">
+      <replacetoken>
+        <![CDATA[(osgi.os=aix,hpux,linux,macosx,qnx,solaris)]]>
+      </replacetoken>
+      <replacevalue>
+        <![CDATA[(| (osgi.os=aix)(osgi.os=hpux)(osgi.os=linux)(osgi.os=macosx)(osgi.os=qnx)(osgi.os=solaris))]]>
+      </replacevalue>
+    </replace>
 		<!-- Fix the broken unconfigure of a product launcher (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=280007)-->
 		<replace summary="yes" file="${p2.repo.dir}/content.xml">
 			<replacetoken>setLauncherName()</replacetoken>

@@ -110,7 +110,7 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="org.radrails.rails.ui.PerspectiveRails">
+            targetID="com.aptana.ui.WebPerspective">
          <perspectiveShortcut
                id="org.eclipse.debug.ui.DebugPerspective">
          </perspectiveShortcut>
@@ -118,7 +118,7 @@
       <perspectiveExtension
             targetID="org.eclipse.debug.ui.DebugPerspective">
          <perspectiveShortcut
-               id="org.radrails.rails.ui.PerspectiveRails">
+               id="com.aptana.ui.WebPerspective">
          </perspectiveShortcut>
       </perspectiveExtension>
    </extension>

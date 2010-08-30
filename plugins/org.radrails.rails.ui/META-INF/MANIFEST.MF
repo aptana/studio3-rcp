@@ -20,7 +20,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface.text;bundle-version="3.4.0",
  com.aptana.ruby.debug.core;bundle-version="3.0.0",
  org.eclipse.ui.navigator,
- com.aptana.org.eclipse.tm.terminal
+ com.aptana.org.eclipse.tm.terminal,
+ com.aptana.core;bundle-version="3.0.0"
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Activator: org.radrails.rails.ui.RailsUIPlugin
 Eclipse-LazyStart: true
