@@ -165,10 +165,41 @@
   
 	<target name="modify.binaries" unless="dont.modify.binaries">
 		<!-- TODO Fix config.ini on other platforms! -->
+		<!-- =========== Mac 32-bit Mangling ==================================================== -->
+    <!-- Unzip the macosx launcher to a temp dir... -->
+    <!-- cocoa -->
+    <pathconvert property="mac.cocoa.launcher">
+      <fileset dir="${p2.repo.dir}/binary">
+        <include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_3*" />
+      </fileset>
+      <mapper>
+        <flattenmapper />
+      </mapper>
+    </pathconvert>
+    <property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />    
+    <mkdir dir="${mac.cocoa.launcher.dir}" />
+    <unzip src="${p2.repo.dir}/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
+    <delete file="${p2.repo.dir}/binary/${mac.cocoa.launcher}" />
+    <!-- ...add our custom modifications... -->
+    <loadfile property="mac.cocoa.config.ini.pre" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
+    <echo message="Pre concat: ${mac.cocoa.config.ini.pre}" />
+    <concat destfile="${mac.cocoa.launcher.dir}/configuration/config.ini" append="yes" eol="mac">
+      <filelist dir="${builder}/custom/macosx/" files="config.ini" />
+    </concat>
+    <loadfile property="mac.cocoa.config.ini.post" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
+    <echo message="Post concat: ${mac.cocoa.config.ini.post}" />
+    <copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
+    <copy file="${builder}/custom/macosx/${product.name}" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/MacOS/${product.name}" overwrite="true" />
+    <!-- ...then re-zip and delete the temp dir -->
+    <zip destfile="${p2.repo.dir}/binary/${mac.cocoa.launcher}">
+      <fileset dir="${mac.cocoa.launcher.dir}" defaultexcludes="false" />
+    </zip>
+    <delete dir="${mac.cocoa.launcher.dir}" />
+    
 		<!-- =========== Mac 64-bit Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
 		<!-- cocoa -->
-		<pathconvert property="mac.cocoa.launcher">
+		<pathconvert property="mac64.cocoa.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_64_*" />
 			</fileset>
@@ -176,25 +207,25 @@
 				<flattenmapper />
 			</mapper>
 		</pathconvert>
-		<property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />		
-		<mkdir dir="${mac.cocoa.launcher.dir}" />
-		<unzip src="${p2.repo.dir}/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
-		<delete file="${p2.repo.dir}/binary/${mac.cocoa.launcher}" />
+		<property name="mac64.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac64.cocoa.launcher}" />		
+		<mkdir dir="${mac64.cocoa.launcher.dir}" />
+		<unzip src="${p2.repo.dir}/binary/${mac64.cocoa.launcher}" dest="${mac64.cocoa.launcher.dir}" />
+		<delete file="${p2.repo.dir}/binary/${mac64.cocoa.launcher}" />
 		<!-- ...add our custom modifications... -->
-		<loadfile property="mac.cocoa.config.ini.pre" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
-		<echo message="Pre concat: ${mac.cocoa.config.ini.pre}" />
-		<concat destfile="${mac.cocoa.launcher.dir}/configuration/config.ini" append="yes" eol="mac">
+		<loadfile property="mac64.cocoa.config.ini.pre" srcfile="${mac64.cocoa.launcher.dir}/configuration/config.ini" />
+		<echo message="Pre concat: ${mac64.cocoa.config.ini.pre}" />
+		<concat destfile="${mac64.cocoa.launcher.dir}/configuration/config.ini" append="yes" eol="mac">
 			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
 		</concat>
-		<loadfile property="mac.cocoa.config.ini.post" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
-		<echo message="Post concat: ${mac.cocoa.config.ini.post}" />
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
-		<copy file="${builder}/custom/macosx/${product.name}" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/MacOS/${product.name}" overwrite="true" />
+		<loadfile property="mac64.cocoa.config.ini.post" srcfile="${mac64.cocoa.launcher.dir}/configuration/config.ini" />
+		<echo message="Post concat: ${mac64.cocoa.config.ini.post}" />
+		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac64.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
+		<copy file="${builder}/custom/macosx/${product.name}" tofile="${mac64.cocoa.launcher.dir}/${product.name}.app/Contents/MacOS/${product.name}" overwrite="true" />
 		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="${p2.repo.dir}/binary/${mac.cocoa.launcher}">
-			<fileset dir="${mac.cocoa.launcher.dir}" defaultexcludes="false" />
+		<zip destfile="${p2.repo.dir}/binary/${mac64.cocoa.launcher}">
+			<fileset dir="${mac64.cocoa.launcher.dir}" defaultexcludes="false" />
 		</zip>
-		<delete dir="${mac.cocoa.launcher.dir}" />
+		<delete dir="${mac64.cocoa.launcher.dir}" />
 
 		<!-- =========== Windows Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
