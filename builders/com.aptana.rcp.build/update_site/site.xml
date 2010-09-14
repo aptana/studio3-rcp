@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site digestURL="site.xml.digest">
-   <description url="http://download.aptana.com/tools/studio/plugin/update/studio3-rcp/">
+   <description url="http://download.aptana.com/studio3-rcp/plugin/update/">
       Aptana Studio 3 Update Central. Version {version.full}
    </description>
     <feature url="features/com.aptana.feature.rcp_{version.full}.jar" id="com.aptana.feature.rcp" version="{version.full}">

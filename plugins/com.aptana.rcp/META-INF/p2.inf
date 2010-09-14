@@ -1,5 +1,5 @@
 instructions.install = \
-    addRepository(location:http${#58}//download.aptana.com/tools/studio/plugin/update/studio3-rcp,name:Aptana Studio 3 RCP Update Site,type:0,enabled:true);\
-    addRepository(location:http${#58}//download.aptana.com/tools/studio/plugin/update/studio3-rcp,name:Aptana Studio 3 RCP Update Site,type:1,enabled:true);\
+    addRepository(location:http${#58}//download.aptana.com/studio3-rcp/plugin/update/,name:Aptana Studio 3 RCP Update Site,type:0,enabled:true);\
+    addRepository(location:http${#58}//download.aptana.com/studio3-rcp/plugin/update/,name:Aptana Studio 3 RCP Update Site,type:1,enabled:true);\
     addRepository(location:http${#58}//download.eclipse.org/releases/helios,name:Eclipse Helios Update Site,type:0,enabled:true);\
     addRepository(location:http${#58}//download.eclipse.org/releases/helios,name:Eclipse Helios Update Site,type:1,enabled:true);
