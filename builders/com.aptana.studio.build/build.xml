@@ -147,6 +147,10 @@
 				<include name="features/*" />
 				<include name="plugins/*" />
 			</fileset>
+			<fileset dir="${webkit.p2.repo}" defaultexcludes="true">
+				<include name="features/*" />
+				<include name="plugins/*" />
+			</fileset>
 		</copy>
 
 		<!-- Unjar the features -->
@@ -178,6 +182,7 @@
 					<include name="com.aptana.portablegit.win32_*.jar" />
 					<include name="com.python.pydev*.jar" />
 					<include name="org.python.pydev*.jar" />
+					<include name="com.aptana.swt.webkitbrowser.macosx.x86_*.jar" />
 				</fileset>
 			</path>
 			<sequential>
