@@ -43,4 +43,8 @@
          id="org.python.pydev.django_templates.feature"
          version="0.0.0"/>
 
+   <includes
+         id="com.aptana.webkitbrowser"
+         version="0.0.0"/>
+
 </feature>
