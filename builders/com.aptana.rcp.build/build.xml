@@ -136,6 +136,7 @@
 					<include name="com.aptana.portablegit.win32_*.jar" />
 					<include name="com.python.pydev*.jar" />
 					<include name="org.python.pydev*.jar" />
+					<include name="com.aptana.swt.webkitbrowser.macosx.x86_*.jar" />
 				</fileset>
 			</path>
 			<sequential>
