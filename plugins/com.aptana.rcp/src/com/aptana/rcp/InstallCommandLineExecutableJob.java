@@ -2,7 +2,6 @@ package com.aptana.rcp;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -56,17 +55,9 @@ class InstallCommandLineExecutableJob extends Job
 			{
 				return Status.CANCEL_STATUS;
 			}
-			Map<Integer, String> result = ProcessUtil.runInBackground(
-					"ln", Path.fromOSString(installFolder.getAbsolutePath()), "-s", //$NON-NLS-1$ //$NON-NLS-2$
+			// ignore result. 99% of the time it'll fail because /usr/local/bin is not writable
+			ProcessUtil.runInBackground("ln", Path.fromOSString(installFolder.getAbsolutePath()), "-s", //$NON-NLS-1$ //$NON-NLS-2$
 					executable.getAbsolutePath(), dest.getAbsolutePath());
-			if (result != null)
-			{
-				Integer exitCode = result.keySet().iterator().next();
-				if (exitCode != 0)
-				{
-					IdePlugin.logError(new Exception(result.values().iterator().next()));
-				}
-			}
 		}
 		catch (Exception e)
 		{
