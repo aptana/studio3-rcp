@@ -29,7 +29,6 @@ import com.aptana.ruby.debug.ui.RubyDebugUIPlugin;
 public class RubyApplicationShortcut implements ILaunchShortcut
 {
 
-	@Override
 	public void launch(ISelection selection, String mode)
 	{
 		if (selection instanceof IStructuredSelection)

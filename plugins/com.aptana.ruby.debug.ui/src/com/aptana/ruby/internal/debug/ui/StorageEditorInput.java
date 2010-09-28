@@ -101,13 +101,11 @@ public class StorageEditorInput implements IStorageEditorInput, ILocationProvide
 		return getStorage().hashCode();
 	}
 
-	@Override
 	public void saveState(IMemento memento)
 	{
 		StorageEditorInputFactory.saveState(memento, storage);
 	}
 
-	@Override
 	public String getFactoryId()
 	{
 		return StorageEditorInputFactory.getFactoryId();

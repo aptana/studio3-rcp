@@ -65,7 +65,6 @@ public class AddExceptionAction implements IViewActionDelegate, IWorkbenchWindow
 				new IInputValidator()
 				{
 
-					@Override
 					public String isValid(String newText)
 					{
 						if (newText == null || newText.trim().length() == 0)

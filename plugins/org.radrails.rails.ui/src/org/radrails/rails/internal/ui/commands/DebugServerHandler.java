@@ -8,7 +8,6 @@ import org.radrails.rails.internal.ui.actions.DebugScriptServerAction;
 public class DebugServerHandler extends AbstractHandler
 {
 
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException
 	{
 		new DebugScriptServerAction().run();

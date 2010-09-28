@@ -10,7 +10,6 @@ import org.eclipse.ui.texteditor.ResourceMarkerAnnotationModel;
 public class ExternalRubyFileAnnotationModelFactory implements IAnnotationModelFactory
 {
 
-	@Override
 	public IAnnotationModel createAnnotationModel(IPath location)
 	{
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(location);
