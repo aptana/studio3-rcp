@@ -13,6 +13,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -37,6 +38,7 @@ import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
 import com.aptana.core.ShellExecutable;
+import com.aptana.core.util.ExecutableUtil;
 import com.aptana.core.util.ProcessUtil;
 import com.aptana.git.ui.CloneJob;
 import com.aptana.terminal.views.TerminalView;
@@ -166,8 +168,15 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	@SuppressWarnings("nls")
 	protected boolean requiresNewArgToGenerateApp(IProject project)
 	{
-		String version = ProcessUtil.outputForCommand("rails", project.getLocation(), ShellExecutable.getEnvironment(),
-				"-v");
+		// FIXME This is copy-pasted from RubyDebuggerLaunchDelegate. Extract out common code for finding ruby executable!
+		IPath path = ExecutableUtil.find("rubyw", true, null);
+		if (path == null)
+		{
+			path = ExecutableUtil.find("ruby", true, null);
+		}
+		IPath railsPath = ExecutableUtil.find("rails", false, null);
+		String version = ProcessUtil.outputForCommand((path == null) ? "ruby" : path.toOSString(), project.getLocation(), ShellExecutable.getEnvironment(),
+				(railsPath == null) ? "rails" : railsPath.toOSString(), "-v");
 		if (version == null)
 		{
 			return false;
