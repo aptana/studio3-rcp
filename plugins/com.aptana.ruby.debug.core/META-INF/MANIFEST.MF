@@ -12,12 +12,10 @@ Export-Package: com.aptana.ruby.debug.core,
  com.aptana.ruby.debug.core.launching,
  com.aptana.ruby.debug.core.model,
  com.aptana.ruby.internal.debug.core.breakpoints
-Require-Bundle: org.eclipse.core.resources,
- org.eclipse.debug.core,
- org.jruby,
+Require-Bundle: org.eclipse.debug.core,
  org.eclipse.core.runtime,
  com.aptana.core;bundle-version="3.0.0",
- com.aptana.console;bundle-version="1.0.0";visibility:=reexport
+ com.aptana.ruby.launching;bundle-version="1.0.0"
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy

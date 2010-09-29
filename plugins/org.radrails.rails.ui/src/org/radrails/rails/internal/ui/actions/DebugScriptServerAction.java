@@ -92,6 +92,7 @@ public class DebugScriptServerAction extends RunScriptServerAction
 	protected ILaunchConfiguration createConfiguration(IProject project, String rubyFile, String args)
 			throws CoreException
 	{
+		// TODO Combine with RubyApplicationShortcut?
 		ILaunchConfigurationType configType = getRubyLaunchConfigType();
 		ILaunchConfigurationWorkingCopy wc = configType.newInstance(null, getLaunchManager()
 				.generateUniqueLaunchConfigurationNameFrom(project.getName()));
