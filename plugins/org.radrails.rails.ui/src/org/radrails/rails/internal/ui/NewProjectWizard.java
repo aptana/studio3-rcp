@@ -167,7 +167,8 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	@SuppressWarnings("nls")
 	protected boolean requiresNewArgToGenerateApp(IProject project)
 	{
-		Map<Integer, String> result = RailsCorePlugin.runRailsInBackground(project.getLocation(), ShellExecutable.getEnvironment(), "-v");
+		Map<Integer, String> result = RailsCorePlugin.runRailsInBackground(project.getLocation(),
+				ShellExecutable.getEnvironment(), "-v");
 		String version = null;
 		if (result != null && result.values().size() > 0)
 		{
@@ -257,14 +258,15 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		return newProject;
 	}
 
-	private void doGitClone(final IProjectDescription description)
+	private void doGitClone(final IProjectDescription overridingDescription)
 	{
 		Job job = new CloneJob(mainPage.gitCloneURI(), mainPage.getLocationPath().toOSString(), true)
 		{
 			@Override
-			protected IProject doCreateProject(IProjectDescription desc, IProgressMonitor monitor) throws CoreException
+			protected void doCreateProject(IProject project, IProjectDescription desc, IProgressMonitor monitor)
+					throws CoreException
 			{
-				return super.doCreateProject(description, monitor);
+				super.doCreateProject(project, overridingDescription, monitor);
 			}
 		};
 		job.schedule();
