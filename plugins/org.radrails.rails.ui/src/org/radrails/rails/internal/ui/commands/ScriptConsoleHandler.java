@@ -8,7 +8,6 @@ import org.radrails.rails.internal.ui.actions.ScriptConsoleAction;
 public class ScriptConsoleHandler extends AbstractHandler
 {
 
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException
 	{
 		new ScriptConsoleAction().run();

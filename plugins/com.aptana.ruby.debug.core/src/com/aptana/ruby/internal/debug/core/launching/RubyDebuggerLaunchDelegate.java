@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -29,7 +28,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
@@ -45,6 +43,7 @@ import com.aptana.ruby.debug.core.launching.IRubyLaunchConfigurationConstants;
 import com.aptana.ruby.internal.debug.core.RubyDebuggerProxy;
 import com.aptana.ruby.internal.debug.core.model.RubyDebugTarget;
 import com.aptana.ruby.internal.debug.core.model.RubyProcessingException;
+import com.aptana.ruby.launching.RubyLaunchingPlugin;
 
 /**
  * Launches Ruby program on a Ruby interpreter
@@ -52,13 +51,12 @@ import com.aptana.ruby.internal.debug.core.model.RubyProcessingException;
 public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 {
 
+	private static final String RDEBUG_IDE = "rdebug-ide"; //$NON-NLS-1$
 	private static final String DEBUGGER_PORT_SWITCH = "--port"; //$NON-NLS-1$
 	/**
 	 * Switch/arguments that tells ruby/debugger that we're done passing switches/arguments to it.
 	 */
 	private static final String END_OF_ARGUMENTS_DELIMETER = "--"; //$NON-NLS-1$
-	private static final String RUBYW = "rubyw"; //$NON-NLS-1$
-	private static final String RUBY = "ruby"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -97,8 +95,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 
 		// Now actually launch the process!
 		Process process = DebugPlugin.exec(commandList.toArray(new String[commandList.size()]),
-				getWorkingDirectory(configuration).toFile(),
-				getEnvironment(configuration));
+				getWorkingDirectory(configuration).toFile(), getEnvironment(configuration));
 		// FIXME Build a label from args?
 		String label = commandList.get(0);
 
@@ -167,7 +164,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			ILaunchConfiguration configuration) throws CoreException
 	{
 		List<String> commandList = new ArrayList<String>();
-		IPath rdebug = ExecutableUtil.find("rdebug-ide", false, getRDebugIDELocations(rubyExecutablePath)); //$NON-NLS-1$
+		IPath rdebug = ExecutableUtil.find(RDEBUG_IDE, false, getRDebugIDELocations(rubyExecutablePath));
 		if (rdebug == null)
 		{
 			abort(Messages.RubyDebuggerLaunchDelegate_3, null);
@@ -219,19 +216,14 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 				}
 			}
 		}
+
 		arguments.add(END_OF_ARGUMENTS_DELIMETER);
 		return arguments;
 	}
 
 	protected IPath rubyExecutable() throws CoreException
 	{
-		// Ruby executable, look for rubyw, then ruby
-		// TODO check TM_RUBY env value?
-		IPath path = ExecutableUtil.find(RUBYW, true, getCommonRubyBinaryLocations(RUBYW));
-		if (path == null)
-		{
-			path = ExecutableUtil.find(RUBY, true, getCommonRubyBinaryLocations(RUBY));
-		}
+		IPath path = RubyLaunchingPlugin.rubyExecutablePath();
 		// TODO If we can't find one, should we just try plain "ruby"?
 		if (path == null)
 		{
@@ -244,54 +236,34 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		return path;
 	}
 
-	/**
-	 * Return an ordered list of common locations that you'd find a ruby binary.
-	 * 
-	 * @return
-	 */
-	protected List<IPath> getCommonRubyBinaryLocations(String binaryName)
-	{
-		List<IPath> locations = new ArrayList<IPath>();
-		if (Platform.getOS().equals(Platform.OS_WIN32))
-		{
-			locations.add(Path.fromOSString("C:\\ruby\\bin").append(binaryName).addFileExtension("exe")); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		else
-		{
-			locations.add(Path.fromOSString("/opt/local/bin/").append(binaryName)); //$NON-NLS-1$
-			locations.add(Path.fromOSString("/usr/local/bin/").append(binaryName)); //$NON-NLS-1$
-			locations.add(Path.fromOSString("/usr/bin/").append(binaryName)); //$NON-NLS-1$
-		}
-		if (Platform.getOS().equals(Platform.OS_MACOSX))
-		{
-			locations.add(Path.fromOSString("/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/") //$NON-NLS-1$
-					.append(binaryName));
-		}
-		return locations;
-	}
-
 	private String[] getEnvironment(ILaunchConfiguration configuration) throws CoreException
 	{
 		Map<String, String> env = new HashMap<String, String>();
 		env.putAll(ShellExecutable.getEnvironment());
-		String[] envp =  DebugPlugin.getDefault().getLaunchManager().getEnvironment(configuration);
-		if (envp != null) {
-			for (String envstring : envp) {
-				if (envstring.indexOf((int) '\u0000') != -1) {
+		String[] envp = DebugPlugin.getDefault().getLaunchManager().getEnvironment(configuration);
+		if (envp != null)
+		{
+			for (String envstring : envp)
+			{
+				if (envstring.indexOf((int) '\u0000') != -1)
+				{
 					envstring = envstring.replaceFirst("\u0000.*", "");
 				}
 				int eqlsign = envstring.indexOf('=');
-				if (eqlsign != -1) {
-					env.put(envstring.substring(0,eqlsign), envstring.substring(eqlsign+1));
+				if (eqlsign != -1)
+				{
+					env.put(envstring.substring(0, eqlsign), envstring.substring(eqlsign + 1));
 				}
 			}
 		}
-		if (env.isEmpty()) {
+		if (env.isEmpty())
+		{
 			return null;
 		}
 		List<String> list = new ArrayList<String>();
-		for (Entry<String, String> entry : env.entrySet()) {
-			list.add(entry.getKey()+"="+entry.getValue());
+		for (Map.Entry<String, String> entry : env.entrySet())
+		{
+			list.add(entry.getKey() + "=" + entry.getValue());
 		}
 		return list.toArray(new String[list.size()]);
 	}
@@ -336,7 +308,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 	 * 
 	 * @return a free port number on localhost, or -1 if unable to find a free port
 	 */
-	public static int findFreePort()
+	private static int findFreePort()
 	{
 		ServerSocket socket = null;
 		try

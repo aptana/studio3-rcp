@@ -5,5 +5,5 @@ Bundle-SymbolicName: com.aptana.rcp.studio
 Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Aptana, Inc.
 Fragment-Host: com.aptana.rcp;bundle-version="3.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Eclipse-PlatformFilter: (! (osgi.os=win32))

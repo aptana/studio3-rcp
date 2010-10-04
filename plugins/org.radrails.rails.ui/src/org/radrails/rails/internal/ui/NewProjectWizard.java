@@ -3,6 +3,7 @@ package org.radrails.rails.internal.ui;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.Map;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
@@ -33,11 +34,11 @@ import org.eclipse.ui.statushandlers.StatusAdapter;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
+import org.radrails.rails.core.RailsCorePlugin;
 import org.radrails.rails.core.RailsProjectNature;
 import org.radrails.rails.ui.RailsUIPlugin;
 
 import com.aptana.core.ShellExecutable;
-import com.aptana.core.util.ProcessUtil;
 import com.aptana.git.ui.CloneJob;
 import com.aptana.terminal.views.TerminalView;
 
@@ -166,8 +167,13 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 	@SuppressWarnings("nls")
 	protected boolean requiresNewArgToGenerateApp(IProject project)
 	{
-		String version = ProcessUtil.outputForCommand("rails", project.getLocation(), ShellExecutable.getEnvironment(),
-				"-v");
+		Map<Integer, String> result = RailsCorePlugin.runRailsInBackground(project.getLocation(),
+				ShellExecutable.getEnvironment(), "-v");
+		String version = null;
+		if (result != null && result.values().size() > 0)
+		{
+			version = result.values().iterator().next();
+		}
 		if (version == null)
 		{
 			return false;
@@ -252,14 +258,15 @@ public class NewProjectWizard extends BasicNewResourceWizard implements IExecuta
 		return newProject;
 	}
 
-	private void doGitClone(final IProjectDescription description)
+	private void doGitClone(final IProjectDescription overridingDescription)
 	{
 		Job job = new CloneJob(mainPage.gitCloneURI(), mainPage.getLocationPath().toOSString(), true)
 		{
 			@Override
-			protected IProject doCreateProject(IProjectDescription desc, IProgressMonitor monitor) throws CoreException
+			protected void doCreateProject(IProject project, IProjectDescription desc, IProgressMonitor monitor)
+					throws CoreException
 			{
-				return super.doCreateProject(description, monitor);
+				super.doCreateProject(project, overridingDescription, monitor);
 			}
 		};
 		job.schedule();
