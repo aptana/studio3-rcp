@@ -120,6 +120,7 @@ public class RubyApplicationShortcut implements ILaunchShortcut
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	protected ILaunchConfiguration createConfiguration(IFile rubyFile)
 	{
 		ILaunchConfiguration config = null;
