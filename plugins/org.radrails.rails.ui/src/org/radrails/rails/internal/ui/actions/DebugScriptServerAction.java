@@ -89,6 +89,7 @@ public class DebugScriptServerAction extends RunScriptServerAction
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	protected ILaunchConfiguration createConfiguration(IProject project, String rubyFile, String args)
 			throws CoreException
 	{
