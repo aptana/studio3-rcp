@@ -24,7 +24,7 @@ public class ClassicDebuggerConnection extends AbstractDebuggerConnection
 	@Override
 	public SuspensionReader start() throws DebuggerNotFoundException, IOException
 	{
-		StepCommand stepCommand = new StepCommand("cont");
+		StepCommand stepCommand = new StepCommand("cont"); //$NON-NLS-1$
 		stepCommand.execute(this);
 		isStarted = true;
 		return stepCommand.getSuspensionReader();

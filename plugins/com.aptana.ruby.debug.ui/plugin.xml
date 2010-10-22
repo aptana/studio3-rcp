@@ -96,7 +96,7 @@
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
       <launchConfigurationTabGroup
             type="com.aptana.ruby.debug.core.launchConfigurationType"
-            description="Run or debug a Ruby program"
+            description="%launchConfigurationTabGroup.ruby.description"
             class="com.aptana.ruby.debug.ui.launcher.RubyTabGroup"
             id="com.aptana.ruby.debug.ui.launchConfigurationTabGroup.ruby">
       </launchConfigurationTabGroup>      
@@ -125,8 +125,8 @@
    <extension
          point="org.eclipse.ui.contexts">
       <context
-            name="Debugging Ruby"
-            description="Debugging Ruby"
+            name="%context.debug.name"
+            description="%context.debug.description"
             id="com.aptana.ruby.debug.ui.ruby.debugging"
             parentId="org.eclipse.debug.ui.debugging">
       </context>
@@ -151,7 +151,7 @@
            id="com.aptana.ruby.debug.RubyEditor.BreakpointRulerActions"
           targetID="com.aptana.editor.ruby">
         <action
-              label="Not Used"
+              label="%action.notused.label"
               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
               style="push"
               actionID="RulerDoubleClick"

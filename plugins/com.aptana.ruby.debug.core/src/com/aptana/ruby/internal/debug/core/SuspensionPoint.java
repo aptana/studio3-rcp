@@ -32,7 +32,7 @@ public abstract class SuspensionPoint
 
 	public String getPosition()
 	{
-		return this.getFile() + ":" + this.getLine();
+		return this.getFile() + ":" + this.getLine(); //$NON-NLS-1$
 	}
 
 	public abstract String toString();
