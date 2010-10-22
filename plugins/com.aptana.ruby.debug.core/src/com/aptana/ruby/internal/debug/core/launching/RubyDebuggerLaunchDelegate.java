@@ -247,7 +247,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 			{
 				if (envstring.indexOf((int) '\u0000') != -1)
 				{
-					envstring = envstring.replaceFirst("\u0000.*", "");
+					envstring = envstring.replaceFirst("\u0000.*", ""); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				int eqlsign = envstring.indexOf('=');
 				if (eqlsign != -1)
@@ -263,7 +263,7 @@ public class RubyDebuggerLaunchDelegate extends LaunchConfigurationDelegate
 		List<String> list = new ArrayList<String>();
 		for (Map.Entry<String, String> entry : env.entrySet())
 		{
-			list.add(entry.getKey() + "=" + entry.getValue());
+			list.add(entry.getKey() + "=" + entry.getValue()); //$NON-NLS-1$
 		}
 		return list.toArray(new String[list.size()]);
 	}

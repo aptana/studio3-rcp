@@ -21,7 +21,7 @@
             preferredPerspectives="com.aptana.ui.WebPerspective"
             project="true">
          <description>
-            Create a new Ruby/Rails project
+            %wizard.newproject.description
          </description>
       </wizard>
       <category

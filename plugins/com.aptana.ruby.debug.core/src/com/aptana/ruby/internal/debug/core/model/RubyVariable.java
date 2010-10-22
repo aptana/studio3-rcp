@@ -72,7 +72,7 @@ public class RubyVariable extends RubyDebugElement implements IRubyVariable
 	 */
 	public String getReferenceTypeName()
 	{
-		return "RefTypeName";
+		return "RefTypeName"; //$NON-NLS-1$
 	}
 
 	/**
@@ -93,13 +93,13 @@ public class RubyVariable extends RubyDebugElement implements IRubyVariable
 			String assignee = getName();
 			if (isHashValue())
 			{
-				assignee = parent.getName() + "[" + assignee + "]";
+				assignee = parent.getName() + "[" + assignee + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			else if (isArrayValue())
 			{
 				assignee = parent.getName() + assignee;
 			}
-			RubyVariable var = getRubyDebuggerProxy().readInspectExpression(stackFrame, assignee + " = " + expression);
+			RubyVariable var = getRubyDebuggerProxy().readInspectExpression(stackFrame, assignee + " = " + expression); //$NON-NLS-1$
 			this.value = var.getValue();
 			this.valueHasChanged = true;
 			fireChangeEvent(DebugEvent.CONTENT);
@@ -170,9 +170,9 @@ public class RubyVariable extends RubyDebugElement implements IRubyVariable
 	{
 		if (this.isHashValue())
 		{
-			return this.getName() + " => " + this.getValue();
+			return this.getName() + " => " + this.getValue(); //$NON-NLS-1$
 		}
-		return this.getName() + " = " + this.getValue();
+		return this.getName() + " = " + this.getValue(); //$NON-NLS-1$
 
 	}
 
@@ -199,18 +199,18 @@ public class RubyVariable extends RubyDebugElement implements IRubyVariable
 		}
 		if (this.isHashValue())
 		{
-			if (((RubyValue) this.getValue()).getReferenceTypeName().equals("String"))
+			if (((RubyValue) this.getValue()).getReferenceTypeName().equals("String")) //$NON-NLS-1$
 			{
-				return parent.getQualifiedName() + "[" + this.getName() + "]";
+				return parent.getQualifiedName() + "[" + this.getName() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			return "[ObjectSpace._id2ref(" + this.getObjectId() + ")]";
+			return "[ObjectSpace._id2ref(" + this.getObjectId() + ")]"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		if (this.getName().startsWith("["))
+		if (this.getName().startsWith("[")) //$NON-NLS-1$
 		{
 			// Array
 			return parent.getQualifiedName() + this.getName();
 		}
-		return parent.getQualifiedName() + "." + this.getName();
+		return parent.getQualifiedName() + "." + this.getName(); //$NON-NLS-1$
 	}
 
 	public boolean isInstance()

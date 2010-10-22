@@ -125,7 +125,7 @@ public class RubyLineBreakpoint extends RubyBreakpoint implements IRubyLineBreak
 		IResource resource = ensureMarker().getResource();
 		if (resource.equals(ResourcesPlugin.getWorkspace().getRoot()))
 		{
-			return ensureMarker().getAttribute(EXTERNAL_FILENAME, "");
+			return ensureMarker().getAttribute(EXTERNAL_FILENAME, ""); //$NON-NLS-1$
 		}
 		return resource.getName();
 	}
