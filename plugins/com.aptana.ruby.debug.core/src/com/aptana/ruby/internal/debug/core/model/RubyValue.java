@@ -19,7 +19,7 @@ public class RubyValue extends RubyDebugElement implements IRubyValue
 
 	public RubyValue(RubyVariable owner)
 	{
-		this(owner, "nil", null, false);
+		this(owner, "nil", null, false); //$NON-NLS-1$
 	}
 
 	public RubyValue(RubyVariable owner, String valueString, String type, boolean hasChildren)
@@ -32,13 +32,13 @@ public class RubyValue extends RubyDebugElement implements IRubyValue
 		}
 		else if (this.valueString.startsWith("Empty ")) //$NON-NLS-1$
 		{
-			this.valueString = this.valueString.substring(6) + "[0]";
+			this.valueString = this.valueString.substring(6) + "[0]"; //$NON-NLS-1$
 		}
 		else if (this.valueString.endsWith("element(s))")) //$NON-NLS-1$
 		{
-			int index = this.valueString.substring(0, this.valueString.length() - 11).lastIndexOf("(");
-			this.valueString = this.valueString.substring(0, index).trim() + "["
-					+ this.valueString.substring(index + 1, this.valueString.length() - 11).trim() + "]";
+			int index = this.valueString.substring(0, this.valueString.length() - 11).lastIndexOf("("); //$NON-NLS-1$
+			this.valueString = this.valueString.substring(0, index).trim() + "[" //$NON-NLS-1$
+					+ this.valueString.substring(index + 1, this.valueString.length() - 11).trim() + "]"; //$NON-NLS-1$
 		}
 		else if (type != null && type.equals("Symbol")) //$NON-NLS-1$
 		{

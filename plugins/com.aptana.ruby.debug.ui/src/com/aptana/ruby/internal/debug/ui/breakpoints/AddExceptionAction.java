@@ -115,7 +115,7 @@ public class AddExceptionAction implements IViewActionDelegate, IWorkbenchWindow
 		if (exists) // TODO Pop an error dialog or something?
 			return;
 
-		new Job("AddExceptionAction")
+		new Job("AddExceptionAction") //$NON-NLS-1$
 		{
 			protected IStatus run(IProgressMonitor monitor)
 			{

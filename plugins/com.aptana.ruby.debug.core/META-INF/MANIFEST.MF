@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %Plugin.name
+Bundle-Name: %pluginName
 Bundle-SymbolicName: com.aptana.ruby.debug.core;singleton:=true
 Bundle-Version: 3.0.0.qualifier
 Bundle-ClassPath: .,
@@ -14,8 +14,8 @@ Export-Package: com.aptana.ruby.debug.core,
  com.aptana.ruby.internal.debug.core.breakpoints
 Require-Bundle: org.eclipse.debug.core,
  org.eclipse.core.runtime,
- com.aptana.core;bundle-version="3.0.0",
- com.aptana.ruby.launching;bundle-version="1.0.0"
+ com.aptana.core,
+ com.aptana.ruby.launching
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
