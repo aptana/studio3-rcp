@@ -165,6 +165,11 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
      * The IDE workbench error handler.
      */
     private AbstractStatusHandler ideWorkbenchErrorHandler;
+    
+    /**
+	 * Helper class used to process delayed events.
+	 */
+	private DelayedEventsProcessor delayedEventsProcessor;
 
 	/**
 	 * The array of command line aruments.
@@ -174,8 +179,9 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
     /**
      * Creates a new workbench advisor instance.
      */
-    public IDEWorkbenchAdvisor(String[] args) {
+    public IDEWorkbenchAdvisor(DelayedEventsProcessor processor, String[] args) {
         super();
+        this.delayedEventsProcessor = processor;
 		this.args = args;
         if (workbenchAdvisor != null) {
             throw new IllegalStateException();
@@ -836,6 +842,15 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         }
         return ideWorkbenchErrorHandler;
     }
+    
+    /* (non-Javadoc)
+	 * @see org.eclipse.ui.application.WorkbenchAdvisor#eventLoopIdle(org.eclipse.swt.widgets.Display)
+	 */
+	public void eventLoopIdle(Display display) {
+		if (delayedEventsProcessor != null)
+			delayedEventsProcessor.catchUp(display);
+		super.eventLoopIdle(display);
+	}
 
     /**
      * Returns a list of all open editors
