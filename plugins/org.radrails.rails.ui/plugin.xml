@@ -355,4 +355,12 @@
             class="org.radrails.rails.internal.ui.hyperlink.RenderPathHyperlinkDetector">
       </detector>
    </extension>
+   <extension
+         point="com.aptana.explorer.filters">
+      <filter
+            class="org.radrails.rails.internal.ui.filter.RailsProjectFilter"
+            nature="org.radrails.rails.core.railsnature"
+            priority="50">
+      </filter>
+   </extension>
 </plugin>
