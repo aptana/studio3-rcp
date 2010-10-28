@@ -7,9 +7,7 @@ public class Messages extends NLS
 	private static final String BUNDLE_NAME = "org.radrails.rails.internal.ui.messages"; //$NON-NLS-1$
 
 	public static String NewProjectWizard_ContentsAlreadyExist_Msg;
-
 	public static String NewProjectWizard_ContentsAlreadyExist_Title;
-
 	public static String NewProjectWizard_JobTitle;
 	public static String NewProjectWizard_RailsCommandFailedMessage;
 
@@ -19,9 +17,11 @@ public class Messages extends NLS
 	public static String NewProject_caseVariantExistsError;
 	public static String NewProject_errorMessage;
 	public static String NewProject_internalError;
+	
+	public static String NewRubyProject_windowTitle;
+	public static String NewRubyProject_description;
 
 	public static String WizardNewProjectCreationPage_BrowseLabel;
-
 	public static String WizardNewProjectCreationPage_CloneGitRepoLabel;
 	public static String WizardNewProjectCreationPage_GenerateAppGroupLabel;
 	public static String WizardNewProjectCreationPage_nameLabel;
