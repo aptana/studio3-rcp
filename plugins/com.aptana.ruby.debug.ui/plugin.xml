@@ -27,22 +27,30 @@
 						<count value="1">
 						</count>
 						<iterate>
-							<or>
-								<test value="*.rb"
-									property="org.eclipse.debug.ui.matchesPattern">
-								</test>
-								<test value="*.rbx"
-									property="org.eclipse.debug.ui.matchesPattern">
-								</test>
-								<test value="*.rbw"
-									property="org.eclipse.debug.ui.matchesPattern">
-								</test>
-        <test
-              args="kindOf"
-              property="org.eclipse.core.resources.contentTypeId"
-              value="com.aptana.contenttype.ruby">
-        </test>
-							</or>
+       <and>
+          <adapt
+                type="org.eclipse.core.resources.IFile">
+          </adapt>
+          <or>
+             <test
+                   property="org.eclipse.debug.ui.matchesPattern"
+                   value="*.rb">
+             </test>
+             <test
+                   property="org.eclipse.debug.ui.matchesPattern"
+                   value="*.rbx">
+             </test>
+             <test
+                   property="org.eclipse.debug.ui.matchesPattern"
+                   value="*.rbw">
+             </test>
+             <test
+                   args="kindOf"
+                   property="org.eclipse.core.resources.contentTypeId"
+                   value="com.aptana.contenttype.ruby">
+             </test>
+          </or>
+       </and>
 						</iterate>
 					</with>
 				</enablement>
