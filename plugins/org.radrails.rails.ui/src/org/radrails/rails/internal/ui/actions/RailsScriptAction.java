@@ -30,6 +30,7 @@ import org.radrails.rails.ui.RailsUIPlugin;
 
 import com.aptana.explorer.IExplorerUIConstants;
 
+// TODO Use a handler!
 public abstract class RailsScriptAction extends Action implements IObjectActionDelegate, IWorkbenchWindowActionDelegate
 {
 	// TODO Combine common code form GitAction and this into a base class for actions we want to run off editor or

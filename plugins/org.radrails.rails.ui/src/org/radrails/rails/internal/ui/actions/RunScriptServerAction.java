@@ -11,6 +11,7 @@ import com.aptana.terminal.views.TerminalView;
 public class RunScriptServerAction extends RailsScriptAction
 {
 
+	// TODO Use a handler!
 	@Override
 	public void run()
 	{
