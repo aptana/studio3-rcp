@@ -94,6 +94,8 @@ public class IDEApplication implements IApplication, IExecutableExtension {
      */
     public Object start(IApplicationContext appContext) throws Exception {
         Display display = createDisplay();
+        // processor must be created before we start event loop
+        DelayedEventsProcessor processor = new DelayedEventsProcessor(display);
 
         try {
             // look and see if there's a splash shell we can parent off of
@@ -121,7 +123,7 @@ public class IDEApplication implements IApplication, IExecutableExtension {
             // the workbench globally so that all UI plug-ins can find it using
             // PlatformUI.getWorkbench() or AbstractUIPlugin.getWorkbench()
             int returnCode = PlatformUI.createAndRunWorkbench(display,
-                    new IDEWorkbenchAdvisor((args instanceof String[] ? ((String[]) args) : new String[0])));
+                    new IDEWorkbenchAdvisor(processor, (args instanceof String[] ? ((String[]) args) : new String[0])));
 
             // the workbench doesn't support relaunch yet (bug 61809) so
             // for now restart is used, and exit data properties are checked
