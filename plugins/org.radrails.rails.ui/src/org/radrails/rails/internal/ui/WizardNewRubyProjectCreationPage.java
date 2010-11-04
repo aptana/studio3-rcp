@@ -30,7 +30,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -46,6 +45,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -55,28 +55,14 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 import org.eclipse.ui.internal.ide.dialogs.IDEResourceInfoUtils;
-import org.radrails.rails.ui.RailsUIPlugin;
 
 /**
- * Standard main page for a wizard that is creates a project resource.
- * <p>
- * This page may be used by clients as-is; it may be also be subclassed to suit.
- * </p>
- * <p>
- * Example usage:
- * 
- * <pre>
- * mainPage = new WizardNewProjectCreationPage(&quot;basicNewProjectPage&quot;);
- * mainPage.setTitle(&quot;Project&quot;);
- * mainPage.setDescription(&quot;Create a new project resource.&quot;);
- * </pre>
- * 
- * </p>
+ * TODO Extract common code between this and our Web project wizard!
  */
 @SuppressWarnings("restriction")
 public class WizardNewRubyProjectCreationPage extends WizardPage
 {
-	private static final String ICON_WARNING = "icons/warning_48.png"; //$NON-NLS-1$
+
 	// initial value stores
 	private String initialProjectFieldValue;
 
@@ -99,11 +85,10 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 	};
 
 	private String lastLocationDefault;
-	private Button noGenerator;
+	protected Button noGenerator;
 	private Group projectGenerationGroup;
 	private StackLayout projectGenerationStackLayout;
 	private Composite projectGenerationControls;
-	private CLabel projectGenerationErrorLabel;
 
 	// constants
 	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
@@ -236,13 +221,18 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 		URI fieldURI;
 		try
 		{
-			fieldURI = new URI(locationPathField.getText());
+			fieldURI = new URI(getLocationText());
 		}
 		catch (URISyntaxException e)
 		{
 			return locationPathField.getText();
 		}
 		return fieldURI.getPath();
+	}
+
+	protected String getLocationText()
+	{
+		return locationPathField.getText();
 	}
 
 	/**
@@ -392,7 +382,7 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 	 * @param parent
 	 *            the parent composite
 	 */
-	private final void createGenerateGroup(Composite parent)
+	protected Composite createGenerateGroup(Composite parent)
 	{
 		// project generation group
 		projectGenerationGroup = new Group(parent, SWT.NONE);
@@ -405,6 +395,21 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 		projectGenerationControls.setLayout(new GridLayout(1, false));
 		projectGenerationControls.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
+		createGenerationOptions(projectGenerationControls);
+
+		setTopControl(projectGenerationControls);
+
+		return projectGenerationGroup;
+	}
+
+	protected void setTopControl(Control control)
+	{
+		projectGenerationStackLayout.topControl = control;
+		projectGenerationGroup.layout();
+	}
+
+	protected void createGenerationOptions(Composite projectGenerationControls)
+	{
 		gitCloneGenerate = new Button(projectGenerationControls, SWT.RADIO);
 		gitCloneGenerate.setText(Messages.WizardNewProjectCreationPage_CloneGitRepoLabel);
 
@@ -412,15 +417,8 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 
 		noGenerator = new Button(projectGenerationControls, SWT.RADIO);
 		noGenerator.setText(Messages.WizardNewProjectCreationPage_NoGeneratorText);
-
-		// Create an error label that we'll display in a case where the project
-		// is created in a location that contains a Rails project files.
-		projectGenerationErrorLabel = new CLabel(projectGenerationGroup, SWT.WRAP);
-		projectGenerationErrorLabel.setText(Messages.WizardNewProjectCreationPage_cannotCreateProjectMessage);
-		projectGenerationErrorLabel.setImage(RailsUIPlugin.getImage(ICON_WARNING));
-
-		projectGenerationStackLayout.topControl = projectGenerationControls;
-		projectGenerationGroup.layout();
+		
+		noGenerator.setSelection(true);
 	}
 
 	private void createGitLocationComposite(Composite parent)

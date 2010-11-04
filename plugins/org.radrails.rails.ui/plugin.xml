@@ -13,7 +13,7 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             category="org.radrails.rails.ui.category"
-            class="org.radrails.rails.internal.ui.NewProjectWizard"
+            class="org.radrails.rails.internal.ui.NewRailsProjectWizard"
             finalPerspective="com.aptana.ui.WebPerspective"
             icon="icons/newproj.png"
             id="org.radrails.rails.ui.projectWizard"
@@ -47,18 +47,6 @@
       <primaryWizard
             id="org.radrails.rails.ui.rubyProjectWizard">
       </primaryWizard>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="com.aptana.ui.WebPerspective">
-         <newWizardShortcut
-               id="org.radrails.rails.ui.projectWizard">
-         </newWizardShortcut>
-         <actionSet
-               id="org.radrails.rails.ui.actionSet">
-         </actionSet>
-      </perspectiveExtension>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -396,6 +384,12 @@
             wizardId="org.radrails.rails.ui.projectWizard">
          <enablement></enablement>
       </commonWizard>
+       <commonWizard
+             associatedExtensionId="org.eclipse.ui.navigator.resourceContent"
+             type="new"
+             wizardId="org.radrails.rails.ui.rubyProjectWizard">
+          <enablement></enablement>
+       </commonWizard>
    </extension>
    <extension
          point="com.aptana.org.eclipse.tm.terminal.terminalHyperlinkDetectors">
