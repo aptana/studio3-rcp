@@ -248,7 +248,9 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 			IFileInfo info = IDEResourceInfoUtils.getFileInfo(dirName);
 
 			if (info == null || !(info.exists()))
+			{
 				dirName = EMPTY_STRING;
+			}
 		}
 		else
 		{
@@ -284,7 +286,9 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 			IFileInfo info = IDEResourceInfoUtils.getFileInfo(dirName);
 
 			if (info == null || !(info.exists()))
+			{
 				dirName = EMPTY_STRING;
+			}
 		}
 
 		DirectoryDialog dialog = new DirectoryDialog(gitLocation.getShell(), SWT.SHEET);
@@ -330,7 +334,9 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 			setErrorMessage(null);
 		}
 		else
+		{
 			setErrorMessage(errorMessage);
+		}
 		boolean valid = errorMessage == null;
 		if (valid)
 		{
@@ -417,7 +423,7 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 
 		noGenerator = new Button(projectGenerationControls, SWT.RADIO);
 		noGenerator.setText(Messages.WizardNewProjectCreationPage_NoGeneratorText);
-		
+
 		noGenerator.setSelection(true);
 	}
 
@@ -709,10 +715,15 @@ public class WizardNewRubyProjectCreationPage extends WizardPage
 				public void modifyText(ModifyEvent e)
 				{
 					if (!matchesLastDefault())
+					{
 						setStyleRange(new StyleRange(0, getCharCount(), null, null));
+					}
 					else
+					{
 						setStyleRange(new StyleRange(0, getCharCount(), getShell().getDisplay().getSystemColor(
-								SWT.COLOR_DARK_GRAY), null, SWT.ITALIC));
+
+						SWT.COLOR_DARK_GRAY), null, SWT.ITALIC));
+					}
 				}
 			});
 			addFocusListener(new FocusAdapter()

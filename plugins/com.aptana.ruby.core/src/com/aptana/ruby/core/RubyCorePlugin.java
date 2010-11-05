@@ -69,15 +69,8 @@ public class RubyCorePlugin extends Plugin
 	 */
 	public void stop(BundleContext context) throws Exception
 	{
-		try
-		{
-			// clean up
-		}
-		finally
-		{
-			plugin = null;
-			super.stop(context);
-		}
+		plugin = null;
+		super.stop(context);
 	}
 
 	/**
