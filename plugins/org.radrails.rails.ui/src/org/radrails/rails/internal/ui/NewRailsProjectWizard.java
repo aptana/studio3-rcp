@@ -49,8 +49,12 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.progress.UIJob;
 import org.radrails.rails.core.RailsCorePlugin;
+import org.radrails.rails.core.RailsProjectNature;
 
 import com.aptana.core.ShellExecutable;
+import com.aptana.ruby.core.RubyProjectNature;
+import com.aptana.ruby.ui.wizards.NewRubyProjectWizard;
+import com.aptana.ruby.ui.wizards.WizardNewRubyProjectCreationPage;
 import com.aptana.terminal.views.TerminalView;
 
 public class NewRailsProjectWizard extends NewRubyProjectWizard
@@ -77,6 +81,12 @@ public class NewRailsProjectWizard extends NewRubyProjectWizard
 	{
 		super.init(workbench, currentSelection);
 		setWindowTitle(Messages.NewRailsProject_windowTitle);
+	}
+	
+	@Override
+	protected String[] getNatureIds()
+	{
+		return new String[] { RailsProjectNature.ID, RubyProjectNature.ID };
 	}
 
 	@Override

@@ -42,6 +42,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.radrails.rails.ui.RailsUIPlugin;
 
+import com.aptana.ruby.ui.wizards.WizardNewRubyProjectCreationPage;
+
 public class WizardNewRailsProjectCreationPage extends WizardNewRubyProjectCreationPage
 {
 
@@ -120,7 +122,7 @@ public class WizardNewRailsProjectCreationPage extends WizardNewRubyProjectCreat
 		return env.exists();
 	}
 
-	public boolean runGenerator()
+	protected boolean runGenerator()
 	{
 		return !hasRailsAppFiles && runGenerator.getSelection();
 	}

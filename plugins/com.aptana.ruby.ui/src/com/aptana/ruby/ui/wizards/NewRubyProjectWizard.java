@@ -32,7 +32,7 @@
  * 
  * Any modifications to this file must keep this entire header intact.
  */
-package org.radrails.rails.internal.ui;
+package com.aptana.ruby.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -63,10 +63,10 @@ import org.eclipse.ui.statushandlers.StatusAdapter;
 import org.eclipse.ui.statushandlers.StatusManager;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
-import org.radrails.rails.core.RailsProjectNature;
-import org.radrails.rails.ui.RailsUIPlugin;
 
 import com.aptana.git.ui.CloneJob;
+import com.aptana.ruby.core.RubyProjectNature;
+import com.aptana.ruby.ui.RubyUIPlugin;
 
 /**
  * TODO Extract common code between this and our web wizard!
@@ -88,7 +88,7 @@ public class NewRubyProjectWizard extends BasicNewResourceWizard implements IExe
 
 	public NewRubyProjectWizard()
 	{
-		IDialogSettings workbenchSettings = RailsUIPlugin.getDefault().getDialogSettings();
+		IDialogSettings workbenchSettings = RubyUIPlugin.getDefault().getDialogSettings();
 		IDialogSettings section = workbenchSettings.getSection("BasicNewProjectResourceWizard");//$NON-NLS-1$
 		if (section == null)
 		{
@@ -124,7 +124,7 @@ public class NewRubyProjectWizard extends BasicNewResourceWizard implements IExe
 	 */
 	protected void initializeDefaultPageImageDescriptor()
 	{
-		ImageDescriptor desc = RailsUIPlugin.imageDescriptorFromPlugin(RailsUIPlugin.getPluginIdentifier(),
+		ImageDescriptor desc = RubyUIPlugin.imageDescriptorFromPlugin(RubyUIPlugin.getPluginIdentifier(),
 				"icons/newproj_wiz.png"); //$NON-NLS-1$
 		setDefaultPageImageDescriptor(desc);
 	}
@@ -224,8 +224,7 @@ public class NewRubyProjectWizard extends BasicNewResourceWizard implements IExe
 
 	protected String[] getNatureIds()
 	{
-		// FIXME Use a ruby nature!
-		return new String[] { RailsProjectNature.ID };
+		return new String[] { RubyProjectNature.ID };
 	}
 
 	private void doGitClone(final IProjectDescription overridingDescription)
@@ -273,7 +272,7 @@ public class NewRubyProjectWizard extends BasicNewResourceWizard implements IExe
 		}
 		catch (InterruptedException e)
 		{
-			throw new CoreException(new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(), e.getMessage(), e));
+			throw new CoreException(new Status(IStatus.ERROR, RubyUIPlugin.getPluginIdentifier(), e.getMessage(), e));
 		}
 		catch (InvocationTargetException e)
 		{
@@ -284,13 +283,13 @@ public class NewRubyProjectWizard extends BasicNewResourceWizard implements IExe
 				StatusAdapter status;
 				if (cause.getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS)
 				{
-					status = new StatusAdapter(new Status(IStatus.WARNING, RailsUIPlugin.getPluginIdentifier(),
+					status = new StatusAdapter(new Status(IStatus.WARNING, RubyUIPlugin.getPluginIdentifier(),
 							NLS.bind(Messages.NewProject_caseVariantExistsError, newProjectHandle.getName()), cause));
 				}
 				else
 				{
 					status = new StatusAdapter(new Status(cause.getStatus().getSeverity(),
-							RailsUIPlugin.getPluginIdentifier(), Messages.NewProject_errorMessage, cause));
+							RubyUIPlugin.getPluginIdentifier(), Messages.NewProject_errorMessage, cause));
 				}
 				status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY, Messages.NewProject_errorMessage);
 				StatusManager.getManager().handle(status, StatusManager.BLOCK);
@@ -298,19 +297,19 @@ public class NewRubyProjectWizard extends BasicNewResourceWizard implements IExe
 			else
 			{
 				StatusAdapter status = new StatusAdapter(new Status(IStatus.WARNING,
-						RailsUIPlugin.getPluginIdentifier(), 0, NLS.bind(Messages.NewProject_internalError,
+						RubyUIPlugin.getPluginIdentifier(), 0, NLS.bind(Messages.NewProject_internalError,
 								t.getMessage()), t));
 				status.setProperty(IStatusAdapterConstants.TITLE_PROPERTY, Messages.NewProject_errorMessage);
 				StatusManager.getManager().handle(status, StatusManager.LOG | StatusManager.BLOCK);
 			}
-			throw new CoreException(new Status(IStatus.ERROR, RailsUIPlugin.getPluginIdentifier(), e.getMessage(), e));
+			throw new CoreException(new Status(IStatus.ERROR, RubyUIPlugin.getPluginIdentifier(), e.getMessage(), e));
 		}
 	}
 
 	/**
 	 * Updates the perspective for the active page within the window.
 	 */
-	protected void updatePerspective()
+	private void updatePerspective()
 	{
 		BasicNewProjectResourceWizard.updatePerspective(configElement);
 	}

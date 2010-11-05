@@ -12,7 +12,7 @@
  *     Oakland Software Incorporated (Francis Upton) <francisu@ieee.org>
  *		    Bug 224997 [Workbench] Impossible to copy project
  *******************************************************************************/
-package org.radrails.rails.internal.ui;
+package com.aptana.ruby.ui.wizards;
 
 import java.net.URI;
 import java.net.URISyntaxException;
