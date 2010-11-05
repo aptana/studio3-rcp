@@ -26,7 +26,8 @@
       </wizard>
       <category
             id="org.radrails.rails.ui.category"
-            name="%RailsWizardsCategory.name">
+            name="%RailsWizardsCategory.name"
+            parentCategory="com.aptana.ruby.ui.category">
       </category>
       <primaryWizard
             id="org.radrails.rails.ui.projectWizard">
