@@ -371,7 +371,7 @@
       </commonWizard>
    </extension>
    <extension
-         point="com.aptana.org.eclipse.tm.terminal.terminalHyperlinkDetectors">
+         point="com.aptana.terminal.terminalHyperlinkDetectors">
       <detector
             class="org.radrails.rails.internal.ui.hyperlink.RenderPathHyperlinkDetector">
       </detector>

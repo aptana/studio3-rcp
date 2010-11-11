@@ -39,9 +39,9 @@ import java.util.regex.Pattern;
 
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
-import org.eclipse.tm.terminal.model.IHyperlinkDetector;
 
-import com.aptana.editor.common.text.hyperlink.EditorLineHyperlink;
+import com.aptana.terminal.hyperlink.IHyperlinkDetector;
+import com.aptana.workbench.hyperlink.EditorLineHyperlink;
 
 /**
  * Detects references to views that get rendered, resolves them relative to rails app/views
