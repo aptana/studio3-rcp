@@ -178,6 +178,16 @@ Section -post SEC0001
     WriteRegStr HKCR ".xml\OpenWithProgids"                         "AptanaStudio3.xml"      ""
     WriteRegStr HKCR ".xml\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
 
+    # PHP
+    WriteRegStr HKCR "AptanaStudio3.php"                             ""                      "phpfile"
+    WriteRegStr HKCR ".php\OpenWithProgids"                         "AptanaStudio3.php"      ""
+    WriteRegStr HKCR ".php\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
+    WriteRegStr HKCR ".php3\OpenWithProgids"                         "AptanaStudio3.php"      ""
+    WriteRegStr HKCR ".php3\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
+    WriteRegStr HKCR ".php4\OpenWithProgids"                         "AptanaStudio3.php"      ""
+    WriteRegStr HKCR ".php4\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
+    WriteRegStr HKCR ".php5\OpenWithProgids"                         "AptanaStudio3.php"      ""
+    WriteRegStr HKCR ".php5\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
    
     #  
     # Now set icons for each of the file types
@@ -214,6 +224,12 @@ Section -post SEC0001
         WriteRegStr HKCR "xmlfile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
     ${endif}
 
+    # PHP
+    !insertmacro INSTALLOPTIONS_READ $R0 "associations.ini" "Field 5" "State" 
+    ${if} $R0 == "1"
+        WriteRegStr HKCR "phpfile\DefaultIcon"          ""              "$INSTDIR\Icons\aptana_file_php.ico"
+        WriteRegStr HKCR "phpfile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
+    ${endif}
     
     #
     # Write uninstall reg info
