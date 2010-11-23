@@ -115,9 +115,9 @@ public class PreviewCommandHandler extends AbstractRailsHandler
 			// If no active editor, "use project root". Assume rails scope.
 			filters.add(new ScopeFilter(RAILS_SCOPE));
 		}
-		List<CommandElement> commands = BundleManager.getInstance().getExecutableCommands(
+		List<CommandElement> commands = BundleManager.getInstance().getCommands(
 				new AndFilter(filters.toArray(new IModelFilter[filters.size()])));
-		if (commands != null && commands.size() > 0)
+		if (commands != null && !commands.isEmpty())
 		{
 			commands.get(0).execute();
 		}
