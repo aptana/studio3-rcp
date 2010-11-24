@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
       <image
-            icon="icons/rails_ovr.gif"
+            icon="icons/ruby_ovr.gif"
             id="org.radrails.rails.ui.natureImage"
             natureId="org.radrails.rails.core.railsnature">
       </image>
