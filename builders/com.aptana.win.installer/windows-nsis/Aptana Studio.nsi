@@ -372,6 +372,10 @@ Section -un.post UNSEC0001
     DeleteRegKey HKCR "AptanaStudio3.xml"
     DeleteRegValue HKCR ".xml\OpenWithProgids" "AptanaStudio3.js"
     DeleteRegKey HKCR ".xml\OpenWithList\aptanastudio3.exe"
+
+    DeleteRegKey HKCR "AptanaStudio3.php"
+    DeleteRegValue HKCR ".php\OpenWithProgids" "AptanaStudio3.php"
+    DeleteRegKey HKCR ".php\OpenWithList\aptanastudio3.exe"
     
     #
     # Only remove the following if they were originally set by us
