@@ -178,6 +178,16 @@ Section -post SEC0001
     WriteRegStr HKCR ".xml\OpenWithProgids"                         "AptanaStudio3.xml"      ""
     WriteRegStr HKCR ".xml\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
 
+    # PHP
+    WriteRegStr HKCR "AptanaStudio3.php"                             ""                      "PHPfile"
+    WriteRegStr HKCR ".php\OpenWithProgids"                         "AptanaStudio3.php"      ""
+    WriteRegStr HKCR ".php\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
+    WriteRegStr HKCR ".php3\OpenWithProgids"                         "AptanaStudio3.php"      ""
+    WriteRegStr HKCR ".php3\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
+    WriteRegStr HKCR ".php4\OpenWithProgids"                         "AptanaStudio3.php"      ""
+    WriteRegStr HKCR ".php4\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
+    WriteRegStr HKCR ".php5\OpenWithProgids"                         "AptanaStudio3.php"      ""
+    WriteRegStr HKCR ".php5\OpenWithList\aptanastudio3.exe"           "aptanastudio3.exe"            ""
    
     #  
     # Now set icons for each of the file types
@@ -210,10 +220,28 @@ Section -post SEC0001
     # XML
     !insertmacro INSTALLOPTIONS_READ $R0 "associations.ini" "Field 4" "State" 
     ${if} $R0 == "1"
-        WriteRegStr HKCR "xmlfile\DefaultIcon"          ""              "$INSTDIR\Icons\aptana_file_xml.ico"
-        WriteRegStr HKCR "xmlfile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
+        WriteRegStr HKCR "XMLfile\DefaultIcon"          ""              "$INSTDIR\Icons\aptana_file_xml.ico"
+        WriteRegStr HKCR "XMLfile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
     ${endif}
 
+    # PHP
+    !insertmacro INSTALLOPTIONS_READ $R0 "associations.ini" "Field 5" "State" 
+    ${if} $R0 == "1"
+        WriteRegStr HKCR ".php"                         ""              "PHPfile"
+        WriteRegStr HKCR ".php"                         "ContentType"   "text/plain"
+        WriteRegStr HKCR ".php"                         "PerceivedType" "text"
+        WriteRegStr HKCR ".php3"                        ""              "PHPfile"
+        WriteRegStr HKCR ".php3"                        "ContentType"   "text/plain"
+        WriteRegStr HKCR ".php3"                        "PerceivedType" "text"
+        WriteRegStr HKCR ".php4"                        ""              "PHPfile"
+        WriteRegStr HKCR ".php4"                        "ContentType"   "text/plain"
+        WriteRegStr HKCR ".php4"                        "PerceivedType" "text"
+        WriteRegStr HKCR ".php5"                        ""              "PHPfile"
+        WriteRegStr HKCR ".php5"                        "ContentType"   "text/plain"
+        WriteRegStr HKCR ".php5"                        "PerceivedType" "text"
+        WriteRegStr HKCR "PHPfile\DefaultIcon"          ""              "$INSTDIR\Icons\aptana_file_php.ico"
+        WriteRegStr HKCR "PHPfile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
+    ${endif}
     
     #
     # Write uninstall reg info
@@ -356,6 +384,10 @@ Section -un.post UNSEC0001
     DeleteRegKey HKCR "AptanaStudio3.xml"
     DeleteRegValue HKCR ".xml\OpenWithProgids" "AptanaStudio3.js"
     DeleteRegKey HKCR ".xml\OpenWithList\aptanastudio3.exe"
+
+    DeleteRegKey HKCR "AptanaStudio3.php"
+    DeleteRegValue HKCR ".php\OpenWithProgids" "AptanaStudio3.php"
+    DeleteRegKey HKCR ".php\OpenWithList\aptanastudio3.exe"
     
     #
     # Only remove the following if they were originally set by us
@@ -388,7 +420,14 @@ Section -un.post UNSEC0001
         DeleteRegKey HKCR "xmlfile\DefaultIcon"
         DeleteRegKey HKCR "xmlfile\shell\open\command"
     ${endif}
-    
+
+    # PHP
+    ReadRegStr $R0 HKCR "PHPFile\shell\open\command" ""
+    ${if} $R0 == '"$INSTDIR\AptanaStudio3.exe" "%1"'
+        DeleteRegKey HKCR "PHPFile\DefaultIcon"
+        DeleteRegKey HKCR "PHPFile\shell\open\command"
+    ${endif}
+        
     # Delete the main install dir
     RmDir /REBOOTOK $INSTDIR
 
