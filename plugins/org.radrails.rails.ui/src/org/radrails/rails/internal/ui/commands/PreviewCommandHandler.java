@@ -41,6 +41,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -97,12 +98,24 @@ public class PreviewCommandHandler extends AbstractRailsHandler
 			try
 			{
 				ITextEditor abstractThemeableEditor = (ITextEditor) textEditor;
+				ISourceViewer viewer = TextEditorUtils.getSourceViewer(abstractThemeableEditor);
+
 				IDocument document = abstractThemeableEditor.getDocumentProvider().getDocument(
 						abstractThemeableEditor.getEditorInput());
 				int caretOffset = TextEditorUtils.getCaretOffset(abstractThemeableEditor);
 				// Get the scope at caret offset
-				String contentTypeAtOffset = CommonEditorPlugin.getDefault().getDocumentScopeManager()
-						.getScopeAtOffset(document, caretOffset);
+				String contentTypeAtOffset = null;
+				if (viewer == null)
+				{
+
+					contentTypeAtOffset = CommonEditorPlugin.getDefault().getDocumentScopeManager()
+							.getScopeAtOffset(document, caretOffset);
+				}
+				else
+				{
+					contentTypeAtOffset = CommonEditorPlugin.getDefault().getDocumentScopeManager()
+							.getScopeAtOffset(viewer, caretOffset);
+				}
 				filters.add(new ScopeFilter(contentTypeAtOffset));
 			}
 			catch (BadLocationException e1)
