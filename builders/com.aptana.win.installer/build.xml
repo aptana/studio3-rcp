@@ -55,7 +55,7 @@
 			<arg value="/t http://timestamp.verisign.com/scripts/timestamp.dll" />
 			<arg value="/v" />
 			<arg value="/p aptkey1010" />
-			<arg value="${basedir}\windows-nsis\Aptana_Studio_Setup.exe" />
+			<arg value="${basedir}\windows-nsis\Aptana_Studio_3_Setup.exe" />
 		</exec>
 -->
 		<exec executable="${basedir}\windows-nsis\Tools\signtool\signit.bat" dir="${basedir}\windows-nsis\Tools\signtool"/>
