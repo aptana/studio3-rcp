@@ -51,7 +51,7 @@ import com.aptana.workbench.hyperlink.EditorLineHyperlink;
 public class RenderPathHyperlinkDetector implements IHyperlinkDetector
 {
 	private static Pattern RENDERED_VIEW_PATTERN = Pattern.compile("^Rendered\\s+(\\S.+?)\\s+"); //$NON-NLS-1$
-	private static Pattern GENERATOR_CREATED_PATTERN = Pattern.compile("^\\s+create\\s+(\\S.+?)\\s*$"); //$NON-NLS-1$
+	private static Pattern GENERATOR_CREATED_PATTERN = Pattern.compile("^\\s+(identical|create|exists)\\s+(\\S.+?)\\s*$"); //$NON-NLS-1$
 
 	public IHyperlink[] detectHyperlinks(String contents)
 	{
@@ -70,9 +70,9 @@ public class RenderPathHyperlinkDetector implements IHyperlinkDetector
 		m = GENERATOR_CREATED_PATTERN.matcher(contents);
 		if (m.find())
 		{
-			String filepath = m.group(1);
-			int start = m.start(1);
-			int length = m.end(1) - start;
+			String filepath = m.group(2);
+			int start = m.start(2);
+			int length = m.end(2) - start;
 			return new IHyperlink[] { new EditorLineHyperlink(new Region(start, length), filepath, 0) };
 		}
 		return new IHyperlink[0];
