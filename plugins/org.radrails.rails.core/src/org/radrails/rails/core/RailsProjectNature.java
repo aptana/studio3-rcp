@@ -6,6 +6,8 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import com.aptana.core.util.ResourceUtil;
+
 public class RailsProjectNature implements IProjectNature
 {
 
@@ -15,6 +17,8 @@ public class RailsProjectNature implements IProjectNature
 
 	public void configure() throws CoreException
 	{
+		// FIXME Move the id to some interface/constant in core!
+		ResourceUtil.addBuilder(getProject(), "com.aptana.ide.core.unifiedBuilder");
 	}
 
 	public void deconfigure() throws CoreException
