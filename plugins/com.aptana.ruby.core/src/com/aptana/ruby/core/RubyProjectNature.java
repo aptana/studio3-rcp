@@ -41,6 +41,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import com.aptana.core.util.ResourceUtil;
+import com.aptana.index.core.UnifiedBuilder;
 
 public class RubyProjectNature implements IProjectNature
 {
@@ -51,7 +52,7 @@ public class RubyProjectNature implements IProjectNature
 
 	public void configure() throws CoreException
 	{
-		ResourceUtil.addBuilder(getProject(), "com.aptana.ide.core.unifiedBuilder");
+		ResourceUtil.addBuilder(getProject(), UnifiedBuilder.ID);
 	}
 
 	public void deconfigure() throws CoreException
