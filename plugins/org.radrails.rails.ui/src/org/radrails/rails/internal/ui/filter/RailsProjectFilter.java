@@ -41,6 +41,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.Viewer;
 
+import com.aptana.editor.html.contentassist.index.HTMLIndexConstants;
+import com.aptana.editor.ruby.index.IRubyIndexConstants;
 import com.aptana.explorer.ui.filter.PathFilter;
 
 public class RailsProjectFilter extends PathFilter
@@ -146,6 +148,12 @@ public class RailsProjectFilter extends PathFilter
 			}
 		}
 		return text;
+	}
+
+	protected String[] indexCategories()
+	{
+		return new String[] { HTMLIndexConstants.RESOURCE_CSS, HTMLIndexConstants.RESOURCE_JS,
+				IRubyIndexConstants.REQUIRE };
 	}
 
 }
