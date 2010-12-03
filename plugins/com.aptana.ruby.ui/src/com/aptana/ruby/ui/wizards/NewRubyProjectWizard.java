@@ -38,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResourceStatus;
@@ -64,6 +65,7 @@ import org.eclipse.ui.statushandlers.StatusManager;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
+import com.aptana.core.build.UnifiedBuilder;
 import com.aptana.git.ui.CloneJob;
 import com.aptana.ruby.core.RubyProjectNature;
 import com.aptana.ruby.ui.RubyUIPlugin;
@@ -201,6 +203,10 @@ public class NewRubyProjectWizard extends BasicNewResourceWizard implements IExe
 		final IProjectDescription description = workspace.newProjectDescription(newProjectHandle.getName());
 		description.setLocationURI(location);
 		description.setNatureIds(getNatureIds());
+		// Add Unified Builder
+		ICommand command = description.newCommand();
+		command.setBuilderName(UnifiedBuilder.ID);
+		description.setBuildSpec(new ICommand[] { command });
 
 		try
 		{

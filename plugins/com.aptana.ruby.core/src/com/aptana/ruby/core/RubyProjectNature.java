@@ -40,6 +40,9 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import com.aptana.core.build.UnifiedBuilder;
+import com.aptana.core.util.ResourceUtil;
+
 public class RubyProjectNature implements IProjectNature
 {
 
@@ -49,6 +52,7 @@ public class RubyProjectNature implements IProjectNature
 
 	public void configure() throws CoreException
 	{
+		ResourceUtil.addBuilder(getProject(), UnifiedBuilder.ID);
 	}
 
 	public void deconfigure() throws CoreException
@@ -68,12 +72,12 @@ public class RubyProjectNature implements IProjectNature
 	public static void add(IProject project, IProgressMonitor monitor) throws CoreException
 	{
 		IProjectDescription description = project.getDescription();
-		String[] oldNatures = description.getNatureIds();
-		String[] newNatures = new String[oldNatures.length + 1];
-		System.arraycopy(oldNatures, 0, newNatures, 0, oldNatures.length);
-		newNatures[oldNatures.length] = ID;
-		description.setNatureIds(newNatures);
-		project.setDescription(description, monitor);
+		boolean addedNature = ResourceUtil.addNature(description, ID);
+		boolean addedBuilder = ResourceUtil.addBuilder(description, UnifiedBuilder.ID);
+		if (addedNature || addedBuilder)
+		{
+			project.setDescription(description, monitor);
+		}
 	}
 
 }
