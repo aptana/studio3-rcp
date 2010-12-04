@@ -35,7 +35,7 @@
 	<!-- ================================= 
           target: build              
          ================================= -->
-	<target name="build" description="Builds the RED_Core Test feature" depends="generate.build.properties,generate.base">
+	<target name="build" description="Builds the studio3-rcp_Core Test feature" depends="generate.build.properties,generate.base">
 		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="yes">
 			<arg line="-application org.eclipse.ant.core.antRunner -buildfile ${baseLocation}/plugins/${builder.plugin}/scripts/build.xml -Dbuilder=${basedir} -Dbuild.revision=${build.revision} -nosplash" />
 		</java>
@@ -114,19 +114,19 @@
 			<param name="p2.installIU" value="com.aptana.webkitbrowser.feature.group" />
 			<param name="p2.repo" value="${webkit.p2.repo}" />
 		</antcall>
-		<!-- Install Red Core feature -->
-		<antcall target="install.red.core" />
-		<!-- FIXME For some reason even though we install RED Core, it doesn't pick it up for building the test plugins/fragments! -->
+		<!-- Install studio3-rcp Core feature -->
+		<antcall target="install.studio3-rcp.core" />
+		<!-- FIXME For some reason even though we install studio3-rcp Core, it doesn't pick it up for building the test plugins/fragments! -->
 		<antcall target="run.director">
       <param name="p2.installIU" value="com.aptana.feature.studio.feature.group" />
-      <param name="p2.repo" value="${red.p2.repo}" />
+      <param name="p2.repo" value="${studio3-rcp.p2.repo}" />
     </antcall>
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
-          target: install.red.core                      
+          target: install.studio3-rcp.core                      
          - - - - - - - - - - - - - - - - - -->
-	<target name="install.red.core" unless="dont.install.red.core">
+	<target name="install.studio3-rcp.core" unless="dont.install.studio3-rcp.core">
 		<antcall target="run.director">
 			<param name="p2.installIU" value="com.aptana.feature.feature.group" />
 			<param name="p2.repo" value="file:${studio3.p2.repo}" />
