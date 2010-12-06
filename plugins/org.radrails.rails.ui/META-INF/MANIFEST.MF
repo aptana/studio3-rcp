@@ -25,7 +25,10 @@ Require-Bundle: org.eclipse.core.runtime,
  com.aptana.console,
  com.aptana.ruby.ui,
  com.aptana.ruby.core,
- com.aptana.workbench
+ com.aptana.workbench,
+ com.aptana.editor.html,
+ com.aptana.editor.js,
+ com.aptana.editor.ruby
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Activator: org.radrails.rails.ui.RailsUIPlugin
 Eclipse-LazyStart: true
