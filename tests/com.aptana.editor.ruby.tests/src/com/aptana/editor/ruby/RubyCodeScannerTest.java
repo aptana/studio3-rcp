@@ -34,26 +34,37 @@
  */
 package com.aptana.editor.ruby;
 
+import junit.framework.TestCase;
+
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.ITokenScanner;
 import org.eclipse.jface.text.rules.Token;
 
-import com.aptana.editor.common.tests.AbstractTokenScannerTestCase;
-
-public class RubyCodeScannerTest extends AbstractTokenScannerTestCase
+public class RubyCodeScannerTest extends TestCase
 {
+	protected ITokenScanner scanner;
 
 	@Override
-	protected ITokenScanner createTokenScanner()
+	protected void setUp() throws Exception
 	{
-		return new RubyCodeScanner()
+		super.setUp();
+
+		scanner = new RubyCodeScanner()
 		{
 			protected IToken getToken(String tokenName)
 			{
 				return new Token(tokenName);
 			};
 		};
+	}
+
+	@Override
+	protected void tearDown() throws Exception
+	{
+		scanner = null;
+
+		super.tearDown();
 	}
 
 	private void setUpScanner(String code)
