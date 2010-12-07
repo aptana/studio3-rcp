@@ -44,8 +44,6 @@ public class UITests
 	{
 		TestSuite suite = new TestSuite(UITests.class.getName());
 		// $JUnit-BEGIN$
-		suite.addTest(com.aptana.editor.ruby.tests.AllTests.suite());
-		suite.addTest(com.aptana.editor.erb.tests.AllTests.suite());
 		// $JUnit-END$
 		return suite;
 	}

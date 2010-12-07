@@ -147,6 +147,10 @@
 				<include name="features/*" />
 				<include name="plugins/*" />
 			</fileset>
+			<fileset dir="${radrails.p2.repo}" defaultexcludes="true">
+        <include name="features/*" />
+        <include name="plugins/*" />
+      </fileset>
 		</copy>
 
 		<!-- Unjar the features -->
