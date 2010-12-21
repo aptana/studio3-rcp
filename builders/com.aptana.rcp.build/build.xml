@@ -85,26 +85,11 @@
 	          target: generate.base                      
 	         - - - - - - - - - - - - - - - - - -->
 	<target name="generate.base" depends="copy.base.windows,copy.base">
+	  <!-- FIXME Just copy over the result of the Studio feature p2 repo...  -->
 		<!-- Copy the features and plugins over into a dropins folder. Installing makes it so that non-linux plugins/features won't be there! -->
 		<mkdir dir="${baseLocation}/dropins/eclipse" />
 		<copy todir="${baseLocation}/dropins/eclipse">
-			<fileset dir="${red-core.p2.repo}" defaultexcludes="true">
-				<include name="features/*" />
-				<include name="plugins/*" />
-			</fileset>
-			<fileset dir="${php.p2.repo}" defaultexcludes="true">
-				<include name="features/*" />
-				<include name="plugins/*" />
-			</fileset>
-			<fileset dir="${pydev.p2.repo}" defaultexcludes="true">
-				<include name="features/*" />
-				<include name="plugins/*" />
-			</fileset>
-			<fileset dir="${webkit.p2.repo}" defaultexcludes="true">
-				<include name="features/*" />
-				<include name="plugins/*" />
-			</fileset>
-			<fileset dir="${red.dir}" defaultexcludes="true">
+			<fileset dir="${studio3-feature.p2.repo}" defaultexcludes="true">
 				<include name="features/*" />
 				<include name="plugins/*" />
 			</fileset>
