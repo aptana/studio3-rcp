@@ -4,7 +4,7 @@ SetCompressor /FINAL /SOLID lzma
 # Defines
 !define REGKEY "SOFTWARE\$(^Name)"
 !define VERSION 3.0.0
-!define COMPANY "Aptana, Inc."
+!define COMPANY "Appcelerator, Inc."
 !define URL http://www.aptana.com
 
 !define XPUI_SKIN "Aptana"
