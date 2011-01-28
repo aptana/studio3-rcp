@@ -1,9 +1,9 @@
     #
     # Write general file association registry keys
     #
-    WriteRegStr HKCR "*\shell\edit.aptanastudio"                          ""                'Edit with Aptana Studio'
-    WriteRegStr HKCR "*\shell\edit.aptanastudio\command"                  ""                '"$INSTDIR\AptanaStudio.exe" "%1"'
-    WriteRegStr HKCR "Applications\aptanastudio.exe\shell\open\command"   ""                '"$INSTDIR\AptanaStudio.exe" "%1"'
+    WriteRegStr HKCR "*\shell\edit.aptanastudio"                          ""                'Edit with Aptana Studio 3'
+    WriteRegStr HKCR "*\shell\edit.aptanastudio\command"                  ""                '"$INSTDIR\AptanaStudio3.exe" "%1"'
+    WriteRegStr HKCR "Applications\aptanastudio.exe\shell\open\command"   ""                '"$INSTDIR\AptanaStudio3.exe" "%1"'
     
     # JS
     WriteRegStr HKCR "AptanaStudio.js"                              ""                      "JSFile"
@@ -49,19 +49,19 @@
     
     # JS
     WriteRegStr HKCR "JSFile\DefaultIcon"           ""              "$INSTDIR\Icons\$IconLocation\aptana_file_js.ico,0"
-    WriteRegStr HKCR "JSFile\shell\open\command"    ""              '"$INSTDIR\AptanaStudio.exe" "%1"'
+    WriteRegStr HKCR "JSFile\shell\open\command"    ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
 
     # SDOC
     WriteRegStr HKCR ".sdoc"                        ""              "SDOCFile"
     WriteRegStr HKCR ".sdoc"                        "ContentType"   "text/plain"
     WriteRegStr HKCR ".sdoc"                        "PerceivedType" "text"
     WriteRegStr HKCR "SDOCFile\DefaultIcon"         ""              "$INSTDIR\Icons\$IconLocation\aptana_file_sdoc.ico"
-    WriteRegStr HKCR "SDOCFile\shell\open\command"  ""              '"$INSTDIR\AptanaStudio.exe" "%1"'
+    WriteRegStr HKCR "SDOCFile\shell\open\command"  ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
         
     # CSS
     WriteRegStr HKCR "CSSFile\DefaultIcon"          ""              "$INSTDIR\Icons\$IconLocation\aptana_file_css.ico"
-    WriteRegStr HKCR "CSSFile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio.exe" "%1"'
+    WriteRegStr HKCR "CSSFile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
         
     # XML
     WriteRegStr HKCR "xmlfile\DefaultIcon"          ""              "$INSTDIR\Icons\$IconLocation\aptana_file_xml.ico"
-    WriteRegStr HKCR "xmlfile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio.exe" "%1"'
+    WriteRegStr HKCR "xmlfile\shell\open\command"   ""              '"$INSTDIR\AptanaStudio3.exe" "%1"'
