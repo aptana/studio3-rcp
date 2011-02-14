@@ -12,19 +12,19 @@
 		<delete file="windows-nsis/local_settings.nsh" />
 		<delete file="windows-nsis/Aptana_Studio_3_Setup.exe" />
 		<delete file="${staging.dir}/aptana.zip"/>
-		<delete dir="${staging.dir}" />
 	</target>
 
 	<target name="init" depends="clean">
 		<tstamp />
-		<mkdir dir="${staging.dir}" />
 	</target>
-	
+
+	<!--
 	<target name="get-latest" depends="init">
 		<copy file="${win.source.dir}${win.source.zip}" tofile="${staging.dir}/${win.source.zip}" />
 	</target>
+	-->
 
-	<target name="unpack-archives" depends="get-latest">
+	<target name="unpack-archives">
 		<unzip src="${staging.dir}/${win.source.zip}" dest="${staging.dir}/win32" />
         <exec executable="cmd.exe" dir="${basedir}\${staging.dir}\win32" outputproperty="unzip.dir">
             <arg line="/c dir /A:D /B"/>
@@ -33,7 +33,7 @@
         <delete dir="${basedir}\${staging.dir}\win32\${unzip.dir}"/>
 	</target>
 
-	<target name="build-nsis" depends="clean,init,get-latest,unpack-archives">
+	<target name="build-nsis" depends="clean,init,unpack-archives">
 		<echo message="Creating local_settings.nsh file" />
 		<echo file="windows-nsis/local_settings.nsh">!define INSTALL_FILES_ROOT "${basedir}\${staging.dir}\win32"
 !define JRE_ROOT "${java.home}"</echo>
