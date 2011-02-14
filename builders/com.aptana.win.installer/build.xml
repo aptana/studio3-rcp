@@ -29,7 +29,7 @@
         <exec executable="cmd.exe" dir="${basedir}\${staging.dir}\win32" outputproperty="unzip.dir">
             <arg line="/c dir /A:D /B"/>
         </exec>
-        <move file="${basedir}\${staging.dir}\win32\*" tofile="${basedir}\${staging.dir}\win32"/>
+        <move file="${basedir}\${staging.dir}\win32\${unzip.dir}" tofile="${basedir}\${staging.dir}\win32"/>
         <delete dir="${basedir}\${staging.dir}\win32\${unzip.dir}"/>
 	</target>
 
