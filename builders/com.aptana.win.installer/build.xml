@@ -38,6 +38,7 @@
 		<echo file="windows-nsis/local_settings.nsh">!define INSTALL_FILES_ROOT "${basedir}\${staging.dir}\win32"
 !define JRE_ROOT "${java.home}"</echo>
 		<echo message="Calling makensis.exe" />
+		<chmod file="${makensis}" perm="755" />
 		<exec executable="${makensis}" failonerror="true">			
 			<arg value='/XName ""${ProductName}""' />
 			<arg value="${basedir}\windows-nsis\Aptana Studio.nsi" />
