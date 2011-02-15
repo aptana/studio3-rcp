@@ -12,12 +12,10 @@
 		<delete file="windows-nsis/local_settings.nsh" />
 		<delete file="windows-nsis/Aptana_Studio_3_Setup.exe" />
 		<delete file="${staging.dir}/aptana.zip"/>
-		<delete dir="${staging.dir}" />
 	</target>
 
 	<target name="init" depends="clean">
 		<tstamp />
-		<mkdir dir="${staging.dir}" />
 	</target>
 	
 	<!--
