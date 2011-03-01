@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005, 2008 IBM Corporation and others.
+ * Copyright (c) 2005, 2010 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -58,6 +59,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PerspectiveAdapter;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
@@ -174,11 +176,38 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 		}
 		// the user has asked to close the last window, while will cause the
 		// workbench to close in due course - prompt the user for confirmation
+		return promptOnExit(getWindowConfigurer().getWindow().getShell());
+	}
+
+	/**
+	 * Asks the user whether the workbench should really be closed. Only asks if the preference is enabled.
+	 * 
+	 * @param parentShell
+	 *            the parent shell to use for the confirmation dialog
+	 * @return <code>true</code> if OK to exit, <code>false</code> if the user canceled
+	 * @since 3.6
+	 */
+	static boolean promptOnExit(Shell parentShell)
+	{
 		IPreferenceStore store = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
 		boolean promptOnExit = store.getBoolean(IDEInternalPreferences.EXIT_PROMPT_ON_CLOSE_LAST_WINDOW);
 
 		if (promptOnExit)
 		{
+			if (parentShell == null)
+			{
+				IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				if (workbenchWindow != null)
+				{
+					parentShell = workbenchWindow.getShell();
+				}
+			}
+			if (parentShell != null)
+			{
+				parentShell.setMinimized(false);
+				parentShell.forceActive();
+			}
+
 			String message;
 
 			String productName = null;
@@ -196,8 +225,8 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 				message = NLS.bind(IDEWorkbenchMessages.PromptOnExitDialog_message1, productName);
 			}
 
-			MessageDialogWithToggle dlg = MessageDialogWithToggle.openOkCancelConfirm(getWindowConfigurer().getWindow()
-					.getShell(), IDEWorkbenchMessages.PromptOnExitDialog_shellTitle, message,
+			MessageDialogWithToggle dlg = MessageDialogWithToggle.openOkCancelConfirm(parentShell,
+					IDEWorkbenchMessages.PromptOnExitDialog_shellTitle, message,
 					IDEWorkbenchMessages.PromptOnExitDialog_choice, false, null, null);
 			if (dlg.getReturnCode() != IDialogConstants.OK_ID)
 			{
