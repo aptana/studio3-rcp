@@ -43,6 +43,7 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
  * </ul>
  * @since 3.3
  */
+@SuppressWarnings("restriction")
 public class DelayedEventsProcessor implements Listener {
 
 	private ArrayList<String> filesToOpen = new ArrayList<String>(1);
