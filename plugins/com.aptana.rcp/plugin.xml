@@ -60,4 +60,12 @@
          <location>usr/bin/firefox</location>
       </browser>
    </extension>
+
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.aptana.rcp.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   
 </plugin>
