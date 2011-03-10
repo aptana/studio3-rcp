@@ -17,12 +17,11 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#initializeDefaultPreferences()
 	 */
-	@SuppressWarnings("nls")
 	@Override
 	public void initializeDefaultPreferences()
 	{
-		IEclipsePreferences prefs = new DefaultScope().getNode("org.eclipse.help.base");
-		prefs.put("help_home", "/com.aptana.rcp/content/help_index.html");
+		IEclipsePreferences prefs = new DefaultScope().getNode("org.eclipse.help.base"); //$NON-NLS-1$
+		prefs.put("help_home", "/com.aptana.rcp/content/help_index.html"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }
