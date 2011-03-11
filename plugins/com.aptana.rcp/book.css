@@ -1,0 +1,54 @@
+/* Aptana RCP CSS */
+
+.help_breadcrumbs {
+	background-color:#022b48;
+	padding:10px;
+	padding-left:65px;
+	background-image: url('content/header_background.png');
+	background-repeat:no-repeat;
+	background-position:0px 0px;
+	margin-left:-10px;
+	margin-top:-5px;
+	margin-bottom: 0px;
+	color: #DDDDDD;
+}
+
+.help_breadcrumbs a {
+	color:#FFFFFF;
+	text-decoration:none;
+}
+
+#toc_welcome_image {
+	background-image: url('content/header.gif');
+	width:353px;
+	height:177px;
+}
+
+#toc_body {
+	background-image: url('content/header_title_background.gif');
+	background-repeat:repeat-x;
+	margin:0px;
+	padding:0px;
+}
+
+#toc_header_top {
+	background-image: url('content/header_title_background_top.gif');
+	background-repeat:repeat-x;
+	padding-top:10px;
+	padding-bottom:10px;
+	background-color:#2e3540;
+}
+
+body {
+	color:#1d1d1d;
+	font-family:Trebuchet MS,Tahoma,Arial,sans-serif;
+	font-size:90%;
+}
+
+a {
+	color:#735537;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}

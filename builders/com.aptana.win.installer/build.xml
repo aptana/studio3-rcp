@@ -17,14 +17,14 @@
 	<target name="init" depends="clean">
 		<tstamp />
 	</target>
-
+	
 	<!--
 	<target name="get-latest" depends="init">
 		<copy file="${win.source.dir}${win.source.zip}" tofile="${staging.dir}/${win.source.zip}" />
 	</target>
 	-->
 
-	<target name="unpack-archives">
+	<target name="unpack-archives" depends="init">
 		<unzip src="${staging.dir}/${win.source.zip}" dest="${staging.dir}/win32" />
         <exec executable="cmd.exe" dir="${basedir}\${staging.dir}\win32" outputproperty="unzip.dir">
             <arg line="/c dir /A:D /B"/>
