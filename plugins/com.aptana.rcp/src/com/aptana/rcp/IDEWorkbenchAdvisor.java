@@ -317,6 +317,8 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 			CommandlineArgumentsHandler.processCommandLineArgs(args);
 		}
         LauncherServer.startServer();
+
+        new InstallCommandLineExecutableJob().schedule();
     }
 
     /**

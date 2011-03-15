@@ -37,8 +37,6 @@ public class IdePlugin extends AbstractUIPlugin {
      */
     public void start(BundleContext context) throws Exception {
         super.start(context);
-        
-        new InstallCommandLineExecutableJob().schedule();
     }
 
     /**
