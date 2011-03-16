@@ -52,7 +52,7 @@
       <!-- Linux -->
       <!-- Add Firefox as an additional browser -->
       <browser
-         id="com.aptana.ide.browser.firefox"
+         id="com.aptana.browser.firefox"
          name="%browser.firefox.name"
          os="linux"
          executable="firefox"
