@@ -5,7 +5,7 @@
          id="application"
          point="org.eclipse.core.runtime.applications">
       <application
-            icon="aptana32.png">
+            icon="content/window3232.png">
          <run
                class="com.aptana.rcp.IDEApplication">
          </run>
