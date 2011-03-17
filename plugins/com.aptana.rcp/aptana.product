@@ -17,7 +17,7 @@
       <programArgs>--launcher.XXMaxPermSize
 256m</programArgs>
       <programArgsMac>-startup
-../../../plugins/org.eclipse.equinox.launcher_1.1.0.v20100507.jar</programArgsMac>
+../../../plugins/org.eclipse.equinox.launcher_1.1.1.R36x_v20101122_1400.jar</programArgsMac>
       <vmArgs>-Xms40m
 -Xmx384m</vmArgs>
       <vmArgsLin>-Djava.awt.headless=true</vmArgsLin>
