@@ -5,7 +5,7 @@
          id="application"
          point="org.eclipse.core.runtime.applications">
       <application
-            icon="aptana32.png">
+            icon="content/window3232.png">
          <run
                class="com.aptana.rcp.IDEApplication">
          </run>
@@ -52,7 +52,7 @@
       <!-- Linux -->
       <!-- Add Firefox as an additional browser -->
       <browser
-         id="com.aptana.ide.browser.firefox"
+         id="com.aptana.browser.firefox"
          name="%browser.firefox.name"
          os="linux"
          executable="firefox"

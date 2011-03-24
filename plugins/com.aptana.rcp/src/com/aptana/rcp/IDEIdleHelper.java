@@ -24,6 +24,8 @@ import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 import org.eclipse.ui.internal.ide.Policy;
 
+import com.aptana.core.util.EclipseUtil;
+
 /**
  * The idle helper detects when the system is idle in order to perform garbage
  * collection in a way that minimizes impact on responsiveness of the UI. The
@@ -211,7 +213,7 @@ class IDEIdleHelper {
                 return Status.OK_STATUS;
             }
         };
-        gcJob.setSystem(true);
+		gcJob.setSystem(!EclipseUtil.showSystemJobs());
     }
 
     /**
