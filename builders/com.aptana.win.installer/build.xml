@@ -4,7 +4,7 @@
 
 	<target name="main">
 		<echo message="Building NSIS installer" />
-		<antcall target="build-nsis" />
+		<antcall target="move-exe" />
 	</target>
 
 	<target name="clean">
@@ -44,9 +44,9 @@
 		</exec>
 	</target>
 
-<!--
 	<target name="sign" depends="build-nsis">
 		<echo message="Signing installing with sign tool" />
+<!--
 		<exec executable="windows-nsis\Tools\signtool\signtool.exe">
 			<arg value="sign" />
 			<arg value="/f ${signkey}" />
@@ -57,11 +57,11 @@
 			<arg value="/p aptkey1010" />
 			<arg value="${basedir}\windows-nsis\Aptana_Studio_3_Setup.exe" />
 		</exec>
+-->
 		<exec executable="${basedir}\windows-nsis\Tools\signtool\signit.bat" dir="${basedir}\windows-nsis\Tools\signtool"/>
 	</target>
--->
 	
-	<target name="move-exe">
+	<target name="move-exe" depends="sign">
 		<move file="${basedir}\windows-nsis\Aptana_Studio_3_Setup.exe" tofile="${staging.dir}\${target.exe.name}"/>
 	</target>
 </project>
