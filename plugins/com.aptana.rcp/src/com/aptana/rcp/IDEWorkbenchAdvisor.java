@@ -943,9 +943,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	private void initPreferences()
 	{
-		// Force "auto-refresh" pref to true by default for Studio
 		IEclipsePreferences prefs = new DefaultScope().getNode(ResourcesPlugin.PI_RESOURCES);
-		prefs.putBoolean(ResourcesPlugin.PREF_AUTO_REFRESH, true);
 
 		if (!Platform.getPreferencesService().getBoolean(IdePlugin.PLUGIN_ID,
 				IPreferenceConstants.WORKSPACE_ENCODING_SET, false, null))
