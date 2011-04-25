@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/red/"/>
+      <update label="%updateSiteName" url="http://download.aptana.com/studio3/plugin/update/"/>
    </url>
 
    <includes
