@@ -249,7 +249,7 @@
 			<filelist dir="${builder}/custom/win32/" files="config.ini" />
 		</concat>
 		<copy file="${builder}/custom/win32/AptanaStudio3.ini" tofile="${win32.launcher.dir}/AptanaStudio32.ini" overwrite="true" verbose="true" />
-		<concat destfile="${win32.launcher.dir}/" append="yes" eol="dos" verbose="true">
+		<concat destfile="${win32.launcher.dir}/" append="yes" eol="dos">
 			<filelist dir="${win32.launcher.dir}/" files="AptanaStudio3.ini" />
 		</concat>
 		<move file="${win32.launcher.dir}/AptanaStudio32.ini" tofile="${win32.launcher.dir}/AptanaStudio3.ini" overwrite="true" verbose="true" />
