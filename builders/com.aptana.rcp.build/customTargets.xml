@@ -258,7 +258,7 @@
 		<zip destfile="${p2.repo.dir}/binary/${win32.launcher}">
 			<fileset dir="${win32.launcher.dir}" defaultexcludes="false" />
 		</zip>
-		<delete dir="${win32.launcher.dir}" />
+		<!--delete dir="${win32.launcher.dir}" /-->
 
 		<!-- =========== Windows 64-bit Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
