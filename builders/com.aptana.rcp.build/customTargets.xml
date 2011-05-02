@@ -168,6 +168,7 @@
 		<!-- =========== Mac 32-bit Mangling ==================================================== -->
     <!-- Unzip the macosx launcher to a temp dir... -->
     <!-- cocoa -->
+	<echo message="Mac 32-bit Mangling" />
     <pathconvert property="mac.cocoa.launcher">
       <fileset dir="${p2.repo.dir}/binary">
         <include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_3*" />
@@ -199,6 +200,7 @@
 		<!-- =========== Mac 64-bit Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
 		<!-- cocoa -->
+		<echo message="Mac 64-bit Mangling" />
 		<pathconvert property="mac64.cocoa.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_64_*" />
@@ -229,6 +231,7 @@
 
 		<!-- =========== Windows Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
+		<echo message="Win 32-bit Mangling" />
 		<pathconvert property="win32.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.win32.win32.x86_3*" />
@@ -245,11 +248,11 @@
 		<concat destfile="${win32.launcher.dir}/configuration/config.ini" append="yes" eol="dos">
 			<filelist dir="${builder}/custom/win32/" files="config.ini" />
 		</concat>
-		<copy file="${builder}/custom/win32/AptanaStudio3.ini" tofile="${p2.repo.dir}/AptanaStudio3.ini" overwrite="true" />
-		<concat destfile="${builder}/custom/win32/AptanaStudio3.ini" append="yes" eol="dos">
-			<filelist dir="${win32.launcher.dir}/configuration/" files="AptanaStudio3.ini" />
+		<copy file="${builder}/custom/win32/AptanaStudio3.ini" tofile="${win32.launcher.dir}/AptanaStudio32.ini" overwrite="true" verbose="true" />
+		<concat destfile="${win32.launcher.dir}/" append="yes" eol="dos" verbose="true">
+			<filelist dir="${win32.launcher.dir}/" files="AptanaStudio3.ini" />
 		</concat>
-		<copy file="${p2.repo.dir}/AptanaStudio3.ini" tofile="${win32.launcher.dir}/AptanaStudio3.ini" overwrite="true" />
+		<move file="${win32.launcher.dir}/AptanaStudio32.ini" tofile="${win32.launcher.dir}/AptanaStudio3.ini" overwrite="true" verbose="true" />
 
 		<!-- ...then re-zip and delete the temp dir -->
 		<zip destfile="${p2.repo.dir}/binary/${win32.launcher}">
@@ -259,6 +262,7 @@
 
 		<!-- =========== Windows 64-bit Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
+		<echo message="Win 64-bit Mangling" />
 		<pathconvert property="win64.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.win32.win32.x86_64_*" />
@@ -283,6 +287,7 @@
 
 		<!-- =========== Linux 32-bit Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
+		<echo message="Linux 32-bit Mangling" />
 		<pathconvert property="linux.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.gtk.linux.x86_3*" />
@@ -307,6 +312,7 @@
 
 		<!-- =========== Linux 64-bit Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
+		<echo message="Linux 64-bit Mangling" />
 		<pathconvert property="linux_64.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.gtk.linux.x86_64_*" />
