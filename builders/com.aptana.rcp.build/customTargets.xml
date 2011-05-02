@@ -245,6 +245,12 @@
 		<concat destfile="${win32.launcher.dir}/configuration/config.ini" append="yes" eol="dos">
 			<filelist dir="${builder}/custom/win32/" files="config.ini" />
 		</concat>
+		<copy file="${builder}/custom/win32/AptanaStudio3.ini" tofile="${p2.repo.dir}/AptanaStudio3.ini" overwrite="true" />
+		<concat destfile="${builder}/custom/win32/AptanaStudio3.ini" append="yes" eol="dos">
+			<filelist dir="${win32.launcher.dir}/configuration/" files="AptanaStudio3.ini" />
+		</concat>
+		<copy file="${p2.repo.dir}/AptanaStudio3.ini" tofile="${win32.launcher.dir}/AptanaStudio3.ini" overwrite="true" />
+
 		<!-- ...then re-zip and delete the temp dir -->
 		<zip destfile="${p2.repo.dir}/binary/${win32.launcher}">
 			<fileset dir="${win32.launcher.dir}" defaultexcludes="false" />
