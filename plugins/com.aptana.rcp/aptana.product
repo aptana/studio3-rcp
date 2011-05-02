@@ -20,8 +20,6 @@
 openFile</programArgs>
       <programArgsMac>-startup
 ../../../plugins/org.eclipse.equinox.launcher_1.1.1.R36x_v20101122_1400.jar</programArgsMac>
-      <programArgsWin>-name
-Aptana Studio 3</programArgsWin>
       <vmArgs>-Xms40m
 -Xmx384m
 -Declipse.p2.unsignedPolicy=allow</vmArgs>
@@ -49,6 +47,7 @@ Aptana Studio 3</programArgsWin>
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
