@@ -248,15 +248,6 @@
 		<concat destfile="${win32.launcher.dir}/configuration/config.ini" append="yes" eol="dos">
 			<filelist dir="${builder}/custom/win32/" files="config.ini" />
 		</concat>
-		<loadfile property="win32.config.ini.pre" srcfile="${win32.launcher.dir}/AptanaStudio3.ini" />
-		<echo message="Pre concat: ${win32.config.ini.pre}" />
-		<copy file="${builder}/custom/win32/AptanaStudio3.ini" tofile="${win32.launcher.dir}/AptanaStudio32.ini" overwrite="true" verbose="true" />
-		<concat destfile="${win32.launcher.dir}/AptanaStudio32.ini" append="yes" eol="dos">
-			<filelist dir="${win32.launcher.dir}/" files="AptanaStudio3.ini" />
-		</concat>
-		<move file="${win32.launcher.dir}/AptanaStudio32.ini" tofile="${win32.launcher.dir}/AptanaStudio3.ini" overwrite="true" verbose="true" />
-		<loadfile property="win32.config.ini.post" srcfile="${win32.launcher.dir}/AptanaStudio3.ini" />
-		<echo message="Post concat: ${win32.config.ini.post}" />
 
 		<!-- ...then re-zip and delete the temp dir -->
 		<zip destfile="${p2.repo.dir}/binary/${win32.launcher}">
@@ -381,25 +372,7 @@
 			</replace>
 		<replace summary="yes" file="${p2.repo.dir}/content.xml" token="{version.full}" value="${version.full}" />
 		-->
-		
-		<!-- Add in program launcher name. Need to do this here, because our product name has spaces -->
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[removeProgramArg(programArg:openFile);]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[removeProgramArg(programArg:openFile);removeProgramArg(programArg:-name);removeProgramArg(programArg:Aptana Studio 3);]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[addProgramArg(programArg:openFile);]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[addProgramArg(programArg:openFile);addProgramArg(programArg:-name);addProgramArg(programArg:Aptana Studio 3);]]>
-			</replacevalue>
-		</replace>
-		
+
 		<!-- Fix the broken OSGi filter syntax (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=271373)-->
 		<replace summary="yes" file="${p2.repo.dir}/content.xml">
 			<replacetoken>
