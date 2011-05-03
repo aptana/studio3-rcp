@@ -383,22 +383,10 @@
 		-->
 		
 		<!-- Add in program launcher name. Need to do this here, because our product name has spaces -->
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[removeProgramArg(programArg:openFile);]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[removeProgramArg(programArg:openFile);removeProgramArg(programArg:-name);removeProgramArg(programArg:Aptana Studio 3);]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[addProgramArg(programArg:openFile);]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[addProgramArg(programArg:openFile);addProgramArg(programArg:-name);addProgramArg(programArg:Aptana Studio 3);]]>
-			</replacevalue>
-		</replace>
+		<replace summary="yes" file="${p2.repo.dir}/content.xml" token="removeProgramArg(programArg:openFile);" 
+			value="removeProgramArg(programArg:openFile);removeProgramArg(programArg:-name);removeProgramArg(programArg:Aptana Studio 3);" />
+		<replace summary="yes" file="${p2.repo.dir}/content.xml" token="addProgramArg(programArg:openFile);"
+			value="addProgramArg(programArg:openFile);addProgramArg(programArg:-name);addProgramArg(programArg:Aptana Studio 3);" />
 		
 		<!-- Fix the broken OSGi filter syntax (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=271373)-->
 		<replace summary="yes" file="${p2.repo.dir}/content.xml">
