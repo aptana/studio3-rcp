@@ -238,7 +238,7 @@
 		<replace summary="yes" file="${tmp.dir}/${collectingFolder}/${product.name}.ini" token="-vmargs">
 			<replacevalue><![CDATA[-name
 Aptana Studio 3
--vmarg]]></replacevalue>
+-vmargs]]></replacevalue>
 		</replace>
 		<antcall target="clean.old.profiles" />
 		<zip destfile="${output.dir}/${archivePrefix}.win32.x86.zip">
@@ -268,7 +268,7 @@ Aptana Studio 3
 		<replace summary="yes" file="${tmp.dir}/${collectingFolder}/${product.name}.ini" token="-vmargs">
 			<replacevalue><![CDATA[-name
 Aptana Studio 3
--vmarg]]></replacevalue>
+-vmargs]]></replacevalue>
 		</replace>
 		<antcall target="clean.old.profiles" />
 		<zip destfile="${output.dir}/${archivePrefix}.win32.x86_64.zip">
