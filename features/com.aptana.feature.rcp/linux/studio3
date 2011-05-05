@@ -5,7 +5,7 @@ SELF_LOCATION=$(cd "$(dirname "$0")" ; pwd)
 # Was this invoked as a link ?
 if [ -L "$0" ]
 then
-	LINKTO=$(/usr/bin/readlink "$0")
+	LINKTO=$(readlink "$0")
 
 	# Is the link a relative path
 	if [[ "${LINKTO}" = /* ]]
