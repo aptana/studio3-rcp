@@ -2,7 +2,7 @@
 <feature
       id="com.aptana.feature.studio"
       label="%featureName"
-      version="3.0.1.qualifier"
+      version="3.0.2.qualifier"
       provider-name="%providerName"
       plugin="com.aptana.branding">
 
@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.aptana.com/tools/radrails/plugin/update/red/"/>
+      <update label="%updateSiteName" url="http://download.aptana.com/studio3/plugin/update/"/>
    </url>
 
    <includes

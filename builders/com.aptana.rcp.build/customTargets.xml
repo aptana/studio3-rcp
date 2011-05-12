@@ -168,6 +168,7 @@
 		<!-- =========== Mac 32-bit Mangling ==================================================== -->
     <!-- Unzip the macosx launcher to a temp dir... -->
     <!-- cocoa -->
+	<echo message="Mac 32-bit Mangling" />
     <pathconvert property="mac.cocoa.launcher">
       <fileset dir="${p2.repo.dir}/binary">
         <include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_3*" />
@@ -199,6 +200,7 @@
 		<!-- =========== Mac 64-bit Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
 		<!-- cocoa -->
+		<echo message="Mac 64-bit Mangling" />
 		<pathconvert property="mac64.cocoa.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_64_*" />
@@ -229,6 +231,7 @@
 
 		<!-- =========== Windows Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
+		<echo message="Win 32-bit Mangling" />
 		<pathconvert property="win32.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.win32.win32.x86_3*" />
@@ -245,14 +248,16 @@
 		<concat destfile="${win32.launcher.dir}/configuration/config.ini" append="yes" eol="dos">
 			<filelist dir="${builder}/custom/win32/" files="config.ini" />
 		</concat>
+
 		<!-- ...then re-zip and delete the temp dir -->
 		<zip destfile="${p2.repo.dir}/binary/${win32.launcher}">
 			<fileset dir="${win32.launcher.dir}" defaultexcludes="false" />
 		</zip>
-		<delete dir="${win32.launcher.dir}" />
+		<!--delete dir="${win32.launcher.dir}" /-->
 
 		<!-- =========== Windows 64-bit Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
+		<echo message="Win 64-bit Mangling" />
 		<pathconvert property="win64.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.win32.win32.x86_64_*" />
@@ -277,6 +282,7 @@
 
 		<!-- =========== Linux 32-bit Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
+		<echo message="Linux 32-bit Mangling" />
 		<pathconvert property="linux.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.gtk.linux.x86_3*" />
@@ -301,6 +307,7 @@
 
 		<!-- =========== Linux 64-bit Mangling ==================================================== -->
 		<!-- Unzip the launcher to a temp dir... -->
+		<echo message="Linux 64-bit Mangling" />
 		<pathconvert property="linux_64.launcher">
 			<fileset dir="${p2.repo.dir}/binary">
 				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.gtk.linux.x86_64_*" />
@@ -365,6 +372,7 @@
 			</replace>
 		<replace summary="yes" file="${p2.repo.dir}/content.xml" token="{version.full}" value="${version.full}" />
 		-->
+
 		<!-- Fix the broken OSGi filter syntax (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=271373)-->
 		<replace summary="yes" file="${p2.repo.dir}/content.xml">
 			<replacetoken>

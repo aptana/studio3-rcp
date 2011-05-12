@@ -234,6 +234,12 @@
 			<filelist dir="${tmp.dir}/" files="config.ini" />
 			<filelist dir="${builder}/custom/win32/" files="config_xp.ini" />
 		</concat>
+		<!-- HACK insert the -name argument manually since Eclipse builder seems to ignore it -->
+		<replace summary="yes" file="${tmp.dir}/${collectingFolder}/${product.name}.ini" token="-vmargs">
+			<replacevalue><![CDATA[-name
+Aptana Studio 3
+-vmargs]]></replacevalue>
+		</replace>
 		<antcall target="clean.old.profiles" />
 		<zip destfile="${output.dir}/${archivePrefix}.win32.x86.zip">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}" />
@@ -258,6 +264,12 @@
 			<filelist dir="${tmp.dir}/" files="config.ini" />
 			<filelist dir="${builder}/custom/win32/" files="config_xp.ini" />
 		</concat>
+		<!-- HACK insert the -name argument manually since Eclipse builder seems to ignore it -->
+		<replace summary="yes" file="${tmp.dir}/${collectingFolder}/${product.name}.ini" token="-vmargs">
+			<replacevalue><![CDATA[-name
+Aptana Studio 3
+-vmargs]]></replacevalue>
+		</replace>
 		<antcall target="clean.old.profiles" />
 		<zip destfile="${output.dir}/${archivePrefix}.win32.x86_64.zip">
 			<zipfileset dir="${tmp.dir}/${collectingFolder}" includes="**/**" prefix="${zipFolder}" />
