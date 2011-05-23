@@ -53,6 +53,8 @@ var CSDVersion
 
 LangString WPTEXT1 ${LANG_ENGLISH} "Welcome to Aptana Studio 3 installer."
 LangString WPTEXT2 ${LANG_ENGLISH} "\r\n\r\nClick Next to start.\r\n\r\n"
+LangString ASSOCIATIONS_PAGE_TITLE ${LANG_ENGLISH} "Choose File Associations"
+LangString ASSOCIATIONS_PAGE_SUBTITLE ${LANG_ENGLISH} "Select which file extensions you wish associated with this application."
 !define XPUI_WELCOMEPAGESTYLE2_TEXT_TOP "$(WPTEXT1)"
 !define XPUI_WELCOMEPAGESTYLE2_TEXT     "$(WPTEXT2)"
 !insertmacro XPUI_PAGE_WELCOME2
@@ -457,6 +459,7 @@ FunctionEnd
 
 Function SetAssociations 
 
+    !insertmacro MUI_HEADER_TEXT $(ASSOCIATIONS_PAGE_TITLE) $(ASSOCIATIONS_PAGE_SUBTITLE)
     !insertmacro INSTALLOPTIONS_INITDIALOG "associations.ini"
 
     Pop $R0 ;HWND of dialog
