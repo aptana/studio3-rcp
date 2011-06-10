@@ -104,6 +104,8 @@
 		<replace file="${buildDirectory}/plugins${product}" token="0.0.0.qualifier" value="${version.full}-${short.timestamp}" />
 		<replace file="${buildDirectory}/plugins/com.aptana.rcp/plugin.properties" token="0.0.0.qualifier" value="${version.full}" />
 		<replace file="${buildDirectory}/plugins/com.aptana.rcp/plugin.properties" token="%timestamp%" value="${timestamp}" />
+		<replace file="${buildDirectory}/plugins/com.appcelerator.titanium.rcp/plugin.properties" token="%branch.name%" value="${env.GIT_BRANCH}" />
+		<replace file="${buildDirectory}/plugins/com.appcelerator.titanium.rcp/plugin.properties" token="%build.tag%" value="${env.BUILD_TAG}" />
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/feature.properties" token="build.name" value="${build.name}" />
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/rootfiles/version.txt" token="0.0.0" value="${version.full}" />
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/rootfiles/version.txt" token=".qualifier" value="${build.revision}" />
