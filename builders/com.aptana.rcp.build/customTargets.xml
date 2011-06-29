@@ -158,13 +158,21 @@
 	<!-- Steps to do after the build is done. -->
 	<!-- ===================================================================== -->
 	<target name="postBuild">
+		<antcall target="signJars" />
 		<antcall target="gatherLogs" />
 		<antcall target="modify.binaries" />
 		<antcall target="fix.broken.metadata" />
 		<antcall target="updateSite" />
 		<antcall target="publish" />
 	</target>
-  
+
+	<target name="signJars" if="sign.jars">
+		<echo message="Signing plugins and features at: ${p2.repo.dir}" />
+		<p2.process.artifacts repositoryPath="${p2.artifact.repo}">
+			<sign alias="${keystoreAlias}" keystore="${keystore}" storepass="${keystorePass}" />
+		</p2.process.artifacts>
+	</target>
+
 	<target name="modify.binaries" unless="dont.modify.binaries">
 		<!-- TODO Fix config.ini on other platforms! -->
 		<!-- =========== Mac 32-bit Mangling ==================================================== -->
