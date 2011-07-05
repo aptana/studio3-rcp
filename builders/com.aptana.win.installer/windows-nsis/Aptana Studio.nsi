@@ -149,7 +149,7 @@ Section -post SEC0001
         SetShellVarContext all
         SetOutPath $SMPROGRAMS\$StartMenuGroup
         CreateShortCut "$SMPROGRAMS\$StartMenuGroup\$(^Name).lnk" "$INSTDIR\AptanaStudio3.exe" ""
-        WriteINIStr "$SMPROGRAMS\$StartMenuGroup\Aptana Forums.url" "InternetShortcut" "URL" "https://aptanastudio.tenderapp.com/discussions/"
+        WriteINIStr "$SMPROGRAMS\$StartMenuGroup\Aptana Bug Tracker.url" "InternetShortcut" "URL" "https://www.aptana.com/redirect/bugs"
         WriteINIStr "$SMPROGRAMS\$StartMenuGroup\Aptana Website.url" "InternetShortcut" "URL" "http://www.aptana.com/"
         SetShellVarContext current
     ${endif}    
