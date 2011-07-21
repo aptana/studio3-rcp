@@ -40,7 +40,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.AutomaticUpdatePlugin;
 import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.PreferenceConstants;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -92,6 +91,7 @@ import org.osgi.service.prefs.BackingStoreException;
 import com.aptana.commandline.launcher.CommandlineArgumentsHandler;
 import com.aptana.commandline.launcher.server.LauncherServer;
 import com.aptana.commandline.launcher.server.port.PortManager;
+import com.aptana.core.util.EclipseUtil;
 import com.aptana.core.util.PlatformUtil;
 import com.aptana.rcp.preferences.IPreferenceConstants;
 import com.ibm.icu.text.Collator;
@@ -943,7 +943,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	private void initPreferences()
 	{
-		IEclipsePreferences prefs = new DefaultScope().getNode(ResourcesPlugin.PI_RESOURCES);
+		IEclipsePreferences prefs = EclipseUtil.defaultScope().getNode(ResourcesPlugin.PI_RESOURCES);
 
 		if (!Platform.getPreferencesService().getBoolean(IdePlugin.PLUGIN_ID,
 				IPreferenceConstants.WORKSPACE_ENCODING_SET, false, null))
@@ -958,7 +958,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 						new Status(IStatus.ERROR, IdePlugin.PLUGIN_ID, IStatus.OK,
 								Messages.PreferenceInitializer_Cannot_Set_Default_Encoding, e));
 			}
-			prefs = (new InstanceScope()).getNode(IdePlugin.PLUGIN_ID);
+			prefs = (EclipseUtil.instanceScope()).getNode(IdePlugin.PLUGIN_ID);
 			prefs.putBoolean(IPreferenceConstants.WORKSPACE_ENCODING_SET, true);
 			try
 			{
