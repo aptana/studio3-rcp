@@ -22,7 +22,9 @@ openFile</programArgs>
 ../../../plugins/org.eclipse.equinox.launcher_1.1.1.R36x_v20101122_1400.jar</programArgsMac>
       <vmArgs>-Xms40m
 -Xmx512m
--Declipse.p2.unsignedPolicy=allow</vmArgs>
+-Declipse.p2.unsignedPolicy=allow
+-Declipse.log.size.max=10000
+-Declipse.log.backup.max=5</vmArgs>
       <vmArgsLin>-Djava.awt.headless=true</vmArgsLin>
       <vmArgsMac>-Xdock:icon=../Resources/aptana.icns
 -XstartOnFirstThread
