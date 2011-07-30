@@ -138,9 +138,17 @@
 	<!-- Steps to do after the build is done. -->
 	<!-- ===================================================================== -->
 	<target name="postBuild">
+		<antcall target="signJars" />
 		<antcall target="gatherLogs" />
 		<antcall target="updateSite" />
 		<antcall target="publish" />
+	</target>
+
+	<target name="signJars" if="sign.jars">
+		<echo message="Signing plugins and features at: ${p2.repo.dir}" />
+		<p2.process.artifacts repositoryPath="${p2.artifact.repo}">
+			<sign alias="${keystoreAlias}" keystore="${keystore}" storepass="${keystorePass}" />
+		</p2.process.artifacts>
 	</target>
 
 	<target name="updateSite">
