@@ -1,6 +1,7 @@
 Uninstalling/Re-installing Aptana
 ======================================================================================
 
-If you need to fully uninstall and reinstall Aptana Studio, you can
-follow the "Uninstalling Studio" steps here: http://www.aptana.com/r/apupdate and then
-re-download an install again as before.
+If you need to fully uninstall and reinstall Aptana Studio, 
+you can follow the "Uninstalling Studio" steps here: 
+http://www.aptana.com/r/apupdate and then re-download and 
+install again as before.
