@@ -170,6 +170,14 @@
 		<echo message="Signing plugins and features at: ${p2.repo.dir}" />
 		<p2.process.artifacts repositoryPath="${p2.artifact.repo}">
 			<sign alias="${keystoreAlias}" keystore="${keystore}" storepass="${keystorePass}" />
+			<!-- Only sign our additional RCP feature and plugins -->
+			<feature>
+				 <iu id="com.aptana.feature.rcp.feature.group" />
+			</feature>
+			<plugin>
+				 <iu id="com.aptana.rcp" />
+				 <iu id="com.aptana.rcp.studio" />
+			</plugin>
 		</p2.process.artifacts>
 	</target>
 
