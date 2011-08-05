@@ -158,10 +158,10 @@
 	<!-- Steps to do after the build is done. -->
 	<!-- ===================================================================== -->
 	<target name="postBuild">
-		<antcall target="signJars" />
 		<antcall target="gatherLogs" />
 		<antcall target="modify.binaries" />
 		<antcall target="fix.broken.metadata" />
+		<antcall target="signJars" />
 		<antcall target="updateSite" />
 		<antcall target="publish" />
 	</target>
