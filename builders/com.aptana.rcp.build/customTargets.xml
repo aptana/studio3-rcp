@@ -168,45 +168,84 @@
 
 	<target name="signJars" if="sign.jars">
 		<echo message="Signing plugins and features at: ${p2.repo.dir}" />
+		<!-- TODO Place a pack.properties file under p2.repo.dir contianing:
+		  pack.excludes=plugins/org.eclipse.*.jar,features/org.eclipse.*.jar
+		  Need to somehow generate the feature and plugin listing
+		  Need to do this if the signing limiting doesn't work below...
+		   -->
+
+		<pathconvert property="rcp.feature.version">
+			<fileset dir="${p2.repo.dir}/features">
+				<include name="com.aptana.feature.rcp_*" />
+			</fileset>
+			<mapper>
+				<regexpmapper from="^(.*)\.jar$$" to="\1" />
+			</mapper>
+		</pathconvert>
+		<pathconvert property="rcp.plugin.version">
+			<fileset dir="${p2.repo.dir}/plugins">
+				<include name="com.aptana.rcp_*" />
+			</fileset>
+			<mapper>
+				<regexpmapper from="^(.*)\.jar$$" to="\1" />
+			</mapper>
+		</pathconvert>
+		<pathconvert property="rcp.studio.plugin.version">
+			<fileset dir="${p2.repo.dir}/plugins">
+				<include name="com.aptana.rcp.studio_*" />
+			</fileset>
+			<mapper>
+				<regexpmapper from="^(.*)\.jar$$" to="\1" />
+			</mapper>
+		</pathconvert>
+		<echo message="Limiting signing to: features/com.aptana.feature.rcp_${rcp.feature.version}.jar, plugins/com.aptana.rcp_${rcp.plugin.version}.jar, plugins/com.aptana.rcp.studio_${rcp.studio.plugin.version}.jar" />
 		<p2.process.artifacts repositoryPath="${p2.artifact.repo}">
-			<sign alias="${keystoreAlias}" keystore="${keystore}" storepass="${keystorePass}" unsign="true" />
+			<sign alias="${keystoreAlias}" keystore="${keystore}" storepass="${keystorePass}" />
+			<!-- Only sign our additional RCP feature and plugins -->
+			<feature>
+				<iu id="com.aptana.feature.rcp" version="${rcp.feature.version}" />
+			</feature>
+			<plugin>
+				<iu id="com.aptana.rcp" version="${rcp.plugin.version}" />
+				<iu id="com.aptana.rcp.studio" version="${rcp.studio.plugin.version}" />
+			</plugin>
 		</p2.process.artifacts>
 	</target>
 
 	<target name="modify.binaries" unless="dont.modify.binaries">
 		<!-- TODO Fix config.ini on other platforms! -->
 		<!-- =========== Mac 32-bit Mangling ==================================================== -->
-    <!-- Unzip the macosx launcher to a temp dir... -->
-    <!-- cocoa -->
-	<echo message="Mac 32-bit Mangling" />
-    <pathconvert property="mac.cocoa.launcher">
-      <fileset dir="${p2.repo.dir}/binary">
-        <include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_3*" />
-      </fileset>
-      <mapper>
-        <flattenmapper />
-      </mapper>
-    </pathconvert>
-    <property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />    
-    <mkdir dir="${mac.cocoa.launcher.dir}" />
-    <unzip src="${p2.repo.dir}/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
-    <delete file="${p2.repo.dir}/binary/${mac.cocoa.launcher}" />
-    <!-- ...add our custom modifications... -->
-    <loadfile property="mac.cocoa.config.ini.pre" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
-    <echo message="Pre concat: ${mac.cocoa.config.ini.pre}" />
-    <concat destfile="${mac.cocoa.launcher.dir}/configuration/config.ini" append="yes" eol="mac">
-      <filelist dir="${builder}/custom/macosx/" files="config.ini" />
-    </concat>
-    <loadfile property="mac.cocoa.config.ini.post" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
-    <echo message="Post concat: ${mac.cocoa.config.ini.post}" />
-    <copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
-    <!-- <copy file="${builder}/custom/macosx/${product.name}" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/MacOS/${product.name}" overwrite="true" /> -->
-    <!-- ...then re-zip and delete the temp dir -->
-    <zip destfile="${p2.repo.dir}/binary/${mac.cocoa.launcher}">
-      <fileset dir="${mac.cocoa.launcher.dir}" defaultexcludes="false" />
-    </zip>
-    <delete dir="${mac.cocoa.launcher.dir}" />
-    
+		<!-- Unzip the macosx launcher to a temp dir... -->
+		<!-- cocoa -->
+		<echo message="Mac 32-bit Mangling" />
+		<pathconvert property="mac.cocoa.launcher">
+			<fileset dir="${p2.repo.dir}/binary">
+				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_3*" />
+			</fileset>
+			<mapper>
+				<flattenmapper />
+			</mapper>
+		</pathconvert>
+		<property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />
+		<mkdir dir="${mac.cocoa.launcher.dir}" />
+		<unzip src="${p2.repo.dir}/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
+		<delete file="${p2.repo.dir}/binary/${mac.cocoa.launcher}" />
+		<!-- ...add our custom modifications... -->
+		<loadfile property="mac.cocoa.config.ini.pre" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
+		<echo message="Pre concat: ${mac.cocoa.config.ini.pre}" />
+		<concat destfile="${mac.cocoa.launcher.dir}/configuration/config.ini" append="yes" eol="mac">
+			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
+		</concat>
+		<loadfile property="mac.cocoa.config.ini.post" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
+		<echo message="Post concat: ${mac.cocoa.config.ini.post}" />
+		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
+		<!-- <copy file="${builder}/custom/macosx/${product.name}" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/MacOS/${product.name}" overwrite="true" /> -->
+		<!-- ...then re-zip and delete the temp dir -->
+		<zip destfile="${p2.repo.dir}/binary/${mac.cocoa.launcher}">
+			<fileset dir="${mac.cocoa.launcher.dir}" defaultexcludes="false" />
+		</zip>
+		<delete dir="${mac.cocoa.launcher.dir}" />
+
 		<!-- =========== Mac 64-bit Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
 		<!-- cocoa -->
@@ -417,13 +456,13 @@
 			</replacevalue>
 		</replace>
 		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-      <replacetoken>
-        <![CDATA[(osgi.os=aix,hpux,linux,macosx,qnx,solaris)]]>
-      </replacetoken>
-      <replacevalue>
-        <![CDATA[(| (osgi.os=aix)(osgi.os=hpux)(osgi.os=linux)(osgi.os=macosx)(osgi.os=qnx)(osgi.os=solaris))]]>
-      </replacevalue>
-    </replace>
+			<replacetoken>
+				<![CDATA[(osgi.os=aix,hpux,linux,macosx,qnx,solaris)]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[(| (osgi.os=aix)(osgi.os=hpux)(osgi.os=linux)(osgi.os=macosx)(osgi.os=qnx)(osgi.os=solaris))]]>
+			</replacevalue>
+		</replace>
 		<!-- Fix the broken unconfigure of a product launcher (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=280007)-->
 		<replace summary="yes" file="${p2.repo.dir}/content.xml">
 			<replacetoken>setLauncherName()</replacetoken>
