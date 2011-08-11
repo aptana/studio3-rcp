@@ -179,7 +179,10 @@
 				<include name="com.aptana.feature.rcp_*" />
 			</fileset>
 			<mapper>
-				<regexpmapper from="^(.*)\.jar$$" to="\1" />
+				<chainedmapper>
+					<flattenmapper />
+					<regexpmapper from="^(.*)\.jar$$" to="\1" />
+				</chainedmapper>
 			</mapper>
 		</pathconvert>
 		<pathconvert property="rcp.plugin.version">
@@ -187,7 +190,10 @@
 				<include name="com.aptana.rcp_*" />
 			</fileset>
 			<mapper>
-				<regexpmapper from="^(.*)\.jar$$" to="\1" />
+				<chainedmapper>
+					<flattenmapper />
+					<regexpmapper from="^(.*)\.jar$$" to="\1" />
+				</chainedmapper>
 			</mapper>
 		</pathconvert>
 		<pathconvert property="rcp.studio.plugin.version">
@@ -195,7 +201,10 @@
 				<include name="com.aptana.rcp.studio_*" />
 			</fileset>
 			<mapper>
-				<regexpmapper from="^(.*)\.jar$$" to="\1" />
+				<chainedmapper>
+					<flattenmapper />
+					<regexpmapper from="^(.*)\.jar$$" to="\1" />
+				</chainedmapper>
 			</mapper>
 		</pathconvert>
 		<echo message="Limiting signing to: features/com.aptana.feature.rcp_${rcp.feature.version}.jar, plugins/com.aptana.rcp_${rcp.plugin.version}.jar, plugins/com.aptana.rcp.studio_${rcp.studio.plugin.version}.jar" />
