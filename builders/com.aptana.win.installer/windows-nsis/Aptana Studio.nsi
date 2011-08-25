@@ -265,7 +265,7 @@ Function .onInit
 
     !insertmacro INSTALLOPTIONS_EXTRACT "associations.ini"
     
-    StrCpy $StartMenuGroup Appcelerator
+    StrCpy $StartMenuGroup Aptana
     Push $R1
     File /oname=$PLUGINSDIR\spltmp.bmp "Bitmaps\splash.bmp"
     advsplash::show 1500 500 400 -1 $PLUGINSDIR\spltmp
@@ -288,7 +288,7 @@ Function .onInit
     NotInstalled:
 
     ; set the default install location
-    StrCpy $INSTDIR "$PROGRAMFILES\Appcelerator\$(^Name)"
+    StrCpy $INSTDIR "$PROGRAMFILES\Aptana\$(^Name)"
 
     ; get the version of windows  
     Version::IsWindows2000
@@ -344,7 +344,7 @@ Section /o -un.Main UNSEC0000
     ; Get the local time
     ${GetTime} "" "L" $0 $1 $2 $3 $4 $5 $6
     StrCpy $R1 '$0$1$2.$4$5$6'
-    Rename /REBOOTOK "$APPDATA\Appcelerator\Aptana Studo 3" "$APPDATA\Appcelerator\Aptana Studio 3.$R1"
+    Rename /REBOOTOK "$APPDATA\Aptana\Aptana Studo 3" "$APPDATA\Aptana\Aptana Studio 3.$R1"
     
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
@@ -453,7 +453,7 @@ done${UNSECTION_ID}:
 
 Function un.onInit
     ReadRegStr $INSTDIR HKLM "${REGKEY}" Path
-    StrCpy $StartMenuGroup Appcelerator
+    StrCpy $StartMenuGroup Aptana
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
 FunctionEnd
 
