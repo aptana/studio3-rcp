@@ -19,4 +19,9 @@ public interface IPreferenceConstants
 	 * WORKSPACE_ENCODING_SET
 	 */
 	public static final String WORKSPACE_ENCODING_SET = "WORKSPACE_ENCODING_SET"; //$NON-NLS-1$
+
+	/**
+	 * the preference key to indicate if we have set our default to showing editor line numbers
+	 */
+	public static final String EDITOR_LINE_NUMBER_SET = "EDITOR_LINE_NUMBER_SET"; //$NON-NLS-1$
 }

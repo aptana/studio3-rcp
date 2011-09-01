@@ -82,6 +82,7 @@ import org.eclipse.ui.internal.progress.ProgressMonitorJobsDialog;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.statushandlers.AbstractStatusHandler;
 import org.eclipse.ui.statushandlers.StatusAdapter;
+import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
@@ -942,7 +943,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	private void initPreferences()
 	{
-		IEclipsePreferences prefs = EclipseUtil.defaultScope().getNode(ResourcesPlugin.PI_RESOURCES);
+		IEclipsePreferences prefs;
 
 		if (!Platform.getPreferencesService().getBoolean(IdePlugin.PLUGIN_ID,
 				IPreferenceConstants.WORKSPACE_ENCODING_SET, false, null))
@@ -959,6 +960,24 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 			}
 			prefs = (EclipseUtil.instanceScope()).getNode(IdePlugin.PLUGIN_ID);
 			prefs.putBoolean(IPreferenceConstants.WORKSPACE_ENCODING_SET, true);
+			try
+			{
+				prefs.flush();
+			}
+			catch (BackingStoreException e)
+			{
+			}
+		}
+
+		prefs = EclipseUtil.instanceScope().getNode("org.eclipse.ui.editors"); //$NON-NLS-1$
+		if (!Platform.getPreferencesService().getBoolean(IdePlugin.PLUGIN_ID,
+				IPreferenceConstants.EDITOR_LINE_NUMBER_SET, false, null))
+		{
+			// we show the editor line numbers by default
+			prefs.putBoolean(AbstractDecoratedTextEditorPreferenceConstants.EDITOR_LINE_NUMBER_RULER, true);
+
+			prefs = EclipseUtil.instanceScope().getNode(IdePlugin.PLUGIN_ID);
+			prefs.putBoolean(IPreferenceConstants.EDITOR_LINE_NUMBER_SET, true);
 			try
 			{
 				prefs.flush();
