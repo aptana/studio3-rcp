@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.osgi.service.datalocation.Location;
 
+import com.aptana.core.logging.IdeLog;
 import com.aptana.core.util.ProcessUtil;
 import com.aptana.core.util.URLEncoder;
 
@@ -61,7 +62,7 @@ class InstallCommandLineExecutableJob extends Job
 		}
 		catch (Exception e)
 		{
-			IdePlugin.logError(e);
+			IdeLog.logError(IdePlugin.getDefault(), e);
 			return new Status(IStatus.ERROR, IdePlugin.PLUGIN_ID, e.getMessage(), e);
 		}
 		finally

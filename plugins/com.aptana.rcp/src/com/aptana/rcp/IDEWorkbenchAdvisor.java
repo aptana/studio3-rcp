@@ -91,6 +91,7 @@ import org.osgi.service.prefs.BackingStoreException;
 import com.aptana.commandline.launcher.CommandlineArgumentsHandler;
 import com.aptana.commandline.launcher.server.LauncherServer;
 import com.aptana.commandline.launcher.server.port.PortManager;
+import com.aptana.core.logging.IdeLog;
 import com.aptana.core.util.EclipseUtil;
 import com.aptana.core.util.PlatformUtil;
 import com.aptana.rcp.preferences.IPreferenceConstants;
@@ -307,7 +308,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
 			}
 			catch (BackingStoreException e)
 			{
-				IdePlugin.logError(e);
+				IdeLog.logError(IdePlugin.getDefault(), e);
 			}
 		}
 
@@ -366,7 +367,6 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
                 }
             }
         };
-
     }
 
     /**
