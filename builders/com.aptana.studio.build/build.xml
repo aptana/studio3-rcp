@@ -32,18 +32,6 @@
 		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="yes">
 			<arg line="-application org.eclipse.ant.core.antRunner -buildfile ${baseLocation}/plugins/${builder.plugin}/scripts/build.xml -Dbuilder=${basedir} -Dbuild.revision=${build.revision} -nosplash" />
 		</java>
-		<antcall target="categorize" />
-		<antcall target="buildZip" />
-		<antcall target="clean.after" />
-	</target>
-
-	<!-- ================================= 
-          target: categorize              
-         ================================= -->
-	<target name="categorize" description="categorize the update site">
-		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="yes">
-			<arg line="-application org.eclipse.equinox.p2.metadata.generator.EclipseGenerator -nosplash -consolelog -updateSite ${deploy.dir} -site file:${deploy.dir}/site.xml -metadataRepository file:${deploy.dir} -metadataRepositoryName &quot;Aptana Studio 3 Update Site&quot; -artifactRepository file:${deploy.dir} -artifactRepositoryName &quot;Aptana Studio 3 Artifacts&quot; -publishArtifacts -publishArtifactRepository -compress -reusePack200Files -noDefaultIUs -vmargs -Xmx256m" />
-		</java>
 	</target>
 
 	<!-- ================================= 
@@ -59,28 +47,6 @@
 				<propertyref prefix="sun." />
 			</propertyset>
 		</echoproperties>
-	</target>
-
-	<!-- ================================= 
-          target: buildZip           
-         ================================= -->
-	<target name="buildZip" depends="generate.build.properties" description="Build the update site zip">
-		<pathconvert property="version.full">
-			<fileset dir="${p2.repo.dir}/features">
-				<include name="${topLevelElementId}_*.jar" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<globmapper from="${topLevelElementId}_*.jar" to="*" casesensitive="yes" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<zip destfile="${buildDirectory}/${topLevelElementId}-${version.full}.zip">
-			<fileset dir="${deploy.dir}" defaultexcludes="false" />
-		</zip>
-		<move file="${buildDirectory}/${topLevelElementId}-${version.full}.zip" todir="${deploy.dir}" />
-		<replace token="ZIP_FILE" value="${topLevelElementId}-${version.full}.zip" file="${deploy.dir}/index.html" />
 	</target>
 
 	<!-- ================================= 
@@ -101,19 +67,6 @@
 		</java>
 		<delete dir="${baseLocation}" />
 		<delete dir="${buildDirectory}/features/org.eclipse.pde.build.container.feature" failonerror="false" />
-		<delete dir="${p2.repo.dir}" failonerror="false" />
-		<!-- Do an git checkout of the build directory -->
-		<exec executable="/bin/bash" dir="${buildDirectory}">
-			<arg value="-c" />
-			<arg value="${git.executable} checkout -f" />
-		</exec>
-	</target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: clean.after                      
-         - - - - - - - - - - - - - - - - - -->
-	<target name="clean.after" if="cleanAfter">
-		<antcall target="clean" />
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
@@ -131,74 +84,7 @@
 	<!-- - - - - - - - - - - - - - - - - - 
           target: generate.base                      
          - - - - - - - - - - - - - - - - - -->
-	<target name="generate.base" depends="copy.base.windows,copy.base">
-		<!-- Copy the features and plugins over into a dropins folder. Installing makes it so that non-linux plugins/features won't be there! -->
-		<mkdir dir="${baseLocation}/dropins/eclipse" />
-		<copy todir="${baseLocation}/dropins/eclipse">
-			<fileset dir="${studio3.p2.repo}" defaultexcludes="true">
-				<include name="features/*" />
-				<include name="plugins/*" />
-			</fileset>
-			<fileset dir="${php.p2.repo}" defaultexcludes="true">
-				<include name="features/*" />
-				<include name="plugins/*" />
-			</fileset>
-			<fileset dir="${pydev.p2.repo}" defaultexcludes="true">
-				<include name="features/*" />
-				<include name="plugins/*" />
-			</fileset>
-			<fileset dir="${radrails.p2.repo}" defaultexcludes="true">
-        <include name="features/*" />
-        <include name="plugins/*" />
-      </fileset>
-		</copy>
-
-		<!-- Unjar the features -->
-		<for param="file">
-			<path>
-				<fileset dir="${baseLocation}/dropins/eclipse/features" defaultexcludes="true">
-					<include name="*.jar" />
-				</fileset>
-			</path>
-			<sequential>
-				<echo message="Unzipping JAR @{file}" />
-				<basename file="@{file}" property="@{file}.name" suffix="jar" />
-				<mkdir dir="${baseLocation}/dropins/eclipse/features/${@{file}.name}" />
-				<unjar dest="${baseLocation}/dropins/eclipse/features/${@{file}.name}" src="@{file}" />
-				<delete file="@{file}" />
-			</sequential>
-		</for>
-		<!-- UnJAR the handful of plugins that we need to... -->
-		<for param="file">
-			<path>
-				<fileset dir="${baseLocation}/dropins/eclipse/plugins" defaultexcludes="true">
-					<include name="com.aptana.terminal_*.jar" />
-					<include name="com.aptana.libraries_*.jar" />
-					<include name="org.jruby_*.jar" />
-					<include name="com.aptana.branding_*.jar" />
-					<include name="com.aptana.ide.libraries.subscription_*.jar" />
-          			<include name="com.aptana.parsing_*.jar" />
-					<include name="com.aptana.php.libraries_*.jar" />
-					<include name="com.aptana.portablegit.win32_*.jar" />
-					<include name="com.python.pydev*.jar" />
-					<include name="org.python.pydev*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.macosx.x86_*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.linux.x86_*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.win32.x86_*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.macosx.carbon_*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.macosx.cocoa.ppc_*.jar" />
-					<include name="com.aptana.git.core_*.jar" />
-				</fileset>
-			</path>
-			<sequential>
-				<echo message="Unzipping JAR @{file}" />
-				<basename file="@{file}" property="@{file}.name" suffix="jar" />
-				<mkdir dir="${baseLocation}/dropins/eclipse/plugins/${@{file}.name}" />
-				<unjar dest="${baseLocation}/dropins/eclipse/plugins/${@{file}.name}" src="@{file}" />
-				<delete file="@{file}" />
-			</sequential>
-		</for>
-	</target>
+	<target name="generate.base" depends="copy.base.windows,copy.base" />
 
 	<!-- - - - - - - - - - - - - - - - - - 
 	          target: copy.base                      
@@ -220,27 +106,12 @@
 		</copy>
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-		  target: run.director                      
-		 - - - - - - - - - - - - - - - - - -->
-	<target name="run.director" description="Runs the p2 director installs">
-		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="true" dir="${baseLocation}" timeout="900000">
-			<arg line="-application org.eclipse.equinox.p2.director" />
-			<arg line="-nosplash" />
-			<arg line="-consoleLog" />
-			<arg line="-metadataRepository ${p2.repo}" />
-			<arg line="-artifactRepository ${p2.repo}" />
-			<arg line="-installIU ${p2.installIU}" />
-		</java>
-	</target>
-
 	<!-- - - - - - - - - - - - - - - - - -
 	      target: replace.versions
 	     - - - - - - - - - - - - - - - - - -->
 	<target name="replace.versions" description="Replaces all the qualifiers for plugins/features with the last changed rev for that plugin/feature.">
 		<!-- Iterate through every plugin and feature directory and replace qualifier in
 		        build.properties with qualifier for just that plugin/feature! -->
-		<!-- TODO Handle if build.properties has no qualifier entry! -->
 		<for param="file">
 			<path>
 				<dirset dir="${buildDirectory}" defaultexcludes="true">
