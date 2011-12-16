@@ -52,17 +52,17 @@
       <import plugin="org.eclipse.core.net"/>
       <import plugin="com.aptana.commandline.launcher"/>
       <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.apache.lucene" version="1.9.1" match="compatible"/>
-      <import plugin="org.apache.lucene.analysis" version="1.9.1" match="compatible"/>
-      <import plugin="org.eclipse.help" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.core.expressions" version="3.4.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.lucene"/>
+      <import plugin="org.apache.lucene.analysis"/>
+      <import plugin="org.eclipse.help"/>
+      <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.equinox.http.jetty"/>
       <import plugin="org.eclipse.equinox.common"/>
       <import plugin="org.eclipse.equinox.registry"/>
       <import plugin="org.eclipse.core.jobs"/>
       <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.apache.commons.logging"/>
-      <import plugin="org.eclipse.ecf.provider.filetransfer" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ecf.provider.filetransfer"/>
    </requires>
 
    <plugin
