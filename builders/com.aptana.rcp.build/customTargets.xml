@@ -43,6 +43,14 @@
 	</target>
 
 	<!-- ===================================================================== -->
+	<!-- Steps to do before running assemble. -->
+	<!-- ===================================================================== -->
+	<target name="preAssemble">
+		<delete dir="${deploy.dir}" failonerror="false" />
+		<mkdir dir="${deploy.dir}" />
+	</target>
+
+	<!-- ===================================================================== -->
 	<!-- Steps to do after the build is done. -->
 	<!-- ===================================================================== -->
 	<target name="postBuild">
@@ -54,10 +62,6 @@
 	<!-- Steps to do to publish the build results -->
 	<!-- ===================================================================== -->
 	<target name="publish">
-		<delete dir="${deploy.dir}" failonerror="false" />
-		<mkdir dir="${deploy.dir}" />
-		<!-- Move the zips in I.<buildId> over as well as the p2 repo -->
-		<copydir dest="${deploy.dir}" src="${buildDirectory}/buildRepo" />
 		<copy todir="${deploy.dir}">
 			<fileset dir="${buildDirectory}/${buildLabel}" includes="*.zip" />
 		</copy>
