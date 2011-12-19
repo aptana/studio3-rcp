@@ -62,8 +62,12 @@
 	<!-- Steps to do to publish the build results -->
 	<!-- ===================================================================== -->
 	<target name="publish">
-		<copy todir="${deploy.dir}">
-			<fileset dir="${buildDirectory}/${buildLabel}" includes="*.zip" />
-		</copy>
+		<!-- Rename the zip files! -->
+		<move todir="${deploy.dir}">
+			<fileset dir="${buildDirectory}/${buildLabel}">
+				<include name="*.zip"/>
+			</fileset>
+			<mapper type="regexp" from="^(\d+\-)(.+\).zip$$" to="studio3.\2.zip"/>
+		</move>
 	</target>
 </project>
