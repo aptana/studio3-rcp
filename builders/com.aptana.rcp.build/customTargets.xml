@@ -67,7 +67,7 @@
 			<fileset dir="${buildDirectory}/${buildLabel}">
 				<include name="*.zip"/>
 			</fileset>
-			<mapper type="regexp" from="^(\d+\-)(.+\).zip$$" to="studio3.\2.zip"/>
+			<mapper type="regexp" from="^(\d+\-)(.+)\.zip$$" to="studio3.\2.zip"/>
 		</move>
 	</target>
 </project>
