@@ -28,7 +28,7 @@
 		<unzip src="buildRepo/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
 		<delete file="buildRepo/binary/${mac.cocoa.launcher}" />
 		<!-- ...add our custom modifications... -->
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
+		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.launcher.dir}/Eclipse.app/Contents/Info.plist" overwrite="true" />
 		<!-- ...then re-zip and delete the temp dir -->
 		<zip destfile="buildRepo/binary/${mac.cocoa.launcher}">
 			<fileset dir="${mac.cocoa.launcher.dir}" defaultexcludes="false" />
@@ -53,7 +53,7 @@
 		<unzip src="buildRepo/binary/${mac64.cocoa.launcher}" dest="${mac64.cocoa.launcher.dir}" />
 		<delete file="buildRepo/binary/${mac64.cocoa.launcher}" />
 		<!-- ...add our custom modifications... -->
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac64.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
+		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac64.cocoa.launcher.dir}/Eclipse.app/Contents/Info.plist" overwrite="true" />
 		<!-- ...then re-zip and delete the temp dir -->
 		<zip destfile="buildRepo/binary/${mac64.cocoa.launcher}">
 			<fileset dir="${mac64.cocoa.launcher.dir}" defaultexcludes="false" />
@@ -78,7 +78,7 @@
 		<unzip src="buildRepo/binary/${mac.cocoa.ppc.launcher}" dest="${mac.cocoa.ppc.launcher.dir}" />
 		<delete file="buildRepo/binary/${mac.cocoa.ppc.launcher}" />
 		<!-- ...add our custom modifications... -->
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.ppc.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
+		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.ppc.launcher.dir}/Eclipse.app/Contents/Info.plist" overwrite="true" />
 		<!-- ...then re-zip and delete the temp dir -->
 		<zip destfile="buildRepo/binary/${mac.cocoa.ppc.launcher}">
 			<fileset dir="${mac.cocoa.ppc.launcher.dir}" defaultexcludes="false" />
@@ -103,7 +103,7 @@
 		<unzip src="buildRepo/binary/${mac.carbon.launcher}" dest="${mac.carbon.launcher.dir}" />
 		<delete file="buildRepo/binary/${mac.carbon.launcher}" />
 		<!-- ...add our custom modifications... -->
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.carbon.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
+		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.carbon.launcher.dir}/Eclipse.app/Contents/Info.plist" overwrite="true" />
 		<!-- ...then re-zip and delete the temp dir -->
 		<zip destfile="buildRepo/binary/${mac.carbon.launcher}">
 			<fileset dir="${mac.carbon.launcher.dir}" defaultexcludes="false" />
