@@ -190,53 +190,49 @@
 	<!-- We need to do our own signing here so we can limit the JARs it applies to -->
 	<target name="signJars" if="sign.jars">
 		<echo message="Signing plugins and features at: ${eclipse.base}" />
-		<!-- TODO Place a pack.properties file under p2.repo.dir containing:
-		  pack.excludes=plugins/org.eclipse.*.jar,features/org.eclipse.*.jar
-		  Need to somehow generate the feature and plugin listing
-		  Need to do this if the signing limiting doesn't work below...
-		   -->
+		<!-- Load the final version strings for all features and plugins... 
+			this stores the feature/plugin id as key and teh version string as the value, which we use below in the script...
+		-->
+		<property file="${buildDirectory}/finalFeaturesVersions.properties" />
+		<property file="${buildDirectory}/finalPluginsVersions.properties" />
+		<property name="feature.ids" value="com.aptana.feature.rcp" />
+		<property name="plugin.ids" value="com.aptana.rcp,com.aptana.rcp.studio" />
 		
-		<!-- Write something re-usable here, since trying to limit to a larger set of plugins/features like this is not very feasible! -->
-		<pathconvert property="rcp.feature.version">
-			<fileset dir="${eclipse.base}/features">
-				<include name="com.aptana.feature.rcp_*" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<pathconvert property="rcp.plugin.version">
-			<fileset dir="${eclipse.base}/plugins">
-				<include name="com.aptana.rcp_*" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<pathconvert property="rcp.studio.plugin.version">
-			<fileset dir="${eclipse.base}/plugins">
-				<include name="com.aptana.rcp.studio_*" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<echo message="Limiting signing to: features/com.aptana.feature.rcp_${rcp.feature.version}.jar, plugins/com.aptana.rcp_${rcp.plugin.version}.jar, plugins/com.aptana.rcp.studio_${rcp.studio.plugin.version}.jar" />
-		<p2.process.artifacts repositoryPath="${eclipse.base}">
-			<sign alias="${sign.alias}" keystore="${sign.keystore}" storepass="${sign.keypass}" />
-			<!-- Only sign our additional RCP feature and plugins -->
-			<feature id="com.aptana.feature.rcp" version="${rcp.feature.version}" />
-			<plugin id="com.aptana.rcp" version="${rcp.plugin.version}" />
-			<plugin id="com.aptana.rcp.studio" version="${rcp.studio.plugin.version}" />
-		</p2.process.artifacts>
+		<script description="Sign specific feature/plugin JARs" language="javascript">
+			<![CDATA[
+				var featureIds = project.getProperty("feature.ids");
+				var pluginIds = project.getProperty("plugin.ids");
+				if ( featureIds.length() > 0 || pluginIds.length() > 0) {
+			
+					// We're going to call p2.process.artifacts to sign the JARs
+		            var processArtifacts = project.createTask("p2.process.artifacts");
+					processArtifacts.setRepositoryPath("${eclipse.base}");
+					var sign = processArtifacts.createDataType("sign");
+					sign.setAlias(project.getProperty("sign.alias"));
+					sign.setKeystore(project.getProperty("sign.keystore"));
+					sign.setStorepass(project.getProperty("sign.keypass"));
+			
+					// Split the plugin and feature id list by comma delimiter 
+		            var features = project.getProperty("feature.ids").split(",");
+					var plugins = project.getProperty("plugin.ids").split(",");
+			
+					// Specify the features
+		            for (var i = 0; i < features.length; i ++) {
+						var feature = processArtifacts.createDataType("feature");
+						feature.setId(features[i]);
+						feature.setVersion(project.getProperty(features[i]));
+		            }
+			
+					// Now specify the plugins
+					for (var i = 0; i < plugins.length; i ++) {
+						var plugin = processArtifacts.createDataType("plugin");
+						plugin.setId(plugins[i]);
+						plugin.setVersion(project.getProperty(plugins[i]));
+		            }
+			
+					processArtifacts.execute();
+				}
+	            ]]>
+		</script>
 	</target>
 </project>
