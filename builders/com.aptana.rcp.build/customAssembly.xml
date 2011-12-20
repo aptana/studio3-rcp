@@ -98,7 +98,7 @@
 				<flattenmapper />
 			</mapper>
 		</pathconvert>
-		<property name="mac.carbon.launcher.dir" location="${buildDirectory}/tmp_carbon_launcher/{mac.carbon.launcher}" />
+		<property name="mac.carbon.launcher.dir" location="${buildDirectory}/tmp_carbon_launcher/${mac.carbon.launcher}" />
 		<mkdir dir="${mac.carbon.launcher.dir}" />
 		<unzip src="buildRepo/binary/${mac.carbon.launcher}" dest="${mac.carbon.launcher.dir}" />
 		<delete file="buildRepo/binary/${mac.carbon.launcher}" />
@@ -177,5 +177,66 @@
 			<replacevalue></replacevalue>
 		</replace>
 	</target>
-
+	
+	<!-- ===================================================================== -->
+	<!-- Called after all plugins and features have been jarred                -->
+	<!-- (and potentially signed)                                              -->
+	<!-- ===================================================================== -->
+	<target name="post.jarUp">
+		<antcall target="signJars" />
+	</target>
+	
+	<!-- This is a hack to workaround https://bugs.eclipse.org/bugs/show_bug.cgi?id=255518 -->
+	<!-- We need to do our own signing here so we can limit the JARs it applies to -->
+	<target name="signJars" if="sign.jars">
+		<echo message="Signing plugins and features at: ${eclipse.base}" />
+		<!-- TODO Place a pack.properties file under p2.repo.dir containing:
+		  pack.excludes=plugins/org.eclipse.*.jar,features/org.eclipse.*.jar
+		  Need to somehow generate the feature and plugin listing
+		  Need to do this if the signing limiting doesn't work below...
+		   -->
+		
+		<!-- Write something re-usable here, since trying to limit to a larger set of plugins/features like this is not very feasible! -->
+		<pathconvert property="rcp.feature.version">
+			<fileset dir="${eclipse.base}/features">
+				<include name="com.aptana.feature.rcp_*" />
+			</fileset>
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+		<pathconvert property="rcp.plugin.version">
+			<fileset dir="${eclipse.base}/plugins">
+				<include name="com.aptana.rcp_*" />
+			</fileset>
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+		<pathconvert property="rcp.studio.plugin.version">
+			<fileset dir="${eclipse.base}/plugins">
+				<include name="com.aptana.rcp.studio_*" />
+			</fileset>
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+		<echo message="Limiting signing to: features/com.aptana.feature.rcp_${rcp.feature.version}.jar, plugins/com.aptana.rcp_${rcp.plugin.version}.jar, plugins/com.aptana.rcp.studio_${rcp.studio.plugin.version}.jar" />
+		<p2.process.artifacts repositoryPath="${eclipse.base}">
+			<sign alias="${sign.alias}" keystore="${sign.keystore}" storepass="${sign.keypass}" />
+			<!-- Only sign our additional RCP feature and plugins -->
+			<feature id="com.aptana.feature.rcp" version="${rcp.feature.version}" />
+			<plugin id="com.aptana.rcp" version="${rcp.plugin.version}" />
+			<plugin id="com.aptana.rcp.studio" version="${rcp.studio.plugin.version}" />
+		</p2.process.artifacts>
+	</target>
 </project>
