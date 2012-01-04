@@ -46,5 +46,8 @@
 		<echo message="${finalVersion}" file="${deploy.dir}/version.txt" />
 		<!-- Extract zipped p2 repo too -->
 		<unzip src="${deploy.dir}/${topLevelElementId}-${finalVersion}.zip" dest="${deploy.dir}" />
+		<!-- copy over index.html file -->
+		<replace token="ZIP_FILE" value="${topLevelElementId}-${finalVersion}.zip" file="${builder}/update_site/index.html" />
+		<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
 	</target>
 </project>
