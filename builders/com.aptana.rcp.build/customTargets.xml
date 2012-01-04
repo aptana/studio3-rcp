@@ -129,6 +129,8 @@
 	<!-- Steps to do to publish the build results -->
 	<!-- ===================================================================== -->
 	<target name="publish">
+		<delete dir="${deploy.dir}" failonerror="false" />
+		<mkdir dir="${deploy.dir}" />
 		<!-- Rename the zip files! -->
 		<move todir="${deploy.dir}">
 			<fileset dir="${buildDirectory}/${buildLabel}">
@@ -136,5 +138,7 @@
 			</fileset>
 			<mapper type="regexp" from="^(\d+\-)(.+)\.zip$$" to="studio3.\2.zip"/>
 		</move>
+		<!-- Create a version.txt file containing the final version string -->
+		<echo message="${version.full}" file="${deploy.dir}/version.txt" />
 	</target>
 </project>
