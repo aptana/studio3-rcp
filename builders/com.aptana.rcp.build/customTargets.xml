@@ -138,5 +138,7 @@
 		</move>
 		<!-- Create a version.txt file containing the final version string -->
 		<echo message="${version.full}" file="${deploy.dir}/version.txt" />
+		<!-- copy over index.html file -->
+		<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
 	</target>
 </project>
