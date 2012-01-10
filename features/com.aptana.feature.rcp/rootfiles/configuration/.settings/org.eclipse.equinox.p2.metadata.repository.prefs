@@ -1,8 +1,8 @@
 #Thu May 22 16:08:18 EDT 2008
 eclipse.preferences.version=1
-repositories/http\:__download.eclipse.org_releases_ganymede/version=1.0.0
-repositories/http\:__download.eclipse.org_releases_ganymede/type=org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository
-repositories/http\:__download.eclipse.org_releases_ganymede/url=http\://download.eclipse.org/releases/ganymede
-repositories/http\:__download.eclipse.org_releases_ganymede/enabled=true
-repositories/http\:__download.eclipse.org_releases_ganymede/isSystem=false
-repositories/http\:__download.eclipse.org_releases_ganymede/name=Ganymede Update Site
+repositories/http\:__download.eclipse.org_releases_indigo/version=1.0.0
+repositories/http\:__download.eclipse.org_releases_indigo/type=org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository
+repositories/http\:__download.eclipse.org_releases_indigo/url=http\://download.eclipse.org/releases/indigo
+repositories/http\:__download.eclipse.org_releases_indigo/enabled=true
+repositories/http\:__download.eclipse.org_releases_indigo/isSystem=false
+repositories/http\:__download.eclipse.org_releases_indigo/name=Indigo Update Site
