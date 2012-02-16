@@ -129,7 +129,12 @@
 	<!-- Steps to do to publish the build results -->
 	<!-- ===================================================================== -->
 	<target name="publish">
-		<!-- Rename the zip files! -->
+		<!-- Create the update site zip file -->
+		<zip destfile="${builder}/${topLevelElementId}-${version.full}.zip">
+			<fileset dir="${deploy.dir}" defaultexcludes="false" />
+		</zip>
+		<move file="${builder}/${topLevelElementId}-${version.full}.zip" todir="${deploy.dir}" />
+		<!-- Rename the standalone zip files! -->
 		<move todir="${deploy.dir}">
 			<fileset dir="${buildDirectory}/${buildLabel}">
 				<include name="*.zip"/>
