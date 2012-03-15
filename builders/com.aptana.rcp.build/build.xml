@@ -16,7 +16,7 @@
 
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
 		<classpath>
-			<pathelement location="lib/ant-contrib-0.6.jar" />
+			<pathelement location="ant-contrib/ant-contrib.jar" />
 		</classpath>
 	</taskdef>
 
@@ -29,7 +29,6 @@
 		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="yes">
 			<arg line="-application org.eclipse.ant.core.antRunner -buildfile ${baseLocation}/plugins/${builder.plugin}/scripts/productBuild/productBuild.xml -Dbuilder=${basedir} -Dbuild.revision=${build.revision} -nosplash" />
 		</java>
-		<antcall target="clean.after" />
 	</target>
 
 	<!-- ================================= 
@@ -63,80 +62,12 @@
 			</fileset>
 		</delete>
 		<delete dir="${buildDirectory}/${buildLabel}" failonerror="false" />
-		<delete dir="${p2.repo.dir}" failonerror="false" />
-		<!-- Do a git clean of the build directory -->
-		<exec executable="/bin/bash" dir="${buildDirectory}">
-		  <arg value="-c" />
-		  <arg value="${git.executable} clean -f -d -x" />
-		</exec>
-	</target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-	      target: clean.after                      
-	     - - - - - - - - - - - - - - - - - -->
-	<target name="clean.after" if="cleanAfter">
-		<antcall target="clean" />
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
 	          target: generate.base                      
 	         - - - - - - - - - - - - - - - - - -->
 	<target name="generate.base" depends="copy.base.windows,copy.base">
-	  <!-- FIXME Just copy over the result of the Studio feature p2 repo...  -->
-		<!-- Copy the features and plugins over into a dropins folder. Installing makes it so that non-linux plugins/features won't be there! -->
-		<mkdir dir="${baseLocation}/dropins/eclipse" />
-		<copy todir="${baseLocation}/dropins/eclipse">
-			<fileset dir="${studio3-feature.p2.repo}" defaultexcludes="true">
-				<include name="features/*" />
-				<include name="plugins/*" />
-			</fileset>
-		</copy>
-
-		<!-- Unjar the features -->
-		<for param="file">
-			<path>
-				<fileset dir="${baseLocation}/dropins/eclipse/features" defaultexcludes="true">
-					<include name="*.jar" />
-				</fileset>
-			</path>
-			<sequential>
-				<echo message="Unzipping JAR @{file}" />
-				<basename file="@{file}" property="@{file}.name" suffix="jar" />
-				<mkdir dir="${baseLocation}/dropins/eclipse/features/${@{file}.name}" />
-				<unjar dest="${baseLocation}/dropins/eclipse/features/${@{file}.name}" src="@{file}" />
-				<delete file="@{file}" />
-			</sequential>
-		</for>
-		<!-- UnJAR the handful of plugins that need to be expanded on install... -->
-		<for param="file">
-			<path>
-				<fileset dir="${baseLocation}/dropins/eclipse/plugins" defaultexcludes="true">
-					<include name="com.aptana.terminal_*.jar" />
-					<include name="com.aptana.libraries_*.jar" />
-					<include name="org.jruby_*.jar" />
-					<include name="com.aptana.branding_*.jar" />
-					<include name="com.aptana.ide.libraries.subscription_*.jar" />
-					<include name="com.aptana.parsing_*.jar" />
-					<include name="com.aptana.php.libraries_*.jar" />
-					<include name="com.aptana.portablegit.win32_*.jar" />
-					<include name="com.python.pydev*.jar" />
-					<include name="org.python.pydev*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.macosx.x86_*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.linux.x86_*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.win32.x86_*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.macosx.carbon_*.jar" />
-					<include name="com.aptana.swt.webkitbrowser.macosx.cocoa.ppc_*.jar" />
-					<include name="com.aptana.git.core_*.jar" />
-				</fileset>
-			</path>
-			<sequential>
-				<echo message="Unzipping JAR @{file}" />
-				<basename file="@{file}" property="@{file}.name" suffix="jar" />
-				<mkdir dir="${baseLocation}/dropins/eclipse/plugins/${@{file}.name}" />
-				<unjar dest="${baseLocation}/dropins/eclipse/plugins/${@{file}.name}" src="@{file}" />
-				<delete file="@{file}" />
-			</sequential>
-		</for>
 		<!-- Only include RCP source plugins/features, we want to force Eclipse to use pre-built binaries -->
 		<delete>
 			<fileset dir="${buildDirectory}">
@@ -175,7 +106,7 @@
 	<target name="get.revision">
 		<!-- Force to use the timestamp, so we always get a new qualifier! -->
 		<tstamp>
-      		<format property="build.timestamp" pattern="yyyyMMddkkmm"/>
+			<format property="build.timestamp" pattern="yyyyMMddkkmm" />
 		</tstamp>
 		<property name="build.revision" value="${build.timestamp}" />
 		<echo message="Revision timestamp: ${build.revision}" level="info" />
@@ -187,7 +118,6 @@
 	<target name="replace.versions" description="Replaces all the qualifiers for plugins/features with the last changed rev for that plugin/feature.">
 		<!-- Iterate through every plugin and feature directory and replace qualifier in
 		        build.properties with qualifier for just that plugin/feature! -->
-		<!-- TODO Handle if build.properties has no qualifier entry! -->
 		<for param="file">
 			<path>
 				<dirset dir="${buildDirectory}" defaultexcludes="true">
@@ -224,20 +154,6 @@
 		</exec>
 	</target>
 	<target name="link.check">
-		<available file="${env.WORKSPACE}/build-artifacts"  property="link.exists"/>
-	</target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-		  target: run.director                      
-		 - - - - - - - - - - - - - - - - - -->
-	<target name="run.director" description="Runs the p2 director installs">
-		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="true" dir="${baseLocation}" timeout="900000">
-			<arg line="-application org.eclipse.equinox.p2.director" />
-			<arg line="-nosplash" />
-			<arg line="-consoleLog" />
-			<arg line="-metadataRepository ${p2.repo}" />
-			<arg line="-artifactRepository ${p2.repo}" />
-			<arg line="-installIU ${p2.installIU}" />
-		</java>
+		<available file="${env.WORKSPACE}/build-artifacts" property="link.exists" />
 	</target>
 </project>

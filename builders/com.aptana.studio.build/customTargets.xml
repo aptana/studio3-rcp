@@ -1,177 +1,34 @@
-<project name="Build specific targets and properties" default="noDefault">
+<project name="customTargets overrides" default="noDefault">
+	<import file="${eclipse.pdebuild.templates}/headless-build/customTargets.xml"/>
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="${builder}/ant-contrib/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
 
 	<!-- ===================================================================== -->
-	<!-- Run a given ${target} on all elements being built -->
-	<!-- Add on <ant> task for each top level element being built. -->
+	<!-- Steps to do before the repositories are being processed -->
 	<!-- ===================================================================== -->
-	<available property="allElementsFile" file="${builder}/allElements.xml" value="${builder}/allElements.xml" />
-	<property name="allElementsFile" location="${eclipse.pdebuild.templates}/headless-build/allElements.xml" />
-
-	<import file="${allElementsFile}" />
-	<target name="allElements">
-		<antcall target="allElementsDelegator" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- ===================================================================== -->
-	<target name="getBaseComponents" depends="checkLocalBase" unless="skipBase">
-		<get src="${eclipseBaseURL}" dest="${buildDirectory}/../temp-base.zip" />
-		<unzip dest="${base}" overwrite="true" src="${buildDirectory}/../temp-base.zip" />
-	</target>
-
-	<target name="checkLocalBase">
-		<available file="${base}" property="skipBase" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Check out map files from correct repository -->
-	<!-- Replace values for mapsCheckoutTag as desired. -->
-	<!-- ===================================================================== -->
-	<target name="getMapFiles" depends="checkLocalMaps" unless="skipMaps">
-		<property name="mapsCheckoutTag" value="HEAD" />
-		<cvs cvsRoot="${mapsRepo}" package="${mapsRoot}" dest="${buildDirectory}/maps" tag="${mapsCheckoutTag}" />
-	</target>
-
-	<target name="checkLocalMaps">
-		<available property="skipMaps" file="${buildDirectory}/maps" />
-	</target>
-
-	<target name="tagMapFiles" if="tagMaps">
-		<cvs dest="${buildDirectory}/maps/${mapsRoot}" command="tag ${mapsTagTag}" />
-	</target>
-
-	<!-- ===================================================================== -->
-
-	<target name="clean" unless="noclean">
-		<antcall target="allElements">
-			<param name="target" value="cleanElement" />
-		</antcall>
-	</target>
-
-	<target name="gatherLogs">
-		<mkdir dir="${buildDirectory}/${buildLabel}/compilelogs" />
-		<antcall target="allElements">
-			<param name="target" value="gatherLogs" />
-		</antcall>
-		<unzip dest="${buildDirectory}/${buildLabel}/compilelogs" overwrite="true">
-			<fileset dir="${buildDirectory}/features">
-				<include name="**/*.log.zip" />
-			</fileset>
-		</unzip>
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before setup -->
-	<!-- ===================================================================== -->
-	<target name="preSetup">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after setup but before starting the build proper -->
-	<!-- ===================================================================== -->
-	<target name="postSetup">
-		<antcall target="getBaseComponents" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before fetching the build elements -->
-	<!-- ===================================================================== -->
-	<target name="preFetch">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after fetching the build elements -->
-	<!-- ===================================================================== -->
-	<target name="postFetch">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before generating the build scripts. -->
-	<!-- ===================================================================== -->
-	<target name="preGenerate">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after generating the build scripts. -->
-	<!-- ===================================================================== -->
-	<target name="postGenerate">
-		<antcall target="clean" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before running the build.xmls for the elements being built. -->
-	<!-- ===================================================================== -->
-	<target name="preProcess">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after running the build.xmls for the elements being built. -->
-	<!-- ===================================================================== -->
-	<target name="postProcess">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before running assemble. -->
-	<!-- ===================================================================== -->
-	<target name="preAssemble">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after  running assemble. -->
-	<!-- ===================================================================== -->
-	<target name="postAssemble">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before running package. -->
-	<!-- ===================================================================== -->
-	<target name="prePackage">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after  running package. -->
-	<!-- ===================================================================== -->
-	<target name="postPackage">
+	<target name="preProcessRepos">
+		<p2.mirror destination="file:${repoBaseLocation}/mirrored">
+			<source location="${studio3.p2.repo}" />
+			<source location="${php.p2.repo}" />
+			<source location="${pydev.p2.repo}" />
+			<source location="${radrails.p2.repo}" />
+			<iu id="com.aptana.feature.feature.group" />
+			<iu id="com.aptana.php.feature.feature.group" />
+			<iu id="org.python.pydev.feature.feature.group" />
+			<iu id="org.python.pydev.django_templates.feature.feature.group" />
+			<iu id="org.radrails.rails.feature.group" />
+		</p2.mirror>
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do after the build is done. -->
 	<!-- ===================================================================== -->
 	<target name="postBuild">
-		<antcall target="signJars" />
 		<antcall target="gatherLogs" />
-		<antcall target="updateSite" />
 		<antcall target="publish" />
-	</target>
-
-	<target name="signJars" if="sign.jars">
-		<echo message="Signing plugins and features at: ${p2.repo.dir}" />
-		<p2.process.artifacts repositoryPath="${p2.artifact.repo}">
-			<sign alias="${keystoreAlias}" keystore="${keystore}" storepass="${keystorePass}" />
-		</p2.process.artifacts>
-	</target>
-
-	<target name="updateSite">
-		<copy file="${builder}/site.xml" tofile="${p2.repo.dir}/site.xml" />
-		<pathconvert property="version.full">
-			<fileset dir="${p2.repo.dir}/features">
-				<include name="${topLevelElementId}_*.jar" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<globmapper from="${topLevelElementId}_*.jar" to="*" casesensitive="yes" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<replace token="{version.full}" value="${version.full}" file="${p2.repo.dir}/site.xml" />
-		<copy file="${builder}/index.html" tofile="${p2.repo.dir}/index.html" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do to test the build results -->
-	<!-- ===================================================================== -->
-	<target name="test">
 	</target>
 
 	<!-- ===================================================================== -->
@@ -180,16 +37,17 @@
 	<target name="publish">
 		<delete dir="${deploy.dir}" failonerror="false" />
 		<mkdir dir="${deploy.dir}" />
-		<copy todir="${deploy.dir}" failonerror="true">
-			<fileset dir="${p2.repo.dir}" />
-		</copy>
+		<!-- grab final version -->
+		<property file="${buildDirectory}/finalFeaturesVersions.properties" />
+		<propertycopy name="finalVersion" from="${topLevelElementId}" />
+		<!-- copy over result zipfile -->
+		<move file="${buildDirectory}/${buildType}.${build.revision}/${topLevelElementId}-${build.revision}-group.group.group.zip" tofile="${deploy.dir}/${topLevelElementId}-${finalVersion}.zip" />
+		<!-- Create a version.txt file containing the final version string -->
+		<echo message="${finalVersion}" file="${deploy.dir}/version.txt" />
+		<!-- Extract zipped p2 repo too -->
+		<unzip src="${deploy.dir}/${topLevelElementId}-${finalVersion}.zip" dest="${deploy.dir}" />
+		<!-- copy over index.html file -->
+		<replace token="ZIP_FILE" value="${topLevelElementId}-${finalVersion}.zip" file="${builder}/update_site/index.html" />
+		<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
 	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Default target                                                        -->
-	<!-- ===================================================================== -->
-	<target name="noDefault">
-		<echo message="You must specify a target when invoking this file" />
-	</target>
-
 </project>

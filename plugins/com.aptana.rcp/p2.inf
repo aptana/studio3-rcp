@@ -1,0 +1,39 @@
+instructions.install = \
+    addRepository(location:http${#58}//download.aptana.com/studio3-rcp/plugin/update/,name:Aptana Studio 3 Release Updates,type:0,enabled:true);\
+    addRepository(location:http${#58}//download.aptana.com/studio3-rcp/plugin/update/,name:Aptana Studio 3 Release Updates,type:1,enabled:true);\
+    addRepository(location:http${#58}//download.eclipse.org/releases/indigo,name:Eclipse Indigo Update Site,type:0,enabled:false);\
+    addRepository(location:http${#58}//download.eclipse.org/releases/indigo,name:Eclipse Indigo Update Site,type:1,enabled:false);	
+
+requires.1.namespace=org.eclipse.equinox.p2.iu
+requires.1.name=toolingcom.aptana.configuration.win32
+requires.1.filter=(osgi.os=win32)
+requires.1.range=[1.0.0,1.0.0]
+requires.1.greedy=true
+
+requires.2.namespace=org.eclipse.equinox.p2.iu
+requires.2.name=toolingcom.aptana.configuration
+requires.2.filter=(!(osgi.os=win32))
+requires.2.range=[1.0.0,1.0.0]
+requires.2.greedy=true
+
+units.1.id=toolingcom.aptana.configuration.win32
+units.1.version=1.0.0
+units.1.provides.1.namespace=org.eclipse.equinox.p2.iu
+units.1.provides.1.name=toolingcom.aptana.configuration.win32
+units.1.provides.1.version=1.0.0
+units.1.filter=(osgi.os=win32)
+units.1.touchpoint.id=org.eclipse.equinox.p2.osgi
+units.1.touchpoint.version=1.0.0
+units.1.instructions.configure=setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/My Documents/Aptana Studio 3 Workspace);
+units.1.instructions.unconfigure=setProgramProperty(propName:osgi.instance.area.default,propValue:);
+
+units.2.id=toolingcom.aptana.configuration
+units.2.version=1.0.0
+units.2.provides.1.namespace=org.eclipse.equinox.p2.iu
+units.2.provides.1.name=toolingcom.aptana.configuration
+units.2.provides.1.version=1.0.0
+units.2.filter=(!(osgi.os=win32))
+units.2.touchpoint.id=org.eclipse.equinox.p2.osgi
+units.2.touchpoint.version=1.0.0
+units.2.instructions.configure=setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/Documents/Aptana Studio 3 Workspace);
+units.2.instructions.unconfigure=setProgramProperty(propName:osgi.instance.area.default,propValue:);

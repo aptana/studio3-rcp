@@ -1,95 +1,16 @@
-<project name="Build specific targets and properties" default="noDefault">
-
-	<!-- ===================================================================== -->
-	<!-- Run a given ${target} on all elements being built -->
-	<!-- Add on <ant> task for each top level element being built. -->
-	<!-- ===================================================================== -->
-	<available property="allElementsFile" file="${builder}/allElements.xml" value="${builder}/allElements.xml" />
-	<property name="allElementsFile" location="${eclipse.pdebuild.templates}/headless-build/allElements.xml" />
-
-	<import file="${allElementsFile}" />
-	<target name="allElements">
-		<antcall target="allElementsDelegator" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- ===================================================================== -->
-	<target name="getBaseComponents" depends="checkLocalBase" unless="skipBase">
-		<get src="${eclipseBaseURL}" dest="${buildDirectory}/../temp-base.zip" />
-		<unzip dest="${base}" overwrite="true" src="${buildDirectory}/../temp-base.zip" />
-	</target>
-
-	<target name="checkLocalBase">
-		<available file="${base}" property="skipBase" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Check out map files from correct repository -->
-	<!-- Replace values for mapsCheckoutTag as desired. -->
-	<!-- ===================================================================== -->
-	<target name="getMapFiles" depends="checkLocalMaps" unless="skipMaps">
-		<property name="mapsCheckoutTag" value="HEAD" />
-		<cvs cvsRoot="${mapsRepo}" package="${mapsRoot}" dest="${buildDirectory}/maps" tag="${mapsCheckoutTag}" />
-	</target>
-
-	<target name="checkLocalMaps">
-		<available property="skipMaps" file="${buildDirectory}/maps" />
-	</target>
-
-	<target name="tagMapFiles" if="tagMaps">
-		<cvs dest="${buildDirectory}/maps/${mapsRoot}" command="tag ${mapsTagTag}" />
-	</target>
-
-	<!-- ===================================================================== -->
-
-	<target name="clean" unless="noclean">
-		<antcall target="allElements">
-			<param name="target" value="cleanElement" />
-		</antcall>
-	</target>
-
-	<target name="gatherLogs">
-		<mkdir dir="${buildDirectory}/${buildLabel}/compilelogs" />
-		<antcall target="allElements">
-			<param name="target" value="gatherLogs" />
-		</antcall>
-		<unzip dest="${buildDirectory}/${buildLabel}/compilelogs" overwrite="true">
-			<fileset dir="${buildDirectory}/features">
-				<include name="**/*.log.zip" />
-			</fileset>
-		</unzip>
-	</target>
+<project name="customTargets overrides" default="noDefault">
+	<import file="${eclipse.pdebuild.templates}/headless-build/customTargets.xml" />
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="${builder}/ant-contrib/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do before setup -->
 	<!-- ===================================================================== -->
 	<target name="preSetup">
 		<antcall target="replaceVersions" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after setup but before starting the build proper -->
-	<!-- ===================================================================== -->
-	<target name="postSetup">
-		<antcall target="getBaseComponents" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before fetching the build elements -->
-	<!-- ===================================================================== -->
-	<target name="preFetch">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after fetching the build elements -->
-	<!-- ===================================================================== -->
-	<target name="postFetch">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before generating the build scripts. -->
-	<!-- ===================================================================== -->
-	<target name="preGenerate">
 	</target>
 
 	<target name="replaceVersions">
@@ -112,46 +33,88 @@
 	</target>
 
 	<!-- ===================================================================== -->
-	<!-- Steps to do after generating the build scripts. -->
+	<!-- Steps to do before the repositories are being processed -->
 	<!-- ===================================================================== -->
-	<target name="postGenerate">
-		<antcall target="clean" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before running the build.xmls for the elements being built. -->
-	<!-- ===================================================================== -->
-	<target name="preProcess">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after running the build.xmls for the elements being built. -->
-	<!-- ===================================================================== -->
-	<target name="postProcess">
+	<target name="preProcessRepos">
+		<p2.mirror destination="file:${repoBaseLocation}/mirrored">
+			<source location="${studio3-feature.p2.repo}" />
+			<iu id="com.aptana.feature.studio.feature.group" />
+		</p2.mirror>
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do before running assemble. -->
 	<!-- ===================================================================== -->
 	<target name="preAssemble">
+		<delete dir="${deploy.dir}" failonerror="false" />
+		<mkdir dir="${deploy.dir}" />
 	</target>
-
+	
 	<!-- ===================================================================== -->
-	<!-- Steps to do after  running assemble. -->
+	<!-- Steps to do after running assemble. -->
 	<!-- ===================================================================== -->
 	<target name="postAssemble">
+		<antcall target="signJars" />
 	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do before running package. -->
-	<!-- ===================================================================== -->
-	<target name="prePackage">
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after  running package. -->
-	<!-- ===================================================================== -->
-	<target name="postPackage">
+		
+	<!-- This is a hack to workaround https://bugs.eclipse.org/bugs/show_bug.cgi?id=255518 -->
+	<!-- We need to do our own signing here so we can limit the JARs it applies to -->
+	<target name="signJars" if="sign.jars">
+		<echo message="Signing plugins and features at: ${buildDirectory}/buildRepo" />
+		<!-- Load the final version strings for all features and plugins... 
+			this stores the feature/plugin id as key and the version string as the value, which we use below in the script...
+		-->
+		<property name="p2.build.repo" value="file:${buildDirectory}/buildRepo"/>
+		<property file="${buildDirectory}/finalFeaturesVersions.properties" />
+		<property file="${buildDirectory}/finalPluginsVersions.properties" />
+		
+		<script description="Sign specific feature/plugin JARs" language="javascript">
+			<![CDATA[
+				importPackage(Packages.org.eclipse.equinox.p2.internal.repository.tools.tasks);
+			
+				var featureIds = project.getProperty("sign.features");
+				var pluginIds = project.getProperty("sign.plugins");
+				if ( featureIds.length() > 0 || pluginIds.length() > 0) {
+			
+					// We're going to call p2.process.artifacts to sign the JARs
+		            var processArtifacts = project.createTask("p2.process.artifacts");
+					processArtifacts.setRepositoryPath(project.getProperty("p2.build.repo"));
+					
+					//var sign = processArtifacts.createSign("sign");
+					var sign = new ProcessRepoTask.SigningOptions();
+					sign.setAlias(project.getProperty("sign.alias"));
+					sign.setKeystore(project.getProperty("sign.keystore"));
+					sign.setStorepass(project.getProperty("sign.keypass"));
+			
+					processArtifacts.addConfiguredSign(sign);
+			
+					// Split the plugin and feature id list by comma delimiter 
+		            var features = project.getProperty("sign.features").split(",");
+					var plugins = project.getProperty("sign.plugins").split(",");
+			
+					// Specify the features
+		            for (var i = 0; i < features.length; i ++) {
+						//var feature = processArtifacts.createFeature("feature");
+						var feature = new IUDescription();
+						feature.setId(features[i]);
+						feature.setVersion(project.getProperty(features[i]));
+						//processArtifacts.addFeature(feature);
+						processArtifacts.addConfiguredFeature(feature);
+		            }
+			
+					// Now specify the plugins
+					for (var i = 0; i < plugins.length; i ++) {
+						//var plugin = processArtifacts.createPlugin("plugin");
+						var plugin = new IUDescription();
+						plugin.setId(plugins[i]);
+						plugin.setVersion(project.getProperty(plugins[i]));
+						processArtifacts.addConfiguredPlugin(plugin);
+		            }
+			
+					processArtifacts.execute();
+				}
+	            ]]>
+		</script>
 	</target>
 
 	<!-- ===================================================================== -->
@@ -159,378 +122,28 @@
 	<!-- ===================================================================== -->
 	<target name="postBuild">
 		<antcall target="gatherLogs" />
-		<antcall target="modify.binaries" />
-		<antcall target="fix.broken.metadata" />
-		<antcall target="signJars" />
-		<antcall target="updateSite" />
 		<antcall target="publish" />
-	</target>
-
-	<target name="signJars" if="sign.jars">
-		<echo message="Signing plugins and features at: ${p2.repo.dir}" />
-		<!-- TODO Place a pack.properties file under p2.repo.dir contianing:
-		  pack.excludes=plugins/org.eclipse.*.jar,features/org.eclipse.*.jar
-		  Need to somehow generate the feature and plugin listing
-		  Need to do this if the signing limiting doesn't work below...
-		   -->
-
-		<pathconvert property="rcp.feature.version">
-			<fileset dir="${p2.repo.dir}/features">
-				<include name="com.aptana.feature.rcp_*" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<pathconvert property="rcp.plugin.version">
-			<fileset dir="${p2.repo.dir}/plugins">
-				<include name="com.aptana.rcp_*" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<pathconvert property="rcp.studio.plugin.version">
-			<fileset dir="${p2.repo.dir}/plugins">
-				<include name="com.aptana.rcp.studio_*" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<regexpmapper from="^(.*)?_(.*)\.jar$$" to="\2" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<echo message="Limiting signing to: features/com.aptana.feature.rcp_${rcp.feature.version}.jar, plugins/com.aptana.rcp_${rcp.plugin.version}.jar, plugins/com.aptana.rcp.studio_${rcp.studio.plugin.version}.jar" />
-		<p2.process.artifacts repositoryPath="${p2.artifact.repo}">
-			<sign alias="${keystoreAlias}" keystore="${keystore}" storepass="${keystorePass}" />
-			<!-- Only sign our additional RCP feature and plugins -->
-			<feature id="com.aptana.feature.rcp" version="${rcp.feature.version}" />
-			<plugin id="com.aptana.rcp" version="${rcp.plugin.version}" />
-			<plugin id="com.aptana.rcp.studio" version="${rcp.studio.plugin.version}" />
-		</p2.process.artifacts>
-	</target>
-
-	<target name="modify.binaries" unless="dont.modify.binaries">
-		<!-- TODO Fix config.ini on other platforms! -->
-		<!-- =========== Mac 32-bit Mangling ==================================================== -->
-		<!-- Unzip the macosx launcher to a temp dir... -->
-		<!-- cocoa -->
-		<echo message="Mac 32-bit Mangling" />
-		<pathconvert property="mac.cocoa.launcher">
-			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_3*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />
-		<mkdir dir="${mac.cocoa.launcher.dir}" />
-		<unzip src="${p2.repo.dir}/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
-		<delete file="${p2.repo.dir}/binary/${mac.cocoa.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<loadfile property="mac.cocoa.config.ini.pre" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
-		<echo message="Pre concat: ${mac.cocoa.config.ini.pre}" />
-		<concat destfile="${mac.cocoa.launcher.dir}/configuration/config.ini" append="yes" eol="mac">
-			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
-		</concat>
-		<loadfile property="mac.cocoa.config.ini.post" srcfile="${mac.cocoa.launcher.dir}/configuration/config.ini" />
-		<echo message="Post concat: ${mac.cocoa.config.ini.post}" />
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
-		<!-- <copy file="${builder}/custom/macosx/${product.name}" tofile="${mac.cocoa.launcher.dir}/${product.name}.app/Contents/MacOS/${product.name}" overwrite="true" /> -->
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="${p2.repo.dir}/binary/${mac.cocoa.launcher}">
-			<fileset dir="${mac.cocoa.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${mac.cocoa.launcher.dir}" />
-
-		<!-- =========== Mac 64-bit Mangling ==================================================== -->
-		<!-- Unzip the macosx launcher to a temp dir... -->
-		<!-- cocoa -->
-		<echo message="Mac 64-bit Mangling" />
-		<pathconvert property="mac64.cocoa.launcher">
-			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.cocoa.macosx.x86_64_*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="mac64.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac64_launcher/${mac64.cocoa.launcher}" />
-		<mkdir dir="${mac64.cocoa.launcher.dir}" />
-		<unzip src="${p2.repo.dir}/binary/${mac64.cocoa.launcher}" dest="${mac64.cocoa.launcher.dir}" />
-		<delete file="${p2.repo.dir}/binary/${mac64.cocoa.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<loadfile property="mac64.cocoa.config.ini.pre" srcfile="${mac64.cocoa.launcher.dir}/configuration/config.ini" />
-		<echo message="Pre concat: ${mac64.cocoa.config.ini.pre}" />
-		<concat destfile="${mac64.cocoa.launcher.dir}/configuration/config.ini" append="yes" eol="mac">
-			<filelist dir="${builder}/custom/macosx/" files="config.ini" />
-		</concat>
-		<loadfile property="mac64.cocoa.config.ini.post" srcfile="${mac64.cocoa.launcher.dir}/configuration/config.ini" />
-		<echo message="Post concat: ${mac64.cocoa.config.ini.post}" />
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac64.cocoa.launcher.dir}/${product.name}.app/Contents/Info.plist" overwrite="true" />
-		<copy file="${builder}/custom/macosx/${product.name}" tofile="${mac64.cocoa.launcher.dir}/${product.name}.app/Contents/MacOS/${product.name}" overwrite="true" />
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="${p2.repo.dir}/binary/${mac64.cocoa.launcher}">
-			<fileset dir="${mac64.cocoa.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${mac64.cocoa.launcher.dir}" />
-
-		<!-- =========== Windows Mangling ==================================================== -->
-		<!-- Unzip the launcher to a temp dir... -->
-		<echo message="Win 32-bit Mangling" />
-		<pathconvert property="win32.launcher">
-			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.win32.win32.x86_3*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="win32.launcher.dir" location="${buildDirectory}/tmp_win32_launcher/${win32.launcher}" />
-		<mkdir dir="${win32.launcher.dir}" />
-		<unzip src="${p2.repo.dir}/binary/${win32.launcher}" dest="${win32.launcher.dir}" />
-		<delete file="${p2.repo.dir}/binary/${win32.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<concat destfile="${win32.launcher.dir}/configuration/config.ini" append="yes" eol="dos">
-			<filelist dir="${builder}/custom/win32/" files="config.ini" />
-		</concat>
-
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="${p2.repo.dir}/binary/${win32.launcher}">
-			<fileset dir="${win32.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<!--delete dir="${win32.launcher.dir}" /-->
-
-		<!-- =========== Windows 64-bit Mangling ==================================================== -->
-		<!-- Unzip the launcher to a temp dir... -->
-		<echo message="Win 64-bit Mangling" />
-		<pathconvert property="win64.launcher">
-			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.win32.win32.x86_64_*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="win64.launcher.dir" location="${buildDirectory}/tmp_win64_launcher/${win64.launcher}" />
-		<mkdir dir="${win64.launcher.dir}" />
-		<unzip src="${p2.repo.dir}/binary/${win64.launcher}" dest="${win64.launcher.dir}" />
-		<delete file="${p2.repo.dir}/binary/${win64.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<concat destfile="${win64.launcher.dir}/configuration/config.ini" append="yes" eol="dos">
-			<filelist dir="${builder}/custom/win32/" files="config.ini" />
-		</concat>
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="${p2.repo.dir}/binary/${win64.launcher}">
-			<fileset dir="${win64.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${win64.launcher.dir}" />
-
-		<!-- =========== Linux 32-bit Mangling ==================================================== -->
-		<!-- Unzip the launcher to a temp dir... -->
-		<echo message="Linux 32-bit Mangling" />
-		<pathconvert property="linux.launcher">
-			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.gtk.linux.x86_3*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="linux.launcher.dir" location="${buildDirectory}/tmp_linux_launcher/${linux.launcher}" />
-		<mkdir dir="${linux.launcher.dir}" />
-		<unzip src="${p2.repo.dir}/binary/${linux.launcher}" dest="${linux.launcher.dir}" />
-		<delete file="${p2.repo.dir}/binary/${linux.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<concat destfile="${linux.launcher.dir}/configuration/config.ini" append="yes" eol="unix">
-			<filelist dir="${builder}/custom/linux/" files="config.ini" />
-		</concat>
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="${p2.repo.dir}/binary/${linux.launcher}">
-			<fileset dir="${linux.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${linux.launcher.dir}" />
-
-		<!-- =========== Linux 64-bit Mangling ==================================================== -->
-		<!-- Unzip the launcher to a temp dir... -->
-		<echo message="Linux 64-bit Mangling" />
-		<pathconvert property="linux_64.launcher">
-			<fileset dir="${p2.repo.dir}/binary">
-				<include name="${topLevelElementId}.${binary.artifact.name.fragment}.gtk.linux.x86_64_*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="linux_64.launcher.dir" location="${buildDirectory}/tmp_linux_64_launcher/${linux_64.launcher}" />
-		<mkdir dir="${linux_64.launcher.dir}" />
-		<unzip src="${p2.repo.dir}/binary/${linux_64.launcher}" dest="${linux_64.launcher.dir}" />
-		<delete file="${p2.repo.dir}/binary/${linux_64.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<concat destfile="${linux_64.launcher.dir}/configuration/config.ini" append="yes" eol="unix">
-			<filelist dir="${builder}/custom/linux/" files="config.ini" />
-		</concat>
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="${p2.repo.dir}/binary/${linux_64.launcher}">
-			<fileset dir="${linux_64.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${linux_64.launcher.dir}" />
-	</target>
-
-	<!-- The generated p2 metadata is broken due to a bug in Eclipse. We need to manually add entries for Mac OS X' launcher. -->
-	<target name="fix.broken.metadata">
-		<!-- Unzip the content.jar -->
-		<unzip dest="${p2.repo.dir}" src="${p2.repo.dir}/content.jar" />
-		<delete file="${p2.repo.dir}/content.jar" />
-		<!-- Add the Mac launcher metadata to content.xml -->
-		<!-- Only needed for Eclipse 3.4
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-					<replacetoken><![CDATA[<unit id='${topLevelElementId}.launcher.win32.win32.x86.${product.name}.exe']]></replacetoken>
-					<replacevalue><![CDATA[<unit id='${topLevelElementId}.launcher.carbon.macosx.ppc.${product.name}' version='{version.full}' singleton='false'>
-		  <provides size='1'>
-		    <provided namespace='org.eclipse.equinox.p2.iu' name='${topLevelElementId}.launcher.carbon.macosx.ppc.${product.name}' version='{version.full}' />
-		  </provides>
-		  <filter>
-		    (&amp; (osgi.os=macosx)(osgi.ws=carbon)(osgi.arch=ppc))
-		  </filter>
-		  <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0' />
-		  <touchpointData size='1'>
-		    <instructions size='2'>
-		      <instruction key='unconfigure'>
-		        setLauncherName()
-		      </instruction>
-		      <instruction key='configure'>
-		        setLauncherName(name:${product.name})
-		      </instruction>
-		    </instructions>
-		  </touchpointData>
-		</unit>
-		<unit id='${topLevelElementId}.launcher.win32.win32.x86.${product.name}.exe']]></replacevalue>
-	  </replace>		
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-				<replacetoken><![CDATA[<required namespace='org.eclipse.equinox.p2.iu' name='${topLevelElementId}.launcher.gtk.linux.x86_64.${product.name}']]></replacetoken>
-				<replacevalue><![CDATA[<required namespace='org.eclipse.equinox.p2.iu' name='${topLevelElementId}.launcher.carbon.macosx.ppc.${product.name}' range='[{version.full},{version.full}]'>
-          <filter>
-            (&amp; (osgi.os=macosx)(osgi.ws=carbon)(osgi.arch=ppc))
-          </filter>
-		</required>
-        <required namespace='org.eclipse.equinox.p2.iu' name='com.aptana.ide.rcp.product.launcher.gtk.linux.x86_64.${product.name}']]></replacevalue>
-			</replace>
-		<replace summary="yes" file="${p2.repo.dir}/content.xml" token="{version.full}" value="${version.full}" />
-		-->
-
-		<!-- Fix the broken OSGi filter syntax (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=271373)-->
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.arch=x86,x86_64)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.arch=x86)(osgi.arch=x86_64))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.os=macosx,win32)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.os=macosx)(osgi.os=win32))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.ws=carbon, cocoa)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.ws=carbon)(osgi.ws=cocoa))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.os=aix,hpux,linux,qnx,solaris)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.os=aix)(osgi.os=hpux)(osgi.os=linux)(osgi.os=qnx)(osgi.os=solaris))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.os=aix,hpux,linux,macosx,qnx,solaris)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.os=aix)(osgi.os=hpux)(osgi.os=linux)(osgi.os=macosx)(osgi.os=qnx)(osgi.os=solaris))]]>
-			</replacevalue>
-		</replace>
-		<!-- Fix the broken unconfigure of a product launcher (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=280007)-->
-		<replace summary="yes" file="${p2.repo.dir}/content.xml">
-			<replacetoken>setLauncherName()</replacetoken>
-			<replacevalue>
-			</replacevalue>
-		</replace>
-		<!-- Re-zip content.xml into content.jar -->
-		<zip destfile="${p2.repo.dir}/content.jar">
-			<zipfileset dir="${p2.repo.dir}">
-				<include name="content.xml" />
-			</zipfileset>
-		</zip>
-		<delete file="${p2.repo.dir}/content.xml" />
-	</target>
-
-	<target name="updateSite">
-		<copy file="${builder}/update_site/site.xml" tofile="${p2.repo.dir}/site.xml" />
-		<pathconvert property="site.version.full">
-			<fileset dir="${p2.repo.dir}/features">
-				<include name="com.aptana.feature.rcp_*.jar" />
-			</fileset>
-			<mapper>
-				<chainedmapper>
-					<flattenmapper />
-					<globmapper from="com.aptana.feature.rcp_*.jar" to="*" casesensitive="yes" />
-				</chainedmapper>
-			</mapper>
-		</pathconvert>
-		<replace token="{version.full}" value="${site.version.full}" file="${p2.repo.dir}/site.xml" />
-		<zip destfile="${buildDirectory}/${topLevelElementId}-${version.full}.zip">
-			<fileset dir="${p2.repo.dir}" defaultexcludes="false" />
-		</zip>
-		<move file="${buildDirectory}/${topLevelElementId}-${version.full}.zip" todir="${p2.repo.dir}" />
-		<copy file="${builder}/update_site/index.html" tofile="${p2.repo.dir}/index.html" />
-		<replace token="ZIP_FILE" value="${topLevelElementId}-${version.full}.zip" file="${p2.repo.dir}/index.html" />
-
-		<!-- Copy over messages.php files -->
-		<copy file="${builder}/update_site/messages.php" tofile="${p2.repo.dir}/messages.php" />
-		<copy file="${builder}/update_site/.htaccess" tofile="${p2.repo.dir}/.htaccess" />
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do to test the build results -->
-	<!-- ===================================================================== -->
-	<target name="test">
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do to publish the build results -->
 	<!-- ===================================================================== -->
 	<target name="publish">
-		<delete dir="${deploy.dir}" failonerror="false" />
-		<mkdir dir="${deploy.dir}" />
-		<copy todir="${deploy.dir}" failonerror="true">
-			<fileset dir="${p2.repo.dir}" />
-		</copy>
+		<!-- Create the update site zip file -->
+		<zip destfile="${builder}/${topLevelElementId}-${version.full}.zip">
+			<fileset dir="${deploy.dir}" defaultexcludes="false" />
+		</zip>
+		<move file="${builder}/${topLevelElementId}-${version.full}.zip" todir="${deploy.dir}" />
+		<!-- Rename the standalone zip files! -->
+		<move todir="${deploy.dir}">
+			<fileset dir="${buildDirectory}/${buildLabel}">
+				<include name="*.zip"/>
+			</fileset>
+			<mapper type="regexp" from="^(\d+\-)(.+)\.zip$$" to="studio3.\2.zip"/>
+		</move>
+		<!-- Create a version.txt file containing the final version string -->
+		<echo message="${version.full}" file="${deploy.dir}/version.txt" />
+		<!-- copy over index.html file -->
+		<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
 	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Default target                                                        -->
-	<!-- ===================================================================== -->
-	<target name="noDefault">
-		<echo message="You must specify a target when invoking this file" />
-	</target>
-
 </project>

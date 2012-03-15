@@ -37,7 +37,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.AutomaticUpdatePlugin;
 import org.eclipse.equinox.internal.p2.ui.sdk.scheduler.PreferenceConstants;
@@ -291,7 +290,7 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         initPreferences();
 
         // Force Automatic Updates
-        IEclipsePreferences prefs = new ConfigurationScope().getNode(IdePlugin.PLUGIN_ID);
+        IEclipsePreferences prefs = EclipseUtil.configurationScope().getNode(IdePlugin.PLUGIN_ID);
 		boolean alreadyForcedAutomaticUpdate = prefs.getBoolean(FORCED_AUTOMATIC_UPDATE, false);
 		if (!alreadyForcedAutomaticUpdate) {
 			IPreferenceStore automaticUpdatePluginPreferenceStore = AutomaticUpdatePlugin.getDefault().getPreferenceStore();
@@ -325,14 +324,16 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
     /**
      * Activate the proxy service by obtaining it.
      */
-    private void activateProxyService() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private void activateProxyService() {
         Bundle bundle = Platform.getBundle("org.eclipse.ui.ide"); //$NON-NLS-1$
         Object proxyService = null;
         if (bundle != null) {
             ServiceReference ref = bundle.getBundleContext()
                     .getServiceReference(IProxyService.class.getName());
-            if (ref != null)
+            if (ref != null) {
                 proxyService = bundle.getBundleContext().getService(ref);
+            }
         }
         if (proxyService == null) {
             IDEWorkbenchPlugin.log("Proxy service could not be found."); //$NON-NLS-1$
