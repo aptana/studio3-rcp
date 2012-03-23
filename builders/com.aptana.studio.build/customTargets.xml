@@ -20,6 +20,8 @@
 			<iu id="org.python.pydev.feature.feature.group" />
 			<iu id="org.python.pydev.django_templates.feature.feature.group" />
 			<iu id="org.radrails.rails.feature.group" />
+			<!-- http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/p2_repositorytasks.htm -->
+			<slicingOptions includeOptional="false" />
 		</p2.mirror>
 	</target>
 

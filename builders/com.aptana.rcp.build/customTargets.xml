@@ -39,6 +39,8 @@
 		<p2.mirror destination="file:${repoBaseLocation}/mirrored">
 			<source location="${studio3-feature.p2.repo}" />
 			<iu id="com.aptana.feature.studio.feature.group" />
+			<!-- http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/p2_repositorytasks.htm -->
+			<slicingOptions includeOptional="false" />
 		</p2.mirror>
 	</target>
 
