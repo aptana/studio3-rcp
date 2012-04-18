@@ -43,20 +43,17 @@
 	</target>
 
 	<!-- ===================================================================== -->
-	<!-- Steps to do before running assemble. -->
+	<!-- Steps to do before running package. -->
 	<!-- ===================================================================== -->
-	<target name="preAssemble">
+	<target name="prePackage">
+		<!-- Wipe and recreate deploy dir -->
 		<delete dir="${deploy.dir}" failonerror="false" />
 		<mkdir dir="${deploy.dir}" />
-	</target>
-	
-	<!-- ===================================================================== -->
-	<!-- Steps to do after running assemble. -->
-	<!-- ===================================================================== -->
-	<target name="postAssemble">
+
+		<!-- Sign the JARs once before we generate standalones -->
 		<antcall target="signJars" />
 	</target>
-		
+
 	<!-- This is a hack to workaround https://bugs.eclipse.org/bugs/show_bug.cgi?id=255518 -->
 	<!-- We need to do our own signing here so we can limit the JARs it applies to -->
 	<target name="signJars" if="sign.jars">
@@ -64,10 +61,10 @@
 		<!-- Load the final version strings for all features and plugins... 
 			this stores the feature/plugin id as key and the version string as the value, which we use below in the script...
 		-->
-		<property name="p2.build.repo" value="file:${buildDirectory}/buildRepo"/>
+		<property name="p2.build.repo" value="file:${buildDirectory}/buildRepo" />
 		<property file="${buildDirectory}/finalFeaturesVersions.properties" />
 		<property file="${buildDirectory}/finalPluginsVersions.properties" />
-		
+
 		<script description="Sign specific feature/plugin JARs" language="javascript">
 			<![CDATA[
 				importPackage(Packages.org.eclipse.equinox.p2.internal.repository.tools.tasks);
@@ -114,36 +111,36 @@
 					processArtifacts.execute();
 				}
 	            ]]>
-		</script>
-	</target>
+			</script>
+		</target>
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do after the build is done. -->
-	<!-- ===================================================================== -->
-	<target name="postBuild">
-		<antcall target="gatherLogs" />
-		<antcall target="publish" />
-	</target>
+		<!-- ===================================================================== -->
+		<!-- Steps to do after the build is done. -->
+		<!-- ===================================================================== -->
+		<target name="postBuild">
+			<antcall target="gatherLogs" />
+			<antcall target="publish" />
+		</target>
 
-	<!-- ===================================================================== -->
-	<!-- Steps to do to publish the build results -->
-	<!-- ===================================================================== -->
-	<target name="publish">
-		<!-- Create the update site zip file -->
-		<zip destfile="${builder}/${topLevelElementId}-${version.full}.zip">
-			<fileset dir="${deploy.dir}" defaultexcludes="false" />
-		</zip>
-		<move file="${builder}/${topLevelElementId}-${version.full}.zip" todir="${deploy.dir}" />
-		<!-- Rename the standalone zip files! -->
-		<move todir="${deploy.dir}">
-			<fileset dir="${buildDirectory}/${buildLabel}">
-				<include name="*.zip"/>
-			</fileset>
-			<mapper type="regexp" from="^(\d+\-)(.+)\.zip$$" to="studio3.\2.zip"/>
-		</move>
-		<!-- Create a version.txt file containing the final version string -->
-		<echo message="${version.full}" file="${deploy.dir}/version.txt" />
-		<!-- copy over index.html file -->
-		<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
-	</target>
-</project>
+		<!-- ===================================================================== -->
+		<!-- Steps to do to publish the build results -->
+		<!-- ===================================================================== -->
+		<target name="publish">
+			<!-- Create the update site zip file -->
+			<zip destfile="${builder}/${topLevelElementId}-${version.full}.zip">
+				<fileset dir="${deploy.dir}" defaultexcludes="false" />
+			</zip>
+			<move file="${builder}/${topLevelElementId}-${version.full}.zip" todir="${deploy.dir}" />
+			<!-- Rename the standalone zip files! -->
+			<move todir="${deploy.dir}">
+				<fileset dir="${buildDirectory}/${buildLabel}">
+					<include name="*.zip" />
+				</fileset>
+				<mapper type="regexp" from="^(\d+\-)(.+)\.zip$$" to="studio3.\2.zip" />
+			</move>
+			<!-- Create a version.txt file containing the final version string -->
+			<echo message="${version.full}" file="${deploy.dir}/version.txt" />
+			<!-- copy over index.html file -->
+			<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
+		</target>
+	</project>
