@@ -87,5 +87,13 @@
 				</dirset>
 			</sourcepath>
 		</javadoc>
+
+		<!-- Lastly, copy over the new stylesheet and files -->
+		<copy todir="${deploy.dir}/docs">
+			<fileset dir="${builder}/docs" defaultexcludes="true">
+			    <include name="resources/*"/>
+				<include name="stylesheet.css"/>
+			</fileset>
+		</copy>
 	</target>
 </project>
