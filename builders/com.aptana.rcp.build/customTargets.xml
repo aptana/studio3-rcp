@@ -142,5 +142,13 @@
 			<echo message="${version.full}" file="${deploy.dir}/version.txt" />
 			<!-- copy over index.html file -->
 			<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
+
+			<!-- Check for JDT plugins -->
+			<pathconvert property="jdt.found" setonempty="false">
+				<path>
+					<fileset dir="${deploy.dir}/plugins" includes="org.eclipse.jdt.*" />
+				</path>
+			</pathconvert>
+			<fail message="Generated p2 repo contains JDT plugins!" if="jdt.found" />
 		</target>
 	</project>
