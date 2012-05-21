@@ -2,7 +2,7 @@
 <feature
       id="com.aptana.feature.studio"
       label="%featureName"
-      version="3.1.2.qualifier"
+      version="3.1.3.qualifier"
       provider-name="%providerName"
       plugin="com.aptana.branding">
 
@@ -41,6 +41,7 @@
 
    <includes
          id="org.python.pydev.django_templates.feature"
-         version="0.0.0"/>
+         version="0.0.0"
+         optional="true"/>
 
 </feature>
