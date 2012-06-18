@@ -1,6 +1,6 @@
 <project name="customAsembly overrides" default="noDefault">
 	<import file="${eclipse.pdebuild.templates}/headless-build/customAssembly.xml" />
-	
+
 	<!-- ===================================================================== -->
 	<!-- Called after invoking the gather.bin.parts targets for all plugins    -->
 	<!-- and features. Results exist as folders and have not yet been jarred.  -->
@@ -60,7 +60,7 @@
 		</zip>
 		<delete dir="${mac64.cocoa.launcher.dir}" />
 		<delete dir="${buildDirectory}/tmp_mac64_launcher" />
-		
+
 		<!-- =========== Mac PPC Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
 		<!-- cocoa ppc -->
@@ -85,7 +85,7 @@
 		</zip>
 		<delete dir="${mac.cocoa.ppc.launcher.dir}" />
 		<delete dir="${buildDirectory}/tmp_mac_ppc_launcher" />
-		
+
 		<!-- =========== Mac Carbon Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
 		<!-- carbon -->
@@ -174,7 +174,26 @@
 		<!-- Fix the broken unconfigure of a product launcher (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=280007)-->
 		<replace summary="yes" file="buildRepo/content.xml">
 			<replacetoken>setLauncherName()</replacetoken>
-			<replacevalue></replacevalue>
+			<replacevalue>
+			</replacevalue>
 		</replace>
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Called just before the archive file is built                          -->
+	<!-- In addititon to the properties listed above:						   -->
+	<!--    - rootFolder : the folder containing the root files                -->
+	<!-- ===================================================================== -->
+	<target name="pre.archive">
+		<antcall target="fix.broken.dropins">
+			<param name="p2.director.install.path" value="${buildDirectory}/tmp/${collectingFolder}" />
+		</antcall>
+	</target>
+
+	<target name="fix.broken.dropins">
+		<!-- Forcibly change the dropins plugin to start, in case we failed due to: https://bugs.eclipse.org/bugs/show_bug.cgi?id=252284! -->
+		<replaceregexp file="${p2.director.install.path}/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info" match="${dropins.plugin}.jar,4,false" replace="${dropins.plugin}.jar,4,true" />
+		<!-- Make sure there's a dropins folder in case it failed due to same bug above -->
+		<mkdir dir="${p2.director.install.path}/dropins" />
 	</target>
 </project>
