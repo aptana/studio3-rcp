@@ -49,6 +49,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.Policy;
 import org.eclipse.jface.window.Window;
+import org.eclipse.osgi.framework.internal.core.FrameworkProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -266,6 +267,8 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
                 ResourcesPlugin.FAMILY_MANUAL_BUILD);
         service.registerIconForFamily(newImage,
                 ResourcesPlugin.FAMILY_AUTO_BUILD);
+
+		FrameworkProperties.setProperty("eclipse.buildId", EclipseUtil.getProductVersion()); //$NON-NLS-1$
     }
 
     /**
