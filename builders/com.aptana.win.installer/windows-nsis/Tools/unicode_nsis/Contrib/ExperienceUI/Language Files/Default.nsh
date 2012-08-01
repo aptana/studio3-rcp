@@ -139,7 +139,7 @@
 !insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_SUBTITLE "Setup has finished gathering information and is ready to uninstall $(^Name)."
 !insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_TITLE "Confirm Uninstallation"
 !insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_TEXT_TOP "Setup is ready to uninstall $(^Name) from your computer."
-!insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_TEXT_BOTTOM "Click Next to continue."
+!insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_TEXT_BOTTOM "Click Uninstall to continue."
 
 ; INSTFILES PAGE
 !insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_INSTFILESPAGE_CAPTION ": Copying Files"

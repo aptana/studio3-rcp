@@ -1,5 +1,5 @@
 ;NSIS ExperienceUI - Language File
-;Compatible with ExperienceUI 1.09ß
+;Compatible with ExperienceUI 1.09ï¿½
 
 ;Language: English (1033)
 ;By dandaman32
@@ -153,7 +153,7 @@
 !insertmacro XPUI_DEFAULT XPUI_UNINSTCONFIRMPAGE_SUBTITLE "Setup has finished gathering information and is ready to uninstall $(^Name)."
 !insertmacro XPUI_DEFAULT XPUI_UNINSTCONFIRMPAGE_TITLE "Confirm Uninstallation"
 !insertmacro XPUI_DEFAULT XPUI_UNINSTCONFIRMPAGE_TEXT_TOP "Setup is ready to uninstall $(^Name) from your computer."
-!insertmacro XPUI_DEFAULT XPUI_UNINSTCONFIRMPAGE_TEXT_BOTTOM "Click Next to continue."
+!insertmacro XPUI_DEFAULT XPUI_UNINSTCONFIRMPAGE_TEXT_BOTTOM "Click Uninstall to continue."
 
 ; INSTFILES PAGE
 !insertmacro XPUI_DEFAULT XPUI_INSTFILESPAGE_CAPTION ": Copying Files"
