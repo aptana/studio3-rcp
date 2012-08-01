@@ -215,5 +215,5 @@
 !insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_NSIS_CAPTION ": Confirm Uninstall"
 !insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_NSIS_SUBTITLE "Remove $(^Name) from your computer"
 !insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_NSIS_TITLE "Uninstall $(^Name)"
-!insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_NSIS_TEXT_TOP "$(^Name) will be uninstalled from the following folder.  Click Uninstall to start the uninstallation."
+!insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_NSIS_TEXT_TOP "$(^Name) will be uninstalled from the following folder.  Click Next to start the uninstallation."
 !insertmacro XPUI_LANGUAGEFILE_DEFAULT XPUI_UNINSTCONFIRMPAGE_NSIS_TEXT_FOLDER "Uninstalling from:"
