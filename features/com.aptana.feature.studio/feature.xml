@@ -36,12 +36,7 @@
          version="0.0.0"/>
 
    <includes
-         id="org.python.pydev.feature"
+         id="com.aptana.pydev.feature"
          version="0.0.0"/>
-
-   <includes
-         id="org.python.pydev.django_templates.feature"
-         version="0.0.0"
-         optional="true"/>
 
 </feature>
