@@ -17,8 +17,7 @@
 			<source location="${radrails.p2.repo}" />
 			<iu id="com.aptana.feature.feature.group" />
 			<iu id="com.aptana.php.feature.feature.group" />
-			<iu id="org.python.pydev.feature.feature.group" />
-			<iu id="org.python.pydev.django_templates.feature.feature.group" />
+			<iu id="com.aptana.pydev.feature.feature.group" />
 			<iu id="org.radrails.rails.feature.group" />
 		</p2.mirror>
 	</target>
