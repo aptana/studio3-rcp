@@ -7,6 +7,7 @@
 	<!-- ===================================================================== -->
 	<target name="post.gather.bin.parts">
 		<antcall target="insert.info.plist" />
+		<antcall target="insert.param.name" />
 		<antcall target="fix.broken.metadata" />
 	</target>
 
@@ -110,6 +111,36 @@
 		</zip>
 		<delete dir="${mac.carbon.launcher.dir}" />
 		<delete dir="${buildDirectory}/tmp_carbon_launcher" />
+	</target>
+
+	<!-- Insert the -name argument manually since Eclipse builder seems to ignore it -->
+	<target name="insert.param.name">
+		<!-- Unzip the windows launcher to a temp dir... -->
+		<echo message="Windows launcher Mangling" />
+		<pathconvert property="windows.launcher">
+			<fileset dir="buildRepo/binary">
+				<include name="org.eclipse.equinox.executable_root.win32.win32.x86_3*" />
+			</fileset>
+			<mapper>
+				<flattenmapper />
+			</mapper>
+		</pathconvert>
+		<property name="windows.launcher.dir" location="${buildDirectory}/tmp_win_launcher/${windows.launcher}" />
+		<mkdir dir="${windows.launcher.dir}" />
+		<unzip src="buildRepo/binary/${windows.launcher}" dest="${windows.launcher.dir}" />
+		<delete file="buildRepo/binary/${windows.launcher}" />
+		<!-- ...add our custom modifications... -->
+		<replace summary="yes" file="${windows.launcher.dir}/${product.name}.ini" token="-vmargs">
+			<replacevalue><![CDATA[-name
+			Aptana Studio 3
+			-vmargs]]></replacevalue>
+		</replace>
+		<!-- ...then re-zip and delete the temp dir -->
+		<zip destfile="buildRepo/binary/${windows.launcher}">
+			<fileset dir="${windows.launcher.dir}" defaultexcludes="false" />
+		</zip>
+		<delete dir="${windows.launcher.dir}" />
+		<delete dir="${buildDirectory}/tmp_win_launcher" />
 	</target>
 
 	<!-- Workaround for Eclipse bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=271373 -->
