@@ -188,6 +188,7 @@
 		<antcall target="fix.broken.dropins">
 			<param name="p2.director.install.path" value="${buildDirectory}/tmp/${collectingFolder}" />
 		</antcall>
+		<antcall target="insert.param.name" />
 	</target>
 
 	<target name="fix.broken.dropins">
@@ -195,5 +196,17 @@
 		<replaceregexp file="${p2.director.install.path}/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info" match="${dropins.plugin}.jar,4,false" replace="${dropins.plugin}.jar,4,true" />
 		<!-- Make sure there's a dropins folder in case it failed due to same bug above -->
 		<mkdir dir="${p2.director.install.path}/dropins" />
+	</target>
+
+	<!-- Insert the -name argument manually since Eclipse builder seems to ignore it -->
+	<target name="insert.param.name" depends="ini.check" if="ini.exists">
+		<replace summary="yes" file="${buildDirectory}/tmp/${collectingFolder}/${product.name}.ini" token="-vmargs">
+			<replacevalue><![CDATA[-name
+Aptana Studio 3
+-vmargs]]></replacevalue>
+		</replace>
+	</target>
+	<target name="ini.check">
+		<available file="${buildDirectory}/tmp/${collectingFolder}/${product.name}.ini" property="ini.exists" />
 	</target>
 </project>
