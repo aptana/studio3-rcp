@@ -202,8 +202,8 @@
 	<target name="insert.param.name" depends="ini.check" if="ini.exists">
 		<replace summary="yes" file="${buildDirectory}/tmp/${collectingFolder}/${product.name}.ini" token="-vmargs">
 			<replacevalue><![CDATA[-name
-			Aptana Studio 3
-			-vmargs]]></replacevalue>
+Aptana Studio 3
+-vmargs]]></replacevalue>
 		</replace>
 	</target>
 	<target name="ini.check">
