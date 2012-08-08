@@ -199,12 +199,14 @@
 	</target>
 
 	<!-- Insert the -name argument manually since Eclipse builder seems to ignore it -->
-	<target name="insert.param.name">
+	<target name="insert.param.name" depends="ini.check" if="ini.exists">
 		<replace summary="yes" file="${buildDirectory}/tmp/${collectingFolder}/${product.name}.ini" token="-vmargs">
 			<replacevalue><![CDATA[-name
 			Aptana Studio 3
 			-vmargs]]></replacevalue>
 		</replace>
 	</target>
-
+	<target name="ini.check">
+		<available file="${buildDirectory}/tmp/${collectingFolder}/${product.name}.ini" property="ini.exists" />
+	</target>
 </project>
