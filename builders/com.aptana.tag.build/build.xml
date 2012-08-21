@@ -1,0 +1,37 @@
+<project name="tag_release" default="main">
+	<property file="build.properties" />
+
+	<target name="main">
+		<echo message="Retrieving the version" />
+		<loadfile srcfile="${studio3.p2.repo}/version.txt" property="version.full" />
+		<echo message="version = ${version.full}" />
+		<antcall target="tag-repo">
+			<param name="repo.name" value="libraries_com" />
+		</antcall>
+	</target>
+
+	<target name="tag-repo">
+		<delete dir="${repo.name}" failonerror="false" />
+		<echo message="Tagging ${repo.name}" />
+		<echo message="git clone git@github.com:aptana/${repo.name}.git" />
+		<exec executable="/bin/bash" dir="${buildDirectory}" failonerror="true">
+			<arg value="-c" />
+			<arg value="git clone git@github.com:aptana/${repo.name}.git ${repo.name}" />
+		</exec>
+		<echo message="git checkout ${scs.branch.name}" />
+		<exec executable="/bin/bash" dir="${buildDirectory}/${repo.name}" failonerror="true">
+			<arg value="-c" />
+			<arg value="git checkout ${scs.branch.name}" />
+		</exec>
+		<echo message="git tag -a v${version.full}-{product.name}" />
+		<exec executable="/bin/bash" dir="${buildDirectory}/${repo.name}" failonerror="false">
+			<arg value="-c" />
+			<arg value="git tag -a v${version.full}-{product.name} -m Tagged for &#34;${version.full}&#34;." />
+		</exec>
+		<echo message="git push --tags" />
+		<exec executable="/bin/bash" dir="${buildDirectory}/${repo.name}" failonerror="false">
+			<arg value="-c" />
+			<arg value="git push --tags" />
+		</exec>
+	</target>
+</project>
