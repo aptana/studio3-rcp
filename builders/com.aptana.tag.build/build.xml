@@ -26,7 +26,7 @@
 		<echo message="git tag -a v${version.full}-${product.name}" />
 		<exec executable="/bin/bash" dir="${buildDirectory}/${repo.name}" failonerror="false">
 			<arg value="-c" />
-			<arg value="git tag -a v${version.full}-${product.name} -m Tagged for &#34;${version.full}&#34;." />
+			<arg value="git tag -a v${version.full}-${product.name} -m &#34;Tagged for ${version.full}.&#34;" />
 		</exec>
 		<echo message="git push --tags" />
 		<exec executable="/bin/bash" dir="${buildDirectory}/${repo.name}" failonerror="false">
