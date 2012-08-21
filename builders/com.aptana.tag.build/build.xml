@@ -24,7 +24,7 @@
 			<param name="repo.name" value="Pydev" />
 		</antcall>
 		<antcall target="tag-repo">
-			<param name="repo.name" value="" />
+			<param name="repo.name" value="studio3-rcp" />
 		</antcall>
 		<antcall target="tag-repo">
 			<param name="repo.name" value="source.ruble" />
