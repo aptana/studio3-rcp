@@ -23,10 +23,10 @@
 			<arg value="-c" />
 			<arg value="git checkout ${scs.branch.name}" />
 		</exec>
-		<echo message="git tag -a v${version.full}-{product.name}" />
+		<echo message="git tag -a v${version.full}-${product.name}" />
 		<exec executable="/bin/bash" dir="${buildDirectory}/${repo.name}" failonerror="false">
 			<arg value="-c" />
-			<arg value="git tag -a v${version.full}-{product.name} -m Tagged for &#34;${version.full}&#34;." />
+			<arg value="git tag -a v${version.full}-${product.name} -m Tagged for &#34;${version.full}&#34;." />
 		</exec>
 		<echo message="git push --tags" />
 		<exec executable="/bin/bash" dir="${buildDirectory}/${repo.name}" failonerror="false">
