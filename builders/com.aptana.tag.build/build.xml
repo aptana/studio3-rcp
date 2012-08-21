@@ -8,6 +8,129 @@
 		<antcall target="tag-repo">
 			<param name="repo.name" value="libraries_com" />
 		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="swt-webkit" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="studio3" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="studio3-php" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="studio3-ruby" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="Pydev" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="source.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="css.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="html.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="capistrano.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="zen-coding.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="yaml.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="xml.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="wordpress.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="text.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="smoke-testing.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="shell-script.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="sass.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="ruby.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="rspec.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="rails.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="python.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="php.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="mercurial.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="math.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="json.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="js.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="javascript-jquery.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="heroku.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="haml.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="github.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="engineyard.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="cucumber.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="coffeescript.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="bundle-dev.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="yui.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="sencha.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="dojo.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="bundler.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="WebFont.ruble" />
+		</antcall>
+		<antcall target="tag-repo">
+			<param name="repo.name" value="markdown.ruble" />
+		</antcall>
 	</target>
 
 	<target name="tag-repo">
