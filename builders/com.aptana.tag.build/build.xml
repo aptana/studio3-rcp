@@ -134,7 +134,8 @@
 	</target>
 
 	<target name="tag-repo">
-		<delete dir="${repo.name}" failonerror="false" />
+		<echo message="Deleting ${buildDirectory}/${repo.name}" />
+		<delete dir="${buildDirectory}/${repo.name}" failonerror="false" />
 		<echo message="Tagging ${repo.name}" />
 		<echo message="git clone git@github.com:aptana/${repo.name}.git" />
 		<exec executable="/bin/bash" dir="${buildDirectory}" failonerror="true">
