@@ -94,6 +94,7 @@ import com.aptana.commandline.launcher.server.port.PortManager;
 import com.aptana.core.logging.IdeLog;
 import com.aptana.core.util.EclipseUtil;
 import com.aptana.core.util.PlatformUtil;
+import com.aptana.core.util.StringUtil;
 import com.aptana.rcp.preferences.IPreferenceConstants;
 import com.ibm.icu.text.Collator;
 
@@ -268,7 +269,12 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         service.registerIconForFamily(newImage,
                 ResourcesPlugin.FAMILY_AUTO_BUILD);
 
-		FrameworkProperties.setProperty("eclipse.buildId", EclipseUtil.getProductVersion()); //$NON-NLS-1$
+		String productVersion = EclipseUtil.getProductVersion();
+		if (productVersion == null)
+		{
+			productVersion = StringUtil.EMPTY;
+		}
+		FrameworkProperties.setProperty("eclipse.buildId", productVersion); //$NON-NLS-1$
     }
 
     /**
