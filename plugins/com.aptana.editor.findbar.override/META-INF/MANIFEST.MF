@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Editor Findbar Override
+Bundle-SymbolicName: com.aptana.editor.findbar.override
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Aptana, Inc.
+Fragment-Host: com.aptana.editor.findbar;bundle-version="3.0.0"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
