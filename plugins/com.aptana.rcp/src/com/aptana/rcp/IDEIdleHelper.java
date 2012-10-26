@@ -213,7 +213,7 @@ class IDEIdleHelper {
                 return Status.OK_STATUS;
             }
         };
-		gcJob.setSystem(!EclipseUtil.showSystemJobs());
+        EclipseUtil.setSystemForJob(gcJob);
     }
 
     /**
