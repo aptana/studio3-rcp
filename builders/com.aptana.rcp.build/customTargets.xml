@@ -150,5 +150,8 @@
 				</path>
 			</pathconvert>
 			<fail message="Generated p2 repo contains JDT plugins!" if="jdt.found" />
+			<!-- copy over index.html file -->
+			<replace token="ZIP_FILE" value="${topLevelElementId}-${version.full}.zip" file="${builder}/update_site/index.html" />
+			<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
 		</target>
 	</project>
