@@ -141,6 +141,7 @@
 			<!-- Create a version.txt file containing the final version string -->
 			<echo message="${version.full}" file="${deploy.dir}/version.txt" />
 			<!-- copy over index.html file -->
+			<replace token="ZIP_FILE" value="${topLevelElementId}-${version.full}.zip" file="${builder}/update_site/index.html" />
 			<move file="${builder}/update_site/index.html" tofile="${deploy.dir}/index.html" />
 
 			<!-- Check for JDT plugins -->
@@ -150,5 +151,6 @@
 				</path>
 			</pathconvert>
 			<fail message="Generated p2 repo contains JDT plugins!" if="jdt.found" />
+			<!-- copy over index.html file -->
 		</target>
 	</project>
