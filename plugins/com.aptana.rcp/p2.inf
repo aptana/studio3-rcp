@@ -24,7 +24,7 @@ units.1.provides.1.version=1.0.0
 units.1.filter=(osgi.os=win32)
 units.1.touchpoint.id=org.eclipse.equinox.p2.osgi
 units.1.touchpoint.version=1.0.0
-units.1.instructions.configure=setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/My Documents/Aptana Studio 3 Workspace);
+units.1.instructions.configure=setProgramProperty(propName:osgi.instance.area.default,propValue:@user.home/Documents/Aptana Studio 3 Workspace);
 units.1.instructions.unconfigure=setProgramProperty(propName:osgi.instance.area.default,propValue:);
 
 units.2.id=toolingcom.aptana.configuration

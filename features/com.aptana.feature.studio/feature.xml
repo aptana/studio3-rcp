@@ -2,7 +2,7 @@
 <feature
       id="com.aptana.feature.studio"
       label="%featureName"
-      version="3.3.3.qualifier"
+      version="3.4.0.qualifier"
       provider-name="%providerName"
       plugin="com.aptana.branding">
 
@@ -41,22 +41,6 @@
 
    <plugin
          id="com.aptana.ui.override"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="com.aptana.scripting.ui.override"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="com.aptana.editor.findbar.override"
          download-size="0"
          install-size="0"
          version="0.0.0"
