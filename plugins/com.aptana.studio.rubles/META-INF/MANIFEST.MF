@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Aptana Studio Rubles
+Bundle-SymbolicName: com.aptana.studio.rubles;singleton:=true
+Bundle-Version: 3.0.0.qualifier
+Bundle-Vendor: Aptana, Inc.
+Require-Bundle: com.aptana.scripting

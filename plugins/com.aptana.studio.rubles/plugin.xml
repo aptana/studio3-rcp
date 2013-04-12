@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.aptana.scripting.applicationBundlePaths">
+      <bundlePath
+            id="com.aptana.studio.rubles"
+            name="Studio Rubles"
+            path="bundles/">
+      </bundlePath>
+   </extension>
+
+</plugin>
