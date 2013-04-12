@@ -17,6 +17,7 @@ public class PerformanceTests
 	{
 		TestSuite suite = new TestSuite(PerformanceTests.class.getName());
 		// $JUnit-BEGIN$
+		suite.addTest(com.aptana.editor.coffee.tests.PerformanceTests.suite());
 		// $JUnit-END$
 		return suite;
 	}
