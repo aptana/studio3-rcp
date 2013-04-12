@@ -17,6 +17,9 @@ public class UITests
 	{
 		TestSuite suite = new TestSuite(UITests.class.getName());
 		// $JUnit-BEGIN$
+		suite.addTest(com.aptana.editor.idl.AllTests.suite());
+		suite.addTest(com.aptana.editor.markdown.tests.AllTests.suite());
+		suite.addTest(com.aptana.editor.yaml.tests.AllTests.suite());
 		// $JUnit-END$
 		return suite;
 	}

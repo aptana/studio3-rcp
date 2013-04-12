@@ -99,7 +99,16 @@
 	<!-- - - - - - - - - - - - - - - - - - 
           target: generate.base                      
          - - - - - - - - - - - - - - - - - -->
-	<target name="generate.base" depends="copy.base.windows,copy.base" />
+	<target name="generate.base" depends="copy.base.windows,copy.base" >
+		<!-- Delete the RCP features/plugins, only build the umbrella feature and its plugins! -->
+		<delete>
+			<fileset dir="${buildDirectory}" defaultexcludes="true">
+				<include name="plugins/com.aptana.rcp/**/*" />
+				<include name="plugins/com.aptana.rcp.studio/**/*" />
+				<include name="features/com.aptana.feature.rcp/**/*" />
+			</fileset>
+		</delete>
+	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
 	          target: copy.base                      
