@@ -141,6 +141,7 @@
 				<dirset dir="${buildDirectory}" defaultexcludes="true">
 					<include name="plugins/*" />
 					<include name="features/*" />
+					<exclude name="plugins/com.aptana.studio.rubles" />
 					<exclude name="${topLevelElementType}s/${topLevelElementId}" />
 				</dirset>
 			</path>
