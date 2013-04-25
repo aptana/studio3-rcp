@@ -2,7 +2,7 @@
 	<import file="${eclipse.pdebuild.templates}/headless-build/customTargets.xml" />
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<pathelement location="ant-contrib/ant-contrib.jar" />
+			<pathelement location="${builder}/ant-contrib/ant-contrib.jar" />
 		</classpath>
 	</taskdef>
 
