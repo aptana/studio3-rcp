@@ -41,6 +41,7 @@
           Note: in http://wiki.eclipse.org/Equinox_p2_Metadata_Generator
           there are newer instructions (so, if at sometime this is not ok, it might be worth
           revisiting that site to update the command line - again).
+          FIXME Use p2.category.site argument to point to site.xml?
          ================================= -->
 	<target name="categorize" description="categorize the update site">
 		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="yes">

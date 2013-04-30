@@ -1,0 +1,14 @@
+<project name="customAsembly overrides" default="noDefault">
+	<import file="${eclipse.pdebuild.templates}/headless-build/customAssembly.xml" />
+	
+	<!-- ===================================================================== -->
+	<!-- Called just before the archive file is built                          -->
+	<!-- In addititon to the properties listed above:						   -->
+	<!--    - rootFolder : the folder containing the root files                -->
+	<!-- ===================================================================== -->
+	<target name="pre.archive">
+		<!-- Eclipse will mirror from buildRepo to tmp during "mirrorArchive" and then generate a zip
+		     So after the mirroring let's delete buildRepo to reclaim space  -->
+		<delete dir="${buildDirectory}/buildRepo" />
+	</target>
+</project>
