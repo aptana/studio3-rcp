@@ -60,5 +60,29 @@
             id="com.aptana.editor.yaml.contentMergeViewer">
       </viewer>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <primaryWizard
+            id="com.aptana.ui.wizards.NewWebProject">
+      </primaryWizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="com.aptana.ui.WebPerspective">
+         <newWizardShortcut
+               id="com.aptana.ui.wizards.NewWebProject">
+         </newWizardShortcut>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonWizard
+            associatedExtensionId="org.eclipse.ui.navigator.resourceContent"
+            type="new"
+            wizardId="com.aptana.ui.wizards.NewWebProject">
+         <enablement></enablement>
+      </commonWizard>
+   </extension>
 
 </plugin>
