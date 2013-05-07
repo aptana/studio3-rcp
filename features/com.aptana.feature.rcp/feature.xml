@@ -52,7 +52,7 @@
       <import plugin="org.eclipse.core.net"/>
       <import plugin="com.aptana.commandline.launcher"/>
       <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.apache.lucene"/>
+      <import plugin="org.apache.lucene.core"/>
       <import plugin="org.apache.lucene.analysis"/>
       <import plugin="org.eclipse.help"/>
       <import plugin="org.eclipse.core.expressions"/>
@@ -94,7 +94,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.lucene"
+         id="org.apache.lucene.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -129,7 +129,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.httpclient"
+         id="org.apache.httpcomponents.httpclient"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -143,14 +143,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.ecf.provider.filetransfer.httpclient"
+         id="org.eclipse.ecf.provider.filetransfer.httpclient4"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.ecf.provider.filetransfer.httpclient.ssl"
+         id="org.eclipse.ecf.provider.filetransfer.httpclient4.ssl"
          download-size="0"
          install-size="0"
          version="0.0.0"
