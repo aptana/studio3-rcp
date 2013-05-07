@@ -60,56 +60,6 @@
 		</zip>
 		<delete dir="${mac64.cocoa.launcher.dir}" />
 		<delete dir="${buildDirectory}/tmp_mac64_launcher" />
-
-		<!-- =========== Mac PPC Mangling ==================================================== -->
-		<!-- Unzip the macosx launcher to a temp dir... -->
-		<!-- cocoa ppc -->
-		<echo message="Mac Cocoa PPC Mangling" />
-		<pathconvert property="mac.cocoa.ppc.launcher">
-			<fileset dir="buildRepo/binary">
-				<include name="org.eclipse.equinox.executable_root.cocoa.macosx.ppc_*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="mac.cocoa.ppc.launcher.dir" location="${buildDirectory}/tmp_mac_ppc_launcher/${mac.cocoa.ppc.launcher}" />
-		<mkdir dir="${mac.cocoa.ppc.launcher.dir}" />
-		<unzip src="buildRepo/binary/${mac.cocoa.ppc.launcher}" dest="${mac.cocoa.ppc.launcher.dir}" />
-		<delete file="buildRepo/binary/${mac.cocoa.ppc.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.ppc.launcher.dir}/Eclipse.app/Contents/Info.plist" overwrite="true" />
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="buildRepo/binary/${mac.cocoa.ppc.launcher}">
-			<fileset dir="${mac.cocoa.ppc.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${mac.cocoa.ppc.launcher.dir}" />
-		<delete dir="${buildDirectory}/tmp_mac_ppc_launcher" />
-
-		<!-- =========== Mac Carbon Mangling ==================================================== -->
-		<!-- Unzip the macosx launcher to a temp dir... -->
-		<!-- carbon -->
-		<echo message="Mac Carbon Mangling" />
-		<pathconvert property="mac.carbon.launcher">
-			<fileset dir="buildRepo/binary">
-				<include name="org.eclipse.equinox.executable_root.carbon.macosx.x86_*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="mac.carbon.launcher.dir" location="${buildDirectory}/tmp_carbon_launcher/${mac.carbon.launcher}" />
-		<mkdir dir="${mac.carbon.launcher.dir}" />
-		<unzip src="buildRepo/binary/${mac.carbon.launcher}" dest="${mac.carbon.launcher.dir}" />
-		<delete file="buildRepo/binary/${mac.carbon.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.carbon.launcher.dir}/Eclipse.app/Contents/Info.plist" overwrite="true" />
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="buildRepo/binary/${mac.carbon.launcher}">
-			<fileset dir="${mac.carbon.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${mac.carbon.launcher.dir}" />
-		<delete dir="${buildDirectory}/tmp_carbon_launcher" />
 	</target>
 
 	<!-- Workaround for Eclipse bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=271373 -->
