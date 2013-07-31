@@ -13,7 +13,7 @@
 
 	<target name="get-latest" depends="init">
     <!-- Copy over the latest zip of the mac Studio standalone to the staging directory -->
-		<copy file="${mac.source.dir}${mac.source.zip}" tofile="${staging.dir}/${mac.source.zip}" />
+		<get dest="${staging.dir}/${mac.source.zip}" src="${mac.source.url}" />
 	</target>
 
 	<target name="unpack-archive" depends="get-latest">
