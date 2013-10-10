@@ -19,9 +19,10 @@
 --launcher.defaultAction
 openFile</programArgs>
       <programArgsMac>-startup
-../../../plugins/org.eclipse.equinox.launcher_1.1.1.R36x_v20101122_1400.jar</programArgsMac>
-      <vmArgs>-Xms40m
+../../../plugins/org.eclipse.equinox.launcher_1.3.0.v20130327-1440.jar</programArgsMac>
+      <vmArgs>-Xms128m
 -Xmx512m
+-Xverify:none
 -Declipse.p2.unsignedPolicy=allow
 -Declipse.log.size.max=10000
 -Declipse.log.backup.max=5</vmArgs>
@@ -49,7 +50,6 @@ openFile</programArgs>
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
