@@ -1,0 +1,159 @@
+/*
+ *  Chrome Theme generate css dynamically, So do not inspect this file, See "ChromeCSSGenerator.xtend" instead
+ */
+.jeeeyul-chrome-theme{
+	/*
+	 * This selector rule is exist for detect Chrome Theme to find rewrite target. 
+	 * See "RewriteChormeCSS.java"
+	 */	
+}
+
+.MTrimmedWindow.topLevel {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.MPartStack {
+	font-size: 14;
+	font-family: 'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	swt-simple: true;
+	swt-tab-renderer:
+		url('bundleclass://net.jeeeyul.eclipse.themes/net.jeeeyul.eclipse.themes.rendering.ChromeTabRendering');
+
+	padding: 1px 6px 8px 6px; /* top left bottom right */
+	swt-tab-outline: #171717;
+	swt-outer-keyline-color: #171717;
+	swt-unselected-tabs-color: #171717 #161616 #eeeeee 99% 100%;
+	swt-shadow-visible: false;
+	
+	swt-selected-tab-fill: #eeeeee;
+	chrome-selected-tab-fill-highlight: #eeeeee;
+	
+	chrome-selected-tab-color: #000000;
+	chrome-unselected-tab-color: #ffffff;
+	
+	swt-shadow-color: #cccccc;
+	
+	chrome-shiney-shadow: false;
+	swt-mru-visible: true;
+	
+	swt-corner-radius: 6px;
+}
+
+.MPartStack.active {
+	swt-inner-keyline-color: #FFFFFF;
+	swt-tab-outline: #171717;
+	swt-outer-keyline-color: #171717;
+	swt-unselected-tabs-color: #171717 #161616 #ffffff 99% 100%;
+	
+	swt-selected-tab-fill: #ffffff;
+	chrome-selected-tab-fill-highlight: #ffffff;
+	
+	chrome-selected-tab-color: #cf1626;
+	chrome-unselected-tab-color: #ffffff;
+	chrome-shiney-shadow: false;
+}
+
+.MPartStack.empty {
+	swt-unselected-tabs-color: #999999 #999999 #999999 99% 100%;
+	swt-tab-outline: #171717;
+	swt-outer-keyline-color: #171717;
+}
+
+.MTrimmedWindow {
+  	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: 2px;
+	margin-right: 2px;
+	background-color: #171717;
+}
+
+.MTrimBar {
+	background-color: #171717;
+}
+
+.MTrimBar#org-eclipse-ui-main-toolbar {
+	background-color: #606060 #404040;
+}
+
+CTabFolder.MArea .MPartStack,CTabFolder.MArea .MPartStack.active {
+	swt-shadow-visible: false;
+}
+
+CTabFolder Canvas {
+	background-color: #F8F8F8;
+}
+
+#org-eclipse-ui-editorss {
+	swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
+	swt-unselected-tabs-color: #F0F0F0 #F0F0F0 #F0F0F0 100% 100%;
+	swt-outer-keyline-color: #B4B4B4;
+	swt-inner-keyline-color: #F0F0F0;
+	swt-tab-outline: #F0F0F0;
+	color: #F0F0F0;
+	swt-tab-height: 8px;
+	padding: 0px 5px 7px;
+}
+
+#org-eclipse-ui-trim-status{
+	chrome-border-top-visible: false;
+	chrome-padding-top: 0;
+}
+
+.MToolControl.TrimStack {
+	
+	handle-image: url(chrome://drag-handle?height=22&background-color=#171717&embossed=true);
+}
+
+.MTrimBar .Draggable {
+	handle-image: url(chrome://drag-handle?height=22&background-color=#171717&embossed=true);
+}
+
+.MTrimBar#org-eclipse-ui-main-toolbar .Draggable {
+	handle-image: url(chrome://drag-handle?height=22&background-color=#606060&embossed=true);
+}
+
+.MTrimBar#org-eclipse-ui-main-toolbar .TrimStack {
+	handle-image: url(chrome://drag-handle?height=22&background-color=#606060&embossed=true);
+}
+
+
+#org-eclipse-ui-main-toolbar #PerspectiveSwitcher {
+	eclipse-perspective-keyline-color: #171717;
+	background-color: #606060 #171717 100%;
+	handle-image: none;
+	chrome-show-perspective-name: false;
+}
+
+
+.MPart.Editor StyledText{
+	chrome-line-style: none;
+	chrome-line-color: #f0f0f0;
+}
+
+/* User CSS */
+/* Slight off white for inactive parts */
+.MPartStack {
+  swt-selected-tab-fill: #eeeeee;
+  chrome-selected-tab-fill-highlight: #e8e8e8;
+}
+.MPartStack, .MPartStack .MPart, .MPartStack .MPart Tree {
+background-color: #e8e8e8;
+}
+.MPart.Editor StyledText {
+background-color: #e8e8e8;
+}
+
+/* White bg for active parts */
+.MPartStack.active {
+  swt-selected-tab-fill: #ffffff;
+  chrome-selected-tab-fill-highlight: #ffffff;
+}
+.MPartStack.active, .MPartStack.active .MPart, .MPartStack.active .MPart Tree {
+background-color: #ffffff;
+}
+.MPartStack.active .MPart.Editor StyledText{
+background-color: #ffffff;
+}
