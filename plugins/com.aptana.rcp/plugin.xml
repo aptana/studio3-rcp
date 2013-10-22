@@ -44,10 +44,6 @@
                name="startupForegroundColor"
                value="FFFFFF">
          </property>
-         <property
-               name="cssTheme"
-               value="com.aptana.rcp.theme.dashboard">
-         </property>
       </product>
    </extension>
    
@@ -71,18 +67,5 @@
             class="com.aptana.rcp.preferences.PreferenceInitializer">
       </initializer>
    </extension>
-   <extension
-         point="org.eclipse.e4.ui.css.swt.theme">
-      <theme
-            basestylesheeturi="themes/appcelerator.css"
-            id="com.aptana.rcp.theme.appcelerator"
-            label="Appcelerator">
-      </theme>
-      <theme
-            basestylesheeturi="themes/dashboard.css"
-            id="com.aptana.rcp.theme.dashboard"
-            label="Dashboard">
-      </theme>
-   <extension>
-
+   
 </plugin>
