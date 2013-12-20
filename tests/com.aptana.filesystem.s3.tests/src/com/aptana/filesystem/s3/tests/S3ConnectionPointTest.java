@@ -8,7 +8,8 @@ import com.aptana.ide.filesystem.s3.S3ConnectionPoint;
 public class S3ConnectionPointTest extends CommonConnectionTest
 {
 
-	protected void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		S3ConnectionPoint ftpcp = new S3ConnectionPoint();
 		ftpcp.setHost(getConfig().getProperty("s3.host", S3ConnectionPoint.DEFAULT_HOST)); //$NON-NLS-1$
