@@ -44,6 +44,10 @@
                name="startupForegroundColor"
                value="FFFFFF">
          </property>
+         <property
+               name="cssTheme"
+               value="com.appcelerator.titanium.rcp.theme.dashboard">
+         </property>
       </product>
    </extension>
    
