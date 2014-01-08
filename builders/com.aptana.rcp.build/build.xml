@@ -74,17 +74,6 @@
 				<include name="plugins/**/*" />
 				<exclude name="plugins/com.aptana.rcp/**/*" />
 				<exclude name="plugins/com.aptana.rcp.studio/**/*" />
-				<exclude name="plugins/com.amazon.s3/**/*" />
-				<exclude name="plugins/com.aptana.editor.beaver/**/*" />
-				<exclude name="plugins/com.aptana.editor.common.override/**/*" />
-				<exclude name="plugins/com.aptana.editor.diff/**/*" />
-				<exclude name="plugins/com.aptana.editor.idl/**/*" />
-				<exclude name="plugins/com.aptana.editor.markdown/**/*" />
-				<exclude name="plugins/com.aptana.editor.yaml/**/*" />
-				<exclude name="plugins/com.aptana.filesytem.s3/**/*" />
-				<exclude name="plugins/com.aptana.studio.rubles/**/*" />
-				<exclude name="plugins/com.aptana.ui.override/**/*" />
-				<exclude name="plugins/com.aptana.ui.s3/**/*" />
 				<include name="features**/*" />
 				<exclude name="features/com.aptana.feature.rcp/**/*" />
 			</fileset>
@@ -136,7 +125,6 @@
 					<include name="features/*" />
 					<exclude name="plugins/com.aptana.rcp" />
 					<exclude name="features/com.aptana.feature.rcp" />
-					<exclude name="plugins/com.aptana.studio.rubles" />
 					<exclude name="${topLevelElementType}s/${topLevelElementId}" />
 				</dirset>
 			</path>
