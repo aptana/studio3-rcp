@@ -33,25 +33,13 @@
          search-location="both"/>
 
    <includes
+         id="com.aptana.feature.studio"
+         version="0.0.0"
+         search-location="both"/>
+
+   <includes
          id="org.eclipse.platform"
          version="0.0.0"/>
-
-   <includes
-         id="com.aptana.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.aptana.php.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.aptana.pydev.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.radrails.rails"
-         version="0.0.0"
-         name="RadRails"/>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
@@ -64,11 +52,17 @@
       <import plugin="org.eclipse.core.net"/>
       <import plugin="com.aptana.commandline.launcher"/>
       <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.apache.lucene.core"/>
+      <import plugin="org.apache.lucene.analysis"/>
+      <import plugin="org.eclipse.help"/>
+      <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.equinox.http.jetty"/>
       <import plugin="org.eclipse.equinox.common"/>
       <import plugin="org.eclipse.equinox.registry"/>
       <import plugin="org.eclipse.core.jobs"/>
+      <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.apache.commons.logging"/>
+      <import plugin="org.eclipse.ecf.provider.filetransfer"/>
    </requires>
 
    <plugin
@@ -196,79 +190,11 @@
          unpack="false"/>
 
    <plugin
-         id="com.amazon.s3"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="com.aptana.editor.beaver"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.aptana.editor.common.override"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="com.aptana.editor.diff"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.aptana.editor.idl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.aptana.editor.markdown"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.aptana.editor.yaml"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.aptana.filesystem.s3"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="com.aptana.studio.rubles"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="com.aptana.ui.override"
          download-size="0"
          install-size="0"
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-
-   <plugin
-         id="com.aptana.ui.s3"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
 </feature>
