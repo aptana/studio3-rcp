@@ -7,6 +7,9 @@
  */
 package com.aptana.editor.yaml.internal.text;
 
+import org.junit.After;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import java.util.Collection;
 import java.util.Map;
 
@@ -23,18 +26,20 @@ import com.aptana.parsing.IParseState;
 import com.aptana.parsing.ParseState;
 import com.aptana.parsing.ast.IParseRootNode;
 
-public class YAMLFoldingComputerTest extends TestCase
+public class YAMLFoldingComputerTest
 {
 
 	private IFoldingComputer folder;
 
-	@Override
-	protected void tearDown() throws Exception
+//	@Override
+	@After
+	public void tearDown() throws Exception
 	{
 		folder = null;
-		super.tearDown();
+//		super.tearDown();
 	}
 
+	@Test
 	public void testBasicYAMLFolding() throws Exception
 	{
 		String src = "development:\n  adapter: mysql\n\ntest:\n  adapter: sqlite3\n"; //$NON-NLS-1$

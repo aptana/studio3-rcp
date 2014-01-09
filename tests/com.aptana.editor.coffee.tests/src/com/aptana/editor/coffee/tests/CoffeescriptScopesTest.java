@@ -7,11 +7,11 @@
  */
 package com.aptana.editor.coffee.tests;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import junit.framework.TestCase;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.jface.text.BadLocationException;
@@ -20,6 +20,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.junit.After;
+import org.junit.Test;
 
 import com.aptana.editor.common.CommonEditorPlugin;
 import com.aptana.editor.common.scripting.commands.TextEditorUtils;
@@ -27,20 +29,14 @@ import com.aptana.editor.epl.tests.EditorTestHelper;
 import com.aptana.ui.util.UIUtils;
 
 @SuppressWarnings({ "nls" })
-public class CoffeescriptScopesTest extends TestCase
+public class CoffeescriptScopesTest
 {
 
 	private ITextEditor editor;
 	private File file;
 
-	@Override
-	protected void setUp() throws Exception
-	{
-		super.setUp();
-	}
-
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown() throws Exception
 	{
 		try
 		{
@@ -60,10 +56,10 @@ public class CoffeescriptScopesTest extends TestCase
 		{
 			this.file = null;
 			this.editor = null;
-			super.tearDown();
 		}
 	}
 
+	@Test
 	public void testSomeBasicScopes() throws Exception
 	{
 		String source = "# Assignment:\n" + //
@@ -131,6 +127,7 @@ public class CoffeescriptScopesTest extends TestCase
 		assertScope("source.coffee meta.brace.square.coffee", 152);
 	}
 
+	@Test
 	public void testClasses() throws Exception
 	{
 		String source = "class Animal\n" + //

@@ -1,14 +1,17 @@
 package com.aptana.editor.idl.parsing;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 
-import junit.framework.TestCase;
 import beaver.Parser.Exception;
 
 import com.aptana.editor.idl.parsing.ast.IDLNodeType;
 import com.aptana.parsing.ast.IParseNode;
 
-public class IDLParserTests extends TestCase
+public class IDLParserTests
 {
 	/**
 	 * parse

@@ -4,6 +4,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.ITokenScanner;
 import org.eclipse.jface.text.rules.Token;
+import org.junit.Test;
 
 import com.aptana.editor.common.tests.AbstractTokenScannerTestCase;
 
@@ -15,6 +16,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		return new CoffeeCodeScanner();
 	}
 
+	@Test
 	public void testNumberAssignment()
 	{
 		String src = "number = 42";
@@ -31,6 +33,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		assertToken(getToken("constant.numeric.coffee"), 9, 2);
 	}
 
+	@Test
 	public void testBooleanAssignment()
 	{
 		String src = "opposite = true";
@@ -47,6 +50,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		assertToken(getToken("constant.language.boolean.true.coffee"), 11, 4);
 	}
 
+	@Test
 	public void testArrayAssignment()
 	{
 		String src = "list = [1, 2, 3, 4, 5]";
@@ -87,6 +91,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		assertToken(getToken("meta.brace.square.coffee"), 21, 1);
 	}
 
+	@Test
 	public void testAssignmentWithParens()
 	{
 		String src = "cubes = (math.cube num for num in list)";
@@ -125,6 +130,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		assertToken(getToken("meta.brace.round.coffee"), 38, 1);
 	}
 
+	@Test
 	public void testFunctionAssignment()
 	{
 		String src = "square = (x) -> x * x";
@@ -155,6 +161,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		assertToken(getToken(""), 20, 1);
 	}
 
+	@Test
 	public void testClassDeclaration()
 	{
 		String src = "class Animal\n" + //
@@ -184,6 +191,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		assertToken(getToken("meta.inline.function.coffee storage.type.function.coffee"), 36, 2);
 	}
 
+	@Test
 	public void testSubClassDeclaration()
 	{
 		String src = "class Horse extends Animal\n" + //
@@ -223,6 +231,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		assertToken(getToken("constant.numeric.coffee"), 58, 2);
 	}
 
+	@Test
 	public void testAnonymousFunctionAsArgument()
 	{
 		String src = "bind 1, (event) =>\n" + //
@@ -259,6 +268,7 @@ public class CoffeeCodeScannerTest extends AbstractTokenScannerTestCase
 		assertToken(getToken("variable.other.readwrite.instance.coffee"), 40, 5);
 	}
 
+	@Test
 	public void testInstanceVariableWithUnderscoresAndNumbers()
 	{
 		String src = "@scale_3d_effect";

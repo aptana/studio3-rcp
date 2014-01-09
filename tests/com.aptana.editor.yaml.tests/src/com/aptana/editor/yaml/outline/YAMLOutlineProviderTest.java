@@ -7,6 +7,10 @@
  */
 package com.aptana.editor.yaml.outline;
 
+import org.junit.After;
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
 import junit.framework.TestCase;
 
 import com.aptana.editor.yaml.YAMLPlugin;
@@ -14,7 +18,7 @@ import com.aptana.editor.yaml.parsing.YAMLParser;
 import com.aptana.parsing.ParseState;
 import com.aptana.parsing.ast.IParseRootNode;
 
-public class YAMLOutlineProviderTest extends TestCase
+public class YAMLOutlineProviderTest
 {
 
 	private YAMLOutlineContentProvider fContentProvider;
@@ -22,22 +26,25 @@ public class YAMLOutlineProviderTest extends TestCase
 	private YAMLParser fParser;
 	private ParseState fParseState;
 
-	@Override
-	protected void setUp() throws Exception
+//	@Override
+	@Before
+	public void setUp() throws Exception
 	{
 		fContentProvider = new YAMLOutlineContentProvider();
 		fLabelProvider = new YAMLOutlineLabelProvider();
 		fParser = new YAMLParser();
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+//	@Override
+	@After
+	public void tearDown() throws Exception
 	{
 		fContentProvider = null;
 		fLabelProvider = null;
 		fParser = null;
 	}
 
+	@Test
 	public void testString() throws Exception
 	{
 		String source = "string : text";
@@ -55,6 +62,7 @@ public class YAMLOutlineProviderTest extends TestCase
 		assertEquals(YAMLPlugin.getImage("icons/string.png"), fLabelProvider.getImage(grandchildren[0]));
 	}
 
+	@Test
 	public void testNumber() throws Exception
 	{
 		String source = "number : 12345";

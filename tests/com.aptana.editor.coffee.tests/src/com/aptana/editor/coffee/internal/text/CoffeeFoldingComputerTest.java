@@ -7,10 +7,12 @@
  */
 package com.aptana.editor.coffee.internal.text;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Collection;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
@@ -27,18 +29,12 @@ import com.aptana.parsing.IParseState;
 import com.aptana.parsing.ParseState;
 import com.aptana.parsing.ast.IParseRootNode;
 
-public class CoffeeFoldingComputerTest extends TestCase
+public class CoffeeFoldingComputerTest
 {
 	private IFoldingComputer folder;
 
-	@Override
-	protected void setUp() throws Exception
-	{
-		super.setUp();
-	}
-
 	@After
-	protected void tearDown() throws Exception
+	public void tearDown() throws Exception
 	{
 		try
 		{
@@ -47,7 +43,6 @@ public class CoffeeFoldingComputerTest extends TestCase
 		finally
 		{
 			folder = null;
-			super.tearDown();
 		}
 	}
 
@@ -156,6 +151,7 @@ public class CoffeeFoldingComputerTest extends TestCase
 		assertTrue("Folding incorrect for if block", positions.contains(new Position(0, src.length())));
 	}
 
+	@Test
 	public void testClassesExample1() throws Exception
 	{
 		String source = "class Animal\n" + //

@@ -7,6 +7,9 @@
  */
 package com.aptana.editor.yaml;
 
+import org.junit.After;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import junit.framework.TestCase;
 
 import org.eclipse.jface.text.Document;
@@ -24,7 +27,7 @@ import com.aptana.editor.common.text.rules.NullSubPartitionScanner;
  * @author Sandip
  */
 @SuppressWarnings("nls")
-public class YAMLSourcePartitionScannerTest extends TestCase
+public class YAMLSourcePartitionScannerTest
 {
 
 	private IDocumentPartitioner partitioner;
@@ -35,11 +38,12 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 				getContentType(code, offset));
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+//	@Override
+	@After
+	public void tearDown() throws Exception
 	{
 		partitioner = null;
-		super.tearDown();
+//		super.tearDown();
 	}
 
 	private String getContentType(String content, int offset)
@@ -59,6 +63,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		return partitioner.getContentType(offset);
 	}
 
+	@Test
 	public void testPartitioningOfDefaultPartition()
 	{
 		String source = "adapter: sqlite3\n";
@@ -68,6 +73,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testPartitioningOfDirective()
 	{
 		String source = "%YAML 1.2";
@@ -88,6 +94,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 //		assertContentType(YAMLSourceConfiguration.COMMENT, source, 18);
 //	}
 
+	@Test
 	public void testPartitioningOfComment()
 	{
 		String source = "# SQLite version 3.x\n";
@@ -97,6 +104,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testPartitioningOfSingleQuotedString()
 	{
 		String source =
@@ -110,6 +118,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		assertContentType(YAMLSourceConfiguration.DEFAULT, source, 37);
 	}
 
+	@Test
 	public void testPartitioningOfEmptySingleQuotedString()
 	{
 		String source =
@@ -123,6 +132,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		assertContentType(YAMLSourceConfiguration.DEFAULT, source, 2);
 	}
 
+	@Test
 	public void testPartitioningOfSingleQuotedStringWithEscape()
 	{
 		String source =
@@ -137,6 +147,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		assertContentType(YAMLSourceConfiguration.DEFAULT, source, 53);
 	}
 
+	@Test
 	public void testPartitioningOfSingleQuotedStringWithDoubleQuote()
 	{
 		String source =
@@ -151,6 +162,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		assertContentType(YAMLSourceConfiguration.DEFAULT, source, 58);
 	}
 
+	@Test
 	public void testPartitioningOfDoubleQuotedString()
 	{
 		String source =
@@ -164,6 +176,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		assertContentType(YAMLSourceConfiguration.DEFAULT, source, 37);
 	}
 
+	@Test
 	public void testPartitioningOfEmptyDoubleQuotedString()
 	{
 		String source =
@@ -177,6 +190,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		assertContentType(YAMLSourceConfiguration.DEFAULT, source, 2);
 	}
 
+	@Test
 	public void testPartitioningOfDoubleQuotedStringWithEscape()
 	{
 		String source =
@@ -191,6 +205,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		assertContentType(YAMLSourceConfiguration.DEFAULT, source, 53);
 	}
 
+	@Test
 	public void testPartitioningOfDoubleQuotedStringWithSingleQuote()
 	{
 		String source =
@@ -205,6 +220,7 @@ public class YAMLSourcePartitionScannerTest extends TestCase
 		assertContentType(YAMLSourceConfiguration.DEFAULT, source, 58);
 	}
 
+	@Test
 	public void testPartitioningOfAllPartitions()
 	{
 		String source = " # comment\n ' ' \" \" ` ` \n";

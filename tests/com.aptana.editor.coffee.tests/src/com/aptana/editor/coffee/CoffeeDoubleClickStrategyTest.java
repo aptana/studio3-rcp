@@ -1,5 +1,9 @@
 package com.aptana.editor.coffee;
 
+import org.junit.After;
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
 import junit.framework.TestCase;
 
 import org.eclipse.jface.text.Document;
@@ -8,23 +12,26 @@ import org.eclipse.jface.text.ITextViewer;
 
 import com.aptana.editor.common.tests.TextViewer;
 
-public class CoffeeDoubleClickStrategyTest extends TestCase
+public class CoffeeDoubleClickStrategyTest
 {
 
 	private CoffeeDoubleClickStrategy strategy;
 
-	protected void setUp() throws Exception
+	@Before
+	public void setUp() throws Exception
 	{
-		super.setUp();
+//		super.setUp();
 		strategy = new CoffeeDoubleClickStrategy();
 	}
 
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown() throws Exception
 	{
 		strategy = null;
-		super.tearDown();
+//		super.tearDown();
 	}
 
+	@Test
 	public void testSimpleIdentifier() throws Exception
 	{
 		String src = "singers = {Jagger: \"Rock\", Elvis: \"Roll\"}";
@@ -37,6 +44,7 @@ public class CoffeeDoubleClickStrategyTest extends TestCase
 		assertEquals(7, textViewer.getSelectedRange().y);
 	}
 
+	@Test
 	public void testHashKey() throws Exception
 	{
 		String src = "singers = {Jagger: \"Rock\", Elvis: \"Roll\"}";
@@ -51,6 +59,7 @@ public class CoffeeDoubleClickStrategyTest extends TestCase
 		assertEquals(6, textViewer.getSelectedRange().y);
 	}
 
+	@Test
 	public void testDoesntPickUpParens() throws Exception
 	{
 		String src = "countdown = (num for num in [10..1])";

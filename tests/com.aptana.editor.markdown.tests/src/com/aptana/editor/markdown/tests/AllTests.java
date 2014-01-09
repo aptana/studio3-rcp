@@ -7,23 +7,28 @@
  */
 package com.aptana.editor.markdown.tests;
 
+import org.junit.runners.Suite.SuiteClasses;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import com.aptana.editor.markdown.text.rules.MarkdownPartitionScannerTest;
 import com.aptana.editor.markdown.text.rules.MarkdownScannerTest;
 
+@RunWith(Suite.class)
+@SuiteClasses({MarkdownPartitionScannerTest.class, MarkdownScannerTest.class, })
 public class AllTests
 {
 
-	public static Test suite()
-	{
-		TestSuite suite = new TestSuite(AllTests.class.getName());
-		// $JUnit-BEGIN$
-		suite.addTestSuite(MarkdownPartitionScannerTest.class);
-		suite.addTestSuite(MarkdownScannerTest.class);
-		// $JUnit-END$
-		return suite;
-	}
-
+//	public static Test suite()
+//	{
+//		TestSuite suite = new TestSuite(AllTests.class.getName());
+//		// $JUnit-BEGIN$
+//		suite.addTestSuite(MarkdownPartitionScannerTest.class);
+//		suite.addTestSuite(MarkdownScannerTest.class);
+//		// $JUnit-END$
+//		return suite;
+//	}
+//
 }
