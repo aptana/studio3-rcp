@@ -48,19 +48,24 @@
 
 	<target name="sign" depends="build-nsis">
 		<echo message="Signing installing with sign tool" />
-<!--
 		<exec executable="windows-nsis\Tools\signtool\signtool.exe">
 			<arg value="sign" />
-			<arg value="/f ${signkey}" />
-			<arg value='/d "Aptana Studio"' />
-			<arg value="/du http://www.aptana.com" />
-			<arg value="/t http://timestamp.verisign.com/scripts/timestamp.dll" />
+			<arg value="/f" />
+			<arg value="${signkey}" />
+			<arg value='/d' />
+			<arg value='Aptana Studio' />
+			<arg value="/du" />
+			<arg value="http://www.appcelerator.com" />
+			<arg value="/t" />
+			<arg value="http://timestamp.verisign.com/scripts/timestamp.dll" />
 			<arg value="/v" />
-			<arg value="/p aptkey1010" />
+			<arg value="/p" />
+			<arg value="iVviOEq5" />
 			<arg value="${basedir}\windows-nsis\Aptana_Studio_3_Setup.exe" />
 		</exec>
--->
+<!--
 		<exec executable="${basedir}\windows-nsis\Tools\signtool\signit.bat" dir="${basedir}\windows-nsis\Tools\signtool"/>
+		-->
 	</target>
 	
 	<target name="move-exe" depends="sign">
