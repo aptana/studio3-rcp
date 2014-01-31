@@ -37,7 +37,8 @@
 	<target name="sign" depends="set-icon">
 		<exec executable="/usr/bin/codesign">
 			<arg value="-f" />
-			<arg value='-s "Developer ID Application"' />
+			<arg value="-s" />
+			<arg value='Developer ID Application' />
 			<arg value="${basedir}/${staging.dir}/${source.dir.name}/AptanaStudio3.app" />
 		</exec>
 	</target>
