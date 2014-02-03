@@ -37,9 +37,9 @@
 	<target name="sign" depends="set-icon">
 		<exec executable="/usr/bin/security">
 			<arg value="unlock-keychain" />
-			<arg value='login.keychain' />
 			<arg value="-p" />
 			<arg value="appcelerator" />
+			<arg value='login.keychain' />
 		</exec>
 		<exec executable="/usr/bin/codesign">
 			<arg value="-f" />
