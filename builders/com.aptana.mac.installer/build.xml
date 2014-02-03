@@ -38,8 +38,8 @@
 		<exec executable="/usr/bin/security">
 			<arg value="unlock-keychain" />
 			<arg value="-p" />
-			<arg value="appcelerator" />
-			<arg value='login.keychain' />
+			<arg value="@pt@n@$$1" />
+			<arg value='~/Library/Keychains/login.keychain' />
 		</exec>
 		<exec executable="/usr/bin/codesign">
 			<arg value="-f" />
