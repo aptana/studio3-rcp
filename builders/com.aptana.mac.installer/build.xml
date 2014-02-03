@@ -38,7 +38,7 @@
 		<exec executable="/usr/bin/security">
 			<arg value="unlock-keychain" />
 			<arg value="-p" />
-			<arg value="@pt@n@\\$\\$1" />
+			<arg value="appcelerator" />
 			<arg value='login.keychain' />
 		</exec>
 		<exec executable="/usr/bin/codesign">
