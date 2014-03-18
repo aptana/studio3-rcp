@@ -7,23 +7,13 @@
  */
 package com.aptana.rcp.tests.all;
 
-import org.junit.runners.Suite.SuiteClasses;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({com.aptana.editor.coffee.tests.PerformanceTests.class, })
+@SuiteClasses({})
 public class PerformanceTests
 {
 
-//	public static Test suite()
-//	{
-//		TestSuite suite = new TestSuite(PerformanceTests.class.getName());
-//		// $JUnit-BEGIN$
-//		suite.addTest(com.aptana.editor.coffee.tests.PerformanceTests.suite());
-//		// $JUnit-END$
-//		return suite;
-//	}
 }

@@ -7,27 +7,14 @@
  */
 package com.aptana.rcp.tests.all;
 
-import org.junit.runners.Suite.SuiteClasses;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({com.aptana.editor.coffee.tests.AllTests.class, com.aptana.editor.idl.AllTests.class, com.aptana.editor.markdown.tests.AllTests.class, com.aptana.editor.yaml.tests.AllTests.class, })
+@SuiteClasses({ com.aptana.editor.idl.AllTests.class, com.aptana.editor.markdown.tests.AllTests.class,
+		com.aptana.editor.yaml.tests.AllTests.class, })
 public class UITests
 {
 
-//	public static Test suite()
-//	{
-//		TestSuite suite = new TestSuite(UITests.class.getName());
-//		// $JUnit-BEGIN$
-//		suite.addTest(com.aptana.editor.coffee.tests.AllTests.suite());
-//		suite.addTest(com.aptana.editor.idl.AllTests.suite());
-//		suite.addTest(com.aptana.editor.markdown.tests.AllTests.suite());
-//		suite.addTest(com.aptana.editor.yaml.tests.AllTests.suite());
-//		// $JUnit-END$
-//		return suite;
-//	}
-//
 }
