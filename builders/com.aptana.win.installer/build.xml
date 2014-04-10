@@ -11,7 +11,8 @@
 		<echo message="Cleaning old installer artifacts" />
 		<delete file="windows-nsis/local_settings.nsh" />
 		<delete file="windows-nsis/Aptana_Studio_3_Setup.exe" />
-		<delete file="${staging.dir}/aptana.zip"/>
+		<delete file="${staging.dir}/${win.source.zip}"/>
+		<delete dir="${basedir}/${staging.dir}"/>
 	</target>
 
 	<target name="init" depends="clean">
