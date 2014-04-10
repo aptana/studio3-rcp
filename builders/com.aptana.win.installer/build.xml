@@ -1,6 +1,8 @@
 <project name="trunk" default="main">
 	<property file="build.properties" />
-	<property name="makensis" value="${basedir}\windows-nsis\Tools\unicode_nsis\makensis.exe" />
+	<property name="nsis.dir" location="${basedir}\windows-nsis" />
+	<property name="makensis" value="${nsis.dir}\Tools\unicode_nsis\makensis.exe" />
+	<property name="staging.dir" location="${basedir}\..\..\dist" />
 
 	<target name="main">
 		<echo message="Building NSIS installer" />
@@ -9,47 +11,41 @@
 
 	<target name="clean">
 		<echo message="Cleaning old installer artifacts" />
-		<delete file="windows-nsis/local_settings.nsh" />
-		<delete file="windows-nsis/Aptana_Studio_3_Setup.exe" />
+		<delete file="${nsis.dir}/local_settings.nsh" />
+		<delete file="${nsis.dir}/${target.exe.name}" />
 		<delete file="${staging.dir}/${win.source.zip}"/>
-		<delete dir="${basedir}/${staging.dir}"/>
+		<delete dir="${staging.dir}"/>
 	</target>
 
 	<target name="init" depends="clean">
 		<tstamp />
-		<mkdir dir="${basedir}/${staging.dir}" />
-		<get dest="${basedir}/${staging.dir}" src="${win.source.url}" />
+		<mkdir dir="${staging.dir}" />
+		<get dest="${staging.dir}" src="${win.source.url}" />
 	</target>
-	
-	<!--
-	<target name="get-latest" depends="init">
-		<copy file="${win.source.dir}${win.source.zip}" tofile="${staging.dir}/${win.source.zip}" />
-	</target>
-	-->
 
 	<target name="unpack-archives" depends="init">
 		<unzip src="${staging.dir}/${win.source.zip}" dest="${staging.dir}/win32" />
-        <exec executable="cmd.exe" dir="${basedir}\${staging.dir}\win32" outputproperty="unzip.dir">
+        <exec executable="cmd.exe" dir="${staging.dir}\win32" outputproperty="unzip.dir">
             <arg line="/c dir /A:D /B"/>
         </exec>
-        <move file="${basedir}\${staging.dir}\win32\${unzip.dir}" tofile="${basedir}\${staging.dir}\win32"/>
-        <delete dir="${basedir}\${staging.dir}\win32\${unzip.dir}"/>
+        <move file="${staging.dir}\win32\${unzip.dir}" tofile="${staging.dir}\win32"/>
+        <delete dir="${staging.dir}\win32\${unzip.dir}"/>
 	</target>
 
 	<target name="build-nsis">
 		<echo message="Creating local_settings.nsh file" />
-		<echo file="windows-nsis/local_settings.nsh">!define INSTALL_FILES_ROOT "${basedir}\${staging.dir}\win32"
+		<echo file="${nsis.dir}/local_settings.nsh">!define INSTALL_FILES_ROOT "${staging.dir}\win32"
 !define JRE_ROOT "${java.home}"</echo>
 		<echo message="Calling makensis.exe" />
 		<exec executable="${makensis}" failonerror="true">			
 			<arg value='/XName ""${ProductName}""' />
-			<arg value="${basedir}\windows-nsis\Aptana Studio.nsi" />
+			<arg value="${nsis.dir}\Aptana Studio.nsi" />
 		</exec>
 	</target>
 
 	<target name="sign" depends="build-nsis">
 		<echo message="Signing installer with sign tool" />
-		<exec executable="windows-nsis\Tools\signtool\signtool.exe">
+		<exec executable="${nsis.dir}\Tools\signtool\signtool.exe">
 			<arg value="sign" />
 			<arg value="/f" />
 			<arg value="${signkey}" />
@@ -62,14 +58,11 @@
 			<arg value="/v" />
 			<arg value="/p" />
 			<arg value="iVviOEq5" />
-			<arg value="${basedir}\windows-nsis\${target.exe.name}" />
+			<arg value="${nsis.dir}\${target.exe.name}" />
 		</exec>
-<!--
-		<exec executable="${basedir}\windows-nsis\Tools\signtool\signit.bat" dir="${basedir}\windows-nsis\Tools\signtool"/>
-		-->
 	</target>
 	
 	<target name="move-exe" depends="sign">
-		<move file="${basedir}\windows-nsis\Aptana_Studio_3_Setup.exe" tofile="${staging.dir}\${target.exe.name}"/>
+		<move file="${nsis.dir}\${target.exe.name}" tofile="${staging.dir}\${target.exe.name}"/>
 	</target>
 </project>
