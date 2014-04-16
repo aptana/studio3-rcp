@@ -1,6 +1,9 @@
 <project name="trunk" default="main">
 	<property file="build.properties" />
 	<property name="staging.dir" location="${basedir}\..\..\dist" />
+	<property name="installer.command" location="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com" />
+	<property name="basename" value="AptanaStudio" />
+	<property name="installer.definition.file" location="${basedir}\${basename}.aip" />
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
@@ -43,8 +46,12 @@
 			</path>
 			<sequential>
 				<echo message="Adding folder to installer: @{folder}" />
-				<exec executable="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com">
-					<arg line="/edit '${basedir}\AptanaStudio.aip' /AddFolder APPDIR '@{folder}'" />
+				<exec executable="${installer.command}" failonerror="yes">
+					<arg value="/edit" />
+					<arg value="${installer.definition.file}" />
+					<arg value="/AddFolder" />
+					<arg value="APPDIR" />
+					<arg value="@{folder}" />
 				</exec>
 			</sequential>
 		</for>
@@ -56,8 +63,12 @@
 			</path>
 			<sequential>
 				<echo message="Adding file to installer: @{file}" />
-				<exec executable="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com">
-					<arg line="/edit '${basedir}\AptanaStudio.aip' /AddFile APPDIR '@{file}'" />
+				<exec executable="${installer.command}" failonerror="yes">
+					<arg value="/edit" />
+					<arg value="${installer.definition.file}" />
+					<arg value="/AddFile" />
+					<arg value="APPDIR" />
+					<arg value="@{file}" />
 				</exec>
 			</sequential>
 		</for>
@@ -73,12 +84,17 @@
 			</filterchain>
 		</loadfile>
 		<echo message="Setting version to: ${version}" />
-		<exec executable="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com">
-			<arg line="/edit '${basedir}\AptanaStudio.aip' /SetVersion ${version} -noprodcode" />
+		<exec executable="${installer.command}" failonerror="yes">
+			<arg value="/edit" />
+			<arg value="${installer.definition.file}" />
+			<arg value="/SetVersion" />
+			<arg value="${version}" />
+			<arg value="-noprodcode" />
 		</exec>
 		<!-- Build the installer -->
-		<exec executable="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com">
-			<arg line="/build '${basedir}\AptanaStudio.aip'" />
+		<exec executable="${installer.command}" failonerror="yes">
+			<arg value="/build" />
+			<arg value="${installer.definition.file}" />
 		</exec>
 
 		<!-- Delete the unzipped dir -->
@@ -86,6 +102,6 @@
 		<delete file="${staging.dir}\${win.source.zip}" />
 
 		<!-- Move the installer to artifact dir -->
-		<move file="${basedir}\AptanaStudio-SetupFiles\AptanaStudio.exe" tofile="${staging.dir}\${target.exe.name}" />
+		<move file="${basedir}\${basename}-SetupFiles\${basename}.exe" tofile="${staging.dir}\${target.exe.name}" />
 	</target>
 </project>
