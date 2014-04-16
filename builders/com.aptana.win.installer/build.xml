@@ -84,7 +84,7 @@
 			</filterchain>
 		</loadfile>
 		<echo message="Setting version to: ${version}" />
-		<exec executable="${installer.command}" failonerror="yes">
+		<exec executable="${installer.command}">
 			<arg value="/edit" />
 			<arg value="${installer.definition.file}" />
 			<arg value="/SetVersion" />

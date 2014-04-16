@@ -17,7 +17,7 @@
     <ROW Property="ProductCode" Value="1033:{2D6C1116-78C6-469C-9923-3E549218773F} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Aptana Studio"/>
-    <ROW Property="ProductVersion" Value="3.3.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="3.6.0" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{48A97748-2708-4820-B6B0-D31737D063E5}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
