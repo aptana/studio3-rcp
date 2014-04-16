@@ -1,20 +1,22 @@
 <project name="trunk" default="main">
 	<property file="build.properties" />
-	<property name="nsis.dir" location="${basedir}\windows-nsis" />
-	<property name="makensis" value="${nsis.dir}\Tools\unicode_nsis\makensis.exe" />
 	<property name="staging.dir" location="${basedir}\..\..\dist" />
 
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${basedir}/ant-contrib/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
+
 	<target name="main">
-		<echo message="Building NSIS installer" />
-		<antcall target="move-exe" />
+		<echo message="Building installer using Advanced Installer" />
+		<antcall target="advanced" />
 	</target>
 
 	<target name="clean">
 		<echo message="Cleaning old installer artifacts" />
-		<delete file="${nsis.dir}/local_settings.nsh" />
-		<delete file="${nsis.dir}/${target.exe.name}" />
-		<delete file="${staging.dir}/${win.source.zip}"/>
-		<delete dir="${staging.dir}"/>
+		<delete file="${staging.dir}/${win.source.zip}" />
+		<delete dir="${staging.dir}" />
 	</target>
 
 	<target name="init" depends="clean">
@@ -25,44 +27,65 @@
 
 	<target name="unpack-archives" depends="init">
 		<unzip src="${staging.dir}/${win.source.zip}" dest="${staging.dir}/win32" />
-        <exec executable="cmd.exe" dir="${staging.dir}\win32" outputproperty="unzip.dir">
-            <arg line="/c dir /A:D /B"/>
-        </exec>
-        <move file="${staging.dir}\win32\${unzip.dir}" tofile="${staging.dir}\win32"/>
-        <delete dir="${staging.dir}\win32\${unzip.dir}"/>
+		<exec executable="cmd.exe" dir="${staging.dir}\win32" outputproperty="unzip.dir">
+			<arg line="/c dir /A:D /B" />
+		</exec>
+		<move file="${staging.dir}\win32\${unzip.dir}" tofile="${staging.dir}\win32" />
+		<delete dir="${staging.dir}\win32\${unzip.dir}" />
 	</target>
 
-	<target name="build-nsis">
-		<echo message="Creating local_settings.nsh file" />
-		<echo file="${nsis.dir}/local_settings.nsh">!define INSTALL_FILES_ROOT "${staging.dir}\win32"
-!define JRE_ROOT "${java.home}"</echo>
-		<echo message="Calling makensis.exe" />
-		<exec executable="${makensis}" failonerror="true">			
-			<arg value='/XName ""${ProductName}""' />
-			<arg value="${nsis.dir}\Aptana Studio.nsi" />
-		</exec>
-	</target>
+	<target name="advanced">
+		<!-- TODO Use Advanced Installer scripting file! Write out a command file to use and then just call /execute with it once -->
+		<!-- Add folders -->
+		<for param="folder">
+			<path>
+				<dirset dir="${staging.dir}\win32" includes="*" />
+			</path>
+			<sequential>
+				<echo message="Adding folder to installer: @{folder}" />
+				<exec executable="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com">
+					<arg line="/edit '${basedir}\AptanaStudio.aip' /AddFolder APPDIR '@{folder}'" />
+				</exec>
+			</sequential>
+		</for>
 
-	<target name="sign" depends="build-nsis">
-		<echo message="Signing installer with sign tool" />
-		<exec executable="${nsis.dir}\Tools\signtool\signtool.exe">
-			<arg value="sign" />
-			<arg value="/f" />
-			<arg value="${signkey}" />
-			<arg value='/d' />
-			<arg value="${ProductName}" />
-			<arg value="/du" />
-			<arg value="http://www.appcelerator.com" />
-			<arg value="/t" />
-			<arg value="http://timestamp.verisign.com/scripts/timestamp.dll" />
-			<arg value="/v" />
-			<arg value="/p" />
-			<arg value="iVviOEq5" />
-			<arg value="${nsis.dir}\${target.exe.name}" />
+		<!-- Add files -->
+		<for param="file">
+			<path>
+				<fileset dir="${staging.dir}\win32" includes="*" />
+			</path>
+			<sequential>
+				<echo message="Adding file to installer: @{file}" />
+				<exec executable="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com">
+					<arg line="/edit '${basedir}\AptanaStudio.aip' /AddFile APPDIR '@{file}'" />
+				</exec>
+			</sequential>
+		</for>
+
+		<!-- Set the Version -->
+		<loadfile property="version" srcFile="${staging.dir}\win32\version.txt">
+			<filterchain>
+				<headfilter lines="1" />
+				<tokenfilter>
+					<stringtokenizer />
+					<containsregex pattern="(\d\.\d\.\d)\..+" replace="\1" />
+				</tokenfilter>
+			</filterchain>
+		</loadfile>
+		<echo message="Setting version to: ${version}" />
+		<exec executable="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com">
+			<arg line="/edit '${basedir}\AptanaStudio.aip' /SetVersion ${version} -noprodcode" />
 		</exec>
-	</target>
-	
-	<target name="move-exe" depends="sign">
-		<move file="${nsis.dir}\${target.exe.name}" tofile="${staging.dir}\${target.exe.name}"/>
+		<!-- Build the installer -->
+		<exec executable="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com">
+			<arg line="/build '${basedir}\AptanaStudio.aip'" />
+		</exec>
+
+		<!-- Delete the unzipped dir -->
+		<delete dir="${staging.dir}\win32" />
+		<delete file="${staging.dir}\${win.source.zip}" />
+
+		<!-- Move the installer to artifact dir -->
+		<move file="${basedir}\AptanaStudio-SetupFiles\AptanaStudio.exe" tofile="${staging.dir}\${target.exe.name}" />
 	</target>
 </project>
