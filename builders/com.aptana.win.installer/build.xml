@@ -1,8 +1,6 @@
 <project name="trunk" default="main">
 	<property file="build.properties" />
 	<property name="staging.dir" location="${basedir}\..\..\dist" />
-	<property name="installer.command" location="C:\Program Files (x86)\Caphyon\Advanced Installer 11.0\bin\x86\AdvancedInstaller.com" />
-	<property name="signtool.path" location="C:\Program Files\Microsoft SDKs\Windows\V6.0A\Bin\signtool.exe" />
 	<property name="basename" value="AptanaStudio" />
 	<property name="installer.definition.file" location="${basedir}\${basename}.aip" />
 	<property environment="env"/>
