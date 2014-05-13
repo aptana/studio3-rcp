@@ -2,8 +2,9 @@
 	<property file="build.properties" />
 	<property name="staging.dir" location="${basedir}\..\..\dist" />
 	<property name="basename" value="AptanaStudio" />
-	<property name="installer.definition.file" location="${basedir}\${basename}.aip" />
-	<property environment="env"/>
+	<property name="offline.installer.file" location="${basedir}\${basename}.aip" />
+	<property name="online.installer.file" location="${basedir}\aptanastudio_online.aip" />
+	<property environment="env" />
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
@@ -12,8 +13,25 @@
 	</taskdef>
 
 	<target name="main">
-		<echo message="Building installer using Advanced Installer" />
-		<antcall target="advanced" />
+		<echo message="Building offline installer using Advanced Installer" />
+		<!-- create offline installer -->
+		<antcall target="advanced">
+			<param name="installer.definition.file" value="${offline.installer.file}" />
+			<param name="generated.exe" value="${basedir}\${basename}-SetupFiles\${basename}.exe" />
+			<param name="target.exe" value="${staging.dir}\${target.exe.name}" />
+		</antcall>
+		<echo message="Building online installer using Advanced Installer" />
+		<!-- create online installer -->
+		<antcall target="advanced">
+			<param name="installer.definition.file" value="${online.installer.file}" />
+			<param name="generated.exe" value="${basedir}\aptanastudio_online-SetupFiles\aptanastudio_online.exe" />
+			<param name="target.exe" value="${staging.dir}\${basename}.exe" />
+		</antcall>
+		<!-- move the MSI too -->
+		<move file="${basedir}\aptanastudio_online-SetupFiles\aptanastudio_online.msi" tofile="${staging.dir}\${basename}.msi" />
+		<!-- Delete the unzipped dir -->
+		<delete dir="${staging.dir}\win32" />
+		<delete file="${staging.dir}\${win.source.zip}" />
 	</target>
 
 	<target name="clean">
@@ -97,11 +115,7 @@
 			<arg value="${installer.definition.file}" />
 		</exec>
 
-		<!-- Delete the unzipped dir -->
-		<delete dir="${staging.dir}\win32" />
-		<delete file="${staging.dir}\${win.source.zip}" />
-
 		<!-- Move the installer to artifact dir -->
-		<move file="${basedir}\${basename}-SetupFiles\${basename}.exe" tofile="${staging.dir}\${target.exe.name}" />
+		<move file="${generated.exe}" tofile="${target.exe}" />
 	</target>
 </project>
