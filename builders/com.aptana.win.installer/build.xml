@@ -3,7 +3,7 @@
 	<property name="staging.dir" location="${basedir}\..\..\dist" />
 	<property name="basename" value="AptanaStudio" />
 	<property name="offline.installer.file" location="${basedir}\${basename}.aip" />
-	<property name="online.installer.file" location="${basedir}\aptanastudio_online.aip" />
+	<property name="online.installer.file" location="${basedir}\${basename}_online.aip" />
 	<property environment="env" />
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -24,11 +24,12 @@
 		<!-- create online installer -->
 		<antcall target="advanced">
 			<param name="installer.definition.file" value="${online.installer.file}" />
-			<param name="generated.exe" value="${basedir}\aptanastudio_online-SetupFiles\aptanastudio_online.exe" />
+			<param name="generated.exe" value="${basedir}\${basename}_online-SetupFiles\${basename}_online.exe" />
 			<param name="target.exe" value="${staging.dir}\${basename}.exe" />
+			<param name="msi.url" value="${msi.source.url}" />
 		</antcall>
 		<!-- move the MSI too -->
-		<move file="${basedir}\aptanastudio_online-SetupFiles\aptanastudio_online.msi" tofile="${staging.dir}\${basename}.msi" />
+		<move file="${basedir}\${basename}_online-SetupFiles\${basename}_online.msi" tofile="${staging.dir}\${basename}.msi" />
 		<!-- Delete the unzipped dir -->
 		<delete dir="${staging.dir}\win32" />
 		<delete file="${staging.dir}\${win.source.zip}" />
@@ -101,6 +102,8 @@
 				</tokenfilter>
 			</filterchain>
 		</loadfile>
+		<!-- FIXME It keeps saying the version format is incorrect. When I tested manually, it worked OK. 
+		Maybe it's picking up newline or something? -->
 		<echo message="Setting version to: ${version}" />
 		<exec executable="${installer.command}">
 			<arg value="/edit" />
@@ -109,6 +112,21 @@
 			<arg value="${version}" />
 			<arg value="-noprodcode" />
 		</exec>
+		
+		<!-- set MSI_URL property -->
+		<if>
+			<isset property="msi.url" />
+			<then>
+				<echo message="Setting MSI URL to: ${msi.url}" />
+				<exec executable="${installer.command}">
+					<arg value="/edit" />
+					<arg value="${installer.definition.file}" />
+					<arg value="SetProperty" />
+					<arg value="MSI_URL=${msi.url}" />
+				</exec>
+			</then>
+		</if>
+
 		<!-- Build the installer -->
 		<exec executable="${installer.command}" failonerror="yes">
 			<arg value="/build" />

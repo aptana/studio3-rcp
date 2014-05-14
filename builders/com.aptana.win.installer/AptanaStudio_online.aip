@@ -42,7 +42,7 @@
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="1" Languages="en" InstallationType="4" PackageType="1" ExeIconPath="aptana_install.ico" MainAppUrl="http://preview.appcelerator.com/aptana/studio3/standalone/install/nightly/AptanaStudio.msi" ExtUI="true" UseLargeSchema="true"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="1" Languages="en" InstallationType="4" PackageType="1" ExeIconPath="aptana_install.ico" MainAppUrl="[MSI_URL]" ExtUI="true" UseLargeSchema="true"/>
     <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
