@@ -1,9 +1,6 @@
 <project name="trunk" default="main">
 	<property file="build.properties" />
 	<property name="staging.dir" location="${basedir}\..\..\dist" />
-	<property name="basename" value="AptanaStudio" />
-	<property name="offline.installer.file" location="${basedir}\${basename}.aip" />
-	<property name="online.installer.file" location="${basedir}\${basename}_online.aip" />
 	<property environment="env" />
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -16,21 +13,14 @@
 		<echo message="Building offline installer using Advanced Installer" />
 		<!-- create offline installer -->
 		<antcall target="advanced">
-			<param name="installer.definition.file" value="${offline.installer.file}" />
-			<param name="generated.exe" value="${basedir}\${basename}-SetupFiles\${basename}.exe" />
-			<param name="target.exe" value="${staging.dir}\${target.exe.name}" />
+			<param name="basename" value="${offline.installer.basename}" />
 		</antcall>
 		<echo message="Building online installer using Advanced Installer" />
 		<!-- create online installer -->
 		<antcall target="advanced">
-			<param name="installer.definition.file" value="${online.installer.file}" />
-			<param name="generated.exe" value="${basedir}\${basename}_online-SetupFiles\${basename}_online.exe" />
-			<param name="target.exe" value="${staging.dir}\${basename}.exe" />
+			<param name="basename" value="${online.installer.basename}" />
 			<param name="msi.url" value="${msi.source.url}" />
 		</antcall>
-		<!-- move the MSI too -->
-		<move file="${basedir}\${basename}_online-SetupFiles\${basename}_online.msi" tofile="${staging.dir}\${basename}.msi" />
-                <move file="${basedir}\${basename}_online-SetupFiles\${basename}_online1.cab" tofile="${staging.dir}\${basename}.cab" />
 		<!-- Delete the unzipped dir -->
 		<delete dir="${staging.dir}\win32" />
 		<delete file="${staging.dir}\${win.source.zip}" />
@@ -68,7 +58,7 @@
 				<echo message="Adding folder to installer: @{folder}" />
 				<exec executable="${installer.command}" failonerror="yes">
 					<arg value="/edit" />
-					<arg value="${installer.definition.file}" />
+					<arg value="${basedir}\${basename}.aip" />
 					<arg value="/AddFolder" />
 					<arg value="APPDIR" />
 					<arg value="@{folder}" />
@@ -85,7 +75,7 @@
 				<echo message="Adding file to installer: @{file}" />
 				<exec executable="${installer.command}" failonerror="yes">
 					<arg value="/edit" />
-					<arg value="${installer.definition.file}" />
+					<arg value="${basedir}\${basename}.aip" />
 					<arg value="/AddFile" />
 					<arg value="APPDIR" />
 					<arg value="@{file}" />
@@ -108,12 +98,12 @@
 		<echo message="Setting version to: ${version}" />
 		<exec executable="${installer.command}">
 			<arg value="/edit" />
-			<arg value="${installer.definition.file}" />
+			<arg value="${basedir}\${basename}.aip" />
 			<arg value="/SetVersion" />
-			<arg value="${version}" />
+			<arg value="3.6.0" />
 			<arg value="-noprodcode" />
 		</exec>
-		
+
 		<!-- set MSI_URL property -->
 		<if>
 			<isset property="msi.url" />
@@ -121,7 +111,7 @@
 				<echo message="Setting MSI URL to: ${msi.url}" />
 				<exec executable="${installer.command}">
 					<arg value="/edit" />
-					<arg value="${installer.definition.file}" />
+					<arg value="${basedir}\${basename}.aip" />
 					<arg value="/SetProperty" />
 					<arg value="MSI_URL=${msi.url}" />
 				</exec>
@@ -131,10 +121,18 @@
 		<!-- Build the installer -->
 		<exec executable="${installer.command}" failonerror="yes">
 			<arg value="/build" />
-			<arg value="${installer.definition.file}" />
+			<arg value="${basedir}\${basename}.aip" />
 		</exec>
 
 		<!-- Move the installer to artifact dir -->
-		<move file="${generated.exe}" tofile="${target.exe}" />
+		<move file="${basedir}\${basename}-SetupFiles\${basename}.exe" tofile="${staging.dir}\${basename}.exe" />
+		<if>
+			<isset property="msi.url" />
+			<then>
+				<!-- move the MSI too -->
+				<move file="${basedir}\${basename}-SetupFiles\${basename}.msi" tofile="${staging.dir}\${basename}.msi" />
+				<move file="${basedir}\${basename}-SetupFiles\${basename}1.cab" tofile="${staging.dir}\${basename}1.cab" />
+			</then>
+		</if>
 	</target>
 </project>
