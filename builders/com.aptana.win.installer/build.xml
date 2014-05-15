@@ -104,12 +104,27 @@
 			<arg value="-noprodcode" />
 		</exec>
 
+		<echo message="Setting up shortcut" />
+		<exec executable="${installer.command}">
+			<arg value="/edit" />
+			<arg value="${basedir}\${basename}.aip" />
+			<arg value="/NewShortcut" />
+			<arg value="-name" />
+			<arg value="AptanaStudio" />
+			<arg value="-dir" />
+			<arg value="DesktopFolder" />
+			<arg value="-target" />
+			<arg value="APPDIR\AptanaStudio3.exe" />
+			<arg value="-icon" />
+			<arg value="${basedir}\aptana.ico" />
+		</exec>
+
 		<!-- set MSI_URL property -->
 		<if>
 			<isset property="msi.url" />
 			<then>
 				<echo message="Setting MSI URL to: ${msi.url}" />
-				<replace file="${basedir}\${basename}.aip" token="[MSI_URL]" value="${msi.url}"/>
+				<replace file="${basedir}\${basename}.aip" token="[MSI_URL]" value="${msi.url}" />
 			</then>
 		</if>
 
