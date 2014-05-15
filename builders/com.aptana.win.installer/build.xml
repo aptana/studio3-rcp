@@ -30,6 +30,7 @@
 		</antcall>
 		<!-- move the MSI too -->
 		<move file="${basedir}\${basename}_online-SetupFiles\${basename}_online.msi" tofile="${staging.dir}\${basename}.msi" />
+                <move file="${basedir}\${basename}_online-SetupFiles\${basename}_online.cab" tofile="${staging.dir}\${basename}.cab" />
 		<!-- Delete the unzipped dir -->
 		<delete dir="${staging.dir}\win32" />
 		<delete file="${staging.dir}\${win.source.zip}" />
@@ -121,7 +122,7 @@
 				<exec executable="${installer.command}">
 					<arg value="/edit" />
 					<arg value="${installer.definition.file}" />
-					<arg value="SetProperty" />
+					<arg value="/SetProperty" />
 					<arg value="MSI_URL=${msi.url}" />
 				</exec>
 			</then>
