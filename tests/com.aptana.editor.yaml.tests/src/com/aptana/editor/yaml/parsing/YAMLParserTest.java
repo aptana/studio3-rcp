@@ -1,5 +1,9 @@
 package com.aptana.editor.yaml.parsing;
 
+import org.junit.After;
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
 import junit.framework.TestCase;
 
 import com.aptana.parsing.IParseState;
@@ -7,19 +11,22 @@ import com.aptana.parsing.ParseState;
 import com.aptana.parsing.ast.IParseNode;
 import com.aptana.parsing.ast.IParseRootNode;
 
-public class YAMLParserTest extends TestCase
+public class YAMLParserTest
 {
 
-	protected void setUp() throws Exception
+	@Before
+	public void setUp() throws Exception
 	{
-		super.setUp();
+//		super.setUp();
 	}
 
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown() throws Exception
 	{
-		super.tearDown();
+//		super.tearDown();
 	}
 
+	@Test
 	public void testParseSimpleYAML() throws Exception
 	{
 		YAMLParser parser = new YAMLParser();
@@ -70,6 +77,7 @@ public class YAMLParserTest extends TestCase
 		assertEquals(1, test.getChildCount());
 	}
 
+	@Test
 	public void testParseSequenceNode() throws Exception
 	{
 		YAMLParser parser = new YAMLParser();

@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit,
  com.aptana.editor.markdown,
  com.aptana.editor.yaml,
- com.aptana.editor.idl,
- com.aptana.editor.coffee
+ com.aptana.editor.idl
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
