@@ -1,4 +1,4 @@
-[![Build Status](http://studio-jenkins.appcelerator.org/job/studio3-rcp-development/badge/icon)](http://studio-jenkins.appcelerator.org/job/studio3-rcp-development)
+[![Build Status](http://studio-jenkins.appcelerator.org/job/studio3-rcp-master/badge/icon)](http://studio-jenkins.appcelerator.org/job/studio3-rcp-master)
 
 Aptana Studio 3 RCP
 ========================
