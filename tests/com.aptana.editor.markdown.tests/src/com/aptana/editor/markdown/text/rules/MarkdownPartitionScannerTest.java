@@ -7,6 +7,9 @@
  */
 package com.aptana.editor.markdown.text.rules;
 
+import org.junit.After;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import junit.framework.TestCase;
 
 import org.eclipse.jface.text.Document;
@@ -18,7 +21,7 @@ import com.aptana.editor.common.text.rules.CompositePartitionScanner;
 import com.aptana.editor.common.text.rules.NullSubPartitionScanner;
 import com.aptana.editor.markdown.MarkdownSourceConfiguration;
 
-public class MarkdownPartitionScannerTest extends TestCase
+public class MarkdownPartitionScannerTest
 {
 
 	// TODO Refactor out common code with other language's partition scanner testcases!
@@ -30,11 +33,12 @@ public class MarkdownPartitionScannerTest extends TestCase
 				getContentType(code, offset));
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+//	@Override
+	@After
+	public void tearDown() throws Exception
 	{
 		partitioner = null;
-		super.tearDown();
+//		super.tearDown();
 	}
 
 	private String getContentType(String content, int offset)
@@ -54,6 +58,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		return partitioner.getContentType(offset);
 	}
 
+	@Test
 	public void testLevel1ATXHeader()
 	{
 		String source = "#  HTML5 ";
@@ -62,6 +67,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.HEADING, source, source.length() - 1);
 	}
 
+	@Test
 	public void testLevel2ATXHeader()
 	{
 		String source = "## License:";
@@ -70,6 +76,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.HEADING, source, source.length() - 1);
 	}
 
+	@Test
 	public void testLevel3ATXHeader()
 	{
 		String source = "### v.0.9.1 : August 13th, 2010";
@@ -78,6 +85,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.HEADING, source, source.length() - 1);
 	}
 
+	@Test
 	public void testLevel5ATXHeader()
 	{
 		String source = "##### Thanks:";
@@ -86,6 +94,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.HEADING, source, source.length() - 1);
 	}
 
+	@Test
 	public void testAsteriskList()
 	{
 		String source = "* Modernizr: MIT/BSD license";
@@ -94,6 +103,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.UNNUMBERED_LIST, source, source.length() - 1);
 	}
 
+	@Test
 	public void testMultiplePartitions()
 	{
 		String source = "#  HTML5 Boilerplate [http://html5boilerplate.com](http://html5boilerplate.com)\n" + "\n\n"
@@ -116,6 +126,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.UNNUMBERED_LIST, source, 141);
 	}
 
+	@Test
 	public void testSeparator1()
 	{
 		String source = "* * *";
@@ -124,6 +135,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.SEPARATOR, source, source.length() - 1);
 	}
 
+	@Test
 	public void testSeparator2()
 	{
 		String source = "***";
@@ -132,6 +144,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.SEPARATOR, source, source.length() - 1);
 	}
 
+	@Test
 	public void testSeparator3()
 	{
 		String source = "*****";
@@ -140,6 +153,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.SEPARATOR, source, source.length() - 1);
 	}
 
+	@Test
 	public void testSeparator4()
 	{
 		String source = "- - -";
@@ -148,6 +162,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.SEPARATOR, source, source.length() - 1);
 	}
 
+	@Test
 	public void testSeparator5()
 	{
 		String source = "---------------------------------------";
@@ -156,6 +171,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.SEPARATOR, source, source.length() - 1);
 	}
 
+	@Test
 	public void testQuote()
 	{
 		String source = "> This is the first level of quoting.";
@@ -164,6 +180,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.QUOTE, source, source.length() - 1);
 	}
 
+	@Test
 	public void testQuoteFollowedByNoSpace()
 	{
 		String source = ">This is the first level of quoting.";
@@ -172,6 +189,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.QUOTE, source, source.length() - 1);
 	}
 
+	@Test
 	public void testQuotePrecededByOneSpace()
 	{
 		String source = " > This is the first level of quoting.";
@@ -180,6 +198,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.QUOTE, source, source.length() - 1);
 	}
 
+	@Test
 	public void testQuotePrecededByTwoSpaces()
 	{
 		String source = "  > This is the first level of quoting.";
@@ -188,6 +207,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.QUOTE, source, source.length() - 1);
 	}
 
+	@Test
 	public void testQuotePrecededByThreeSpaces()
 	{
 		String source = "   > This is the first level of quoting.";
@@ -196,6 +216,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.QUOTE, source, source.length() - 1);
 	}
 
+	@Test
 	public void testQuoteHardWrapped()
 	{
 		String source = "> This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,\n"
@@ -209,6 +230,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.QUOTE, source, source.length() - 1);
 	}
 
+	@Test
 	public void testCodeBlockWithTab()
 	{
 		String source = "\tBlock of code";
@@ -218,6 +240,7 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.BLOCK, source, source.length() - 1);
 	}
 
+	@Test
 	public void testCodeBlockWith4Spaces()
 	{
 		String source = "    Block of code";
@@ -227,7 +250,8 @@ public class MarkdownPartitionScannerTest extends TestCase
 		assertContentType(MarkdownSourceConfiguration.BLOCK, source, 3);
 		assertContentType(MarkdownSourceConfiguration.BLOCK, source, source.length() - 1);
 	}
-	
+
+	@Test
 	public void testNumberedList()
 	{
 		String source = "1. First item";

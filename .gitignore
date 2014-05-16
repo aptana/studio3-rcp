@@ -1,3 +1,5 @@
 .DS_Store
 bin/
 .pmd
+builders/com.aptana.win.installer/AptanaStudio-cache
+builders/com.aptana.win.installer/AptanaStudio-SetupFiles

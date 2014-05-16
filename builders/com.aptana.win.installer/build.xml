@@ -1,20 +1,35 @@
 <project name="trunk" default="main">
 	<property file="build.properties" />
-	<property name="nsis.dir" location="${basedir}\windows-nsis" />
-	<property name="makensis" value="${nsis.dir}\Tools\unicode_nsis\makensis.exe" />
 	<property name="staging.dir" location="${basedir}\..\..\dist" />
+	<property environment="env" />
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${basedir}/ant-contrib/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
 
 	<target name="main">
-		<echo message="Building NSIS installer" />
-		<antcall target="move-exe" />
+		<echo message="Building offline installer using Advanced Installer" />
+		<!-- create offline installer -->
+		<antcall target="advanced">
+			<param name="basename" value="${offline.installer.basename}" />
+		</antcall>
+		<echo message="Building online installer using Advanced Installer" />
+		<!-- create online installer -->
+		<antcall target="advanced">
+			<param name="basename" value="${online.installer.basename}" />
+			<param name="msi.url" value="${msi.source.url}" />
+		</antcall>
+		<!-- Delete the unzipped dir -->
+		<delete dir="${staging.dir}\win32" />
+		<delete file="${staging.dir}\${win.source.zip}" />
 	</target>
 
 	<target name="clean">
 		<echo message="Cleaning old installer artifacts" />
-		<delete file="${nsis.dir}/local_settings.nsh" />
-		<delete file="${nsis.dir}/${target.exe.name}" />
-		<delete file="${staging.dir}/${win.source.zip}"/>
-		<delete dir="${staging.dir}"/>
+		<delete file="${staging.dir}/${win.source.zip}" />
+		<delete dir="${staging.dir}" />
 	</target>
 
 	<target name="init" depends="clean">
@@ -25,45 +40,103 @@
 
 	<target name="unpack-archives" depends="init">
 		<unzip src="${staging.dir}/${win.source.zip}" dest="${staging.dir}/win32" />
-        <exec executable="cmd.exe" dir="${staging.dir}\win32" outputproperty="unzip.dir">
-            <arg line="/c dir /A:D /B"/>
-        </exec>
-        <move file="${staging.dir}\win32\${unzip.dir}" tofile="${staging.dir}\win32"/>
-        <delete dir="${staging.dir}\win32\${unzip.dir}"/>
+		<exec executable="cmd.exe" dir="${staging.dir}\win32" outputproperty="unzip.dir">
+			<arg line="/c dir /A:D /B" />
+		</exec>
+		<move file="${staging.dir}\win32\${unzip.dir}" tofile="${staging.dir}\win32" />
+		<delete dir="${staging.dir}\win32\${unzip.dir}" />
 	</target>
 
-	<target name="build-nsis">
-		<echo message="Creating local_settings.nsh file" />
-		<echo file="${nsis.dir}/local_settings.nsh">!define INSTALL_FILES_ROOT "${staging.dir}\win32"
-!define JRE_ROOT "${java.home}"</echo>
-		<echo message="Calling makensis.exe" />
-		<exec executable="${makensis}" failonerror="true">			
-			<arg value='/XName ""${ProductName}""' />
-			<arg value="${nsis.dir}\Aptana Studio.nsi" />
-		</exec>
-	</target>
+	<target name="advanced">
+		<!-- TODO Use Advanced Installer scripting file! Write out a command file to use and then just call /execute with it once -->
+		<!-- Add folders -->
+		<for param="folder">
+			<path>
+				<dirset dir="${staging.dir}\win32" includes="*" />
+			</path>
+			<sequential>
+				<echo message="Adding folder to installer: @{folder}" />
+				<exec executable="${installer.command}" failonerror="yes">
+					<arg value="/edit" />
+					<arg value="${basedir}\${basename}.aip" />
+					<arg value="/AddFolder" />
+					<arg value="APPDIR" />
+					<arg value="@{folder}" />
+				</exec>
+			</sequential>
+		</for>
 
-	<target name="sign" depends="build-nsis">
-		<!-- Sign the exe -->
-		<echo message="Signing the installer" />
-		<exec executable="${signtool.path}">
-			<arg value="sign" />
-			<arg value="/f" />
-			<arg value="${signkey}" />
-			<arg value="/d" />
-			<arg value="${ProductName}" />
-			<arg value="/du" />
-			<arg value="http://www.aptana.com" />
-			<arg value="/t" />
-			<arg value="http://timestamp.verisign.com/scripts/timestamp.dll" />
-			<arg value="/v" />
-			<arg value="/p" />
-			<arg value="${password}" />
-			<arg value="${nsis.dir}\${target.exe.name}" />
+		<!-- Add files -->
+		<for param="file">
+			<path>
+				<fileset dir="${staging.dir}\win32" includes="*" />
+			</path>
+			<sequential>
+				<echo message="Adding file to installer: @{file}" />
+				<exec executable="${installer.command}" failonerror="yes">
+					<arg value="/edit" />
+					<arg value="${basedir}\${basename}.aip" />
+					<arg value="/AddFile" />
+					<arg value="APPDIR" />
+					<arg value="@{file}" />
+				</exec>
+			</sequential>
+		</for>
+
+		<!-- Set the Version -->
+		<loadfile property="version" srcFile="${staging.dir}\win32\version.txt">
+			<filterchain>
+				<headfilter lines="1" />
+				<tokenfilter>
+					<stringtokenizer />
+					<containsregex pattern="(\d\.\d\.\d)\..+" replace="\1" />
+				</tokenfilter>
+			</filterchain>
+		</loadfile>
+		<!-- FIXME It keeps saying the version format is incorrect. When I tested manually, it worked OK. 
+		Maybe it's picking up newline or something? -->
+		<echo message="Setting version to: ${version}" />
+		<exec executable="${installer.command}">
+			<arg value="/edit" />
+			<arg value="${basedir}\${basename}.aip" />
+			<arg value="/SetVersion" />
+			<arg value="3.6.0" />
+			<arg value="-noprodcode" />
 		</exec>
-	</target>
-	
-	<target name="move-exe" depends="sign">
-		<move file="${nsis.dir}\${target.exe.name}" tofile="${staging.dir}\${target.exe.name}"/>
+
+		<echo message="Setting up shortcut" />
+		<exec executable="${installer.command}">
+			<arg value="/edit" />
+			<arg value="${basedir}\${basename}.aip" />
+			<arg value="/NewShortcut" />
+			<arg value="-name" />
+			<arg value="AptanaStudio" />
+			<arg value="-dir" />
+			<arg value="DesktopFolder" />
+			<arg value="-target" />
+			<arg value="APPDIR\AptanaStudio3.exe" />
+			<arg value="-icon" />
+			<arg value="${basedir}\aptana.ico" />
+		</exec>
+
+		<!-- set MSI_URL property -->
+		<if>
+			<isset property="msi.url" />
+			<then>
+				<echo message="Setting MSI URL to: ${msi.url}" />
+				<replace file="${basedir}\${basename}.aip" token="[MSI_URL]" value="${msi.url}" />
+			</then>
+		</if>
+
+		<!-- Build the installer -->
+		<exec executable="${installer.command}" failonerror="yes">
+			<arg value="/build" />
+			<arg value="${basedir}\${basename}.aip" />
+		</exec>
+
+		<!-- Move the installer files to artifacts dir -->
+		<move todir="${staging.dir}">
+			<fileset dir="${basedir}\${basename}-SetupFiles" defaultexcludes="false" />
+		</move>
 	</target>
 </project>

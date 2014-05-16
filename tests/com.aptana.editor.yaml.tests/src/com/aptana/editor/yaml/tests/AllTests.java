@@ -7,6 +7,10 @@
  */
 package com.aptana.editor.yaml.tests;
 
+import org.junit.runners.Suite.SuiteClasses;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -16,19 +20,21 @@ import com.aptana.editor.yaml.internal.text.YAMLFoldingComputerTest;
 import com.aptana.editor.yaml.outline.YAMLOutlineProviderTest;
 import com.aptana.editor.yaml.parsing.YAMLParserTest;
 
+@RunWith(Suite.class)
+@SuiteClasses({YAMLSourcePartitionScannerTest.class, YAMLCodeScannerTest.class, YAMLFoldingComputerTest.class, YAMLOutlineProviderTest.class, YAMLParserTest.class, })
 public class AllTests
 {
 
-	public static Test suite()
-	{
-		TestSuite suite = new TestSuite(AllTests.class.getName());
-		// $JUnit-BEGIN$
-		suite.addTestSuite(YAMLSourcePartitionScannerTest.class);
-		suite.addTestSuite(YAMLCodeScannerTest.class);
-		suite.addTestSuite(YAMLFoldingComputerTest.class);
-		suite.addTestSuite(YAMLOutlineProviderTest.class);
-		suite.addTestSuite(YAMLParserTest.class);
-		// $JUnit-END$
-		return suite;
-	}
+//	public static Test suite()
+//	{
+//		TestSuite suite = new TestSuite(AllTests.class.getName());
+//		// $JUnit-BEGIN$
+//		suite.addTestSuite(YAMLSourcePartitionScannerTest.class);
+//		suite.addTestSuite(YAMLCodeScannerTest.class);
+//		suite.addTestSuite(YAMLFoldingComputerTest.class);
+//		suite.addTestSuite(YAMLOutlineProviderTest.class);
+//		suite.addTestSuite(YAMLParserTest.class);
+//		// $JUnit-END$
+//		return suite;
+//	}
 }
