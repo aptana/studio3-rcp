@@ -5,7 +5,7 @@
 	<key>CFBundleExecutable</key>
 	<string>AptanaStudio3</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Aptana Studio 3 for Mac OS X, Copyright Appcelerator, Inc. 2011-2013. All rights reserved.</string>
+	<string>Aptana Studio 3 for Mac OS X, Copyright Appcelerator, Inc. 2011-%year%. All rights reserved.</string>
 	<key>CFBundleIconFile</key>
 	<string>aptana.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.1</string>
+	<string>0.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>APTS</string>
 	<key>CFBundleVersion</key>
-	<string>3.1</string>
+	<string>0.0.0.qualifier</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
