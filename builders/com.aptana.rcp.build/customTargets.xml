@@ -20,6 +20,9 @@
 		<tstamp>
 			<format property="short.timestamp" pattern="ddMMyyyyHHmmss" locale="en" />
 		</tstamp>
+		<tstamp>
+			<format property="year" pattern="yyyy" locale="en" />
+		</tstamp>
 		<echo message="Updating versions in feature and plugin manifests. Full version: ${version.full}, qualifier: ${build.revision}" />
 		<!-- Replace very specific files (taken from our old build) -->
 		<replace file="${buildDirectory}/plugins${product}" token="0.0.0.qualifier" value="${version.full}-${short.timestamp}" />
@@ -30,6 +33,11 @@
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/feature.properties" token="build.name" value="${build.name}" />
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/rootfiles/version.txt" token="0.0.0" value="${version.full}" />
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/rootfiles/version.txt" token=".qualifier" value="${build.revision}" />
+	
+		<!-- Inject year and versions into Info.plist -->
+		<replace file="${builder}/custom/macosx/Info.plist" token="0.0.0.qualifier" value="${version.full}" />
+		<replace file="${builder}/custom/macosx/Info.plist" token="%year%" value="${year}" />
+		<replace file="${builder}/custom/macosx/Info.plist" token="0.0.0" value="${version.short}" />
 	</target>
 
 	<!-- ===================================================================== -->
