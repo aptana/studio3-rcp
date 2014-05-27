@@ -307,8 +307,8 @@
 		<string>-consoleLog</string>
 		<string>-showlocation</string>
 	</array>
-	<key>LSBackgroundOnly</key>
-	<string>1</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.developer-tools</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
 </dict>
