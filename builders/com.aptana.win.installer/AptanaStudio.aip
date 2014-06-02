@@ -11,6 +11,7 @@
     <ROW Property="ARPPRODUCTICON" Value="aptana.exe" Type="8"/>
     <ROW Property="ARPSYSTEMCOMPONENT" Value="1"/>
     <ROW Property="ARPURLINFOABOUT" Value="http://appcelerator.com"/>
+    <ROW Property="AiPreferFastOem" MultiBuildValue="DefaultBuild:1"/>
     <ROW Property="AppLogoIcon" Value="applogoicon" MultiBuildValue="DefaultBuild:aptana.ico" Type="1" MsiKey="AppLogoIcon"/>
     <ROW Property="Manufacturer" Value="Appcelerator, Inc."/>
     <ROW Property="ProductCode" Value="1033:{2D6C1116-78C6-469C-9923-3E549218773F} " Type="16"/>
@@ -179,6 +180,9 @@
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AppDataFolder]Appcelerator\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiEventMappingComponent">
+    <ROW Dialog_="ProgressDlg" Control_="ProgressBar" Event="AiGlobalProgress" Attribute="Progress" MsiKey="ProgressDlg#ProgressBar#SetProgress"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="aptana.exe" SourcePath="aptana.ico" Index="0"/>
