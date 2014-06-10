@@ -298,8 +298,8 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
     <ROW PrereqKey="EC39D_0B8D_4C2E_A373_7F11E2281A4C" DisplayName="Java Runtime Environment" VersionMin="1.6.0" SetupFileUrl="http://go.appcelerator.com/installer_jre_windows" Location="1" ExactSize="29405096" Operator="1" ComLine="/passive REBOOT=Suppress JAVAUPDATE=0 WEBSTARTICON=0" BasicUiComLine="/passive REBOOT=Suppress JAVAUPDATE=0 WEBSTARTICON=0" NoUiComLine="/passive REBOOT=Suppress JAVAUPDATE=0 WEBSTARTICON=0" Options="m" MD5="6fa7457f23ab31e68a674e5342fe32bd"/>
-    <ROW PrereqKey="Node.JS" DisplayName="Node.JS" VersionMin="0.8.3" VersionMax="0.11.0" SetupFileUrl="http://go.appcelerator.com/installer_nodejs_windows" Location="1" ExactSize="5324800" Win9xVersions="Windows 9x/ME" Operator="1" ComLine="/qb REBOOT=ReallySuppress" Options="m" MD5="a3c37a562400e3971bfdd53cf98bc802" Type="1" Feature="Node.JS"/>
-    <ROW PrereqKey="Node.JS_1" DisplayName="MSYSGIT" VersionMin="1.7" SetupFileUrl="http://go.appcelerator.com/installer_git_windows" Location="1" ExactSize="15586182" Win9xVersions="Windows 9x/ME" Operator="1" ComLine="/SP- /SILENT /NORESTART" Options="m" MD5="d42f7e12cf9221420e0d0a4293ad36e9" Type="1" Feature="Node.JS_1"/>
+    <ROW PrereqKey="Node.JS" DisplayName="Node.JS" VersionMin="0.8.3" VersionMax="0.11.0" SetupFileUrl="http://go.appcelerator.com/installer_nodejs_windows.msi" Location="1" ExactSize="5324800" Win9xVersions="Windows 9x/ME" Operator="1" ComLine="/qb REBOOT=ReallySuppress" Options="m" MD5="a3c37a562400e3971bfdd53cf98bc802" Type="1" Feature="Node.JS"/>
+    <ROW PrereqKey="Node.JS_1" DisplayName="MSYSGIT" VersionMin="1.7" SetupFileUrl="http://go.appcelerator.com/installer_git_windows.exe" Location="1" ExactSize="15586182" Win9xVersions="Windows 9x/ME" Operator="1" ComLine="/SP- /SILENT /NORESTART" Options="m" MD5="d42f7e12cf9221420e0d0a4293ad36e9" Type="1" Feature="Node.JS_1"/>
     <ATTRIBUTE name="PrereqsOrder" value="EC39D_0B8D_4C2E_A373_7F11E2281A4C Node.JS Node.JS_1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
