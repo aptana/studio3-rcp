@@ -49,7 +49,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.Policy;
 import org.eclipse.jface.window.Window;
-import org.eclipse.osgi.framework.internal.core.FrameworkProperties;
+import org.eclipse.osgi.service.environment.EnvironmentInfo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -84,6 +84,7 @@ import org.eclipse.ui.statushandlers.AbstractStatusHandler;
 import org.eclipse.ui.statushandlers.StatusAdapter;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.Version;
 import org.osgi.service.prefs.BackingStoreException;
@@ -269,12 +270,27 @@ public class IDEWorkbenchAdvisor extends WorkbenchAdvisor {
         service.registerIconForFamily(newImage,
                 ResourcesPlugin.FAMILY_AUTO_BUILD);
 
-		String productVersion = EclipseUtil.getProductVersion();
-		if (productVersion == null)
-		{
-			productVersion = StringUtil.EMPTY;
-		}
-		FrameworkProperties.setProperty("eclipse.buildId", productVersion); //$NON-NLS-1$
+        // set eclipse.buildId
+ 		BundleContext context = IdePlugin.getDefault().getBundle().getBundleContext();
+ 		if (context == null)
+ 		{
+ 			return;
+ 		}
+ 		ServiceReference<EnvironmentInfo> ref = context.getServiceReference(EnvironmentInfo.class);
+ 		if (ref == null)
+ 		{
+ 			return;
+ 		}
+ 		EnvironmentInfo info = context.getService(ref);
+ 		if (info != null)
+ 		{
+ 			String productVersion = EclipseUtil.getProductVersion();
+ 			if (productVersion == null)
+ 			{
+ 				productVersion = StringUtil.EMPTY;
+ 			}
+ 			info.setProperty("eclipse.buildId", productVersion); //$NON-NLS-1$
+ 		}
     }
 
     /**
