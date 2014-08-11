@@ -7,10 +7,11 @@
  */
 package com.aptana.editor.coffee.preferences;
 
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.aptana.core.util.EclipseUtil;
 import com.aptana.editor.coffee.CoffeeEditor;
 import com.aptana.editor.coffee.CoffeeScriptEditorPlugin;
 import com.aptana.editor.common.preferences.CommonEditorPreferencePage;
@@ -31,7 +32,7 @@ public class CoffeePreferencePage extends CommonEditorPreferencePage
 	@Override
 	protected IEclipsePreferences getPluginPreferenceStore()
 	{
-		return EclipseUtil.instanceScope().getNode(CoffeeScriptEditorPlugin.PLUGIN_ID);
+		return InstanceScope.INSTANCE.getNode(CoffeeScriptEditorPlugin.PLUGIN_ID);
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class CoffeePreferencePage extends CommonEditorPreferencePage
 	@Override
 	protected IEclipsePreferences getDefaultPluginPreferenceStore()
 	{
-		return EclipseUtil.defaultScope().getNode(CoffeeScriptEditorPlugin.PLUGIN_ID);
+		return DefaultScope.INSTANCE.getNode(CoffeeScriptEditorPlugin.PLUGIN_ID);
 	}
 
 	@Override

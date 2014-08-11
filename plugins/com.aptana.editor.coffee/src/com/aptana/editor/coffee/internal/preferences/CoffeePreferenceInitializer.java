@@ -8,10 +8,11 @@
 package com.aptana.editor.coffee.internal.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 
-import com.aptana.core.util.EclipseUtil;
 import com.aptana.editor.coffee.CoffeeScriptEditorPlugin;
 import com.aptana.editor.coffee.preferences.ICoffeePreferenceConstants;
 import com.aptana.editor.common.preferences.IPreferenceConstants;
@@ -25,13 +26,13 @@ public class CoffeePreferenceInitializer extends AbstractPreferenceInitializer
 	@Override
 	public void initializeDefaultPreferences()
 	{
-		IEclipsePreferences prefs = EclipseUtil.defaultScope().getNode(CoffeeScriptEditorPlugin.PLUGIN_ID);
+		IEclipsePreferences prefs = DefaultScope.INSTANCE.getNode(CoffeeScriptEditorPlugin.PLUGIN_ID);
 
 		prefs.putBoolean(com.aptana.editor.common.preferences.IPreferenceConstants.EDITOR_AUTO_INDENT, true);
 		prefs.putBoolean(com.aptana.editor.common.preferences.IPreferenceConstants.EDITOR_ENABLE_FOLDING, true);
 
 		// Check if we previously set preference to use global defaults
-		IEclipsePreferences instanceScopePref = EclipseUtil.instanceScope().getNode(CoffeeScriptEditorPlugin.PLUGIN_ID);
+		IEclipsePreferences instanceScopePref = InstanceScope.INSTANCE.getNode(CoffeeScriptEditorPlugin.PLUGIN_ID);
 		if (!instanceScopePref.getBoolean(IPreferenceConstants.USE_GLOBAL_DEFAULTS, false))
 		{
 			prefs.putInt(AbstractDecoratedTextEditorPreferenceConstants.EDITOR_TAB_WIDTH,
