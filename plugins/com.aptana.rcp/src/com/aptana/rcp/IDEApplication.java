@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.e4.ui.workbench.swt.internal.copy.WorkbenchSWTMessages;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jface.dialogs.Dialog;
@@ -385,8 +386,8 @@ public class IDEApplication implements IApplication, IExecutableExtension
 		// At this point workspace has been detected to be from a version
 		// other than the current ide version -- find out if the user wants
 		// to use it anyhow.
-		String title = IDEWorkbenchMessages.IDEApplication_versionTitle;
-		String message = NLS.bind(IDEWorkbenchMessages.IDEApplication_versionMessage, url.getFile());
+		String title = WorkbenchSWTMessages.IDEApplication_versionTitle;
+		String message = NLS.bind(WorkbenchSWTMessages.IDEApplication_versionMessage, url.getFile());
 
 		MessageBox mbox = new MessageBox(shell, SWT.OK | SWT.CANCEL | SWT.ICON_WARNING | SWT.APPLICATION_MODAL);
 		mbox.setText(title);

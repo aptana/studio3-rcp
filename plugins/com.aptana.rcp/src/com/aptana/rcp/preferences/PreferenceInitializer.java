@@ -8,9 +8,8 @@
 package com.aptana.rcp.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-
-import com.aptana.core.util.EclipseUtil;
 
 public class PreferenceInitializer extends AbstractPreferenceInitializer
 {
@@ -21,7 +20,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
 	@Override
 	public void initializeDefaultPreferences()
 	{
-		IEclipsePreferences prefs = EclipseUtil.defaultScope().getNode("org.eclipse.help.base"); //$NON-NLS-1$
+		IEclipsePreferences prefs = DefaultScope.INSTANCE.getNode("org.eclipse.help.base"); //$NON-NLS-1$
 		prefs.put("help_home", "/com.aptana.rcp/content/help_index.html"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
