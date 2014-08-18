@@ -7,10 +7,11 @@
  */
 package com.aptana.editor.yaml.preferences;
 
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.aptana.core.util.EclipseUtil;
 import com.aptana.editor.common.preferences.CommonEditorPreferencePage;
 import com.aptana.editor.yaml.YAMLEditor;
 import com.aptana.editor.yaml.YAMLPlugin;
@@ -32,7 +33,7 @@ public class YAMLPreferencePage extends CommonEditorPreferencePage
 	@Override
 	protected IEclipsePreferences getPluginPreferenceStore()
 	{
-		return EclipseUtil.instanceScope().getNode(YAMLPlugin.PLUGIN_ID);
+		return InstanceScope.INSTANCE.getNode(YAMLPlugin.PLUGIN_ID);
 	}
 
 	@Override
@@ -44,7 +45,7 @@ public class YAMLPreferencePage extends CommonEditorPreferencePage
 	@Override
 	protected IEclipsePreferences getDefaultPluginPreferenceStore()
 	{
-		return EclipseUtil.defaultScope().getNode(YAMLPlugin.PLUGIN_ID);
+		return DefaultScope.INSTANCE.getNode(YAMLPlugin.PLUGIN_ID);
 	}
 
 	@Override
