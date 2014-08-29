@@ -35,10 +35,6 @@
          id="com.aptana.php.feature"
          version="0.0.0"/>
 
-   <includes
-         id="com.aptana.pydev.feature"
-         version="0.0.0"/>
-
    <plugin
          id="com.aptana.ui.override"
          download-size="0"
