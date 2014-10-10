@@ -35,13 +35,13 @@
 	</target>
 
 	<target name="sign" depends="set-icon">
-		<exec executable="/usr/bin/security">
+		<exec executable="/usr/bin/security" failonerror="true">
 			<arg value="unlock-keychain" />
 			<arg value="-p" />
 			<arg value="appcelerator" />
 			<arg value='login.keychain' />
 		</exec>
-		<exec executable="/usr/bin/codesign">
+		<exec executable="/usr/bin/codesign" failonerror="true">
 			<arg value="-f" />
 			<arg value="-s" />
 			<arg value='Developer ID Application' />
