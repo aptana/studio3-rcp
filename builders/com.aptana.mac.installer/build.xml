@@ -45,6 +45,7 @@
 			<arg value="-f" />
 			<arg value="-s" />
 			<arg value='Developer ID Application' />
+			<arg value="--deep" />
 			<arg value="${basedir}/${staging.dir}/${source.dir.name}/AptanaStudio3.app" />
 		</exec>
 	</target>
