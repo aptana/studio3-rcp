@@ -33,7 +33,7 @@
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/feature.properties" token="build.name" value="${build.name}" />
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/rootfiles/version.txt" token="0.0.0" value="${version.full}" />
 		<replace file="${buildDirectory}/features/com.aptana.feature.rcp/rootfiles/version.txt" token=".qualifier" value="${build.revision}" />
-	
+
 		<!-- Inject year and versions into Info.plist -->
 		<replace file="${builder}/custom/macosx/Info.plist" token="0.0.0.qualifier" value="${version.full}" />
 		<replace file="${builder}/custom/macosx/Info.plist" token="%year%" value="${year}" />
@@ -66,7 +66,7 @@
 	<!-- We need to do our own signing here so we can limit the JARs it applies to -->
 	<target name="signJars" if="sign.jars">
 		<echo message="Signing plugins and features at: ${buildDirectory}/buildRepo" />
-		<!-- Load the final version strings for all features and plugins... 
+		<!-- Load the final version strings for all features and plugins...
 			this stores the feature/plugin id as key and the version string as the value, which we use below in the script...
 		-->
 		<property name="p2.build.repo" value="file:${buildDirectory}/buildRepo" />
@@ -75,38 +75,39 @@
 
 		<script description="Sign specific feature/plugin JARs" language="javascript">
 			<![CDATA[
-				importPackage(Packages.org.eclipse.equinox.p2.internal.repository.tools.tasks);
-			
+				var ProcessRepoTask = org.eclipse.equinox.p2.internal.repository.tools.tasks.ProcessRepoTask;
+				var IUDescription = org.eclipse.equinox.p2.internal.repository.tools.tasks.IUDescription;
+
 				var featureIds = project.getProperty("sign.features");
 				var pluginIds = project.getProperty("sign.plugins");
 				if ( featureIds.length() > 0 || pluginIds.length() > 0) {
-			
+
 					// We're going to call p2.process.artifacts to sign the JARs
-		            var processArtifacts = project.createTask("p2.process.artifacts");
+					var processArtifacts = project.createTask("p2.process.artifacts");
 					processArtifacts.setRepositoryPath(project.getProperty("p2.build.repo"));
-					
+
 					//var sign = processArtifacts.createSign("sign");
 					var sign = new ProcessRepoTask.SigningOptions();
 					sign.setAlias(project.getProperty("sign.alias"));
 					sign.setKeystore(project.getProperty("sign.keystore"));
 					sign.setStorepass(project.getProperty("sign.keypass"));
-			
+
 					processArtifacts.addConfiguredSign(sign);
-			
-					// Split the plugin and feature id list by comma delimiter 
-		            var features = project.getProperty("sign.features").split(",");
+
+					// Split the plugin and feature id list by comma delimiter
+					var features = project.getProperty("sign.features").split(",");
 					var plugins = project.getProperty("sign.plugins").split(",");
-			
+
 					// Specify the features
-		            for (var i = 0; i < features.length; i ++) {
+					for (var i = 0; i < features.length; i ++) {
 						//var feature = processArtifacts.createFeature("feature");
 						var feature = new IUDescription();
 						feature.setId(features[i]);
 						feature.setVersion(project.getProperty(features[i]));
 						//processArtifacts.addFeature(feature);
 						processArtifacts.addConfiguredFeature(feature);
-		            }
-			
+					}
+
 					// Now specify the plugins
 					for (var i = 0; i < plugins.length; i ++) {
 						//var plugin = processArtifacts.createPlugin("plugin");
@@ -114,11 +115,11 @@
 						plugin.setId(plugins[i]);
 						plugin.setVersion(project.getProperty(plugins[i]));
 						processArtifacts.addConfiguredPlugin(plugin);
-		            }
-			
+					}
+
 					processArtifacts.execute();
 				}
-	            ]]>
+			]]>
 			</script>
 		</target>
 
