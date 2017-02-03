@@ -8,6 +8,8 @@ node('keystore && linux && ant && eclipse && jdk') {
 		def phpRepo = "file://${env.WORKSPACE}/studio3-php/dist/"
 		def pydevRepo = "file://${env.WORKSPACE}/studio3-pydev/dist/"
 		def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
+		def storePass = env.STOREPASS
+		def keystore = env.KEYSTORE
 
 		wrap([$class: 'MaskPasswordsBuildWrapper']) {
 			// Feature
@@ -25,9 +27,9 @@ node('keystore && linux && ant && eclipse && jdk') {
 					'pydev.p2.repo': pydevRepo,
 					'radrails.p2.repo': rubyRepo,
 					'sign.alias': 'appcelerator',
-					'sign.keystore': '$KEYSTORE',
-					'sign.storepass': '$STOREPASS',
-					'sign.keypass': '$STOREPASS'
+					'sign.keystore': keystore,
+					'sign.storepass': storePass,
+					'sign.keypass': storePass
 				]
 			}
 
@@ -53,9 +55,9 @@ node('keystore && linux && ant && eclipse && jdk') {
 				properties = [
 					'studio3-feature.p2.repo': studio3FeatureRepo,
 					'sign.alias': 'appcelerator',
-					'sign.keystore': '$KEYSTORE',
-					'sign.storepass': '$STOREPASS',
-					'sign.keypass': '$STOREPASS'
+					'sign.keystore': keystore,
+					'sign.storepass': storePass,
+					'sign.keypass': storePass
 				]
 			}
 
