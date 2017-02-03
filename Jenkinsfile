@@ -35,7 +35,7 @@ timestamps() {
 				]
 			}
 
-			stage('Shuffling') {
+			stage('Clean') {
 				// set stream for windows installer later
 				if (env.BRANCH_NAME.equals('master')) {
 					stream = 'rc'
@@ -61,10 +61,12 @@ timestamps() {
 				properties = ['studio3-feature.p2.repo': studio3FeatureRepo]
 			}
 
-			stash name: 'winZip', includes: 'dist/studio3.win32.win32.x86.zip'
-			stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
-			stash name: 'macZip', includes: 'dist/studio3.macosx.cocoa.x86_64.zip'
-			stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
+			stage('Stash') {
+				stash name: 'winZip', includes: 'dist/studio3.win32.win32.x86.zip'
+				stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
+				stash name: 'macZip', includes: 'dist/studio3.macosx.cocoa.x86_64.zip'
+				stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
+			}
 		} catch (e) {
 			// if any exception occurs, mark the build as failed
 			currentBuild.result = 'FAILURE'
@@ -78,12 +80,15 @@ timestamps() {
 		parallel(
 			'Windows Installer': {
 				node('windows && advanced_installer && ant') {
-					unstash 'winZip'
+					bat 'mkdir rcp'
+					dir('rcp') {
+						unstash 'winZip'
+					}
 					unstash 'winBuilder'
 
 					timeout(20) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}\\bin"]) {
-							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/dist/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
+							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/rcp/dist/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
 
 							// FIXME I don't think we sign the installer!
 							// 'password': '$STOREPASS',
