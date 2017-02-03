@@ -3,10 +3,13 @@
 
 timestamps() {
 	def stream = 'nightly'
+	def gitCommit = ''
 	node('keystore && linux && ant && eclipse && jdk') {
 		try {
 			stage('Checkout') {
 				checkout scm
+				gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+				// TODO Just stash everything and unstash after first build?
 			}
 
 			def studio3Repo = "file://${env.WORKSPACE}/studio3-core/dist/"
@@ -41,6 +44,9 @@ timestamps() {
 				}
 				// Clean everything but dist dir
 				sh 'git clean -fdx -e dist/'
+				// Force checking out the same rev we started with
+				sh "git checkout -f ${gitCommit}"
+				unarchive mapping: ['dist/' : '.']
 				// Copy the artifacts from first step into studio3-feature/dist
 				sh 'mkdir studio3-feature'
 				sh 'mv dist/ studio3-feature/'
