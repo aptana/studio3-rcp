@@ -8,67 +8,49 @@ node('keystore && linux && ant && eclipse && jdk') {
 		def phpRepo = "file://${env.WORKSPACE}/studio3-php/dist/"
 		def pydevRepo = "file://${env.WORKSPACE}/studio3-pydev/dist/"
 		def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
-		def storePass = ''
-		def keystore = env.KEYSTORE
-		echo "Keystore: ${keystore}"
 
-		wrap([$class: 'MaskPasswordsBuildWrapper']) {
-			storePass = env.STOREPASS
-			echo "Storepass: ${storePass}"
+		// Feature
+		buildPlugin('Feature Build') {
+			dependencies = [
+				'studio3-core': 'Studio/studio3',
+				'studio3-php': 'Studio/studio3-php',
+				'studio3-pydev': 'Studio/Pydev',
+				'studio3-ruby': 'Studio/studio3-ruby'
+			]
+			builder = 'com.aptana.studio.build'
+			properties = [
+				'studio3.p2.repo': studio3Repo,
+				'php.p2.repo': phpRepo,
+				'pydev.p2.repo': pydevRepo,
+				'radrails.p2.repo': rubyRepo
+			]
+		}
 
-			// Feature
-			buildPlugin('Feature Build') {
-				dependencies = [
-					'studio3-core': 'Studio/studio3',
-					'studio3-php': 'Studio/studio3-php',
-					'studio3-pydev': 'Studio/Pydev',
-					'studio3-ruby': 'Studio/studio3-ruby'
-				]
-				builder = 'com.aptana.studio.build'
-				properties = [
-					'studio3.p2.repo': studio3Repo,
-					'php.p2.repo': phpRepo,
-					'pydev.p2.repo': pydevRepo,
-					'radrails.p2.repo': rubyRepo,
-					'sign.alias': 'appcelerator',
-					'sign.keystore': keystore,
-					'sign.storepass': storePass,
-					'sign.keypass': storePass
-				]
+		stage('Shuffling') {
+			// set stream for windows installer later
+			if (env.BRANCH_NAME.equals('master')) {
+				stream = 'rc'
+			} else if (env.BRANCH_NAME.equals('release')) {
+				stream = 'beta'
 			}
+			// Clean everything but dist dir
+			sh 'git clean -fdx -e dist/'
+			// Copy the artifacts from first step into studio3-feature/dist
+			sh 'mkdir studio3-feature'
+			sh 'mv dist/ studio3-feature/'
+		}
+		def studio3FeatureRepo = "file://${env.WORKSPACE}/studio3-feature/dist/"
 
-			stage('Shuffling') {
-				// set stream for windows installer later
-				if (env.BRANCH_NAME.equals('master')) {
-					stream = 'rc'
-				} else if (env.BRANCH_NAME.equals('release')) {
-					stream = 'beta'
-				}
-				// Clean everything but dist dir
-				sh 'git clean -fdx -e dist/'
-				// Copy the artifacts from first step into studio3-feature/dist
-				sh 'mkdir studio3-feature'
-				sh 'mv dist/ studio3-feature/'
-			}
-			def studio3FeatureRepo = "file://${env.WORKSPACE}/studio3-feature/dist/"
+		// RCP
+		buildPlugin('RCP Build') {
+			dependencies = [:]
+			builder = 'com.aptana.rcp.build'
+			properties = ['studio3-feature.p2.repo': studio3FeatureRepo]
+		}
 
-			// RCP
-			buildPlugin('RCP Build') {
-				dependencies = [:]
-				builder = 'com.aptana.rcp.build'
-				properties = [
-					'studio3-feature.p2.repo': studio3FeatureRepo,
-					'sign.alias': 'appcelerator',
-					'sign.keystore': keystore,
-					'sign.storepass': storePass,
-					'sign.keypass': storePass
-				]
-			}
-
-			stash name: 'winZip', includes: 'dist/studio3.win32.win32.x86.zip'
-			stash name: 'macZip', includes: 'dist/studio3.macosx.cocoa.x86_64.zip'
-			stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
-		} // end mask passwords wrapper
+		stash name: 'winZip', includes: 'dist/studio3.win32.win32.x86.zip'
+		stash name: 'macZip', includes: 'dist/studio3.macosx.cocoa.x86_64.zip'
+		stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
 	} catch (e) {
 		// if any exception occurs, mark the build as failed
 		currentBuild.result = 'FAILURE'
