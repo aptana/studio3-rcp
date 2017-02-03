@@ -8,13 +8,14 @@ node('keystore && linux && ant && eclipse && jdk') {
 		def phpRepo = "file://${env.WORKSPACE}/studio3-php/dist/"
 		def pydevRepo = "file://${env.WORKSPACE}/studio3-pydev/dist/"
 		def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
-		def storePass = env.STOREPASS
+		def storePass = ''
 		def keystore = env.KEYSTORE
-
 		echo "Keystore: ${keystore}"
-		echo "Storepass: ${storePass}"
 
 		wrap([$class: 'MaskPasswordsBuildWrapper']) {
+			storePass = env.STOREPASS
+			echo "Storepass: ${storePass}"
+
 			// Feature
 			buildPlugin('Feature Build') {
 				dependencies = [
