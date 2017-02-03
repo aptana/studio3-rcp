@@ -83,7 +83,7 @@ timestamps() {
 
 					timeout(20) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}\\bin"]) {
-							bat "ant -Dwin.source.url=file://${env.WORKSPACE}/dist/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
+							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/dist/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
 
 							// FIXME I don't think we sign the installer!
 							// 'password': '$STOREPASS',
