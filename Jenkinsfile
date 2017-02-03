@@ -11,6 +11,9 @@ node('keystore && linux && ant && eclipse && jdk') {
 		def storePass = env.STOREPASS
 		def keystore = env.KEYSTORE
 
+		echo "Keystore: ${keystore}"
+		echo "Storepass: ${storePass}"
+
 		wrap([$class: 'MaskPasswordsBuildWrapper']) {
 			// Feature
 			buildPlugin('Feature Build') {
