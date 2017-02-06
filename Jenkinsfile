@@ -27,6 +27,7 @@ timestamps() {
 					'studio3-ruby': 'Studio/studio3-ruby'
 				]
 				builder = 'com.aptana.studio.build'
+				outputDir = 'plugin'
 				properties = [
 					'studio3.p2.repo': studio3Repo,
 					'php.p2.repo': phpRepo,
@@ -43,28 +44,28 @@ timestamps() {
 					stream = 'beta'
 				}
 				// Clean everything but dist dir
-				sh 'git clean -fdx -e dist/'
+				sh 'git clean -fdx -e plugin/'
 				// Force checking out the same rev we started with
 				sh "git checkout -f ${gitCommit}"
-				unarchive mapping: ['dist/' : '.']
+				unarchive mapping: ['plugin/' : '.']
 				// Copy the artifacts from first step into studio3-feature/dist
 				sh 'mkdir studio3-feature'
-				sh 'mv dist/ studio3-feature/'
+				sh 'mv plugin/ studio3-feature/'
 			}
-			def studio3FeatureRepo = "file://${env.WORKSPACE}/studio3-feature/dist/"
+			def studio3FeatureRepo = "file://${env.WORKSPACE}/studio3-feature/"
 
 			// RCP
-			// FIXME Specify output directory as dist/rcp?
 			buildPlugin('RCP Build') {
 				dependencies = [:]
 				builder = 'com.aptana.rcp.build'
+				outputDir = 'rcp'
 				properties = ['studio3-feature.p2.repo': studio3FeatureRepo]
 			}
 
 			stage('Stash') {
-				stash name: 'winZip', includes: 'dist/studio3.win32.win32.x86.zip'
+				stash name: 'winZip', includes: 'rcp/studio3.win32.win32.x86.zip'
 				stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
-				stash name: 'macZip', includes: 'dist/studio3.macosx.cocoa.x86_64.zip'
+				stash name: 'macZip', includes: 'rcp/studio3.macosx.cocoa.x86_64.zip'
 				stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
 			}
 		} catch (e) {
@@ -80,15 +81,12 @@ timestamps() {
 		parallel(
 			'Windows Installer': {
 				node('windows && advanced_installer && ant') {
-					bat 'mkdir rcp'
-					dir('rcp') {
-						unstash 'winZip'
-					}
+					unstash 'winZip'
 					unstash 'winBuilder'
 
 					timeout(20) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}\\bin"]) {
-							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/rcp/dist/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
+							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/rcp/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
 
 							// FIXME I don't think we sign the installer!
 							// 'password': '$STOREPASS',
@@ -98,9 +96,9 @@ timestamps() {
 							writeFile file: 'override.properties', text: propertiesContent
 							bat "ant -propertyfile override.properties -f builders/com.aptana.win.installer/build.xml main"
 						} // withEnv
-						// TODO Move dist/ to dist/win/?
+						bat 'rename dist win'
 					} // timeout
-					archiveArtifacts artifacts: 'dist/*.exe, dist/*.msi, dist/*.cab'
+					archiveArtifacts artifacts: 'win/*.exe, win/*.msi, win/*.cab'
 					step([$class: 'WsCleanup', notFailBuild: true])
 				}
 			},
@@ -111,13 +109,14 @@ timestamps() {
 
 					timeout(10) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}/bin"]) {
-							sh "ant -Dmac.source.url=file://${env.WORKSPACE}/dist/studio3.macosx.cocoa.x86_64.zip -f builders/com.aptana.mac.installer/build.xml"
+							sh "ant -Dmac.source.url=file://${env.WORKSPACE}/rcp/studio3.macosx.cocoa.x86_64.zip -f builders/com.aptana.mac.installer/build.xml"
 						}
+						// Move DMG to new 'mac' directory so merged artifacts get separated nicely
+						sh 'mkdir mac'
+						sh 'mv builders/com.aptana.mac.installer/staging/*.dmg mac'
 					}
-
 					// TODO Check for textFinder('code object is not signed at all', '', true)
-					// TODO Move builders/com.aptana.mac.installer/staging/*.dmg to dist/mac/*.dmg
-					archiveArtifacts artifacts: 'builders/com.aptana.mac.installer/staging/*.dmg'
+					archiveArtifacts artifacts: 'mac/*.dmg'
 					step([$class: 'WsCleanup', notFailBuild: true])
 				}
 			}
