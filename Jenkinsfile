@@ -1,5 +1,5 @@
 #! groovy
-@Library('pipeline-build@rcp') _
+@Library('pipeline-build') _
 
 timestamps() {
 	def stream = 'nightly'
@@ -9,7 +9,6 @@ timestamps() {
 			stage('Checkout') {
 				checkout scm
 				gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-				// TODO Just stash everything and unstash after first build?
 			}
 
 			def studio3Repo = "file://${env.WORKSPACE}/studio3-core/dist/"
