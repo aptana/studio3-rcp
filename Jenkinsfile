@@ -47,12 +47,8 @@ timestamps() {
 				sh 'git clean -fdx -e plugin/'
 				// Force checking out the same rev we started with
 				sh "git checkout -f ${gitCommit}"
-				unarchive mapping: ['plugin/' : '.']
-				// Copy the artifacts from first step into studio3-feature/dist
-				sh 'mkdir studio3-feature'
-				sh 'mv plugin/ studio3-feature/'
 			}
-			def studio3FeatureRepo = "file://${env.WORKSPACE}/studio3-feature/"
+			def studio3FeatureRepo = "file://${env.WORKSPACE}/plugin/"
 
 			// RCP
 			buildPlugin('RCP Build') {
