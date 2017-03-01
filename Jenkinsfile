@@ -6,7 +6,14 @@ timestamps() {
 	def gitCommit = ''
 	node('keystore && linux && ant && eclipse && jdk') {
 		stage('Checkout') {
-			checkout scm
+			// checkout scm
+			// Hack for JENKINS-37658 - see https://support.cloudbees.com/hc/en-us/articles/226122247-How-to-Customize-Checkout-for-Pipeline-Multibranch
+			checkout([
+				$class: 'GitSCM',
+				branches: scm.branches,
+				extensions: scm.extensions + [[$class: 'CleanCheckout'], [$class: 'CloneOption', honorRefspec: true, noTags: true, reference: '', shallow: true, depth: 30, timeout: 30]],
+				userRemoteConfigs: scm.userRemoteConfigs
+			])
 			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 			// set stream for windows installer later
 			if (env.BRANCH_NAME.equals('master')) {
