@@ -99,8 +99,8 @@ timestamps() {
 					} // timeout
 					archiveArtifacts artifacts: 'win/*.exe, win/*.msi, win/*.cab'
 					step([$class: 'WsCleanup', notFailBuild: true])
-				}
-			},
+				} // node
+			}, // windows installer
 			'Mac Installer': {
 				node('osx && packages && ant && certs') {
 					unarchive mapping: ['rcp/studio3.macosx.cocoa.x86_64.zip': 'studio3.macosx.cocoa.x86_64.zip']
@@ -120,8 +120,9 @@ timestamps() {
 					// TODO Check for textFinder('code object is not signed at all', '', true)
 					archiveArtifacts artifacts: 'mac/*.dmg'
 					step([$class: 'WsCleanup', notFailBuild: true])
-				}
-			}
+				} // node
+			}, // mac installer
+			failFast: true
 		)
 	}
 }
