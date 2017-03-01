@@ -67,19 +67,7 @@
 	<!-- - - - - - - - - - - - - - - - - -
 	          target: generate.base
 	         - - - - - - - - - - - - - - - - - -->
-	<target name="generate.base" depends="copy.base.windows,copy.base">
-		<!-- Only include RCP source plugins/features, we want to force Eclipse to use pre-built binaries -->
-<echoproperties/>
-    <delete>
-			<fileset dir="${buildDirectory}">
-				<include name="plugins/**/*" />
-				<exclude name="plugins/com.aptana.rcp/**/*" />
-				<exclude name="plugins/com.aptana.rcp.studio/**/*" />
-				<include name="features/**/*" />
-				<exclude name="features/com.aptana.feature.rcp/**/*" />
-			</fileset>
-		</delete>
-	</target>
+	<target name="generate.base" depends="copy.base.windows,copy.base" />
 
 	<!-- - - - - - - - - - - - - - - - - -
 		          target: copy.base
