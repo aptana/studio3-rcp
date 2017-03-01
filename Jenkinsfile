@@ -9,6 +9,14 @@ timestamps() {
 			stage('Checkout') {
 				checkout scm
 				gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+				// set stream for windows installer later
+				if (env.BRANCH_NAME.equals('master')) {
+					stream = 'rc'
+				} else if (env.BRANCH_NAME.equals('release')) {
+					stream = 'beta'
+				}
+				stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
+				stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
 			}
 
 			def studio3Repo = "file://${env.WORKSPACE}/studio3-core/dist/"
@@ -17,7 +25,6 @@ timestamps() {
 			def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
 
 			// Feature
-			// FIXME Specify output directory as dist/plugin
 			buildPlugin('Feature Build') {
 				dependencies = [
 					'studio3-core': 'Studio/studio3',
@@ -36,16 +43,14 @@ timestamps() {
 			}
 
 			stage('Clean') {
-				// set stream for windows installer later
-				if (env.BRANCH_NAME.equals('master')) {
-					stream = 'rc'
-				} else if (env.BRANCH_NAME.equals('release')) {
-					stream = 'beta'
-				}
 				// Clean everything but dist dir
 				sh 'git clean -fdx -e plugin/'
+				def before = sh(returnStdout: true, script: 'ls -la').trim()
+				echo "Before: ${before}"
 				// Force checking out the same rev we started with
 				sh "git checkout -f ${gitCommit}"
+				def after = sh(returnStdout: true, script: 'ls -la').trim()
+				echo "After: ${after}"
 			}
 			def studio3FeatureRepo = "file://${env.WORKSPACE}/plugin/"
 
@@ -57,11 +62,10 @@ timestamps() {
 				properties = ['studio3-feature.p2.repo': studio3FeatureRepo]
 			}
 
-			stage('Stash') {
-				stash name: 'winZip', includes: 'rcp/studio3.win32.win32.x86.zip'
-				stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
-				stash name: 'macZip', includes: 'rcp/studio3.macosx.cocoa.x86_64.zip'
-				stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
+			stage('Archive Zips') {
+				// Archive the os/arch zips
+				// Don't include the zipped p2 repo
+				archiveArtifacts artifacts: "rcp/*.zip", excludes: "rcp/com.aptana.rcp.product-*.zip"
 			}
 		} catch (e) {
 			// if any exception occurs, mark the build as failed
@@ -76,12 +80,12 @@ timestamps() {
 		parallel(
 			'Windows Installer': {
 				node('windows && advanced_installer && ant') {
-					unstash 'winZip'
+					unarchive mapping: ['rcp/studio3.win32.win32.x86.zip': 'studio3.win32.win32.x86.zip']
 					unstash 'winBuilder'
 
 					timeout(20) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}\\bin"]) {
-							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/rcp/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
+							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
 
 							// FIXME I don't think we sign the installer!
 							// 'password': '$STOREPASS',
@@ -99,14 +103,17 @@ timestamps() {
 			},
 			'Mac Installer': {
 				node('osx && packages && ant && certs') {
-					unstash 'macZip'
+					unarchive mapping: ['studio3.macosx.cocoa.x86_64.zip': 'studio3.macosx.cocoa.x86_64.zip']
 					unstash 'macBuilder'
 
 					timeout(10) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}/bin"]) {
-							sh "ant -Dmac.source.url=file://${env.WORKSPACE}/rcp/studio3.macosx.cocoa.x86_64.zip -f builders/com.aptana.mac.installer/build.xml"
+							sh "ant -Dmac.source.url=file://${env.WORKSPACE}/studio3.macosx.cocoa.x86_64.zip -f builders/com.aptana.mac.installer/build.xml"
 						}
 						// Move DMG to new 'mac' directory so merged artifacts get separated nicely
+						if (fileExists('mac')) {
+							sh 'rm -rf mac'
+						}
 						sh 'mkdir mac'
 						sh 'mv builders/com.aptana.mac.installer/staging/*.dmg mac'
 					}
