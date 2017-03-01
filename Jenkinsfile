@@ -5,73 +5,66 @@ timestamps() {
 	def stream = 'nightly'
 	def gitCommit = ''
 	node('keystore && linux && ant && eclipse && jdk') {
-		try {
-			stage('Checkout') {
-				checkout scm
-				gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-				// set stream for windows installer later
-				if (env.BRANCH_NAME.equals('master')) {
-					stream = 'rc'
-				} else if (env.BRANCH_NAME.equals('release')) {
-					stream = 'beta'
-				}
-				stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
-				stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
+		stage('Checkout') {
+			checkout scm
+			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+			// set stream for windows installer later
+			if (env.BRANCH_NAME.equals('master')) {
+				stream = 'rc'
+			} else if (env.BRANCH_NAME.equals('release')) {
+				stream = 'beta'
 			}
+			stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
+			stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
+		}
 
-			def studio3Repo = "file://${env.WORKSPACE}/studio3-core/dist/"
-			def phpRepo = "file://${env.WORKSPACE}/studio3-php/dist/"
-			def pydevRepo = "file://${env.WORKSPACE}/studio3-pydev/dist/"
-			def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
+		def studio3Repo = "file://${env.WORKSPACE}/studio3-core/dist/"
+		def phpRepo = "file://${env.WORKSPACE}/studio3-php/dist/"
+		def pydevRepo = "file://${env.WORKSPACE}/studio3-pydev/dist/"
+		def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
 
-			// Feature
-			buildPlugin('Feature Build') {
-				dependencies = [
-					'studio3-core': 'Studio/studio3',
-					'studio3-php': 'Studio/studio3-php',
-					'studio3-pydev': 'Studio/Pydev',
-					'studio3-ruby': 'Studio/studio3-ruby'
-				]
-				builder = 'com.aptana.studio.build'
-				outputDir = 'plugin'
-				properties = [
-					'studio3.p2.repo': studio3Repo,
-					'php.p2.repo': phpRepo,
-					'pydev.p2.repo': pydevRepo,
-					'radrails.p2.repo': rubyRepo
-				]
-			}
+		// Feature
+		buildPlugin('Feature Build') {
+			dependencies = [
+				'studio3-core': 'Studio/studio3',
+				'studio3-php': 'Studio/studio3-php',
+				'studio3-pydev': 'Studio/Pydev',
+				'studio3-ruby': 'Studio/studio3-ruby'
+			]
+			builder = 'com.aptana.studio.build'
+			outputDir = 'plugin'
+			properties = [
+				'studio3.p2.repo': studio3Repo,
+				'php.p2.repo': phpRepo,
+				'pydev.p2.repo': pydevRepo,
+				'radrails.p2.repo': rubyRepo
+			]
+		}
 
-			stage('Clean') {
-				// Clean everything but dist dir
-				sh 'git clean -fdx -e plugin/'
-				def before = sh(returnStdout: true, script: 'ls -la').trim()
-				echo "Before: ${before}"
-				// Force checking out the same rev we started with
-				sh "git checkout -f ${gitCommit}"
-				def after = sh(returnStdout: true, script: 'ls -la').trim()
-				echo "After: ${after}"
-			}
-			def studio3FeatureRepo = "file://${env.WORKSPACE}/plugin/"
+		stage('Clean') {
+			// Clean everything but dist dir
+			sh 'git clean -fdx -e plugin/'
+			def before = sh(returnStdout: true, script: 'ls -la').trim()
+			echo "Before: ${before}"
+			// Force checking out the same rev we started with
+			sh "git checkout -f ${gitCommit}"
+			def after = sh(returnStdout: true, script: 'ls -la').trim()
+			echo "After: ${after}"
+		}
+		def studio3FeatureRepo = "file://${env.WORKSPACE}/plugin/"
 
-			// RCP
-			buildPlugin('RCP Build') {
-				dependencies = [:]
-				builder = 'com.aptana.rcp.build'
-				outputDir = 'rcp'
-				properties = ['studio3-feature.p2.repo': studio3FeatureRepo]
-			}
+		// RCP
+		buildPlugin('RCP Build') {
+			dependencies = [:]
+			builder = 'com.aptana.rcp.build'
+			outputDir = 'rcp'
+			properties = ['studio3-feature.p2.repo': studio3FeatureRepo]
+		}
 
-			stage('Archive Zips') {
-				// Archive the os/arch zips
-				// Don't include the zipped p2 repo
-				archiveArtifacts artifacts: "rcp/*.zip", excludes: "rcp/com.aptana.rcp.product-*.zip"
-			}
-		} catch (e) {
-			// if any exception occurs, mark the build as failed
-			currentBuild.result = 'FAILURE'
-			throw e
-		} finally {
+		stage('Archive Zips') {
+			// Archive the os/arch zips
+			// Don't include the zipped p2 repo
+			archiveArtifacts artifacts: "rcp/*.zip", excludes: "rcp/com.aptana.rcp.product-*.zip"
 			step([$class: 'WsCleanup', notFailBuild: true])
 		}
 	} // end node
