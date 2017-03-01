@@ -45,8 +45,14 @@
 	<!-- ===================================================================== -->
 	<target name="preProcessRepos">
 		<p2.mirror destination="file:${repoBaseLocation}/mirrored">
-			<source location="${studio3-feature.p2.repo}" />
-			<iu id="com.aptana.feature.studio.feature.group" />
+			<source location="${studio3.p2.repo}" />
+			<source location="${php.p2.repo}" />
+			<source location="${pydev.p2.repo}" />
+			<source location="${radrails.p2.repo}" />
+			<iu id="com.aptana.feature.feature.group" />
+			<iu id="com.aptana.php.feature.feature.group" />
+			<iu id="com.aptana.pydev.feature.feature.group" />
+			<iu id="org.radrails.rails.feature.group" />
 		</p2.mirror>
 	</target>
 
