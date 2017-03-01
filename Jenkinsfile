@@ -5,69 +5,73 @@ timestamps() {
 	def stream = 'nightly'
 	def gitCommit = ''
 	node('keystore && linux && ant && eclipse && jdk') {
-		try {
-			stage('Checkout') {
-				checkout scm
-				gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+		stage('Checkout') {
+			// checkout scm
+			// Hack for JENKINS-37658 - see https://support.cloudbees.com/hc/en-us/articles/226122247-How-to-Customize-Checkout-for-Pipeline-Multibranch
+			checkout([
+				$class: 'GitSCM',
+				branches: scm.branches,
+				extensions: scm.extensions + [[$class: 'CleanCheckout'], [$class: 'CloneOption', honorRefspec: true, noTags: true, reference: '', shallow: true, depth: 30, timeout: 30]],
+				userRemoteConfigs: scm.userRemoteConfigs
+			])
+			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+			// set stream for windows installer later
+			if (env.BRANCH_NAME.equals('master')) {
+				stream = 'rc'
+			} else if (env.BRANCH_NAME.equals('release')) {
+				stream = 'beta'
 			}
+			stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
+			stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
+		}
 
-			def studio3Repo = "file://${env.WORKSPACE}/studio3-core/dist/"
-			def phpRepo = "file://${env.WORKSPACE}/studio3-php/dist/"
-			def pydevRepo = "file://${env.WORKSPACE}/studio3-pydev/dist/"
-			def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
+		def studio3Repo = "file://${env.WORKSPACE}/studio3-core/dist/"
+		def phpRepo = "file://${env.WORKSPACE}/studio3-php/dist/"
+		def pydevRepo = "file://${env.WORKSPACE}/studio3-pydev/dist/"
+		def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
 
-			// Feature
-			// FIXME Specify output directory as dist/plugin
-			buildPlugin('Feature Build') {
-				dependencies = [
-					'studio3-core': 'Studio/studio3',
-					'studio3-php': 'Studio/studio3-php',
-					'studio3-pydev': 'Studio/Pydev',
-					'studio3-ruby': 'Studio/studio3-ruby'
-				]
-				builder = 'com.aptana.studio.build'
-				outputDir = 'plugin'
-				properties = [
-					'studio3.p2.repo': studio3Repo,
-					'php.p2.repo': phpRepo,
-					'pydev.p2.repo': pydevRepo,
-					'radrails.p2.repo': rubyRepo
-				]
-			}
+		// Feature
+		buildPlugin('Feature Build') {
+			dependencies = [
+				'studio3-core': 'Studio/studio3',
+				'studio3-php': 'Studio/studio3-php',
+				'studio3-pydev': 'Studio/Pydev',
+				'studio3-ruby': 'Studio/studio3-ruby'
+			]
+			builder = 'com.aptana.studio.build'
+			outputDir = 'plugin'
+			properties = [
+				'studio3.p2.repo': studio3Repo,
+				'php.p2.repo': phpRepo,
+				'pydev.p2.repo': pydevRepo,
+				'radrails.p2.repo': rubyRepo
+			]
+		}
 
-			stage('Clean') {
-				// set stream for windows installer later
-				if (env.BRANCH_NAME.equals('master')) {
-					stream = 'rc'
-				} else if (env.BRANCH_NAME.equals('release')) {
-					stream = 'beta'
-				}
-				// Clean everything but dist dir
-				sh 'git clean -fdx -e plugin/'
-				// Force checking out the same rev we started with
-				sh "git checkout -f ${gitCommit}"
-			}
-			def studio3FeatureRepo = "file://${env.WORKSPACE}/plugin/"
+		stage('Clean') {
+			// Clean everything but dist dir
+			sh 'git clean -fdx -e plugin/ -e studio3-core/ -e studio3-php/ -e studio3-ruby/ -e studio3-pydev/'
+			// Force checking out the same rev we started with
+			sh "git checkout -f ${gitCommit}"
+		}
 
-			// RCP
-			buildPlugin('RCP Build') {
-				dependencies = [:]
-				builder = 'com.aptana.rcp.build'
-				outputDir = 'rcp'
-				properties = ['studio3-feature.p2.repo': studio3FeatureRepo]
-			}
+		// RCP
+		buildPlugin('RCP Build') {
+			dependencies = [:]
+			builder = 'com.aptana.rcp.build'
+			outputDir = 'rcp'
+			properties = [
+				'studio3.p2.repo': studio3Repo,
+				'php.p2.repo': phpRepo,
+				'pydev.p2.repo': pydevRepo,
+				'radrails.p2.repo': rubyRepo
+			]
+		}
 
-			stage('Stash') {
-				stash name: 'winZip', includes: 'rcp/studio3.win32.win32.x86.zip'
-				stash name: 'winBuilder', includes: 'builders/com.aptana.win.installer/**/*'
-				stash name: 'macZip', includes: 'rcp/studio3.macosx.cocoa.x86_64.zip'
-				stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
-			}
-		} catch (e) {
-			// if any exception occurs, mark the build as failed
-			currentBuild.result = 'FAILURE'
-			throw e
-		} finally {
+		stage('Archive Zips') {
+			// Archive the os/arch zips
+			// Don't include the zipped p2 repo
+			archiveArtifacts artifacts: 'rcp/*.zip', excludes: 'rcp/com.aptana.rcp.product-*.zip'
 			step([$class: 'WsCleanup', notFailBuild: true])
 		}
 	} // end node
@@ -76,12 +80,12 @@ timestamps() {
 		parallel(
 			'Windows Installer': {
 				node('windows && advanced_installer && ant') {
-					unstash 'winZip'
+					unarchive mapping: ['rcp/studio3.win32.win32.x86.zip': 'studio3.win32.win32.x86.zip']
 					unstash 'winBuilder'
 
 					timeout(20) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}\\bin"]) {
-							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/rcp/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
+							bat "ant -Dwin.source.url=file:///${env.WORKSPACE}/studio3.win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
 
 							// FIXME I don't think we sign the installer!
 							// 'password': '$STOREPASS',
@@ -99,14 +103,17 @@ timestamps() {
 			},
 			'Mac Installer': {
 				node('osx && packages && ant && certs') {
-					unstash 'macZip'
+					unarchive mapping: ['rcp/studio3.macosx.cocoa.x86_64.zip': 'studio3.macosx.cocoa.x86_64.zip']
 					unstash 'macBuilder'
 
 					timeout(10) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}/bin"]) {
-							sh "ant -Dmac.source.url=file://${env.WORKSPACE}/rcp/studio3.macosx.cocoa.x86_64.zip -f builders/com.aptana.mac.installer/build.xml"
+							sh "ant -Dmac.source.url=file://${env.WORKSPACE}/studio3.macosx.cocoa.x86_64.zip -f builders/com.aptana.mac.installer/build.xml"
 						}
 						// Move DMG to new 'mac' directory so merged artifacts get separated nicely
+						if (fileExists('mac')) {
+							sh 'rm -rf mac'
+						}
 						sh 'mkdir mac'
 						sh 'mv builders/com.aptana.mac.installer/staging/*.dmg mac'
 					}
