@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ====================================================================== 
-     Sep 1, 2009                                                        
+<!-- ======================================================================
+     Sep 1, 2009
 
-     Aptana Studio    
+     Aptana Studio
      Builds the Aptana Studio RCP feature
-                   
-     cwilliams                                                                
+
+     cwilliams
      ====================================================================== -->
 <project name="Aptana-Studio-RCP" default="build">
 	<description>
@@ -22,8 +22,8 @@
 
 	<property file="build_local.properties" />
 
-	<!-- ================================= 
-          target: build              
+	<!-- =================================
+          target: build
          ================================= -->
 	<target name="build" description="Builds the Aptana Studio RCP" depends="generate.build.properties,get.revision,generate.base,replace.versions">
 		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="yes">
@@ -31,8 +31,8 @@
 		</java>
 	</target>
 
-	<!-- ================================= 
-          target: generate.build.properties              
+	<!-- =================================
+          target: generate.build.properties
          ================================= -->
 	<target name="generate.build.properties" description="Takes in properties from build_local.properties and the command line overrides and generates a combined build.properties to use for the build">
 		<echoproperties destfile="build.properties">
@@ -46,8 +46,8 @@
 		</echoproperties>
 	</target>
 
-	<!-- ================================= 
-	      target: clean              
+	<!-- =================================
+	      target: clean
 	     ================================= -->
 	<target name="clean" depends="generate.build.properties" description="Clean up temp and build files">
 		<delete dir="${baseLocation}" />
@@ -64,24 +64,13 @@
 		<delete dir="${buildDirectory}/${buildLabel}" failonerror="false" />
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-	          target: generate.base                      
+	<!-- - - - - - - - - - - - - - - - - -
+	          target: generate.base
 	         - - - - - - - - - - - - - - - - - -->
-	<target name="generate.base" depends="copy.base.windows,copy.base">
-		<!-- Only include RCP source plugins/features, we want to force Eclipse to use pre-built binaries -->
-		<delete>
-			<fileset dir="${buildDirectory}">
-				<include name="plugins/**/*" />
-				<exclude name="plugins/com.aptana.rcp/**/*" />
-				<exclude name="plugins/com.aptana.rcp.studio/**/*" />
-				<include name="features**/*" />
-				<exclude name="features/com.aptana.feature.rcp/**/*" />
-			</fileset>
-		</delete>
-	</target>
+	<target name="generate.base" depends="copy.base.windows,copy.base" />
 
-	<!-- - - - - - - - - - - - - - - - - - 
-		          target: copy.base                      
+	<!-- - - - - - - - - - - - - - - - - -
+		          target: copy.base
 		         - - - - - - - - - - - - - - - - - -->
 	<target name="copy.base" unless="is.windows">
 		<!-- Copy over the original base eclipse to a new location.
@@ -91,8 +80,8 @@
 		</exec>
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-	          target: copy.base.windows                      
+	<!-- - - - - - - - - - - - - - - - - -
+	          target: copy.base.windows
 	         - - - - - - - - - - - - - - - - - -->
 	<target name="copy.base.windows" if="is.windows">
 		<copy todir="${baseLocation}">
@@ -100,8 +89,8 @@
 		</copy>
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: get.revision                      
+	<!-- - - - - - - - - - - - - - - - - -
+          target: get.revision
          - - - - - - - - - - - - - - - - - -->
 	<target name="get.revision">
 		<!-- Force to use the timestamp, so we always get a new qualifier! -->
