@@ -75,7 +75,7 @@
 				<include name="plugins/**/*" />
 				<exclude name="plugins/com.aptana.rcp/**/*" />
 				<exclude name="plugins/com.aptana.rcp.studio/**/*" />
-				<include name="features**/*" />
+				<include name="features/**/*" />
 				<exclude name="features/com.aptana.feature.rcp/**/*" />
 			</fileset>
 		</delete>
