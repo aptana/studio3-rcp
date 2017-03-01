@@ -103,7 +103,7 @@ timestamps() {
 			},
 			'Mac Installer': {
 				node('osx && packages && ant && certs') {
-					unarchive mapping: ['studio3.macosx.cocoa.x86_64.zip': 'studio3.macosx.cocoa.x86_64.zip']
+					unarchive mapping: ['rcp/studio3.macosx.cocoa.x86_64.zip': 'studio3.macosx.cocoa.x86_64.zip']
 					unstash 'macBuilder'
 
 					timeout(10) {
