@@ -55,6 +55,16 @@ timestamps() {
 			echo "Before: ${before}"
 			// Force checking out the same rev we started with
 			sh "git checkout -f ${gitCommit}"
+
+			// TODO: Wipe the non-rcp plugins/features
+			sh 'mv plugins src_plugins'
+			sh 'mkdir plugins'
+			sh 'mv src_plugins/com.aptana.rcp plugins/com.aptana.rcp'
+			sh 'mv src_plugins/com.aptana.rcp.studio plugins/com.aptana.rcp.studio'
+
+			sh 'mv features src_features'
+			sh 'mkdir features'
+			sh 'mv src_features/com.aptana.feature.rcp features/com.aptana.feature.rcp'
 			def after = sh(returnStdout: true, script: 'ls -la').trim()
 			echo "After: ${after}"
 		}
