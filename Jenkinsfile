@@ -33,10 +33,10 @@ timestamps() {
 		// Feature
 		buildPlugin('Feature Build') {
 			dependencies = [
-				'studio3-core': 'Studio/studio3',
-				'studio3-php': 'Studio/studio3-php',
-				'studio3-pydev': 'Studio/Pydev',
-				'studio3-ruby': 'Studio/studio3-ruby'
+				'studio3-core': '../studio3',
+				'studio3-php': '../studio3-php',
+				'studio3-pydev': '../Pydev',
+				'studio3-ruby': '../studio3-ruby'
 			]
 			builder = 'com.aptana.studio.build'
 			outputDir = 'plugin'
