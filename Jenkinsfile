@@ -1,7 +1,10 @@
 #! groovy
-@Library('pipeline-build') _
+library 'pipeline-build'
+// Keep logs/reports/etc of last 15 builds, only keep build artifacts of last 2 builds
+// (Artifacts take roughly ~1.2Gb per build!)
+properties([buildDiscarder(logRotator(numToKeepStr: '15', artifactNumToKeepStr: '2'))])
 
-timestamps() {
+timestamps {
 	def stream = 'nightly'
 	def gitCommit = ''
 	node('keystore && linux && ant && eclipse && jdk') {
