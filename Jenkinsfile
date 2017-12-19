@@ -84,7 +84,6 @@ timestamps {
 			// Archive the os/arch zips
 			// Don't include the zipped p2 repo
 			archiveArtifacts artifacts: 'rcp/*.zip', excludes: 'rcp/com.aptana.rcp.product-*.zip'
-			step([$class: 'WsCleanup', notFailBuild: true])
 		}
 	} // end node
 

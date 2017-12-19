@@ -7,7 +7,6 @@
 	<!-- ===================================================================== -->
 	<target name="post.gather.bin.parts">
 		<antcall target="insert.info.plist" />
-		<antcall target="fix.broken.metadata" />
 	</target>
 
 	<target name="insert.info.plist" unless="dont.modify.binaries">
@@ -35,73 +34,6 @@
 		</zip>
 		<delete dir="${mac64.cocoa.launcher.dir}" />
 		<delete dir="${buildDirectory}/tmp_mac64_launcher" />
-	</target>
-
-	<!-- Workaround for Eclipse bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=271373 -->
-	<target name="fix.broken.metadata">
-		<!-- Fix the broken OSGi filter syntax (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=271373)-->
-		<replace summary="yes" file="buildRepo/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.arch=x86,x86_64)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.arch=x86)(osgi.arch=x86_64))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="buildRepo/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.arch=ppc,x86,x86_64)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.arch=ppc)(osgi.arch=x86)(osgi.arch=x86_64))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="buildRepo/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.ws=carbon,cocoa,gtk,win32)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.ws=carbon)(osgi.ws=cocoa)(osgi.ws=gtk)(osgi.ws=win32))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="buildRepo/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.os=macosx,win32)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.os=macosx)(osgi.os=win32))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="buildRepo/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.os=aix,hpux,linux,qnx,solaris)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.os=aix)(osgi.os=hpux)(osgi.os=linux)(osgi.os=qnx)(osgi.os=solaris))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="buildRepo/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.ws=carbon, cocoa)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.ws=carbon)(osgi.ws=cocoa))]]>
-			</replacevalue>
-		</replace>
-		<replace summary="yes" file="buildRepo/content.xml">
-			<replacetoken>
-				<![CDATA[(osgi.os=aix,hpux,linux,macosx,qnx,solaris)]]>
-			</replacetoken>
-			<replacevalue>
-				<![CDATA[(| (osgi.os=aix)(osgi.os=hpux)(osgi.os=linux)(osgi.os=macosx)(osgi.os=qnx)(osgi.os=solaris))]]>
-			</replacevalue>
-		</replace>
-		<!-- Fix the broken unconfigure of a product launcher (workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=280007)-->
-		<replace summary="yes" file="buildRepo/content.xml">
-			<replacetoken>setLauncherName()</replacetoken>
-			<replacevalue>
-			</replacevalue>
-		</replace>
 	</target>
 
 	<!-- ===================================================================== -->
