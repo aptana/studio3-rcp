@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ====================================================================== 
-     April 20, 2009 2:43:07 PM                                                        
+<!-- ======================================================================
+     April 20, 2009 2:43:07 PM
 
-     Studio 3 RCP Tests    
+     Studio 3 RCP Tests
      Tests the Studio 3 RCP feature
-                   
-     cwilliams                                                                
+
+     cwilliams
      ====================================================================== -->
 <project name="Studio_3_RCP_Tests" default="test">
 	<description>
@@ -32,8 +32,8 @@
 		</dirset>
 	</path>
 
-	<!-- ================================= 
-          target: build              
+	<!-- =================================
+          target: build
          ================================= -->
 	<target name="build" description="Builds the studio3-rcp_Core Test feature" depends="generate.build.properties,generate.base">
 		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="yes">
@@ -41,8 +41,8 @@
 		</java>
 	</target>
 
-	<!-- ================================= 
-          target: generate.build.properties              
+	<!-- =================================
+          target: generate.build.properties
          ================================= -->
 	<target name="generate.build.properties" description="Takes in properties from build_local.properties and the command line overrides and generates a combined build.properties to use for the build">
 		<exec executable="hostname" outputproperty="computer.hostname"/>
@@ -57,8 +57,8 @@
 		</echoproperties>
 	</target>
 
-	<!-- ================================= 
-	      target: clean              
+	<!-- =================================
+	      target: clean
 	     ================================= -->
 	<target name="clean" depends="generate.build.properties" description="Clean up temp and build files">
 		<delete failonerror="false">
@@ -87,15 +87,15 @@
 		<delete dir="${buildDirectory}/eclipse" failonerror="false" />
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-	      target: clean.after                      
+	<!-- - - - - - - - - - - - - - - - - -
+	      target: clean.after
 	     - - - - - - - - - - - - - - - - - -->
 	<target name="clean.after" if="cleanAfter">
 		<antcall target="clean" />
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: generate.base                      
+	<!-- - - - - - - - - - - - - - - - - -
+          target: generate.base
          - - - - - - - - - - - - - - - - - -->
 	<target name="generate.base" depends="copy.base.windows,copy.base">
 		<!-- Wipe the non-test plugins-->
@@ -111,8 +111,8 @@
 			<param name="p2.repo" value="${libraries-com.p2.repo},${webkit.p2.repo},file:${studio3.p2.repo},${studio3-rcp.p2.repo}" />
 		</antcall>
 	</target>
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: wipe.plugins                      
+	<!-- - - - - - - - - - - - - - - - - -
+          target: wipe.plugins
          - - - - - - - - - - - - - - - - - -->
 	<target name="wipe.plugins" unless="dont.wipe.plugins">
 		<delete verbose="false">
@@ -122,8 +122,8 @@
 		</delete>
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: copy.base                      
+	<!-- - - - - - - - - - - - - - - - - -
+          target: copy.base
          - - - - - - - - - - - - - - - - - -->
 	<target name="copy.base" unless="is.windows">
 		<!-- Copy over the original base eclipse to a new location.
@@ -133,8 +133,8 @@
 		</exec>
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: copy.base.windows                      
+	<!-- - - - - - - - - - - - - - - - - -
+          target: copy.base.windows
          - - - - - - - - - - - - - - - - - -->
 	<target name="copy.base.windows" if="is.windows">
 		<copy todir="${baseLocation}">
@@ -142,8 +142,8 @@
 		</copy>
 	</target>
 
-	<!-- - - - - - - - - - - - - - - - - - 
-		  target: run.director                      
+	<!-- - - - - - - - - - - - - - - - - -
+		  target: run.director
 		 - - - - - - - - - - - - - - - - - -->
 	<target name="run.director" description="Runs the p2 director installs">
 		<java jar="${baseLocation}/plugins/${launcher.plugin}.jar" fork="true" failonerror="true" dir="${baseLocation}" timeout="900000">
@@ -158,7 +158,7 @@
 
 	<target name="-pre-test" depends="build" description="Install test features and do pre-test setup.">
 		<!-- Unzip Eclipse Testing Framework -->
-		<unzip src="eclipse-test-framework-3.6.zip" dest="${baseLocation}/test-framework" />
+		<unzip src="eclipse-test-framework-4.7.1a.zip" dest="${baseLocation}/test-framework" />
 		<!-- Install the test feature we just built and eclipse testing framework -->
 		<antcall target="run.director">
 			<param name="p2.installIU" value="${topLevelElementId}.feature.group,org.eclipse.test.feature.group" />
@@ -166,7 +166,7 @@
 		</antcall>
 
 		<!-- Modify the plugin_custimization.ini to set initial properties for tests! -->
-		<concat append="true" destfile="${baseLocation}/plugins/org.eclipse.sdk_3.6.0.v201006080911/plugin_customization.ini">
+		<concat append="true" destfile="${baseLocation}/plugins/${platform.plugin}/plugin_customization.ini">
 			<filelist dir="${basedir}/prefs" files="plugin_customization.ini" />
 		</concat>
 	</target>
