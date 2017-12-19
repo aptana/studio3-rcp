@@ -570,7 +570,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 			if (activeEditor != null)
 			{
 				lastEditorTitle = getTitle(activeEditor);
-				title = NLS.bind(IDEWorkbenchMessages.WorkbenchWindow_shellTitle, lastEditorTitle, title);
+				title = lastEditorTitle+" - "+title; //$NON-NLS-1$
 			}
 			IPerspectiveDescriptor persp = currentPage.getPerspective();
 			String label = /* StringUtil.EMPTY */""; // TODO //$NON-NLS-1$
@@ -584,14 +584,14 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 				label = currentPage.getLabel();
 			}
 			if (label != null && !label.equals( /* StringUtil.EMPTY */"")) { //$NON-NLS-1$ 
-				title = NLS.bind(IDEWorkbenchMessages.WorkbenchWindow_shellTitle, label, title);
+				title = label+" - "+title; //$NON-NLS-1$
 			}
 		}
 
 		String workspaceLocation = wbAdvisor.getWorkspaceLocation();
 		if (workspaceLocation != null)
 		{
-			title = NLS.bind(IDEWorkbenchMessages.WorkbenchWindow_shellTitle, title, workspaceLocation);
+			title = title+" - "+workspaceLocation; //$NON-NLS-1$
 		}
 
 		return title;
