@@ -149,7 +149,7 @@ password=${env.STOREPASS}
 							sh 'rm -rf mac'
 						}
 						sh 'mkdir mac'
-						sh 'mv builders/com.appcelerator.titanium.mac.installer/staging/*.dmg mac'
+						sh 'mv builders/com.aptana.mac.installer/staging/*.dmg mac'
 					}
 					// TODO Check for textFinder('code object is not signed at all', '', true)
 					archiveArtifacts artifacts: 'mac/*.dmg'
