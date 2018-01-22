@@ -45,7 +45,7 @@ timestamps {
 
 		stage('Dependencies') {
 			step([$class: 'CopyArtifact',
-				filter: 'dist/dist-tests/',
+				filter: 'dist/,dist-tests/',
 				fingerprintArtifacts: true,
 				selector: lastSuccessful(),
 				projectName: "/aptana-studio/studio3/${targetBranch}",
