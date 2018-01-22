@@ -42,7 +42,7 @@ timestamps {
 		def pydevRepo = "file://${pwd()}/Pydev/dist/"
 		def rubyRepo = "file://${pwd()}/studio3-ruby/dist/"
 
-		tage('Dependencies') {
+		stage('Dependencies') {
 			step([$class: 'CopyArtifact',
 				filter: 'dist/',
 				fingerprintArtifacts: true,
