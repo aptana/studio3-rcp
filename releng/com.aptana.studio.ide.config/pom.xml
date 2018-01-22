@@ -113,26 +113,6 @@
 					</environments>
 				</configuration>
 			</plugin>
-			<!-- Sign the JARs -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jarsigner-plugin</artifactId>
-				<version>1.2</version>
-				<configuration>
-					<keystore>${jarsigner.keystore}</keystore>
-					<storepass>${jarsigner.storepass}</storepass>
-					<alias>${jarsigner.alias}</alias>
-					<keypass>${jarsigner.keypass}</keypass>
-				</configuration>
-				<executions>
-					<execution>
-						<id>sign</id>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<!-- use last git commit timestamp as build qualifier for plugins -->
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -157,4 +137,40 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<!-- We only sign the jars when the keystore actually is provided and exists -->
+			<id>sign-jars</id>
+			<activation>
+				<file>
+					<exists>${jarsigner.keystore}</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Sign the JARs -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>1.2</version>
+						<configuration>
+							<keystore>${jarsigner.keystore}</keystore>
+							<storepass>${jarsigner.storepass}</storepass>
+							<alias>${jarsigner.alias}</alias>
+							<keypass>${jarsigner.keypass}</keypass>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
