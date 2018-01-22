@@ -22,6 +22,7 @@
 		<jarsigner.storepass></jarsigner.storepass>
 	</properties>
 
+	<!-- p2 upstream 1st-party plugin/feature dependency repostories -->
 	<repositories>
 		<repository>
 			<id>aptana-repo</id>
@@ -44,6 +45,15 @@
 			<layout>p2</layout>
 		</repository>
 	</repositories>
+
+	<!-- Plugin repsitory for Info.plist mangling plugin -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>buchen-maven-repo</id>
+			<url>http://buchen.github.io/maven-repo</url>
+			<layout>default</layout>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<build>
 		<plugins>
