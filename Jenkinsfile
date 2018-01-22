@@ -28,57 +28,64 @@ timestamps {
 			stash name: 'macBuilder', includes: 'builders/com.aptana.mac.installer/**/*'
 		}
 
-		def studio3Repo = "file://${env.WORKSPACE}/studio3-core/dist/"
-		def phpRepo = "file://${env.WORKSPACE}/studio3-php/dist/"
-		def pydevRepo = "file://${env.WORKSPACE}/studio3-pydev/dist/"
-		def rubyRepo = "file://${env.WORKSPACE}/studio3-ruby/dist/"
-		def eclipseHome = '/usr/local/eclipse-4.7.1a'
-		def launcherPlugin = 'org.eclipse.equinox.launcher_1.4.0.v20161219-1356'
-		def builderPlugin = 'org.eclipse.pde.build_3.9.300.v20170515-0912'
+		def studio3Repo = "file://${pwd()}/studio3/dist/"
+		def phpRepo = "file://${pwd()}/studio3-php/dist/"
+		def pydevRepo = "file://${pwd()}/Pydev/dist/"
+		def rubyRepo = "file://${pwd()}/studio3-ruby/dist/"
 
-		// Feature
-		buildPlugin('Feature Build') {
-			dependencies = [
-				'studio3-core': '../studio3',
-				'studio3-php': '../studio3-php',
-				'studio3-pydev': '../Pydev',
-				'studio3-ruby': '../studio3-ruby'
-			]
-			builder = 'com.aptana.studio.build'
-			outputDir = 'plugin'
-			properties = [
-				'studio3.p2.repo': studio3Repo,
-				'php.p2.repo': phpRepo,
-				'pydev.p2.repo': pydevRepo,
-				'radrails.p2.repo': rubyRepo,
-				'vanilla.eclipse': eclipseHome,
-				'launcher.plugin': launcherPlugin,
-				'builder.plugin': builderPlugin,
-			]
+		tage('Dependencies') {
+			step([$class: 'CopyArtifact',
+				filter: 'dist/',
+				fingerprintArtifacts: true,
+				selector: lastSuccessful(),
+				projectName: "/aptana-studio/studio3/tycho",
+				target: 'studio3'])
+			step([$class: 'CopyArtifact',
+				filter: 'dist/',
+				fingerprintArtifacts: true,
+				selector: lastSuccessful(),
+				projectName: "/aptana-studio/studio3-php/tycho",
+				target: 'studio3-php'])
+			step([$class: 'CopyArtifact',
+				filter: 'dist/',
+				fingerprintArtifacts: true,
+				selector: lastSuccessful(),
+				projectName: "/aptana-studio/Pydev/tycho",
+				target: 'Pydev'])
+			step([$class: 'CopyArtifact',
+				filter: 'dist/',
+				fingerprintArtifacts: true,
+				selector: lastSuccessful(),
+				projectName: "/aptana-studio/studio3-ruby/tycho",
+				target: 'studio3-ruby'])
 		}
 
-		stage('Clean') {
-			// Clean everything but dist dir
-			sh 'git clean -fdx -e plugin/ -e studio3-core/ -e studio3-php/ -e studio3-ruby/ -e studio3-pydev/'
-			// Force checking out the same rev we started with
-			sh "git checkout -f ${gitCommit}"
-		}
-
-		// RCP
-		buildPlugin('RCP Build') {
-			dependencies = [:]
-			builder = 'com.aptana.rcp.build'
-			outputDir = 'rcp'
-			properties = [
-				'studio3.p2.repo': studio3Repo,
-				'php.p2.repo': phpRepo,
-				'pydev.p2.repo': pydevRepo,
-				'radrails.p2.repo': rubyRepo,
-				'vanilla.eclipse': eclipseHome,
-				'launcher.plugin': launcherPlugin,
-				'builder.plugin': builderPlugin,
-			]
-		}
+		stage('Build') {
+			withEnv(["PATH+MAVEN=${tool name: 'Maven 3.5.0', type: 'maven'}/bin"]) {
+				withCredentials([usernamePassword(credentialsId: 'aca99bee-0f1e-4fc5-a3da-3dfd73f66432', passwordVariable: 'STOREPASS', usernameVariable: 'ALIAS')]) {
+					wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
+						try {
+							timeout(30) {
+								// TODO Get package vs verify goals running in separate stages!
+								sh "mvn -Dstudio3.p2.repo.url=${studio3Repo} -Dphp.p2.repo.url=${phpRepo} -Dpython.p2.repo.url=${pydevRepo} -ruby.p2.repo.url=${rubyRepo} -Dmaven.test.failure.ignore=true -Djarsigner.keypass=${env.STOREPASS} -Djarsigner.storepass=${env.STOREPASS} -Djarsigner.keystore=${env.KEYSTORE} clean verify"
+							}
+						} finally {
+							// record tests even if we failed
+							junit 'tests/*/target/surefire-reports/TEST-*.xml'
+						}
+					} // xvnc
+				} // withCredentials
+			} // withEnv(maven)
+			// Archive the generated p2 repo
+			dir('releng/org.python.pydev.update/target') {
+				// To keep backwards compatability with existing build pipeline, rename to "dist"
+				sh 'mv repository dist'
+				archiveArtifacts artifacts: 'dist/**/*'
+				def jarName = sh(returnStdout: true, script: 'ls dist/features/com.aptana.pydev.feature_*.jar').trim()
+				def version = (jarName =~ /.*?_(.+)\.jar/)[0][1]
+				currentBuild.displayName = "#${version}-${currentBuild.number}"
+			}
+		} // stage('Build')
 
 		stage('Archive Zips') {
 			// Archive the os/arch zips

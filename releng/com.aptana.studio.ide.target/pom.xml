@@ -1,0 +1,13 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.appcelerator.studio.ide</groupId>
+	<artifactId>com.appcelerator.studio.ide.target</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>eclipse-target-definition</packaging>
+
+	<parent>
+		<groupId>com.appcelerator.studio.ide</groupId>
+		<artifactId>com.appcelerator.studio.ide.releng</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+</project>

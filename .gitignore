@@ -3,3 +3,12 @@ bin/
 .pmd
 builders/com.aptana.win.installer/AptanaStudio-cache
 builders/com.aptana.win.installer/AptanaStudio-SetupFiles
+
+# tycho/maven
+target/
+.polyglot.build.properties
+workspace/
+
+# rubles/bundles
+bundles/com.aptana.studio.rubles/bundles/*.ruble
+bundles/com.aptana.studio.rubles/bundle_timestamps.txt
