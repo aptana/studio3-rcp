@@ -2,46 +2,6 @@
 <?pde version="3.8"?>
 <target name="com.aptana.studio.ide.target" sequenceNumber="25">
 	<locations>
-		<!-- TODO Add studio3 and studio3 test features as dependencies using directories
-		We already point to the p2 repos for them for tycho in our releng/com.appcelerator.studio.config/pom.xml
-		Ideally in eclipse devs would have the dependent plugins in their workspace already.
-		We could use non-URL locations here to point eclipse to studio3 dependencies too in a way that tycho would ignore.
-	-->
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-			<unit id="org.eclipse.emf.databinding.edit.feature.group" version="0.0.0"/>
-			<repository location="http://mirror.cc.columbia.edu/pub/software/eclipse/modeling/emf/emf/updates/2.13/"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-			<unit id="org.eclipse.mylyn.commons.notifications.feature.group" version="0.0.0"/>
-			<repository location="http://mirror.csclub.uwaterloo.ca/eclipse/mylyn/drops/3.23.2/v20171128-2235"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-			<unit id="com.google.gson" version="0.0.0"/>
-			<unit id="org.apache.commons.io" version="0.0.0"/>
-			<unit id="com.google.guava" version="15.0.0.v201403281430"/>
-			<unit id="org.apache.lucene.core" version="3.5.0.v20120725-1805"/>
-			<unit id="org.apache.commons.compress" version="1.6.0.v201310281400"/>
-		<!-- TODO: Can we use pom dependencies to grab:
-		jmdns
-		junixsocket
-		org.java-websocket
-		org.msgpack-core
-		com.dd.plist
-		org.msgpack-jackson
-		com.google.debugging.sourcemap
-		dalvik.hprof.parser
-		org.chromium.debug.core
-		org.chromium.debug.ui
-		org.chromium.sdk
-		org.chromium.sdk.wip.eclipse
-		org.chromium.sdk.wipbackend.dev
-		org.chromium.sdk.wipbackend.protocol_1_0
-
-		Short answer? It's very complicated, but may be a little easier now, see https://blog.sandra-parsick.de/2017/09/22/generate-p2-repository-from-maven-artifacts-in-2017/
-		Maybe we can effectively generate p2 repos of 3rd-party deps on-demand during our build and point at it in root config pom (and maybe through non-URL location here?)
-		-->
-			<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository"/>
-		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 			<unit id="org.eclipse.platform.ide" version="4.7.2.M20171130-0510"/>
 			<unit id="org.eclipse.rcp.feature.group" version="4.7.2.v20171130-0510"/>
