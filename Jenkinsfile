@@ -136,7 +136,7 @@ password=${env.STOREPASS}
 			},
 			'Mac Installer': {
 				node('osx && packages && ant && certs') {
-					unarchive mapping: ['rcp/appcelerator.studio-macosx.cocoa.x86_64.zip': 'appcelerator.studio-macosx.cocoa.x86_64.zip']
+					unarchive mapping: ['rcp/aptana.studio-macosx.cocoa.x86_64.zip': 'aptana.studio-macosx.cocoa.x86_64.zip']
 					unstash 'macBuilder'
 					sh 'rm -rf mac' // remove mac dir if it exists already
 
