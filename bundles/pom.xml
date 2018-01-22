@@ -24,7 +24,6 @@
     <module>com.aptana.editor.yaml</module>
     <module>com.aptana.filesystem.s3</module>
     <module>com.aptana.rcp</module>
-    <module>com.aptana.rcp.studio</module>
     <module>com.aptana.studio.rubles</module>
     <module>com.aptana.ui.override</module>
     <module>com.aptana.ui.s3</module>
