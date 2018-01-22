@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Aptana Studio 3" id="com.aptana.rcp.product" application="com.aptana.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Aptana Studio 3" uid="aptana.studio" id="com.aptana.rcp.product" application="com.aptana.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/com.aptana.rcp/content/about.gif"/>
+      <image path="../../bundles/com.aptana.rcp/content/about.gif"/>
       <text>
          %aboutText
       </text>
@@ -34,7 +34,7 @@ openFile</programArgs>
       <vmArgsWin>-Djava.awt.headless=true</vmArgsWin>
    </launcherArgs>
 
-   <windowImages i16="/com.aptana.rcp/content/window1616.png" i32="/com.aptana.rcp/content/window3232.png" i48="/com.aptana.rcp/content/window4848.png" i64="/com.aptana.rcp/content/window6464.png" i128="/com.aptana.rcp/content/window128128.png"/>
+   <windowImages i16="../../bundles/com.aptana.rcp/content/window1616.png" i32="../../bundles/com.aptana.rcp/content/window3232.png" i48="../../bundles/com.aptana.rcp/content/window4848.png" i64="../../bundles/com.aptana.rcp/content/window6464.png" i128="../../bundles/com.aptana.rcp/content/window128128.png"/>
 
    <splash
       location="com.aptana.rcp"
@@ -42,11 +42,11 @@ openFile</programArgs>
       startupMessageRect="7,240,445,20"
       startupForegroundColor="FFFFFF" />
    <launcher name="AptanaStudio3">
-      <linux icon="/com.aptana.rcp/content/aptana.xpm"/>
-      <macosx icon="/com.aptana.rcp/content/aptana.icns"/>
+      <linux icon="../../bundles/com.aptana.rcp/content/aptana.xpm"/>
+      <macosx icon="../../bundles/com.aptana.rcp/content/aptana.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="/com.aptana.rcp/content/aptana.ico"/>
+         <ico path="../../bundles/com.aptana.rcp/content/aptana.ico"/>
          <bmp/>
       </win>
    </launcher>
