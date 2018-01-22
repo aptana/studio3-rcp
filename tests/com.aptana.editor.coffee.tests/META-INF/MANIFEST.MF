@@ -6,9 +6,11 @@ Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Aptana
 Fragment-Host: com.aptana.editor.coffee;bundle-version="3.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.junit,
+Require-Bundle: org.junit;bundle-version="4.8.0",
  org.eclipse.ui.ide,
  com.aptana.ui,
  org.eclipse.test.performance;bundle-version="3.6.0",
- com.aptana.editor.coffee
+ com.aptana.editor.coffee,
+ com.aptana.testing.libraries;bundle-version="1.0.0"
 Export-Package: com.aptana.editor.coffee.tests
+Import-Package: com.aptana.editor.common.tests

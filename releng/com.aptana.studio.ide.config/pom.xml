@@ -12,6 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- by default assume dependency repos are a sibling of this repo on dev's machine -->
 		<studio3.p2.repo.url>file:${project.basedir}/../../../studio3/releng/com.aptana.studio.update/target/repository/</studio3.p2.repo.url>
+		<studio3.tests.p2.repo.url>file:${project.basedir}/../../../studio3/releng/com.aptana.studio.test.update/target/repository/</studio3.tests.p2.repo.url>
 		<php.p2.repo.url>file:${project.basedir}/../../../studio3-php/releng/com.aptana.studio.php.update/target/repository/</php.p2.repo.url>
 		<python.p2.repo.url>file:${project.basedir}/../../../Pydev/releng/org.python.pydev.update/target/repository/</python.p2.repo.url>
 		<ruby.p2.repo.url>file:${project.basedir}/../../../studio3-ruby/releng/com.aptana.studio.ruby.update/target/repository/</ruby.p2.repo.url>
@@ -27,6 +28,11 @@
 		<repository>
 			<id>aptana-repo</id>
 			<url>${studio3.p2.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>aptana-tests-repo</id>
+			<url>${studio3.tests.p2.repo.url}</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>

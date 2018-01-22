@@ -6,10 +6,13 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.test.performance.PerformanceTestCase;
+import org.junit.experimental.categories.Category;
 
 import com.aptana.core.util.IOUtil;
 import com.aptana.editor.coffee.parsing.Terminals;
+import com.aptana.testing.categories.PerformanceTests;
 
+@Category({ PerformanceTests.class })
 public class CoffeeScannerPerformanceTest extends PerformanceTestCase
 {
 

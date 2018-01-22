@@ -1,10 +1,13 @@
 package com.aptana.filesystem.s3.tests;
 
 import org.eclipse.core.runtime.Path;
+import org.junit.experimental.categories.Category;
 
 import com.aptana.core.io.tests.CommonConnectionTest;
 import com.aptana.ide.filesystem.s3.S3ConnectionPoint;
+import com.aptana.testing.categories.IntegrationTests;
 
+@Category({ IntegrationTests.class })
 public class S3ConnectionPointTest extends CommonConnectionTest
 {
 

@@ -38,13 +38,14 @@ timestamps {
 		}
 
 		def studio3Repo = "file://${pwd()}/studio3/dist/"
+		def studio3TestsRepo = "file://${pwd()}/studio3/dist-tests/"
 		def phpRepo = "file://${pwd()}/studio3-php/dist/"
 		def pydevRepo = "file://${pwd()}/Pydev/dist/"
 		def rubyRepo = "file://${pwd()}/studio3-ruby/dist/"
 
 		stage('Dependencies') {
 			step([$class: 'CopyArtifact',
-				filter: 'dist/',
+				filter: 'dist/dist-tests/',
 				fingerprintArtifacts: true,
 				selector: lastSuccessful(),
 				projectName: "/aptana-studio/studio3/${targetBranch}",
@@ -76,7 +77,7 @@ timestamps {
 						try {
 							timeout(30) {
 								// TODO Get package vs verify goals running in separate stages!
-								sh "mvn -Dstudio3.p2.repo.url=${studio3Repo} -Dphp.p2.repo.url=${phpRepo} -Dpython.p2.repo.url=${pydevRepo} -Druby.p2.repo.url=${rubyRepo} -Dmaven.test.failure.ignore=true -Djarsigner.keypass=${env.STOREPASS} -Djarsigner.storepass=${env.STOREPASS} -Djarsigner.keystore=${env.KEYSTORE} clean verify"
+								sh "mvn -Dstudio3.p2.repo.url=${studio3Repo} -Dstudio3.tests.p2.repo.url=${studio3TestsRepo} -Dphp.p2.repo.url=${phpRepo} -Dpython.p2.repo.url=${pydevRepo} -Druby.p2.repo.url=${rubyRepo} -Dmaven.test.failure.ignore=true -Djarsigner.keypass=${env.STOREPASS} -Djarsigner.storepass=${env.STOREPASS} -Djarsigner.keystore=${env.KEYSTORE} clean verify"
 							}
 						} finally {
 							// record tests even if we failed
