@@ -88,7 +88,7 @@
 				</configuration>
 			</plugin>
 			<!-- Mangle generated Info.plist -->
-			<!-- <plugin>
+			<plugin>
 				<groupId>name.abuchen</groupId>
 				<artifactId>fix-info-plist-maven-plugin</artifactId>
 				<version>1.0</version>
@@ -107,16 +107,16 @@
 					<properties>
 						<property>
 							<name>CFBundleGetInfoString</name>
-							<value>Axway Appcelerator Studio for Mac OS X, Copyright Axway. 2011-2018. All rights reserved.</value>
+							<value>Aptana Studio for Mac OS X, Copyright Axway, Inc. 2011-2018. All rights reserved.</value>
 						</property>
 						<property>
 							<name>LSApplicationCategoryType</name>
 							<value>public.app-category.developer-tools</value>
-						</property> -->
+						</property>
 						<!-- plugin doesn't support anything but array or string values, so we can't add CFBundleDocumentTypes -->
-					<!-- </properties>
+					</properties>
 				</configuration>
-			</plugin> -->
+			</plugin>
 		</plugins>
 	</build>
 </project>
