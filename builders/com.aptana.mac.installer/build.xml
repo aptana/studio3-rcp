@@ -25,16 +25,7 @@
 		</exec>
 	</target>
 
-	<target name="set-icon" depends="unpack-archive">
-		<!-- Set the folder icon for Studio -->
-		<exec executable="${basedir}/seticon">
-			<arg value="-d" />
-			<arg value="${target.icon}" />
-			<arg value="${staging.dir}/${source.dir.name}" />
-		</exec>
-	</target>
-
-	<target name="sign" depends="set-icon">
+	<target name="sign" depends="unpack-archive">
 		<exec executable="/usr/bin/security" failonerror="true">
 			<arg value="unlock-keychain" />
 			<arg value="-p" />
@@ -46,7 +37,7 @@
 			<arg value="-s" />
 			<arg value='Developer ID Application' />
 			<arg value="--deep" />
-			<arg value="${basedir}/${staging.dir}/${source.dir.name}/AptanaStudio3.app" />
+			<arg value="${basedir}/${staging.dir}/AptanaStudio.app" />
 		</exec>
 	</target>
 
@@ -58,7 +49,7 @@
 		<replace file="${dmgbuilder.config}.tmp" token="{dmg.size}" value="${dmg.size}" />
 		<replace file="${dmgbuilder.config}.tmp" token="{staging.dir}" value="${staging.dir}" />
 		<replace file="${dmgbuilder.config}.tmp" token="{source.dir.name}" value="${source.dir.name}" />
-		<!-- Run dmgbuilder to create the dmg, its parameters are specified in 
+		<!-- Run dmgbuilder to create the dmg, its parameters are specified in
             dmgbuilder/dmgbuilder-config.xml -->
 		<exec executable="${dmgbuilder.cmd}">
 			<arg value="${dmgbuilder.config}.tmp" />
