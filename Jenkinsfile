@@ -100,6 +100,9 @@ timestamps {
 				// retain backwards compat: make the dir name rcp
 				sh 'mv repository rcp'
 				sh 'cp products/*.zip rcp/'
+				// fix permissions so group/world readable
+				sh 'chmod a+r -R rcp'
+				sh 'chmod g+r -R rcp'
 				archiveArtifacts artifacts: 'rcp/**/*'
 			}
 		} // stage('Build')
