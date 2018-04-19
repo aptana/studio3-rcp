@@ -12,3 +12,6 @@ workspace/
 # rubles/bundles
 bundles/com.aptana.studio.rubles/bundles/*.ruble
 bundles/com.aptana.studio.rubles/bundle_timestamps.txt
+
+dmgbuilder-config.xml.tmp
+builders/*/staging/
