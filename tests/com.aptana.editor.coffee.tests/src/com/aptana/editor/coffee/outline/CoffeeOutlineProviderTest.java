@@ -7,14 +7,19 @@
  */
 package com.aptana.editor.coffee.outline;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.aptana.editor.coffee.CoffeeScriptEditorPlugin;
 import com.aptana.editor.coffee.ICoffeeUIConstants;
 import com.aptana.editor.coffee.parsing.CoffeeParser;
 import com.aptana.editor.coffee.parsing.lexer.CoffeeScanner;
 
-public class CoffeeOutlineProviderTest extends TestCase
+public class CoffeeOutlineProviderTest
 {
 
 	private CoffeeOutlineContentProvider fContentProvider;
@@ -22,8 +27,8 @@ public class CoffeeOutlineProviderTest extends TestCase
 	private CoffeeParser fParser;
 	private CoffeeScanner fScanner;
 
-	@Override
-	protected void setUp() throws Exception
+	@Before
+	public void setUp() throws Exception
 	{
 		fContentProvider = new CoffeeOutlineContentProvider();
 		fLabelProvider = new CoffeeOutlineLabelProvider();
@@ -31,8 +36,8 @@ public class CoffeeOutlineProviderTest extends TestCase
 		fScanner = new CoffeeScanner();
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown() throws Exception
 	{
 		fContentProvider = null;
 		fLabelProvider = null;
@@ -40,6 +45,7 @@ public class CoffeeOutlineProviderTest extends TestCase
 		fScanner = null;
 	}
 
+	@Test
 	public void testAssignment() throws Exception
 	{
 		String source = "number = 42\nopposite = true\nstring = \"text\"\nnullVar = null";
@@ -66,6 +72,7 @@ public class CoffeeOutlineProviderTest extends TestCase
 				fLabelProvider.getImage(children[3]));
 	}
 
+	@Test
 	public void testFunction() throws Exception
 	{
 		String source = "square = (x) -> x * x";
@@ -80,6 +87,7 @@ public class CoffeeOutlineProviderTest extends TestCase
 				fLabelProvider.getImage(children[0]));
 	}
 
+	@Test
 	public void testArray() throws Exception
 	{
 		String source = "list = [1, 2, 3, 4, 5]";
@@ -94,6 +102,7 @@ public class CoffeeOutlineProviderTest extends TestCase
 				fLabelProvider.getImage(children[0]));
 	}
 
+	@Test
 	public void testObject() throws Exception
 	{
 		String source = "math =\n  root:   Math.sqrt\n  square: square\n  cube:   (x) -> x * square x";
@@ -108,6 +117,7 @@ public class CoffeeOutlineProviderTest extends TestCase
 				fLabelProvider.getImage(children[0]));
 	}
 
+	@Test
 	public void testSplat() throws Exception
 	{
 		String source = "race = (winner, runners...) ->\n  print winner, runners";
@@ -138,6 +148,7 @@ public class CoffeeOutlineProviderTest extends TestCase
 		assertNull(fLabelProvider.getImage(grandgrandchildren[2]));
 	}
 
+	@Test
 	public void testClass() throws Exception
 	{
 		String source = "class Foo\n  constructor: (@name) ->";

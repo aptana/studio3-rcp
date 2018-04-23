@@ -3,12 +3,13 @@ package com.aptana.editor.coffee.internal.index;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.aptana.core.util.FileUtil;
 import com.aptana.core.util.IOUtil;
@@ -18,22 +19,23 @@ import com.aptana.index.core.IndexManager;
 import com.aptana.index.core.IndexPlugin;
 import com.aptana.index.core.build.BuildContext;
 
-public class CoffeeFileIndexingParticipantTest extends TestCase
+public class CoffeeFileIndexingParticipantTest
 {
 	private CoffeeFileIndexingParticipant indexer;
 
-	protected void setUp() throws Exception
+	@Before
+	public void setUp() throws Exception
 	{
-		super.setUp();
 		indexer = new CoffeeFileIndexingParticipant();
 	}
 
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown() throws Exception
 	{
 		indexer = null;
-		super.tearDown();
 	}
 
+	@Test
 	public void testIndexWithNullIFileStore() throws Exception
 	{
 		File tmpDir = null;
@@ -67,6 +69,7 @@ public class CoffeeFileIndexingParticipantTest extends TestCase
 		return IndexPlugin.getDefault().getIndexManager();
 	}
 
+	@Test
 	public void testIndexWithNullIndex() throws Exception
 	{
 		File tmpDir = null;
@@ -93,6 +96,7 @@ public class CoffeeFileIndexingParticipantTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testIndexWithEmptyContent() throws Exception
 	{
 		File tmpDir = null;

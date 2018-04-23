@@ -33,12 +33,10 @@ public class MarkdownPartitionScannerTest
 				getContentType(code, offset));
 	}
 
-//	@Override
 	@After
 	public void tearDown() throws Exception
 	{
 		partitioner = null;
-//		super.tearDown();
 	}
 
 	private String getContentType(String content, int offset)

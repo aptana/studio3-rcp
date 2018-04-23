@@ -11,31 +11,6 @@
 	</target>
 
 	<target name="insert.info.plist" unless="dont.modify.binaries">
-		<!-- =========== Mac 32-bit Mangling ==================================================== -->
-		<!-- Unzip the macosx launcher to a temp dir... -->
-		<!-- cocoa -->
-		<echo message="Mac 32-bit Mangling" />
-		<pathconvert property="mac.cocoa.launcher">
-			<fileset dir="buildRepo/binary">
-				<include name="org.eclipse.equinox.executable_root.cocoa.macosx.x86_3*" />
-			</fileset>
-			<mapper>
-				<flattenmapper />
-			</mapper>
-		</pathconvert>
-		<property name="mac.cocoa.launcher.dir" location="${buildDirectory}/tmp_mac_launcher/${mac.cocoa.launcher}" />
-		<mkdir dir="${mac.cocoa.launcher.dir}" />
-		<unzip src="buildRepo/binary/${mac.cocoa.launcher}" dest="${mac.cocoa.launcher.dir}" />
-		<delete file="buildRepo/binary/${mac.cocoa.launcher}" />
-		<!-- ...add our custom modifications... -->
-		<copy file="${builder}/custom/macosx/Info.plist" tofile="${mac.cocoa.launcher.dir}/Eclipse.app/Contents/Info.plist" overwrite="true" />
-		<!-- ...then re-zip and delete the temp dir -->
-		<zip destfile="buildRepo/binary/${mac.cocoa.launcher}">
-			<fileset dir="${mac.cocoa.launcher.dir}" defaultexcludes="false" />
-		</zip>
-		<delete dir="${mac.cocoa.launcher.dir}" />
-		<delete dir="${buildDirectory}/tmp_mac_launcher" />
-
 		<!-- =========== Mac 64-bit Mangling ==================================================== -->
 		<!-- Unzip the macosx launcher to a temp dir... -->
 		<!-- cocoa -->

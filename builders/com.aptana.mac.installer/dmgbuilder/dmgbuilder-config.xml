@@ -20,18 +20,18 @@
         <link name="Applications" target="/Applications" x="465" y="431" />
 
         <!--
-        The file element specifies the contents for the dmg. If a directory is specified then its 
+        The file element specifies the contents for the dmg. If a directory is specified then its
         contents will be recursively included. This is used to put the actual contents in the dmg.
         File attributes:
             name: Name for the file icon
             source: Location of the file/directory to copy over
             x & y: Location to put the file icon in the dmg's background
         -->
-        <file name="{dmg.name}" source="{staging.dir}/{source.dir.name}" x="150" y="201" />
+        <file name="{app.name}" source="{staging.dir}/{source.dir.name}" x="150" y="201" />
 
         <!--
-        The folder element creates a folder in the dmg, the contents are specified as 'file' child 
-        elements. This is used to create the directory that stores the background image. 
+        The folder element creates a folder in the dmg, the contents are specified as 'file' child
+        elements. This is used to create the directory that stores the background image.
         Folder attributes:
             name: Name of the folder
         -->
@@ -43,11 +43,11 @@
         The view element handles aspects related to the display of the dmg and its contents.
         View attributes:
             type: This should be 'icon' or else...
-            x & y: Where the dmg window should open on the screen. 
+            x & y: Where the dmg window should open on the screen.
             width & height: The dimensions for the dmg window.
             icon_size: The dimensions for the dmg icon. Assumes a square.
             grid: Not sure...
-            show_toolbar: Whether or not you want to toolbar that is normally on the left side of 
+            show_toolbar: Whether or not you want to toolbar that is normally on the left side of
                           windows. Usually dmgs look better without it.
             background: Location of the background image.
         -->

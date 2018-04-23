@@ -1,6 +1,10 @@
 package com.aptana.editor.coffee.parsing;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
 
 import com.aptana.editor.coffee.parsing.ast.CoffeeLiteralNode;
 import com.aptana.parsing.ParseState;
@@ -8,19 +12,10 @@ import com.aptana.parsing.ast.IParseNode;
 import com.aptana.parsing.ast.IParseRootNode;
 
 @SuppressWarnings("nls")
-public class CoffeeParserTest extends TestCase
+public class CoffeeParserTest
 {
 
-	protected void setUp() throws Exception
-	{
-		super.setUp();
-	}
-
-	protected void tearDown() throws Exception
-	{
-		super.tearDown();
-	}
-
+	@Test
 	public void testNumberAssignment() throws Exception
 	{
 		String source = "number = 42\n";
@@ -50,6 +45,7 @@ public class CoffeeParserTest extends TestCase
 		assertEquals(11, rhNode.getEndingOffset());
 	}
 
+	@Test
 	public void testBooleanAssignment() throws Exception
 	{
 		String source = "opposite = true\n";
@@ -80,6 +76,7 @@ public class CoffeeParserTest extends TestCase
 		assertEquals(15, rhNode.getEndingOffset());
 	}
 
+	@Test
 	public void testWebsiteExample() throws Exception
 	{
 		String source = "# Assignment:\n" + //
@@ -208,6 +205,7 @@ public class CoffeeParserTest extends TestCase
 		assertCommentNode(comments[7], 350, 373, "# Array comprehensions:");
 	}
 
+	@Test
 	public void testFunctionsExample1() throws Exception
 	{
 		String source = "square = (x) -> x * x\n" + //
@@ -235,6 +233,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testFunctionsExample2() throws Exception
 	{
 		String source = "fill = (container, liquid = \"coffee\") ->\n" + //
@@ -263,6 +262,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testObjectsAndArraysExample1() throws Exception
 	{
 		String source = "song = [\"do\", \"re\", \"mi\", \"fa\", \"so\"]\n" + //
@@ -343,6 +343,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testObjectsAndArraysExample2() throws Exception
 	{
 		String source = "$('.account').attr class: 'active'\n" + //
@@ -368,6 +369,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testLexicalScopingExample1() throws Exception
 	{
 		String source = "outer = 1\n" + //
@@ -398,6 +400,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testConditionalsExample1() throws Exception
 	{
 		String source = "mood = greatlyImproved if singing\n" + //
@@ -445,6 +448,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testSplatsExample1() throws Exception
 	{
 		String source = "gold = silver = rest = \"unknown\"\n" + //
@@ -533,6 +537,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testLoopsExample1() throws Exception
 	{
 		String source = "# Eat lunch.\n" + //
@@ -552,6 +557,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testLoopsExample2() throws Exception
 	{
 		String source = "countdown = (num for num in [10..1])"; //
@@ -572,6 +578,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testLoopsExample3() throws Exception
 	{
 		String source = "yearsOld = max: 10, ida: 9, tim: 11\n" + //
@@ -606,6 +613,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testLoopsExample4() throws Exception
 	{
 		String source = "# Econ 101\n" + //
@@ -656,6 +664,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testLoopsExample5() throws Exception
 	{
 		String source = "for filename in list\n" + //
@@ -689,6 +698,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testSliceAndSpliceExample1() throws Exception
 	{
 		String source = "numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n" + //
@@ -730,6 +740,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testSliceAndSpliceExample2() throws Exception
 	{
 		String source = "numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n" + //
@@ -770,6 +781,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testEverythingIsAnExpressionExample1() throws Exception
 	{
 		String source = "grade = (student) ->\n" + //
@@ -820,6 +832,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testEverythingIsAnExpressionExample2() throws Exception
 	{
 		String source = "six = (one = 1) + (two = 2) + (three = 3)\n"; //
@@ -850,6 +863,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testEverythingIsAnExpressionExample3() throws Exception
 	{
 		String source = "# The first ten global properties.\n" + //
@@ -873,6 +887,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testEverythingIsAnExpressionExample4() throws Exception
 	{
 		String source = "alert(\n" + //
@@ -897,6 +912,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testOperatorsAndAliasesExample1() throws Exception
 	{
 		String source = "launch() if ignition is on\n" + //
@@ -965,6 +981,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testExistentialExample1() throws Exception
 	{
 		String source = "solipsism = true if mind? and not world?\n" + //
@@ -996,6 +1013,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testExistentialExample2() throws Exception
 	{
 		String source = "zip = lottery.drawWinner?().address?.zipcode\n"; //
@@ -1012,6 +1030,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testClassesExample1() throws Exception
 	{
 		String source = "class Animal\n" + //
@@ -1140,6 +1159,7 @@ public class CoffeeParserTest extends TestCase
 		assertParseNode(constructorBlockNode, 38, 39);
 	}
 
+	@Test
 	public void testClassesExample2() throws Exception
 	{
 		String source = "String::dasherize = ->\n" + //
@@ -1159,6 +1179,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testDestructuringAssignmentExample1() throws Exception
 	{
 		String source = "theBait   = 1000\n" + //
@@ -1185,6 +1206,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testDestructuringAssignmentExample2() throws Exception
 	{
 		String source = "weatherReport = (location) ->\n" + //
@@ -1216,6 +1238,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testDestructuringAssignmentExample3() throws Exception
 	{
 		String source = "futurists =\n" + //
@@ -1272,6 +1295,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testDestructuringAssignmentExample4() throws Exception
 	{
 		String source = "tag = \"<impossible>\"\n" + //
@@ -1296,6 +1320,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testFunctionBindingExample1() throws Exception
 	{
 		String source = "Account = (customer, cart) ->\n" + //
@@ -1339,6 +1364,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testEmbeddedJSExample1() throws Exception
 	{
 		String source = "hi = `function() {\n" + //
@@ -1354,6 +1380,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testSwitchWhenElseExample1() throws Exception
 	{
 		String source = "switch day\n" + //
@@ -1411,6 +1438,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testTryCatchFinallyExample1() throws Exception
 	{
 		String source = "try\n" + //
@@ -1438,6 +1466,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testChainedComparisonsExample1() throws Exception
 	{
 		String source = "cholesterol = 127\n" + //
@@ -1460,6 +1489,7 @@ public class CoffeeParserTest extends TestCase
 
 	// TODO Add tests for String Interpolation examples
 
+	@Test
 	public void testExtendedRegexExample1() throws Exception
 	{
 		String source = "OPERATOR = /// ^ (\n" + //
@@ -1479,6 +1509,7 @@ public class CoffeeParserTest extends TestCase
 		assertAST(expected, source);
 	}
 
+	@Test
 	public void testCakeExample1() throws Exception
 	{
 		String source = "fs = require 'fs'\n" + //
