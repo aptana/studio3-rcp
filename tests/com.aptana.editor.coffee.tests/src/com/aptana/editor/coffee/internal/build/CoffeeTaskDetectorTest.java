@@ -1,16 +1,20 @@
 package com.aptana.editor.coffee.internal.build;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.aptana.core.build.IProblem;
 import com.aptana.core.resources.IMarkerConstants;
@@ -19,22 +23,23 @@ import com.aptana.core.util.IOUtil;
 import com.aptana.index.core.FileStoreBuildContext;
 import com.aptana.index.core.build.BuildContext;
 
-public class CoffeeTaskDetectorTest extends TestCase
+public class CoffeeTaskDetectorTest
 {
 	private CoffeeTaskDetector taskDetector;
 
-	protected void setUp() throws Exception
+	@Before
+	public void setUp() throws Exception
 	{
-		super.setUp();
 		taskDetector = new CoffeeTaskDetector();
 	}
 
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown() throws Exception
 	{
 		taskDetector = null;
-		super.tearDown();
 	}
 
+	@Test
 	public void testDetectTaskTag() throws Exception
 	{
 		File tmpDir = null;
@@ -80,6 +85,7 @@ public class CoffeeTaskDetectorTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testDetectWithEmptyContent() throws Exception
 	{
 		File tmpDir = null;

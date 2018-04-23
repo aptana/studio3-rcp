@@ -1,8 +1,8 @@
 #Thu May 22 16:08:18 EDT 2008
 eclipse.preferences.version=1
-repositories/http\:__download.eclipse.org_releases_kepler/version=1.0.0
-repositories/http\:__download.eclipse.org_releases_kepler/type=org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository
-repositories/http\:__download.eclipse.org_releases_kepler/url=http\://download.eclipse.org/releases/kepler
-repositories/http\:__download.eclipse.org_releases_kepler/enabled=true
-repositories/http\:__download.eclipse.org_releases_kepler/isSystem=false
-repositories/http\:__download.eclipse.org_releases_kepler/name=Kepler Update Site
+repositories/http\:__download.eclipse.org_releases_oxygen/version=1.0.0
+repositories/http\:__download.eclipse.org_releases_oxygen/type=org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository
+repositories/http\:__download.eclipse.org_releases_oxygen/url=http\://download.eclipse.org/releases/oxygen
+repositories/http\:__download.eclipse.org_releases_oxygen/enabled=true
+repositories/http\:__download.eclipse.org_releases_oxygen/isSystem=false
+repositories/http\:__download.eclipse.org_releases_oxygen/name=Oxygen Update Site

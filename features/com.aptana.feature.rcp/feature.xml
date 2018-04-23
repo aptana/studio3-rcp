@@ -2,7 +2,7 @@
 <feature
       id="com.aptana.feature.rcp"
       label="%featureName"
-      version="3.6.0.qualifier"
+      version="3.7.0.qualifier"
       provider-name="%providerName"
       plugin="com.aptana.branding">
 
@@ -52,8 +52,8 @@
       <import plugin="org.eclipse.core.net"/>
       <import plugin="com.aptana.commandline.launcher"/>
       <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.apache.lucene.analyzers-common"/>
       <import plugin="org.apache.lucene.core"/>
-      <import plugin="org.apache.lucene.analysis"/>
       <import plugin="org.eclipse.help"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.equinox.http.jetty"/>
@@ -81,13 +81,6 @@
 
    <plugin
          id="org.eclipse.help.base"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.lucene.analysis"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -181,12 +174,10 @@
          unpack="false"/>
 
    <plugin
-         id="com.aptana.rcp.studio"
-         os="aix,hpux,linux,macosx,qnx,solaris"
+         id="org.apache.lucene.analyzers-common"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
 </feature>

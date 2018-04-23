@@ -2,7 +2,7 @@
 <feature
       id="com.aptana.feature.studio"
       label="%featureName"
-      version="3.6.0.qualifier"
+      version="3.7.0.qualifier"
       provider-name="%providerName"
       plugin="com.aptana.branding">
 
@@ -33,10 +33,6 @@
 
    <includes
          id="com.aptana.php.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.aptana.pydev.feature"
          version="0.0.0"/>
 
    <plugin
@@ -114,5 +110,12 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+
+   <plugin
+         id="com.aptana.editor.coffee"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

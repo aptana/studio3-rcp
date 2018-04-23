@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Aptana Studio 3" uid="aptana.studio" id="com.aptana.rcp.product" application="com.aptana.rcp.application" version="0.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="../../bundles/com.aptana.rcp/content/about.gif"/>
+      <text>
+         %aboutText
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>--launcher.defaultAction
+openFile
+--launcher.appendVmargs
+      </programArgs>
+      <programArgsMac>-startup
+../../../plugins/org.eclipse.equinox.launcher_1.3.0.v20130327-1440.jar</programArgsMac>
+      <vmArgs>-Dosgi.requiredJavaVersion=1.8
+-Xms256m
+-Xmx1024m
+--add-modules=ALL-SYSTEM
+-Declipse.p2.unsignedPolicy=allow
+-Declipse.log.size.max=10000
+-Declipse.log.backup.max=5
+-Dfile.encoding=UTF-8</vmArgs>
+      <vmArgsLin>-Djava.awt.headless=true</vmArgsLin>
+      <vmArgsMac>-Xdock:icon=../Resources/aptana.icns
+-XstartOnFirstThread
+-Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsSol>-Djava.awt.headless=true</vmArgsSol>
+      <vmArgsWin>-Djava.awt.headless=true</vmArgsWin>
+   </launcherArgs>
+
+   <windowImages i16="../../bundles/com.aptana.rcp/content/window1616.png" i32="../../bundles/com.aptana.rcp/content/window3232.png" i48="../../bundles/com.aptana.rcp/content/window4848.png" i64="../../bundles/com.aptana.rcp/content/window6464.png" i128="../../bundles/com.aptana.rcp/content/window128128.png"/>
+
+   <splash
+      location="com.aptana.rcp"
+      startupProgressRect="0,260,590,15"
+      startupMessageRect="7,240,445,20"
+      startupForegroundColor="FFFFFF" />
+   <launcher name="AptanaStudio3">
+      <linux icon="../../bundles/com.aptana.rcp/content/aptana.xpm"/>
+      <macosx icon="../../bundles/com.aptana.rcp/content/aptana.icns"/>
+      <solaris/>
+      <win useIco="true">
+         <ico path="../../bundles/com.aptana.rcp/content/aptana.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.aptana.feature.rcp"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="org.eclipse.update.reconcile" value="false" />
+      <property name="osgi.instance.area.default" value="@user.home/Documents/Aptana_Studio_Workspace" />
+      <!-- <property name="osgi.instance.area.default" value="@user.home/Aptana_Studio_Workspace" os="linux" /> -->
+  </configurations>
+
+</product>

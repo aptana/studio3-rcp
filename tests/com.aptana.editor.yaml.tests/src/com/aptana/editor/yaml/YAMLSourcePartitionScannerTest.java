@@ -7,14 +7,13 @@
  */
 package com.aptana.editor.yaml;
 
-import org.junit.After;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
+import org.junit.After;
+import org.junit.Test;
 
 import com.aptana.editor.common.ExtendedFastPartitioner;
 import com.aptana.editor.common.IExtendedPartitioner;
@@ -26,7 +25,6 @@ import com.aptana.editor.common.text.rules.NullSubPartitionScanner;
  * @author Chris
  * @author Sandip
  */
-@SuppressWarnings("nls")
 public class YAMLSourcePartitionScannerTest
 {
 
@@ -38,12 +36,10 @@ public class YAMLSourcePartitionScannerTest
 				getContentType(code, offset));
 	}
 
-//	@Override
 	@After
 	public void tearDown() throws Exception
 	{
 		partitioner = null;
-//		super.tearDown();
 	}
 
 	private String getContentType(String content, int offset)

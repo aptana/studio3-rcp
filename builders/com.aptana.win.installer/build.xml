@@ -40,11 +40,6 @@
 
 	<target name="unpack-archives" depends="init">
 		<unzip src="${staging.dir}/${win.source.zip}" dest="${staging.dir}/win32" />
-		<exec executable="cmd.exe" dir="${staging.dir}\win32" outputproperty="unzip.dir">
-			<arg line="/c dir /A:D /B" />
-		</exec>
-		<move file="${staging.dir}\win32\${unzip.dir}" tofile="${staging.dir}\win32" />
-		<delete dir="${staging.dir}\win32\${unzip.dir}" />
 	</target>
 
 	<target name="advanced">
@@ -93,18 +88,18 @@
 				</tokenfilter>
 			</filterchain>
 		</loadfile>
-		<!-- FIXME It keeps saying the version format is incorrect. When I tested manually, it worked OK. 
+		<!-- FIXME It keeps saying the version format is incorrect. When I tested manually, it worked OK.
 		Maybe it's picking up newline or something? -->
 		<echo message="Setting version to: ${version}" />
 		<exec executable="${installer.command}">
 			<arg value="/edit" />
 			<arg value="${basedir}\${basename}.aip" />
 			<arg value="/SetVersion" />
-			<arg value="3.6.0" />
+			<arg value="3.7.0" />
 			<arg value="-noprodcode" />
 		</exec>
 
-		<echo message="Setting up shortcut" />
+		<echo message="Setting up desktop shortcut" />
 		<exec executable="${installer.command}">
 			<arg value="/edit" />
 			<arg value="${basedir}\${basename}.aip" />
@@ -113,6 +108,21 @@
 			<arg value="AptanaStudio" />
 			<arg value="-dir" />
 			<arg value="DesktopFolder" />
+			<arg value="-target" />
+			<arg value="APPDIR\AptanaStudio3.exe" />
+			<arg value="-icon" />
+			<arg value="${basedir}\aptana.ico" />
+		</exec>
+
+		<echo message="Setting up Start Menu shortcut" />
+		<exec executable="${installer.command}">
+			<arg value="/edit" />
+			<arg value="${basedir}\${basename}.aip" />
+			<arg value="/NewShortcut" />
+			<arg value="-name" />
+			<arg value="AptanaStudio" />
+			<arg value="-dir" />
+			<arg value="AptanaStudio_Dir" />
 			<arg value="-target" />
 			<arg value="APPDIR\AptanaStudio3.exe" />
 			<arg value="-icon" />
