@@ -95,7 +95,7 @@
 			<arg value="/edit" />
 			<arg value="${basedir}\${basename}.aip" />
 			<arg value="/SetVersion" />
-			<arg value="3.7.1" />
+			<arg value="3.7.2" />
 			<arg value="-noprodcode" />
 		</exec>
 

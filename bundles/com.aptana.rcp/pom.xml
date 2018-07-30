@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.aptana.studio.ide</groupId>
 	<artifactId>com.aptana.rcp</artifactId>
-	<version>3.7.1-SNAPSHOT</version>
+	<version>3.7.2-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

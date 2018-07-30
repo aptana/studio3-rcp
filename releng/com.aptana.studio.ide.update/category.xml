@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.aptana.feature.studio_3.7.1.qualifier.jar" id="com.aptana.feature.studio" version="3.7.1.qualifier">
+   <feature url="features/com.aptana.feature.studio_3.7.2.qualifier.jar" id="com.aptana.feature.studio" version="3.7.2.qualifier">
       <category name="com.aptana.studio.ide"/>
    </feature>
    <category-def name="com.aptana.studio.ide" label="Aptana Studio"/>
