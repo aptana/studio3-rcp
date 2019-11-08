@@ -102,7 +102,7 @@
 					<properties>
 						<property>
 							<name>CFBundleGetInfoString</name>
-							<value>Aptana Studio for Mac OS X, Copyright Axway, Inc. 2011-2018. All rights reserved.</value>
+							<value>Aptana Studio for Mac OS X, Copyright Axway, Inc. 2011-2019. All rights reserved.</value>
 						</property>
 						<property>
 							<name>LSApplicationCategoryType</name>
