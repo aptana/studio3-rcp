@@ -112,7 +112,7 @@ timestamps {
 		parallel(
 			'Windows Installer': {
 				node('windows && advanced_installer && ant') {
-					unarchive mapping: ['rcp/aptana.studio-win32.win32.x86.zip': 'aptana.studio-win32.win32.x86.zip']
+					unarchive mapping: ['rcp/aptana.studio-win32.win32.x86_64.zip': 'aptana.studio-win32.win32.x86_64.zip']
 					unstash 'winBuilder'
 					if (fileExists('win')) {
 						bat 'rmdir win /Q /S' // remove win dir if it exists already
@@ -120,7 +120,7 @@ timestamps {
 
 					timeout(20) {
 						withEnv(["PATH+ANT=${tool name: 'Ant 1.9.2', type: 'ant'}\\bin"]) {
-							bat "ant -Dwin.source.zip=aptana.studio-win32.win32.x86.zip -Dwin.source.url=file:///${env.WORKSPACE}/aptana.studio-win32.win32.x86.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
+							bat "ant -Dwin.source.zip=aptana.studio-win32.win32.x86_64.zip -Dwin.source.url=file:///${env.WORKSPACE}/aptana.studio-win32.win32.x86_64.zip -f builders/com.aptana.win.installer/build.xml unpack-archives"
 
 							withCredentials([usernamePassword(credentialsId: 'aca99bee-0f1e-4fc5-a3da-3dfd73f66432', passwordVariable: 'STOREPASS', usernameVariable: 'ALIAS')]) {
 								propertiesContent = """msi.source.url=http://preview.appcelerator.com/aptana/studio3/standalone/install/${stream}/AptanaStudio.msi
