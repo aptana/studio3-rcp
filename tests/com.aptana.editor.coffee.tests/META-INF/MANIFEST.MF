@@ -11,6 +11,7 @@ Require-Bundle: org.junit;bundle-version="4.8.0",
  com.aptana.ui,
  org.eclipse.test.performance;bundle-version="3.6.0",
  com.aptana.editor.coffee,
- com.aptana.testing.libraries;bundle-version="1.0.0"
+ com.aptana.testing.libraries;bundle-version="1.0.0",
+ com.aptana.testing.utils
 Export-Package: com.aptana.editor.coffee.tests
 Import-Package: com.aptana.editor.common.tests
