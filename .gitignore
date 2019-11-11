@@ -15,3 +15,5 @@ bundles/com.aptana.studio.rubles/bundle_timestamps.txt
 
 dmgbuilder-config.xml.tmp
 builders/*/staging/
+
+node_modules/
