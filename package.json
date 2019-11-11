@@ -1,0 +1,14 @@
+{
+	"name": "studio3-rcp",
+	"version": "1.0.0",
+	"dependencies": {},
+	"devDependencies": {
+		"fs-extra": "^7.0.1",
+		"xml2js": "^0.4.19"
+	},
+	"scripts": {
+		"prepare": "main.js",
+		"build": "mvn build",
+		"test": "mvn verify"
+	}
+}
