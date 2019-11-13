@@ -25,6 +25,9 @@
 			for example:
 			mvn clean verify -Djarsigner.keystore/Users/example/appcelerator.keystore -Djarsigner.keypass=changeme -Djarsigner.storepass=storepass
 		-->
+		<!-- properties used to update about text and other text that has placeholders -->
+		<branch.name>master</branch.name>
+		<build.tag>n/a</build.tag>
 	</properties>
 
 	<!-- p2 upstream 1st-party plugin/feature dependency repostories -->

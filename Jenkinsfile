@@ -76,7 +76,7 @@ timestamps {
 						try {
 							timeout(30) {
 								// TODO Get package vs verify goals running in separate stages!
-								sh "mvn -Dstudio3.p2.repo.url=${studio3Repo} -Dstudio3.tests.p2.repo.url=${studio3TestsRepo} -Dphp.p2.repo.url=${phpRepo} -Dpython.p2.repo.url=${pydevRepo} -Druby.p2.repo.url=${rubyRepo} -Dmaven.test.failure.ignore=true -Djarsigner.keypass=${env.STOREPASS} -Djarsigner.storepass=${env.STOREPASS} -Djarsigner.keystore=${env.KEYSTORE} clean verify"
+								sh "mvn -Dstudio3.p2.repo.url=${studio3Repo} -Dstudio3.tests.p2.repo.url=${studio3TestsRepo} -Dphp.p2.repo.url=${phpRepo} -Dpython.p2.repo.url=${pydevRepo} -Druby.p2.repo.url=${rubyRepo} -Dmaven.test.failure.ignore=true -Djarsigner.keypass=${env.STOREPASS} -Djarsigner.storepass=${env.STOREPASS} -Djarsigner.keystore=${env.KEYSTORE}  -Dbranch.name=${env.BRANCH_NAME} -Dbuild.tag=${env.BUILD_TAG} clean verify"
 							}
 						} finally {
 							// record tests even if we failed
