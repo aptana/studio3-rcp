@@ -1,7 +1,12 @@
 #! groovy
-// Keep logs/reports/etc of last 15 builds, only keep build artifacts of last 2 builds
-// (Artifacts take roughly ~1.2Gb per build!)
-properties([buildDiscarder(logRotator(numToKeepStr: '15', artifactNumToKeepStr: '2'))])
+
+properties([
+	// Keep logs/reports/etc of last 15 builds, only keep build artifacts of last 2 builds
+	// (Artifacts take roughly ~1.2Gb per build!)
+	buildDiscarder(logRotator(numToKeepStr: '15', artifactNumToKeepStr: '2')),
+	// specify projects to allow to copy artifacts with a comma-separated list.
+	copyArtifactPermission("/aptana-studio-sync/sync-nightlies-aptana-${env.BRANCH_NAME}"),
+])
 
 timestamps {
 	def stream = 'nightly'
