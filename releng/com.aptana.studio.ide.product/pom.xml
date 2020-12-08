@@ -86,7 +86,7 @@
 			<plugin>
 				<groupId>name.abuchen</groupId>
 				<artifactId>fix-info-plist-maven-plugin</artifactId>
-				<version>1.2</version>
+				<version>1.6</version>
 				<executions>
 					<execution>
 						<id>fix-info-plist</id>
@@ -102,7 +102,7 @@
 					<properties>
 						<property>
 							<name>CFBundleGetInfoString</name>
-							<value>Aptana Studio for Mac OS X, Copyright Axway, Inc. 2011-2019. All rights reserved.</value>
+							<value>Aptana Studio for Mac OS X, Copyright Axway, Inc. 2011-2020. All rights reserved.</value>
 						</property>
 						<property>
 							<name>LSApplicationCategoryType</name>
