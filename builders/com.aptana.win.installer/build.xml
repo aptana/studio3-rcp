@@ -83,8 +83,8 @@
 			<filterchain>
 				<headfilter lines="1" />
 				<tokenfilter>
-					<stringtokenizer />
-					<containsregex pattern="(\d\.\d\.\d)\..+" replace="\1" />
+					<replacestring from="!define VERSION" to=""/>
+ 					<trim />
 				</tokenfilter>
 			</filterchain>
 		</loadfile>
